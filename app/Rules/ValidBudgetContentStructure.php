@@ -20,11 +20,11 @@ class ValidBudgetContentStructure implements Rule
                 return false;
             }
 
-            if (!isset($item['details']['name']) || !is_string($item['details']['name'])) {
+            if (!isset($item['description']) || !is_string($item['description'])) {
                 return false;
             }
 
-            if (!isset($item['details']['price']) || !is_numeric($item['details']['price'])) {
+            if (!isset($item['price']) || !is_numeric($item['price'])) {
                 return false;
             }
         }

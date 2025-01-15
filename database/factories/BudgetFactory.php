@@ -28,17 +28,15 @@ class BudgetFactory extends Factory
             'content' => json_encode([
                 [
                     "quantity" => 1,
-                    "details" => [
-                        'name' => 'Item 1',
-                        'price' => fake()->randomFloat(2, 10, 500)
-                    ]
+                    'description' => 'Item 1',
+                    'price' => fake()->randomFloat(2, 10, 500)
+
                 ],
                 [
                     "quantity" => 1,
-                    "details" => [
-                        'name' => 'Item 2',
-                        'price' => fake()->randomFloat(2, 10, 500)
-                    ]
+                    'description' => 'Item 2',
+                    'price' => fake()->randomFloat(2, 10, 500)
+
                 ]
             ]), // Contenido JSON del presupuesto
             'state' => fake()->randomElement(['draft', 'approved', 'rejected']), // Estado del presupuesto

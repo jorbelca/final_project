@@ -45,7 +45,7 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('budgets.index')">
                                     <ApplicationMark class="block h-9 w-auto" />
                                 </Link>
                             </div>
@@ -356,10 +356,22 @@ const logout = () => {
                 >
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
+                            :href="route('budgets.index')"
+                            :active="route().current('budgets.index')"
                         >
-                            Dashboard
+                            Budgets
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('clients.index')"
+                            :active="route().current('clients.index')"
+                        >
+                            Clients
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('costs.index')"
+                            :active="route().current('costs.index')"
+                        >
+                            Costs
                         </ResponsiveNavLink>
                     </div>
 

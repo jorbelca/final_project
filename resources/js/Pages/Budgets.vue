@@ -1,30 +1,27 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
+import DataTable from "@/Components/Table.vue";
 
-defineProps({
-    budgets: Object,
+const props = defineProps({
+    budgets: Array,
 });
 </script>
 
 <template>
     <AppLayout title="Budgets">
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Budgets
-            </h2>
+            <div class="flex align-center gap-5">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Budgets
+                </h2>
+                <h2 class="font-semibold text-l text-green-500">
+                    <a :href="route('budgets.create')">Create</a>
+                </h2>
+            </div>
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <ul>
-                        <li v-for="budget in budgets" :key="budget.id">
-                            {{ budget.id }}. {{ budget.user_id }} // Discounts:
-                            {{ budget.discount }} %//Taxes :{{ budget.taxes }}%
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <DataTable :data="budgets"></DataTable>
         </div>
     </AppLayout>
 </template>

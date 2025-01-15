@@ -1,6 +1,6 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-
+import DataTable from "@/Components/Table.vue";
 defineProps({
     costs: Object,
 });
@@ -15,16 +15,7 @@ defineProps({
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <ul>
-                        <li v-for="cost in costs" :key="cost.id">
-                            {{ cost.id }}. {{ cost.description }} // Cost:
-                            {{ cost.cost }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            <DataTable :data="costs"></DataTable>
         </div>
     </AppLayout>
 </template>
