@@ -27,8 +27,9 @@ class BudgetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBudgetRequest $request)
+    static public function store(StoreBudgetRequest $request)
     {
+        dd($request);
         try {
             // Validar
             $validated = $request->validated();
@@ -83,7 +84,7 @@ class BudgetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Budget $budget)
+    static public function destroy(Budget $budget)
     {
         try {
             $budget->delete();

@@ -6,7 +6,7 @@ use App\Rules\ValidBudgetContentStructure;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreBudgetRequest extends FormRequest
-{
+{   
     /**
      * Determine if the user is authorized to make this request.
      */

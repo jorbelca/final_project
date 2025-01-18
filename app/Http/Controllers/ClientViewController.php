@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\StoreCostRequest;
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -30,7 +33,7 @@ class ClientViewController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('CreateClients');
     }
 
     /**
@@ -38,9 +41,37 @@ class ClientViewController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        try {
+            // Obtener el usuario autenticado
+            /** @var User $user */
+            $user = Auth::user();
+            if (!$user) {
+                return redirect()->back()->with('error', 'No authenticated user found.');
+            }
+            $request->merge(['user_id' => Auth::id()]);
+            // Validar los datos
+            $validated = $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:clients,email',
+                'company_name' => 'required|string|max:255',
+                'image_url' => 'sometimes|url|max:255',
+            ]);
+            // Crear el cliente
+            $newClient = Client::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'company_name' => $validated['company_name'],
+                'image_url' => $validated['image_url'] ?? null,
+            ]);;
+            $user->clients()->attach($newClient->id);
 
+
+            return redirect()->route('clients.index')->with('success', 'Client created successfully!');
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Error saving the client: ' . $th->getMessage()], 400);
+        }
+    }
     /**
      * Display the specified resource.
      */
@@ -70,6 +101,11 @@ class ClientViewController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        try {
+            ClientController::destroy($client);
+            return response()->json(['message' => 'Deleted'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 }

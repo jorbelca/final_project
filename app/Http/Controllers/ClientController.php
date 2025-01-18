@@ -36,7 +36,6 @@ class ClientController extends Controller
             $newClient = Client::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
-                'phone' => $validated['phone'],
                 'company_name' => $validated['company_name'],
                 'image_url' => $validated['image_url'] ?? null,
             ]);
@@ -101,7 +100,7 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Client $client)
+    static public function destroy(Client $client)
     {
 
         try {

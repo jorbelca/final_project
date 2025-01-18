@@ -85,7 +85,7 @@ class CostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cost $cost)
+    static public function destroy(Cost $cost)
     {
         try {
 

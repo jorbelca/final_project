@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBudgetRequest;
 use App\Models\Budget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,15 +32,27 @@ class BudgetViewController extends Controller
      */
     public function create()
     {
-        return Inertia::render("CreateBudget");
+
+        return Inertia::render("CreateBudget", [
+            'clients' => Auth::user()->clients,
+            'costs' => Auth::user()->costs,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBudgetRequest $request)
     {
-        //
+        dd($request);
+        try {
+            $request['user_id'] = Auth::id();
+            $validatedData = $request->validated();
+            $budget = new Budget($validatedData);
+            return redirect()->route('budgets.index');
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 
     /**
@@ -71,6 +84,11 @@ class BudgetViewController extends Controller
      */
     public function destroy(Budget $budget)
     {
-        //
+        try {
+            BudgetController::destroy($budget);
+            return response()->json(['message' => 'Deleted'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 }

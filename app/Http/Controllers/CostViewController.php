@@ -14,16 +14,16 @@ class CostViewController extends Controller
      */
     public function index()
     {
-          // Obtener el usuario autenticado
-          $user = Auth::user();
+        // Obtener el usuario autenticado
+        $user = Auth::user();
 
-          // Obtener los costs asociados al usuario
-          $costs = $user->costs;
+        // Obtener los costs asociados al usuario
+        $costs = $user->costs;
 
-          return Inertia::render('Costs', [
-              'costs' => $costs,
-          ]);
-      }
+        return Inertia::render('Costs', [
+            'costs' => $costs,
+        ]);
+    }
 
 
     /**
@@ -71,6 +71,11 @@ class CostViewController extends Controller
      */
     public function destroy(Cost $cost)
     {
-        //
+        try {
+            CostController::destroy($cost);
+            return response()->json(['message' => 'Deleted'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 }

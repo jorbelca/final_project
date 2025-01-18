@@ -24,10 +24,8 @@ class UpdateClientRequest extends FormRequest
         return [
             'name' => 'sometimes|required|string|max:255',
             'email' => 'sometimes|required|email|unique:clients,email,' . $this->route('client'), // el email no sea único si el cliente ya existe
-            'phone' => 'sometimes|required|string|max:255',
             'company_name' => 'sometimes|required|string|max:255',
-            'avatar_url' => 'sometimes|string|max:255',
-            'logo_url' => 'sometimes|string|max:255',
+            'image_url' => 'sometimes|string|max:255',
         ];
     }
 }

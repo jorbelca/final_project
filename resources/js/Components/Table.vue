@@ -1,6 +1,6 @@
 <script setup>
-import { computed, onMounted } from "vue";
-
+import { computed } from "vue";
+import { router, Link, usePage } from "@inertiajs/vue3";
 // Computed para las columnas
 let props = defineProps({
     data: {
@@ -9,7 +9,7 @@ let props = defineProps({
     },
 });
 
-const excludedFields = ["updated_at", "id", "pivot", "email_verified_at"];
+const excludedFields = ["updated_at", "pivot", "email_verified_at"];
 
 props.data = props.data.map((row) => {
     excludedFields.forEach((field) => {
@@ -30,7 +30,39 @@ function formatColumnHead(value) {
     return value.split("_").join(" ").toUpperCase();
 }
 
-onMounted(() => console.log(props.data[0].image_url));
+const deleteRow = (id) => {
+    // Obtener el nombre de la ruta actual
+    const currentPath = window.location.pathname;
+
+    // Determinar el recurso basándonos en el nombre de la ruta
+    let resource;
+    if (currentPath.includes("clients")) {
+        resource = "clients";
+    } else if (currentPath.includes("budgets")) {
+        resource = "budgets";
+    } else if (currentPath.includes("costs")) {
+        resource = "costs";
+    } else {
+        alert("Cannot determine resource to delete.");
+        return;
+    }
+
+    // Confirmar y enviar la solicitud
+    if (confirm(`Are you sure you want to delete this ${resource}?`)) {
+        router.delete(`${resource}/${id}`, {
+            onSuccess: () => {
+                alert(
+                    `${
+                        resource.charAt(0).toUpperCase() + resource.slice(1)
+                    } deleted successfully`
+                );
+            },
+            onError: (errors) => {
+                console.error(`Error deleting ${resource}:`, errors);
+            },
+        });
+    }
+};
 </script>
 
 <template>
@@ -51,6 +83,7 @@ onMounted(() => console.log(props.data[0].image_url));
                     >
                         {{ formatColumnHead(column) }}
                     </th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -109,6 +142,14 @@ onMounted(() => console.log(props.data[0].image_url));
                         <span v-else>
                             {{ value }}
                         </span>
+                    </td>
+                    <td>
+                        <button
+                            v-on:click.prevent="deleteRow(`${row.id}`)"
+                            class="text-red-500"
+                        >
+                            X
+                        </button>
                     </td>
                 </tr>
             </tbody>

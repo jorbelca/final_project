@@ -1,7 +1,7 @@
 ######## USERS
 GET http://localhost:8000/api/users
 ####
-GET  http://localhost:8000/api/users/5
+GET  http://localhost:8000/api/users/6
 ###
 POST http://localhost:8000/api/users
 Content-Type: application/json
@@ -11,7 +11,7 @@ Accept: application/json
   "name": "Test",
   "email": "test@test.com",
   "password": "testito",
-  "avatar_url":"https://avatar.iran.liara.run/public/25",
+  "profile_photo_path":"https://avatar.iran.liara.run/public/25",
   "logo_url":"https://www.adaptivewfs.com/wp-content/uploads/2020/07/logo-placeholder-image.png"
 }
 ###
@@ -20,7 +20,7 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "name": "Nombre Camiado de Test"
+  "profile_photo_path": "https://avatar.iran.liara.run/public/25"
 }
 ###
 DELETE  http://localhost:8000/api/users/6
@@ -44,8 +44,7 @@ Accept: application/json
 {
     "user_id": 6,
     "name": "TestClient",
-    "email": "testclient@test.coms",
-    "phone": "+1-347-275-7288",
+    "email": "testclient@test.co",
     "company_name": "Test Company",
     "image_url":"https://avatar.iran.liara.run/public/20"
 }

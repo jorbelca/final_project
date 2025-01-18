@@ -27,6 +27,7 @@ class StoreUserRequest extends FormRequest
             'password' => 'required|string|min:6',
             'avatar_url' => 'sometimes|string|max:255',
             'logo_url' => 'sometimes|string|max:255',
+            'profile_photo_path' => 'sometimes|string|max:255',
         ];
     }
 }
