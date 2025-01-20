@@ -9,16 +9,28 @@ const props = defineProps({
     title: String,
 });
 
-const formData = useForm({
+const formDataClients = useForm({
     name: "",
     email: "",
     company_name: "",
     image_url: "",
 });
 
+const formDataCosts = useForm({
+    description: "",
+    cost: "",
+    unit: "",
+    periodicity: "",
+});
+
 const submitForm = () => {
-    formData.post("/clients");
+    if (props.title === "Client") {
+        formDataClients.post("/clients");
+    } else {
+        formDataCosts.post("/costs");
+    }
 };
+const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
 </script>
 
 <template>
@@ -29,37 +41,96 @@ const submitForm = () => {
                     Create a {{ props.title }}
                 </h2>
                 <h2 class="font-semibold text-l text-green-500">
-                    <a :href="route('clients.index')"
-                        >List of {{ props.title }}s</a
-                    >
+                    <template v-if="props.title === 'Client'">
+                        <a :href="route('clients.index')"
+                            >List of {{ props.title }}s</a
+                        >
+                    </template>
+                    <template v-else>
+                        <a :href="route('costs.index')"
+                            >List of {{ props.title }}s</a
+                        >
+                    </template>
                 </h2>
             </div>
         </template>
         <main>
             <form class="flex flex-col gap-4 p-7" @submit.prevent="submitForm">
-                <div class="flex flex-wrap gap-4">
-                    <div>
-                        <InputLabel>Name</InputLabel>
-                        <TextInput v-model="formData.name" type="text" />
+                <template v-if="props.title === 'Client'">
+                    <div class="flex flex-wrap gap-5">
+                        <div>
+                            <InputLabel>Name</InputLabel>
+                            <TextInput
+                                v-model="formDataClients.name"
+                                type="text"
+                            />
+                        </div>
+                        <div>
+                            <InputLabel>Email</InputLabel>
+                            <TextInput
+                                v-model="formDataClients.email"
+                                type="email"
+                            />
+                        </div>
+                        <div>
+                            <InputLabel>Company Name</InputLabel>
+                            <TextInput
+                                v-model="formDataClients.company_name"
+                                type="text"
+                            />
+                        </div>
+                        <div>
+                            <InputLabel>Image Url</InputLabel>
+                            <TextInput
+                                v-model="formDataClients.image_url"
+                                type="url"
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <InputLabel>Email</InputLabel>
-                        <TextInput v-model="formData.email" type="email" />
+                </template>
+                <template v-if="props.title === 'Cost'">
+                    <div class="flex flex-wrap gap-4">
+                        <div>
+                            <InputLabel>Description</InputLabel>
+                            <TextInput
+                                v-model="formDataCosts.description"
+                                type="text"
+                            />
+                        </div>
+                        <div>
+                            <InputLabel>Cost</InputLabel>
+                            <TextInput
+                                v-model="formDataCosts.cost"
+                                type="number"
+                                placeholder="$"
+                            />
+                        </div>
+                        <div>
+                            <InputLabel>Unit</InputLabel>
+                            <TextInput
+                                v-model="formDataCosts.unit"
+                                type="text"
+                                placeholder="piece,m3,kg,etc"
+                            />
+                        </div>
+                        <div>
+                            <InputLabel>Periodicity</InputLabel>
+                            <select v-model="formDataCosts.periodicity">
+                                <option
+                                    v-for="item in periodicity"
+                                    :key="item"
+                                    :value="item"
+                                >
+                                    {{ item }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <InputLabel>Company Name</InputLabel>
-                        <TextInput
-                            v-model="formData.company_name"
-                            type="text"
-                        />
-                    </div>
-                    <div>
-                        <InputLabel>Image Url</InputLabel>
-                        <TextInput v-model="formData.image_url" type="url" />
-                    </div>
-                </div>
+                </template>
                 <div>
-                    <PrimaryButton class="w-1/5" type="submit"
+                    <PrimaryButton
+                        class="w-1/5 flex justify-center"
+                        type="submit"
                         >Crear
                     </PrimaryButton>
                 </div>

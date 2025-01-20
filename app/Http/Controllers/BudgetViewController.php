@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBudgetRequest;
 use App\Models\Budget;
+use App\Rules\ValidBudgetContentStructure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -42,16 +43,58 @@ class BudgetViewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBudgetRequest $request)
+    public function store(Request $request)
     {
-        dd($request);
+
+
         try {
-            $request['user_id'] = Auth::id();
-            $validatedData = $request->validated();
-            $budget = new Budget($validatedData);
-            return redirect()->route('budgets.index');
+            // Obtener el usuario autenticado
+            /** @var User $user */
+            $user = Auth::user();
+            if (!$user) {
+                return redirect()->back()->with('error', 'No authenticated user found.');
+            }
+            $request->merge(['user_id' => Auth::id()]);
+
+            $content = $request->input('content', []);
+
+            // Transformar el array de arrays a un array de objetos
+            $transformedContent = collect($content)->map(function ($item) {
+                // Transformar cada array a un objeto
+                return (object)[
+                    'description' => isset($item['description']) ? (string) $item['description'] : '',
+                    'cost' => isset($item['cost']) ? (float) $item['cost'] : 0,
+                    'quantity' => isset($item['quantity']) ? (int) $item['quantity'] : 0,
+                ];
+            })->filter(function ($item) {
+                // Validar que cada objeto tenga los datos correctos
+                return !empty($item->description) &&
+                    $item->cost > 0 &&
+                    $item->quantity > 0;
+            })->values()->toArray();
+
+            $request->merge(['content' => $transformedContent]);
+            // Validar los datos
+
+            $validated = $request->validate([
+                'user_id' => 'required|integer|exists:users,id',
+                'client_id' => 'nullable|integer|exists:clients,id',
+                'content' => ["sometimes", "array"],
+                'state' => 'sometimes|in:draft,approved,rejected',
+                'discount' => 'sometimes|integer',
+                'taxes' => 'required|integer'
+            ]);
+            $validated['content'] = json_encode($validated['content']);
+
+
+            $budget = new Budget($validated);
+            $budget->save();
+
+            if ($budget) {
+                return redirect()->route('budgets.index');
+            }
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'An error occurred'], 500);
+            return response()->json(['error' => 'An error occurred', dd($th)], 500);
         }
     }
 
@@ -86,7 +129,7 @@ class BudgetViewController extends Controller
     {
         try {
             BudgetController::destroy($budget);
-            return response()->json(['message' => 'Deleted'], 200);
+            return redirect()->route('budgets.index');
         } catch (\Throwable $th) {
             return response()->json(['error' => 'An error occurred'], 500);
         }

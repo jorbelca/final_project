@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { router, Link, usePage } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 // Computed para las columnas
 let props = defineProps({
     data: {
@@ -9,18 +9,26 @@ let props = defineProps({
     },
 });
 
-const excludedFields = ["updated_at", "pivot", "email_verified_at"];
+const excludedFields = ["updated_at", "pivot", "email_verified_at", "user_id"];
 
-props.data = props.data.map((row) => {
-    excludedFields.forEach((field) => {
-        delete row[field];
-    });
-    return row;
-});
-let columns = computed(() =>
-    props.data.length > 0 ? Object.keys(props.data[0]) : []
+// Propiedad computada para obtener las columnas (excluyendo las no deseadas)
+const columns = computed(() =>
+    props.data.length > 0
+        ? Object.keys(props.data[0]).filter(
+              (column) => !excludedFields.includes(column)
+          )
+        : []
 );
-
+const filteredData = computed(() => {
+    return props.data.map((row) => {
+        // Devuelve una copia del objeto sin los campos excluidos
+        const filteredRow = { ...row };
+        excludedFields.forEach((field) => {
+            delete filteredRow[field];
+        });
+        return filteredRow;
+    });
+});
 // Métodos para el componente
 function serialNumber(key) {
     return key + 1;
@@ -48,7 +56,10 @@ const deleteRow = (id) => {
     }
 
     // Confirmar y enviar la solicitud
-    if (confirm(`Are you sure you want to delete this ${resource}?`)) {
+    const confirmation = confirm(
+        `Are you sure you want to delete this ${resource}?`
+    );
+    if (confirmation) {
         router.delete(`${resource}/${id}`, {
             onSuccess: () => {
                 alert(
@@ -61,7 +72,14 @@ const deleteRow = (id) => {
                 console.error(`Error deleting ${resource}:`, errors);
             },
         });
+    } else {
+        alert(`Deletion of ${resource} canceled.`);
     }
+};
+
+const edit = (id) => {
+    // Lógica para editar la fila con el id proporcionado
+    console.log(`Editar fila con id: ${id}`);
 };
 </script>
 
@@ -81,14 +99,14 @@ const deleteRow = (id) => {
                         :key="column"
                         class="px-4 py-2 text-left text-sm font-semibold text-gray-600"
                     >
-                        {{ formatColumnHead(column) }}
+                        {{ column != "id" ? formatColumnHead(column) : "" }}
                     </th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <!-- Sin datos -->
-                <tr v-if="data.length === 0">
+                <tr v-if="filteredData.length === 0">
                     <td
                         :colspan="columns.length + 1"
                         class="px-4 py-4 text-center text-sm text-gray-500"
@@ -99,7 +117,7 @@ const deleteRow = (id) => {
                 <!-- Datos -->
                 <tr
                     v-else
-                    v-for="(row, index) in data"
+                    v-for="(row, index) in filteredData"
                     :key="row.id"
                     class="border-b hover:bg-gray-50"
                 >
@@ -115,9 +133,8 @@ const deleteRow = (id) => {
                             {{
                                 JSON.parse(value)
                                     .map(
-                                        (val) => `${val.quantity}
-                            x ${val.description} = ${val.quantity * val.price}
-                            $`
+                                        (val) => `${val.quantity} x
+                            ${val.description} = ${val.quantity * +val.cost} $`
                                     )
                                     .join(",")
                             }}
@@ -140,16 +157,24 @@ const deleteRow = (id) => {
                             />
                         </span>
                         <span v-else>
-                            {{ value }}
+                            {{ key == "id" ? "" : value }}
                         </span>
                     </td>
                     <td>
-                        <button
-                            v-on:click.prevent="deleteRow(`${row.id}`)"
-                            class="text-red-500"
-                        >
-                            X
-                        </button>
+                        <div class="flex flex-col">
+                            <button
+                                v-on:click.prevent="deleteRow(`${row.id}`)"
+                                class="text-red-500"
+                            >
+                                X
+                            </button>
+                            <button
+                                v-on:click.prevent="deleteRow(`${row.id}`)"
+                                class="text-yellow-500"
+                            >
+                                ✏
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>

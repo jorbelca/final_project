@@ -29,13 +29,13 @@ class BudgetFactory extends Factory
                 [
                     "quantity" => 1,
                     'description' => 'Item 1',
-                    'price' => fake()->randomFloat(2, 10, 500)
+                    'cost' => fake()->randomFloat(2, 10, 500)
 
                 ],
                 [
                     "quantity" => 1,
                     'description' => 'Item 2',
-                    'price' => fake()->randomFloat(2, 10, 500)
+                    'cost' => fake()->randomFloat(2, 10, 500)
 
                 ]
             ]), // Contenido JSON del presupuesto

@@ -12,38 +12,55 @@ const props = defineProps({
     clients: Array,
 });
 
+let selectedCost = "";
+let quantity = 1;
+
 const formData = useForm({
-    client: "",
-    costs: [],
+    client_id: null,
+    content: [],
     taxes: 0,
     discount: 0,
-    total: 0,
-    selectedCost: "",
-    quantity: 1,
 });
 
 const submitForm = () => {
-    console.log(formData);
+    // Convertir los valores de content antes de enviarlos
+    const formattedContent = formData.content.map((item) => ({
+        description: item.description,
+        cost: parseFloat(item.cost), // Asegurar que sea un número
+        quantity: parseInt(item.quantity, 10), // Convertir a entero
+    }));
 
-    formData.post("/budgets");
+    // Crear una copia de formData con los datos convertidos
+    const formattedData = {
+        ...formData,
+        content: formattedContent,
+    };
+
+    try {
+        formattedData.post("/budgets", {
+            preserveScroll: true,
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const addCost = () => {
-    const cost = props.costs.find((cost) => cost.id === formData.selectedCost);
+    const cost = props.costs.find((cost) => cost.id === selectedCost);
 
     if (cost) {
-        formData.costs.push({
+        formData.content.push({
             description: cost.description,
-            cost: cost.cost,
-            quantity: formData.quantity,
+            cost: parseFloat(cost.cost), // Convertir a número
+            quantity: parseInt(quantity, 10), // Convertir a entero
         });
-        formData.selectedCost = "";
-        formData.quantity = 1;
+        selectedCost = "";
+        quantity = 1;
     }
 };
 
 const computedTotal = computed(() => {
-    let subtotal = formData.costs.reduce((sum, cost) => {
+    let subtotal = formData.content.reduce((sum, cost) => {
         return sum + cost.quantity * cost.cost;
     }, 0);
     let totalWithTaxes = subtotal + (subtotal * formData.taxes) / 100;
@@ -70,7 +87,7 @@ const computedTotal = computed(() => {
         <main>
             <form class="flex flex-col gap-4 p-7" @submit.prevent="submitForm">
                 <InputLabel>Client </InputLabel>
-                <select name="client" id="client" v-model="formData.client">
+                <select name="client" id="client" v-model="formData.client_id">
                     <option value="">Select a client</option>
                     <option value="null">NONE</option>
                     <option
@@ -82,10 +99,10 @@ const computedTotal = computed(() => {
                     </option>
                 </select>
 
-                <InputLabel>Costs </InputLabel>
-                <div v-for="(cost, index) in formData.costs" :key="index">
-                    {{ cost.quantity }} x {{ cost.description }} -
-                    {{ cost.cost }}
+                <InputLabel>Content </InputLabel>
+                <div v-for="(content, index) in formData.content" :key="index">
+                    {{ content.quantity }} x {{ content.description }} -
+                    {{ content.cost }}
                 </div>
                 <div>
                     <PrimaryButton @click.prevent="addCost"
@@ -94,13 +111,9 @@ const computedTotal = computed(() => {
                     <TextInput
                         type="number"
                         placeholder="quantity"
-                        v-model="formData.quantity"
+                        v-model="quantity"
                     />
-                    <select
-                        name="costs"
-                        id="costs"
-                        v-model="formData.selectedCost"
-                    >
+                    <select name="costs" id="costs" v-model="selectedCost">
                         <option value="" disabled>Select a cost</option>
                         <option
                             v-for="cost in props.costs"
@@ -114,9 +127,19 @@ const computedTotal = computed(() => {
 
                 <div class="flex">
                     <InputLabel>Tax</InputLabel>
-                    <TextInput v-model="formData.taxes" type="number" />
+                    <TextInput
+                        v-model="formData.taxes"
+                        type="number"
+                        min="0"
+                        max="99"
+                    />
                     <InputLabel>Discount</InputLabel>
-                    <TextInput v-model="formData.discount" type="number" />
+                    <TextInput
+                        v-model="formData.discount"
+                        type="number"
+                        min="0"
+                        max="99"
+                    />
                     <p>Total: {{ computedTotal }}</p>
                 </div>
                 <div>

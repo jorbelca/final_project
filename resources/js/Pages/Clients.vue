@@ -4,7 +4,6 @@ import DataTable from "@/Components/Table.vue";
 const props = defineProps({
     clients: Object,
 });
-console.log(props.clients);
 </script>
 
 <template>

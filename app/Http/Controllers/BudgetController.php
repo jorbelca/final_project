@@ -29,7 +29,7 @@ class BudgetController extends Controller
      */
     static public function store(StoreBudgetRequest $request)
     {
-        dd($request);
+
         try {
             // Validar
             $validated = $request->validated();

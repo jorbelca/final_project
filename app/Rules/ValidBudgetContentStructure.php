@@ -8,15 +8,18 @@ class ValidBudgetContentStructure implements Rule
 {
     public function passes($attribute, $value)
     {
-        $decodedContent = json_decode($value, true);
 
-        // Validar que sea un array y que cada elemento tenga las claves esperadas
-        if (!is_array($decodedContent)) {
+
+        //  dd($value);
+        if (!is_array($value)) {
             return false;
         }
 
-        foreach ($decodedContent as $item) {
-            if (!isset($item['quantity']) || !is_int($item['quantity'])) {
+        foreach ($value as $item) {
+            if (!is_object($item)) {
+                return false;
+            }
+            if (!isset($item['quantity']) || !is_numeric($item['quantity'])) {
                 return false;
             }
 
@@ -24,7 +27,7 @@ class ValidBudgetContentStructure implements Rule
                 return false;
             }
 
-            if (!isset($item['price']) || !is_numeric($item['price'])) {
+            if (!isset($item['cost']) || !is_numeric($item['cost'])) {
                 return false;
             }
         }

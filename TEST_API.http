@@ -77,9 +77,9 @@ Accept: application/json
 {
     "user_id": 6,
     "client_id": 6,
-    "content": "[{\"price\": 381.13, \"quantity\": 1, \"description\": \"Item 1\"}, {\"price\": 42.77, \"quantity\": 1, \"description\": \"Item 2\"}]",
+    "content": "[{\"cost\": 381.13, \"quantity\": 1, \"description\": \"Item 1\"}, {\"cost\": 42.77, \"quantity\": 1, \"description\": \"Item 2\"}]",
     "state": "draft",
-    "discount":0,
+    "discount": 0,
     "taxes": 21
 }
 
