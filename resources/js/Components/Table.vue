@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { router } from "@inertiajs/vue3";
+import StateTile from "./StateTile.vue";
 // Computed para las columnas
 let props = defineProps({
     data: {
@@ -111,14 +112,12 @@ const editRow = (id) => {
                 <tr class="bg-gray-100 border-b">
                     <th
                         class="px-4 py-2 text-left text-sm font-semibold text-gray-600"
-                    >
-                        #
-                    </th>
+                    ></th>
                     <!-- Encabezados -->
                     <th
                         v-for="column in columns"
                         :key="column"
-                        class="px-4 py-2 text-left text-sm font-semibold text-gray-600"
+                        class="px-4 py-2 text-center text-sm font-semibold text-gray-600"
                     >
                         {{ column != "id" ? formatColumnHead(column) : "" }}
                     </th>
@@ -177,12 +176,18 @@ const editRow = (id) => {
                                 class="h-10 w-10 object-cover rounded"
                             />
                         </span>
-                        <span v-else>
+
+                        <span v-else-if="key === 'state'">
+                            <StateTile :status="value" />
+                        </span>
+                        <span v-else class="flex flex-row justify-center">
                             {{ key == "id" ? "" : value }}
                         </span>
                     </td>
                     <td>
-                        <div class="flex flex-row gap-2 justify-between m-2">
+                        <div
+                            class="flex flex-row gap-6 justify-between m-2 mr-5"
+                        >
                             <button
                                 v-on:click.prevent="deleteRow(`${row.id}`)"
                                 class="text-red-500"

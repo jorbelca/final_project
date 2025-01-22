@@ -24,6 +24,7 @@ const formData = useForm({
     taxes: props.budget ? props.budget.taxes : 0,
     discount: props.budget ? props.budget.discount : 0,
     user_id: props.budget ? props.budget.user_id : null,
+    state: props.budget ? props.budget.state : "draft",
 });
 
 const submitForm = () => {
@@ -83,21 +84,22 @@ const computedTotal = computed(() => {
 const deleteContent = (index) => {
     formData.content.splice(index, 1);
 };
+const stateOptions = ["draft", "approved", "rejected"];
 </script>
 
 <template>
     <AppLayout title="Create">
         <template #header>
-            <div class="flex align-center gap-5">
+            <h2 class="font-semibold text-sm text-amber-500">
+                <a :href="route('budgets.index')"
+                    >◀ List of {{ props.title }}s</a
+                >
+            </h2>
+            <div class="flex align-center justify-center gap-5 items-end">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     <template v-if="edit"> Edit </template>
                     <template v-else> Create </template>
                     a {{ props.title }}
-                </h2>
-                <h2 class="font-semibold text-l text-green-500">
-                    <a :href="route('budgets.index')"
-                        >List of {{ props.title }}s</a
-                    >
                 </h2>
             </div>
         </template>
@@ -206,11 +208,28 @@ const deleteContent = (index) => {
                     </div>
                 </div>
                 <template v-if="edit">
+                    <label for="state">State</label>
+                    <select
+                        class="rounded-lg w-1/6"
+                        name="state"
+                        id="state"
+                        v-model="formData.state"
+                    >
+                        <option
+                            v-for="state in stateOptions"
+                            :key="state"
+                            :value="state"
+                        >
+                            {{ state }}
+                        </option>
+                    </select>
+                </template>
+                <template v-if="edit">
                     <div class="flex justify-center pt-20">
                         <PrimaryButton
                             class="w-1/5 justify-center bg-yellow-500 hover:bg-yellow-600"
                             type="submit"
-                            >Editar</PrimaryButton
+                            >Edit</PrimaryButton
                         >
                     </div>
                 </template>

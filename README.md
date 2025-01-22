@@ -1,6 +1,32 @@
+# TODO
+
+-   User admin (nova columna i pagina especifica)
+-   Styles
+-   Styles generals
+-   Budget create PDF
+-   Landing
+
 # Budget App
 
-Aquest projecte és una aplicació web desenvolupada amb el framework Laravel que permet la gestió de tasques. A continuació es detallen les instruccions per a la instal·lació, configuració i ús de l'aplicació.
+Aquest projecte és una aplicació web desenvolupada amb el framework Laravel que permet la gestió de pressupostos. Els usuaris poden introduir detalls dels seus costos, i l'aplicació genera un pressupost formatejat llest per enviar al client.
+
+## Stack
+
+-   Laravel
+-   MySQL
+-   VueJS
+-   TailwindCSS
+
+## Estructura de Base de Datos
+
+1. Users
+2. Budgets
+3. Costs
+4. Suscriptions
+5. Clients
+6. User_Client
+
+[Estructura de Base de Datos](./esquema_reduit.pdf)
 
 ## Requisits
 
@@ -26,7 +52,7 @@ Aquest projecte és una aplicació web desenvolupada amb el framework Laravel qu
 3. Instal·la les dependències:
 
     ```bash
-    composer install
+    composer install && npm install
     ```
 
 4. Crea un fitxer `.env` a partir del fitxer d'exemple:
@@ -59,7 +85,7 @@ Aquest projecte és una aplicació web desenvolupada amb el framework Laravel qu
 1. Inicia el servidor de desenvolupament:
 
     ```bash
-    php artisan serve
+    php artisan serve y npm run dev
     ```
 
 2. Accedeix a l'aplicació a través del navegador:

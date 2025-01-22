@@ -79,7 +79,7 @@ class BudgetViewController extends Controller
                 'user_id' => 'required|integer|exists:users,id',
                 'client_id' => 'nullable|integer|exists:clients,id',
                 'content' => ["sometimes", "array"],
-                'state' => 'sometimes|in:draft,approved,rejected',
+                'state' => 'sometimes|in:Draft,Approved,Rejected',
                 'discount' => 'sometimes|integer',
                 'taxes' => 'required|integer'
             ]);

@@ -9,12 +9,12 @@ const props = defineProps({
 <template>
     <AppLayout title="Clients">
         <template #header>
-            <div class="flex align-center gap-5">
+            <h2 class="font-semibold text-sm text-green-500">
+                <a :href="route('clients.create')">Create a Client > </a>
+            </h2>
+            <div class="flex align-center justify-center gap-5 items-end">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     Clients
-                </h2>
-                <h2 class="font-semibold text-l text-green-500">
-                    <a :href="route('clients.create')">Create</a>
                 </h2>
             </div>
         </template>

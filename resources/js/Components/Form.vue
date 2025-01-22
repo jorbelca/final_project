@@ -47,22 +47,22 @@ const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
 
 <template>
     <AppLayout title="Create">
-        <template #header>
-            <div class="flex align-center gap-5">
+        <template #header
+            ><h2 class="font-semibold text-sm text-amber-500">
+                <template v-if="props.title === 'Client'">
+                    <a :href="route('clients.index')">
+                        ◀ List of {{ props.title }}s</a
+                    >
+                </template>
+                <template v-else>
+                    <a :href="route('costs.index')"
+                        >◀ List of {{ props.title }}s</a
+                    >
+                </template>
+            </h2>
+            <div class="flex align-center justify-center gap-5 items-end">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     Create a {{ props.title }}
-                </h2>
-                <h2 class="font-semibold text-l text-green-500">
-                    <template v-if="props.title === 'Client'">
-                        <a :href="route('clients.index')"
-                            >List of {{ props.title }}s</a
-                        >
-                    </template>
-                    <template v-else>
-                        <a :href="route('costs.index')"
-                            >List of {{ props.title }}s</a
-                        >
-                    </template>
                 </h2>
             </div>
         </template>
@@ -141,18 +141,22 @@ const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
                 </template>
                 <div>
                     <template v-if="edit">
-                        <PrimaryButton
-                            class="w-1/5 flex justify-center"
-                            type="submit"
-                            >Edit
-                        </PrimaryButton></template
-                    >
+                        <div class="flex justify-center pt-20">
+                            <PrimaryButton
+                                class="w-1/5 justify-center bg-yellow-500 hover:bg-yellow-600"
+                                type="submit"
+                                >Edit</PrimaryButton
+                            >
+                        </div>
+                    </template>
                     <template v-else>
-                        <PrimaryButton
-                            class="w-1/5 flex justify-center"
-                            type="submit"
-                            >Crear
-                        </PrimaryButton>
+                        <div class="flex justify-center pt-20">
+                            <PrimaryButton
+                                class="w-1/5 justify-center bg-green-400 hover:bg-green-500"
+                                type="submit"
+                                >Create</PrimaryButton
+                            >
+                        </div>
                     </template>
                 </div>
             </form>
