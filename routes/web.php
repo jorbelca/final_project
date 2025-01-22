@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetViewController;
 use App\Http\Controllers\ClientViewController;
 use App\Http\Controllers\CostViewController;
@@ -31,3 +32,6 @@ Route::middleware([
 Route::resource('budgets', BudgetViewController::class);
 Route::resource('costs', CostViewController::class);
 Route::resource('clients', ClientViewController::class);
+
+// Generate PDF
+Route::get('/budget/{id}/generate', [BudgetController::class, 'generatePdf']);

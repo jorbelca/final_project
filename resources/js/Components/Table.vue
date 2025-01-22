@@ -9,7 +9,7 @@ let props = defineProps({
         required: true,
     },
 });
-
+const currentPath = window.location.pathname;
 const excludedFields = [
     "updated_at",
     "pivot",
@@ -46,9 +46,6 @@ function formatColumnHead(value) {
 }
 
 const deleteRow = (id) => {
-    // Obtener el nombre de la ruta actual
-    const currentPath = window.location.pathname;
-
     // Determinar el recurso basándonos en el nombre de la ruta
     let resource;
     if (currentPath.includes("clients")) {
@@ -81,9 +78,6 @@ const deleteRow = (id) => {
 };
 
 const editRow = (id) => {
-    // Obtener el nombre de la ruta actual
-    const currentPath = window.location.pathname;
-
     // Determinar el recurso basándonos en el nombre de la ruta
     let resource;
     if (currentPath.includes("clients")) {
@@ -99,9 +93,18 @@ const editRow = (id) => {
 
     router.get(`${resource}/${id}/edit`, {
         onError: (errors) => {
+            alert("Error loading edit form.");
             console.error(`Error:`, errors);
         },
     });
+};
+const generate = (id) => {
+    try {
+        window.open(`/budget/${id}/generate`, "_blank");
+    } catch (error) {
+        alert("Error generating budget.");
+        console.error("Error generating budget:", error);
+    }
 };
 </script>
 
@@ -124,6 +127,7 @@ const editRow = (id) => {
                         {{ column != "id" ? formatColumnHead(column) : "" }}
                     </th>
                     <th>Actions</th>
+                    <th v-if="currentPath.includes('budgets')">PDF</th>
                 </tr>
             </thead>
             <tbody>
@@ -205,6 +209,19 @@ const editRow = (id) => {
                                 class="text-yellow-500"
                             >
                                 ✏
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <div
+                            v-if="currentPath.includes('budgets')"
+                            class="flex flex-row gap-6 justify-between m-2 mr-5"
+                        >
+                            <button
+                                v-on:click.prevent="generate(`${row.id}`)"
+                                class="text-yellow-500"
+                            >
+                                🖨
                             </button>
                         </div>
                     </td>
