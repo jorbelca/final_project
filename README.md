@@ -2,7 +2,6 @@
 -   User admin (nova columna i pagina especifica)
 -   Styles
 -   Styles generals
--   Budget create PDF
 -   Landing
 
 # Budget App

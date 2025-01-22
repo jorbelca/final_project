@@ -51,7 +51,7 @@ const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
 </script>
 
 <template>
-    <AppLayout title="Create">
+    <AppLayout :title="edit ? 'Edit' : 'Create'">
         <template #header
             ><h2 class="font-semibold text-sm text-amber-500">
                 <template v-if="props.title === 'Client'">
@@ -67,7 +67,7 @@ const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
             </h2>
             <div class="flex align-center justify-center gap-5 items-end">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    Create a {{ props.title }}
+                    {{ edit ? 'Edit' : 'Create' }} a {{ props.title }}
                 </h2>
             </div>
         </template>
