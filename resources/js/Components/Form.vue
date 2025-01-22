@@ -5,29 +5,41 @@ import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "./PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 
+const edit = window.location.pathname.includes("edit");
+
 const props = defineProps({
     title: String,
+    client: Object,
+    cost: Object,
 });
 
 const formDataClients = useForm({
-    name: "",
-    email: "",
-    company_name: "",
-    image_url: "",
+    name: props.client ? props.client.name : "",
+    email: props.client ? props.client.email : "",
+    company_name: props.client ? props.client.company_name : "",
+    image_url: props.client ? props.client.image_url : "",
 });
 
 const formDataCosts = useForm({
-    description: "",
-    cost: "",
-    unit: "",
-    periodicity: "",
+    description: props.cost ? props.cost.description : "",
+    cost: props.cost ? props.cost.cost : "",
+    unit: props.cost ? props.cost.unit : "",
+    periodicity: props.cost ? props.cost.periodicity : "",
 });
 
 const submitForm = () => {
-    if (props.title === "Client") {
-        formDataClients.post("/clients");
+    if (edit) {
+        if (props.title === "Client") {
+            formDataClients.put(`/clients/${props.client.id}`);
+        } else {
+            formDataCosts.put(`/costs/${props.cost.id}`);
+        }
     } else {
-        formDataCosts.post("/costs");
+        if (props.title === "Client") {
+            formDataClients.post("/clients");
+        } else {
+            formDataCosts.post("/costs");
+        }
     }
 };
 const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
@@ -128,11 +140,20 @@ const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
                     </div>
                 </template>
                 <div>
-                    <PrimaryButton
-                        class="w-1/5 flex justify-center"
-                        type="submit"
-                        >Crear
-                    </PrimaryButton>
+                    <template v-if="edit">
+                        <PrimaryButton
+                            class="w-1/5 flex justify-center"
+                            type="submit"
+                            >Edit
+                        </PrimaryButton></template
+                    >
+                    <template v-else>
+                        <PrimaryButton
+                            class="w-1/5 flex justify-center"
+                            type="submit"
+                            >Crear
+                        </PrimaryButton>
+                    </template>
                 </div>
             </form>
         </main>

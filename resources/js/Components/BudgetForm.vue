@@ -87,7 +87,12 @@ const computedTotal = computed(() => {
         <main>
             <form class="flex flex-col gap-4 p-7" @submit.prevent="submitForm">
                 <InputLabel>Client </InputLabel>
-                <select name="client" id="client" v-model="formData.client_id">
+                <select
+                    class="rounded-lg"
+                    name="client"
+                    id="client"
+                    v-model="formData.client_id"
+                >
                     <option value="">Select a client</option>
                     <option value="null">NONE</option>
                     <option
@@ -99,21 +104,27 @@ const computedTotal = computed(() => {
                     </option>
                 </select>
 
-                <InputLabel>Content </InputLabel>
+                <InputLabel>Content of the Budget</InputLabel>
                 <div v-for="(content, index) in formData.content" :key="index">
                     {{ content.quantity }} x {{ content.description }} -
                     {{ content.cost }}
                 </div>
-                <div>
+                <div class="flex flex-row flex-wrap gap-3">
                     <PrimaryButton @click.prevent="addCost"
                         >Add cost</PrimaryButton
                     >
                     <TextInput
+                        class="w-1/6"
                         type="number"
                         placeholder="quantity"
                         v-model="quantity"
                     />
-                    <select name="costs" id="costs" v-model="selectedCost">
+                    <select
+                        class="rounded-lg"
+                        name="costs"
+                        id="costs"
+                        v-model="selectedCost"
+                    >
                         <option value="" disabled>Select a cost</option>
                         <option
                             v-for="cost in props.costs"
@@ -125,25 +136,39 @@ const computedTotal = computed(() => {
                     </select>
                 </div>
 
-                <div class="flex">
-                    <InputLabel>Tax</InputLabel>
-                    <TextInput
-                        v-model="formData.taxes"
-                        type="number"
-                        min="0"
-                        max="99"
-                    />
-                    <InputLabel>Discount</InputLabel>
-                    <TextInput
-                        v-model="formData.discount"
-                        type="number"
-                        min="0"
-                        max="99"
-                    />
-                    <p>Total: {{ computedTotal }}</p>
+                <div class="flex flex-wrap justify-between gap-5">
+                    <div class="flex flex-wrap gap-10">
+                        <div>
+                            <InputLabel>Tax</InputLabel>
+                            <TextInput
+                                v-model="formData.taxes"
+                                type="number"
+                                min="0"
+                                max="99"
+                            />
+                        </div>
+                        <div>
+                            <InputLabel>Discount</InputLabel>
+                            <TextInput
+                                v-model="formData.discount"
+                                type="number"
+                                min="0"
+                                max="99"
+                            />
+                        </div>
+                    </div>
+                    <div class="flex flex-row self-end">
+                        <p>
+                            <b class="text-lg font-extrabold"
+                                >Total: {{ computedTotal }}</b
+                            >
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <PrimaryButton class="w-1/5" type="submit"
+                <div class="flex justify-center pt-20">
+                    <PrimaryButton
+                        class="w-1/5 justify-center bg-green-400"
+                        type="submit"
                         >Crear</PrimaryButton
                     >
                 </div>

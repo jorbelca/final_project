@@ -57,13 +57,7 @@ class CostController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Cost $cost)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.

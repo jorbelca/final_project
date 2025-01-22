@@ -80,7 +80,9 @@ class CostViewController extends Controller
      */
     public function edit(Cost $cost)
     {
-        //
+        return Inertia::render('EditCost', [
+            'cost' => $cost
+        ]);
     }
 
     /**
@@ -88,7 +90,21 @@ class CostViewController extends Controller
      */
     public function update(Request $request, Cost $cost)
     {
-        //
+        try {
+            // Validar los datos
+            $validated = $request->validate([
+                'description' => 'required|string|max:255',
+                'cost' => 'required|numeric',
+                'unit' => 'required|string|max:50',
+                'periodicity' => 'required|in:unit,daily,monthly,yearly,weekly'
+            ]);
+
+            $cost->update($validated);
+
+            return redirect()->route('costs.index')->with('success', 'Cost updated');
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
     }
 
     /**

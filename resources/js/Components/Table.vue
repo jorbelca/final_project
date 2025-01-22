@@ -77,15 +77,36 @@ const deleteRow = (id) => {
     }
 };
 
-const edit = (id) => {
-    // Lógica para editar la fila con el id proporcionado
-    console.log(`Editar fila con id: ${id}`);
+const editRow = (id) => {
+    // Obtener el nombre de la ruta actual
+    const currentPath = window.location.pathname;
+
+    // Determinar el recurso basándonos en el nombre de la ruta
+    let resource;
+    if (currentPath.includes("clients")) {
+        resource = "clients";
+    } else if (currentPath.includes("budgets")) {
+        resource = "budgets";
+    } else if (currentPath.includes("costs")) {
+        resource = "costs";
+    } else {
+        console.error("Cannot determine resource to edit.");
+        return;
+    }
+
+    router.get(`${resource}/${id}/edit`, {
+        onError: (errors) => {
+            console.error(`Error:`, errors);
+        },
+    });
 };
 </script>
 
 <template>
-    <div class="data-table overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-200 rounded-lg">
+    <div class="data-table overflow-x-auto px-3 m-3">
+        <table
+            class="min-w-full bg-white border border-gray-200 rounded-lg p-5"
+        >
             <thead>
                 <tr class="bg-gray-100 border-b">
                     <th
@@ -161,7 +182,7 @@ const edit = (id) => {
                         </span>
                     </td>
                     <td>
-                        <div class="flex flex-col">
+                        <div class="flex flex-row gap-2 justify-between m-2">
                             <button
                                 v-on:click.prevent="deleteRow(`${row.id}`)"
                                 class="text-red-500"
@@ -169,7 +190,7 @@ const edit = (id) => {
                                 X
                             </button>
                             <button
-                                v-on:click.prevent="deleteRow(`${row.id}`)"
+                                v-on:click.prevent="editRow(`${row.id}`)"
                                 class="text-yellow-500"
                             >
                                 ✏

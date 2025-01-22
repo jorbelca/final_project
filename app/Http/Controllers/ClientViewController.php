@@ -85,7 +85,9 @@ class ClientViewController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return Inertia::render('EditClient', [
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -93,7 +95,23 @@ class ClientViewController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        try {
+            // Validar los datos
+            $validated = $request->validate([
+                'name' => 'sometimes|string|max:255',
+                'email' => 'sometimes|email|unique:clients,email,' . $client->id,
+                'company_name' => 'sometimes|string|max:255',
+                'image_url' => 'sometimes|url|max:255',
+            ]);
+            // Actualizar el cliente
+
+            $client->update($validated);
+
+
+            return redirect()->route('clients.index')->with('success', 'Client updated successfully!');
+        } catch (\Throwable $th) {
+            return back()->with('error', 'Error updating the client: ' . $th->getMessage());
+        }
     }
 
     /**

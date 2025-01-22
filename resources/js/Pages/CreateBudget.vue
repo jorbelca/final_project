@@ -1,5 +1,5 @@
 <script setup>
-import Form from "@/Components/BudgetForm.vue";
+import BudgetForm from "@/Components/BudgetForm.vue";
 import { defineProps } from "vue";
 const props = defineProps({
     costs: Array,
@@ -8,5 +8,9 @@ const props = defineProps({
 </script>
 
 <template>
-    <Form title="Budget" :clients="props.clients" :costs="props.costs"></Form>
+    <BudgetForm
+        title="Budget"
+        :clients="props.clients"
+        :costs="props.costs"
+    ></BudgetForm>
 </template>
