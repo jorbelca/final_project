@@ -4,6 +4,7 @@ import { defineProps } from "vue";
 const props = defineProps({
     costs: Array,
     clients: Array,
+    budget: Object,
 });
 </script>
 
@@ -12,5 +13,6 @@ const props = defineProps({
         title="Budget"
         :clients="props.clients"
         :costs="props.costs"
+        :budget="props.budget"
     ></BudgetForm>
 </template>

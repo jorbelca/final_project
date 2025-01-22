@@ -1,25 +1,29 @@
 <script setup>
-import AppLayout from "@/Layouts/AppLayout.vue";
-import InputLabel from "@/Components/InputLabel.vue";
-import TextInput from "@/Components/TextInput.vue";
-import { computed } from "vue";
-import PrimaryButton from "./PrimaryButton.vue";
+import { computed, onMounted } from "vue";
 import { useForm } from "@inertiajs/vue3";
+import PrimaryButton from "./PrimaryButton.vue";
+import InputLabel from "./InputLabel.vue";
+import TextInput from "./TextInput.vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
+
+const edit = window.location.pathname.includes("edit");
 
 const props = defineProps({
     title: String,
     costs: Array,
     clients: Array,
+    budget: Object,
 });
 
 let selectedCost = "";
 let quantity = 1;
 
 const formData = useForm({
-    client_id: null,
-    content: [],
-    taxes: 0,
-    discount: 0,
+    client_id: props.budget ? props.budget.client_id : null,
+    content: props.budget ? JSON.parse(props.budget.content) : [],
+    taxes: props.budget ? props.budget.taxes : 0,
+    discount: props.budget ? props.budget.discount : 0,
+    user_id: props.budget ? props.budget.user_id : null,
 });
 
 const submitForm = () => {
@@ -31,12 +35,16 @@ const submitForm = () => {
     }));
 
     // Crear una copia de formData con los datos convertidos
-    const formattedData = {
+    let formattedData = {
         ...formData,
         content: formattedContent,
     };
 
     try {
+        if (edit) {
+            formattedData.put(`/budgets/${props.budget.id}`, {});
+            return;
+        }
         formattedData.post("/budgets", {
             preserveScroll: true,
         });
@@ -60,6 +68,9 @@ const addCost = () => {
 };
 
 const computedTotal = computed(() => {
+    if (!formData.content.length) {
+        return 0;
+    }
     let subtotal = formData.content.reduce((sum, cost) => {
         return sum + cost.quantity * cost.cost;
     }, 0);
@@ -68,6 +79,10 @@ const computedTotal = computed(() => {
         totalWithTaxes - (totalWithTaxes * formData.discount) / 100;
     return totalWithDiscount.toFixed(2);
 });
+
+const deleteContent = (index) => {
+    formData.content.splice(index, 1);
+};
 </script>
 
 <template>
@@ -75,7 +90,9 @@ const computedTotal = computed(() => {
         <template #header>
             <div class="flex align-center gap-5">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    Create a {{ props.title }}
+                    <template v-if="edit"> Edit </template>
+                    <template v-else> Create </template>
+                    a {{ props.title }}
                 </h2>
                 <h2 class="font-semibold text-l text-green-500">
                     <a :href="route('budgets.index')"
@@ -105,10 +122,33 @@ const computedTotal = computed(() => {
                 </select>
 
                 <InputLabel>Content of the Budget</InputLabel>
-                <div v-for="(content, index) in formData.content" :key="index">
-                    {{ content.quantity }} x {{ content.description }} -
-                    {{ content.cost }}
-                </div>
+                <template v-if="formData.content.length > 0">
+                    <div
+                        v-for="(content, index) in formData.content"
+                        :key="index"
+                    >
+                        <div class="flex justify-between">
+                            <div>
+                                {{ content.quantity }} x
+                                {{ content.description }} - {{ content.cost }} $
+                            </div>
+                            <div class="flex flex-row gap-6">
+                                <div>
+                                    <b>
+                                        {{ content.quantity * content.cost }}
+                                        $</b
+                                    >
+                                </div>
+                                <button
+                                    v-on:click="deleteContent(index)"
+                                    class="text-red-600/100 font-bold"
+                                >
+                                    X
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
                 <div class="flex flex-row flex-wrap gap-3">
                     <PrimaryButton @click.prevent="addCost"
                         >Add cost</PrimaryButton
@@ -165,13 +205,24 @@ const computedTotal = computed(() => {
                         </p>
                     </div>
                 </div>
-                <div class="flex justify-center pt-20">
-                    <PrimaryButton
-                        class="w-1/5 justify-center bg-green-400"
-                        type="submit"
-                        >Crear</PrimaryButton
-                    >
-                </div>
+                <template v-if="edit">
+                    <div class="flex justify-center pt-20">
+                        <PrimaryButton
+                            class="w-1/5 justify-center bg-yellow-500 hover:bg-yellow-600"
+                            type="submit"
+                            >Editar</PrimaryButton
+                        >
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="flex justify-center pt-20">
+                        <PrimaryButton
+                            class="w-1/5 justify-center bg-green-400 hover:bg-green-500"
+                            type="submit"
+                            >Create</PrimaryButton
+                        >
+                    </div>
+                </template>
             </form>
         </main>
     </AppLayout>

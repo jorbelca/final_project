@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreBudgetRequest;
+
 use App\Models\Budget;
-use App\Rules\ValidBudgetContentStructure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -111,7 +110,11 @@ class BudgetViewController extends Controller
      */
     public function edit(Budget $budget)
     {
-        //
+        return Inertia::render('EditBudget', [
+            'budget' => $budget,
+            'clients' => Auth::user()->clients,
+            'costs' => Auth::user()->costs,
+        ]);
     }
 
     /**
@@ -119,7 +122,48 @@ class BudgetViewController extends Controller
      */
     public function update(Request $request, Budget $budget)
     {
-        //
+
+
+        try {
+            $content = $request->input('content', []);
+
+            // Transformar el array de arrays a un array de objetos
+            $transformedContent = collect($content)->map(function ($item) {
+                // Transformar cada array a un objeto
+                return (object)[
+                    'description' => isset($item['description']) ? (string) $item['description'] : '',
+                    'cost' => isset($item['cost']) ? (float) $item['cost'] : 0,
+                    'quantity' => isset($item['quantity']) ? (int) $item['quantity'] : 0,
+                ];
+            })->filter(function ($item) {
+                // Validar que cada objeto tenga los datos correctos
+                return !empty($item->description) &&
+                    $item->cost > 0 &&
+                    $item->quantity > 0;
+            })->values()->toArray();
+
+            $request->merge(['content' => $transformedContent]);
+            // Validar los datos
+
+            $validated = $request->validate([
+                'user_id' => 'required|integer|exists:users,id',
+                'client_id' => 'nullable|integer|exists:clients,id',
+                'content' => ["sometimes", "array"],
+                'state' => 'sometimes|in:draft,approved,rejected',
+                'discount' => 'sometimes|integer',
+                'taxes' => 'required|integer'
+            ]);
+            $validated['content'] = json_encode($validated['content']);
+
+
+            $budget->update($validated);
+
+            if ($budget) {
+                return redirect()->route('budgets.index');
+            }
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'An error occurred', dd($th)], 500);
+        }
     }
 
     /**
