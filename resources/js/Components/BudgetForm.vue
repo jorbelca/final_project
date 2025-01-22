@@ -1,10 +1,11 @@
 <script setup>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PrimaryButton from "./PrimaryButton.vue";
 import InputLabel from "./InputLabel.vue";
 import TextInput from "./TextInput.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
+import Notification from "./Notification.vue";
 
 const edit = window.location.pathname.includes("edit");
 
@@ -43,14 +44,17 @@ const submitForm = () => {
 
     try {
         if (edit) {
-            formattedData.put(`/budgets/${props.budget.id}`, {});
+            formattedData.put(`/budgets/${props.budget.id}`);
+            alert("Budget updated successfully");
             return;
         }
         formattedData.post("/budgets", {
             preserveScroll: true,
         });
+        alert("Budget created successfully");
     } catch (error) {
-        console.log(error);
+        alert("An error occurred");
+        console.error(error);
     }
 };
 
@@ -88,6 +92,11 @@ const stateOptions = ["draft", "approved", "rejected"];
 </script>
 
 <template>
+    <Notification
+        v-if="showNotification"
+        :message="notificationMessage"
+        :type="notificationType"
+    />
     <AppLayout title="Create">
         <template #header>
             <h2 class="font-semibold text-sm text-amber-500">
@@ -124,7 +133,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                 </select>
 
                 <InputLabel>Content of the Budget</InputLabel>
-                <template v-if="formData.content.length > 0">
+                <template v-if="formData.content.length > 0 && !edit">
                     <div
                         v-for="(content, index) in formData.content"
                         :key="index"
@@ -150,6 +159,64 @@ const stateOptions = ["draft", "approved", "rejected"];
                             </div>
                         </div>
                     </div>
+                </template>
+                <template v-if="edit && formData.content.length > 0">
+                    <table>
+                        <thead>
+                            <tr
+                                class="flex justify-between align-center items-end"
+                            >
+                                <td>Quantity</td>
+                                <td>Description</td>
+                                <td>Cost</td>
+                                <td>SubTotal&nbsp;</td>
+                            </tr>
+                        </thead>
+                        <tr
+                            v-for="(content, index) in formData.content"
+                            :key="index"
+                        >
+                            <td
+                                class="flex justify-between align-center items-end"
+                            >
+                                <TextInput
+                                    class="w-1/6"
+                                    type="number"
+                                    placeholder="quantity"
+                                    v-model="content.quantity"
+                                />
+                                <TextInput
+                                    class="w-1/3"
+                                    type="text"
+                                    placeholder="quantity"
+                                    v-model="content.description"
+                                />
+                                <TextInput
+                                    class="w-1/6"
+                                    type="number"
+                                    placeholder="quantity"
+                                    v-model="content.cost"
+                                />
+
+                                <div class="flex flex-row gap-6">
+                                    <div>
+                                        <b>
+                                            {{
+                                                content.quantity * content.cost
+                                            }}
+                                            $</b
+                                        >
+                                    </div>
+                                    <button
+                                        v-on:click="deleteContent(index)"
+                                        class="text-red-600/100 font-bold"
+                                    >
+                                        X
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
                 </template>
                 <div class="flex flex-row flex-wrap gap-3">
                     <PrimaryButton @click.prevent="addCost"
@@ -202,7 +269,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                     <div class="flex flex-row self-end">
                         <p>
                             <b class="text-lg font-extrabold"
-                                >Total: {{ computedTotal }}</b
+                                >Total: {{ computedTotal }} $</b
                             >
                         </p>
                     </div>

@@ -10,7 +10,13 @@ let props = defineProps({
     },
 });
 
-const excludedFields = ["updated_at", "pivot", "email_verified_at", "user_id"];
+const excludedFields = [
+    "updated_at",
+    "pivot",
+    "email_verified_at",
+    "user_id",
+    "client_id",
+];
 
 // Propiedad computada para obtener las columnas (excluyendo las no deseadas)
 const columns = computed(() =>
@@ -63,11 +69,7 @@ const deleteRow = (id) => {
     if (confirmation) {
         router.delete(`${resource}/${id}`, {
             onSuccess: () => {
-                alert(
-                    `${
-                        resource.charAt(0).toUpperCase() + resource.slice(1)
-                    } deleted successfully`
-                );
+                alert(`Deleted successfully`);
             },
             onError: (errors) => {
                 console.error(`Error deleting ${resource}:`, errors);
@@ -177,11 +179,15 @@ const editRow = (id) => {
                             />
                         </span>
 
+                        <span v-else-if="key === 'client'">
+                            {{ value?.name }}
+                        </span>
+
                         <span v-else-if="key === 'state'">
                             <StateTile :status="value" />
                         </span>
                         <span v-else class="flex flex-row justify-center">
-                            {{ key == "id" ? "" : value }}
+                            {{ key == "id" || key === "client" ? "" : value }}
                         </span>
                     </td>
                     <td>

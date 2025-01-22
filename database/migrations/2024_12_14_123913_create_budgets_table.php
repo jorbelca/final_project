@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('budgets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('client_id')->nullable()->constrained('clients');;
             $table->json('content');
             $table->integer('discount');
             $table->integer('taxes');

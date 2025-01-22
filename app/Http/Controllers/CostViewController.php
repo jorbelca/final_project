@@ -61,7 +61,7 @@ class CostViewController extends Controller
 
             $newCost->save();
 
-            return response()->json(['messsage' => "New Cost Created", $newCost], 201);
+            return redirect()->route('costs.index')->with('success', 'Cost created');
         } catch (\Throwable $th) {
             return response()->json(['error' => 'An error occurred', dd($th)], 500); // Otros errores
         }
@@ -114,7 +114,7 @@ class CostViewController extends Controller
     {
         try {
             CostController::destroy($cost);
-            return response()->json(['message' => 'Deleted'], 200);
+            return redirect()->route('costs.index')->with('success', 'Deleted');
         } catch (\Throwable $th) {
             return response()->json(['error' => 'An error occurred'], 500);
         }

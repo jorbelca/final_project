@@ -28,18 +28,23 @@ const formDataCosts = useForm({
 });
 
 const submitForm = () => {
-    if (edit) {
-        if (props.title === "Client") {
-            formDataClients.put(`/clients/${props.client.id}`);
+    try {
+        if (edit) {
+            if (props.title === "Client") {
+                formDataClients.put(`/clients/${props.client.id}`);
+            } else {
+                formDataCosts.put(`/costs/${props.cost.id}`);
+            }
         } else {
-            formDataCosts.put(`/costs/${props.cost.id}`);
+            if (props.title === "Client") {
+                formDataClients.post("/clients");
+            } else {
+                formDataCosts.post("/costs");
+            }
         }
-    } else {
-        if (props.title === "Client") {
-            formDataClients.post("/clients");
-        } else {
-            formDataCosts.post("/costs");
-        }
+        alert("The record was successfully saved.");
+    } catch (error) {
+        alert("An error occurred. Please try again.");
     }
 };
 const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];

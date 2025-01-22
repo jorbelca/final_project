@@ -1,5 +1,4 @@
 # TODO
-
 -   User admin (nova columna i pagina especifica)
 -   Styles
 -   Styles generals

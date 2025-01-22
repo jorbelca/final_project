@@ -20,6 +20,9 @@ class BudgetViewController extends Controller
 
         // Obtener los clientes asociados al usuario
         $budgets = $user->budgets;
+        //Vincular los presupuestos con los clientes
+        $budgets->load('client');
+
 
         return Inertia::render('Budgets', [
             'budgets' => $budgets,
@@ -73,13 +76,16 @@ class BudgetViewController extends Controller
             })->values()->toArray();
 
             $request->merge(['content' => $transformedContent]);
+            $request->merge(['client_id' => $request->input('client_id') ?: null]);
+
+
             // Validar los datos
 
             $validated = $request->validate([
                 'user_id' => 'required|integer|exists:users,id',
-                'client_id' => 'nullable|integer|exists:clients,id',
+                'client_id' => 'nullable|exists:clients,id',
                 'content' => ["sometimes", "array"],
-                'state' => 'sometimes|in:Draft,Approved,Rejected',
+                'state' => 'sometimes|in:draft,approved,rejected',
                 'discount' => 'sometimes|integer',
                 'taxes' => 'required|integer'
             ]);
@@ -143,11 +149,15 @@ class BudgetViewController extends Controller
             })->values()->toArray();
 
             $request->merge(['content' => $transformedContent]);
+            $request->merge([
+                'client_id' => $request->input('client_id') === "null" ? null : $request->input('client_id'),
+            ]);
+
             // Validar los datos
 
             $validated = $request->validate([
                 'user_id' => 'required|integer|exists:users,id',
-                'client_id' => 'nullable|integer|exists:clients,id',
+                'client_id' => 'nullable|exists:clients,id',
                 'content' => ["sometimes", "array"],
                 'state' => 'sometimes|in:draft,approved,rejected',
                 'discount' => 'sometimes|integer',

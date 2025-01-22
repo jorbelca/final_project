@@ -121,7 +121,7 @@ class ClientViewController extends Controller
     {
         try {
             ClientController::destroy($client);
-            return response()->json(['message' => 'Deleted'], 200);
+            return redirect()->route('costs.index')->with('success', 'Deleted');
         } catch (\Throwable $th) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
