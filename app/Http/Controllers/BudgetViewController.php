@@ -99,7 +99,7 @@ class BudgetViewController extends Controller
                 return redirect()->route('budgets.index');
             }
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'An error occurred', dd($th)], 500);
+            return response()->json(['message' => 'Error saving the budget: ' . $th->getMessage()], 400);
         }
     }
 
@@ -172,7 +172,7 @@ class BudgetViewController extends Controller
                 return redirect()->route('budgets.index');
             }
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'An error occurred', dd($th)], 500);
+            return response()->json(['message' => 'Error updating the budget: ' . $th->getMessage()], 400);
         }
     }
 

@@ -1,8 +1,7 @@
 # TODO
--   User admin (nova columna i pagina especifica)
+
+-   User admin (nova columna en la bbd i pagina especifica i ruta protegida)
 -   Styles
--   Styles generals
--   Landing
 
 # Budget App
 

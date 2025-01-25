@@ -115,14 +115,14 @@ class BudgetController extends Controller
 
             // Agregar la información de la empresa (o la información correspondiente)
             $pdf->SetFont('Arial', 'B', 12);
-            $pdf->Cell(0, 10, 'Mi Empresa', 0, 1, 'C');
+            $pdf->Cell(0, 10, 'My Company', 0, 1, 'C');
             $pdf->SetFont('Arial', '', 10);
             // $pdf->Cell(0, 10, 'Direccion: Calle Ficticia 123', 0, 1, 'C');
             // $pdf->Cell(0, 10, 'Telefono: +123456789', 0, 1, 'C');
             $pdf->Ln(10);
 
             // Información de la factura
-            $pdf->Cell(0, 10, 'Budget: #' . $budget->id, 0, 1, 'C');
+            $pdf->Cell(0, 10, 'Budget : ' . $budget->id, 0, 1, 'C');
             $pdf->Cell(0, 10, 'Date: ' . now()->format('d/m/Y'), 0, 1, 'C');
             $pdf->Ln(10);
 
@@ -149,9 +149,9 @@ class BudgetController extends Controller
             foreach ($contentArray as $content) {
                 $pdf->Cell(40, 10, $content->quantity, 1);
                 $pdf->Cell(90, 10, $content->description, 1);
-                $pdf->Cell(30, 10, $content->cost. " $", 1);
+                $pdf->Cell(30, 10, $content->cost . " $", 1);
                 $total += $content->quantity * $content->cost;
-                $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2). " $", 1);
+                $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2) . " $", 1);
                 $pdf->Ln();
             }
 

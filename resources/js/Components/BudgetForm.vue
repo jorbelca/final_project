@@ -43,18 +43,22 @@ const submitForm = () => {
     };
 
     try {
+        let response;
         if (edit) {
-            formattedData.put(`/budgets/${props.budget.id}`);
+            response = formattedData.put(`/budgets/${props.budget.id}`);
             alert("Budget updated successfully");
             return;
         }
-        formattedData.post("/budgets", {
+        response = formattedData.post("/budgets", {
             preserveScroll: true,
         });
-        alert("Budget created successfully");
+        alert(response?.data?.message || "The budget was successfully saved.");
     } catch (error) {
-        alert("An error occurred");
         console.error(error);
+        const errorMessage =
+            error.response?.data?.message ||
+            "An error occurred. Please try again.";
+        alert(errorMessage);
     }
 };
 
@@ -112,7 +116,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                 </h2>
             </div>
         </template>
-        <main>
+        <main class="mb-10">
             <form class="flex flex-col gap-4 p-7" @submit.prevent="submitForm">
                 <InputLabel>Client </InputLabel>
                 <select
@@ -296,6 +300,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                         <PrimaryButton
                             class="w-1/5 justify-center bg-yellow-500 hover:bg-yellow-600"
                             type="submit"
+                            :disabled="formData.content.length === 0"
                             >Edit</PrimaryButton
                         >
                     </div>
@@ -305,6 +310,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                         <PrimaryButton
                             class="w-1/5 justify-center bg-green-400 hover:bg-green-500"
                             type="submit"
+                            :disabled="formData.content.length === 0"
                             >Create</PrimaryButton
                         >
                     </div>

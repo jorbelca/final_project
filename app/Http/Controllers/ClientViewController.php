@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreClientRequest;
-use App\Http\Requests\StoreCostRequest;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -110,7 +108,7 @@ class ClientViewController extends Controller
 
             return redirect()->route('clients.index')->with('success', 'Client updated successfully!');
         } catch (\Throwable $th) {
-            return back()->with('error', 'Error updating the client: ' . $th->getMessage());
+            return response()->json(['message' => 'Error updating the client: ' . $th->getMessage()], 400);
         }
     }
 
@@ -121,7 +119,7 @@ class ClientViewController extends Controller
     {
         try {
             ClientController::destroy($client);
-            return redirect()->route('costs.index')->with('success', 'Deleted');
+            return redirect()->route('clients.index')->with('success', 'Deleted');
         } catch (\Throwable $th) {
             return response()->json(['error' => 'An error occurred'], 500);
         }

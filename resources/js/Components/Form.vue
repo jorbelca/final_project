@@ -27,24 +27,32 @@ const formDataCosts = useForm({
     periodicity: props.cost ? props.cost.periodicity : "",
 });
 
-const submitForm = () => {
+const submitForm = async () => {
     try {
+        let response;
+
         if (edit) {
             if (props.title === "Client") {
-                formDataClients.put(`/clients/${props.client.id}`);
+                response = await formDataClients.put(
+                    `/clients/${props.client.id}`
+                );
             } else {
-                formDataCosts.put(`/costs/${props.cost.id}`);
+                response = await formDataCosts.put(`/costs/${props.cost.id}`);
             }
         } else {
             if (props.title === "Client") {
-                formDataClients.post("/clients");
+                response = await formDataClients.post("/clients");
             } else {
-                formDataCosts.post("/costs");
+                response = await formDataCosts.post("/costs");
             }
         }
-        alert("The record was successfully saved.");
+
+        alert(response?.data?.message || "The record was successfully saved.");
     } catch (error) {
-        alert("An error occurred. Please try again.");
+        const errorMessage =
+            error.response?.data?.message ||
+            "An error occurred. Please try again.";
+        alert(errorMessage);
     }
 };
 const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
@@ -67,11 +75,11 @@ const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
             </h2>
             <div class="flex align-center justify-center gap-5 items-end">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ edit ? 'Edit' : 'Create' }} a {{ props.title }}
+                    {{ edit ? "Edit" : "Create" }} a {{ props.title }}
                 </h2>
             </div>
         </template>
-        <main>
+        <main class="mb-10">
             <form class="flex flex-col gap-4 p-7" @submit.prevent="submitForm">
                 <template v-if="props.title === 'Client'">
                     <div class="flex flex-wrap gap-5">

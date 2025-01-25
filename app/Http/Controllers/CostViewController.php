@@ -63,7 +63,7 @@ class CostViewController extends Controller
 
             return redirect()->route('costs.index')->with('success', 'Cost created');
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'An error occurred', dd($th)], 500); // Otros errores
+            return response()->json(['message' => 'Error saving the cost: ' . $th->getMessage()], 400);
         }
     }
 
@@ -103,7 +103,7 @@ class CostViewController extends Controller
 
             return redirect()->route('costs.index')->with('success', 'Cost updated');
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'An error occurred'], 500);
+            return response()->json(['message' => 'Error updating the cost: ' . $th->getMessage()], 400);
         }
     }
 
