@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class ClientViewController extends Controller
@@ -31,6 +33,9 @@ class ClientViewController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('view', new Client())) {
+            return ClientViewController::notify("index", "Inactive User", false);
+        }
         return Inertia::render('CreateClients');
     }
 
@@ -39,6 +44,9 @@ class ClientViewController extends Controller
      */
     public function store(Request $request)
     {
+        // if (!Gate::allows('create')) {
+        //     return ClientViewController::notify("index", "Inactive User", false);
+        // }
         try {
             // Obtener el usuario autenticado
             /** @var User $user */
@@ -65,24 +73,21 @@ class ClientViewController extends Controller
             $user->clients()->attach($newClient->id);
 
 
-            return redirect()->route('clients.index')->with('success', 'Client created successfully!');
+            return ClientViewController::notify("index", "Client created succesfully");
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Error saving the client: ' . $th->getMessage()], 400);
+            return ClientViewController::notify("create", "Error saving the client", false);
         }
     }
-    /**
-     * Display the specified resource.
-     */
-    public function show(Client $client)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Client $client)
     {
+        if (!Gate::allows('update', $client)) {
+            return ClientViewController::notify("index", "Inactive User", false);
+        }
         return Inertia::render('EditClient', [
             'client' => $client,
         ]);
@@ -93,6 +98,9 @@ class ClientViewController extends Controller
      */
     public function update(Request $request, Client $client)
     {
+        if (!Gate::allows('update', $client)) {
+            return ClientViewController::notify("index", "Inactive User", false);
+        }
         try {
             // Validar los datos
             $validated = $request->validate([
@@ -106,9 +114,9 @@ class ClientViewController extends Controller
             $client->update($validated);
 
 
-            return redirect()->route('clients.index')->with('success', 'Client updated successfully!');
+            return ClientViewController::notify("index", "Client updated succesfully");
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Error updating the client: ' . $th->getMessage()], 400);
+            return ClientViewController::notify("index", "Error updating the client", false);
         }
     }
 
@@ -117,11 +125,32 @@ class ClientViewController extends Controller
      */
     public function destroy(Client $client)
     {
+        if (!Gate::allows('delete', $client)) {
+            return ClientViewController::notify("index", "Inactive User", false);
+        }
         try {
             ClientController::destroy($client);
-            return redirect()->route('clients.index')->with('success', 'Deleted');
+            return ClientViewController::notify("index", "Client deleted");
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'An error occurred'], 500);
+            return ClientViewController::notify("index", "Error deleting the client", false);
         }
+    }
+
+    public function notify(String $sub_route, String $message, bool $success = true): RedirectResponse
+    {
+        if (!$success) {
+            return redirect()->route('clients.' . $sub_route)->with([
+                'flash' => [
+                    'banner' => $message,
+                    'bannerStyle' => 'danger',
+                ]
+            ]);
+        }
+        return redirect()->route('clients.' . $sub_route)->with([
+            'flash' => [
+                'banner' => $message,
+                'bannerStyle' => 'success',
+            ]
+        ]);
     }
 }

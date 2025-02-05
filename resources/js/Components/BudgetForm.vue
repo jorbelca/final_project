@@ -1,11 +1,10 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PrimaryButton from "./PrimaryButton.vue";
 import InputLabel from "./InputLabel.vue";
 import TextInput from "./TextInput.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import Notification from "./Notification.vue";
 
 const edit = window.location.pathname.includes("edit");
 
@@ -43,22 +42,15 @@ const submitForm = () => {
     };
 
     try {
-        let response;
         if (edit) {
-            response = formattedData.put(`/budgets/${props.budget.id}`);
-            alert("Budget updated successfully");
+            formattedData.put(`/budgets/${props.budget.id}`);
             return;
         }
-        response = formattedData.post("/budgets", {
+        formattedData.post("/budgets", {
             preserveScroll: true,
         });
-        alert(response?.data?.message || "The budget was successfully saved.");
     } catch (error) {
         console.error(error);
-        const errorMessage =
-            error.response?.data?.message ||
-            "An error occurred. Please try again.";
-        alert(errorMessage);
     }
 };
 
@@ -96,11 +88,6 @@ const stateOptions = ["draft", "approved", "rejected"];
 </script>
 
 <template>
-    <Notification
-        v-if="showNotification"
-        :message="notificationMessage"
-        :type="notificationType"
-    />
     <AppLayout title="Create">
         <template #header>
             <h2 class="font-semibold text-sm text-amber-500">
@@ -125,8 +112,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                     id="client"
                     v-model="formData.client_id"
                 >
-                    <option value="">Select a client</option>
-                    <option value="null">NONE</option>
+                    <option value="" disabled>Select a client</option>
                     <option
                         v-for="client in props.clients"
                         :key="client.id"

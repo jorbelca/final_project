@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateSubscriptionRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Budget;
 use App\Models\Subscription;
 use App\Models\User;
-
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -132,6 +134,38 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             // Para cualquier otro error
             return response()->json(['error' => 'An error occurred'], 500);
+        }
+    }
+
+
+    public function changeState($id)
+    {
+
+        try {
+            $user = User::findOrFail($id);
+
+            $user->active = !$user->active;
+            $user->save();
+
+            response()->json(['message' => 'Changed'], 200);
+            return redirect('admin');
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Error '], 400);
+        }
+    }
+
+
+    public function admin(User $user)
+    {
+        try {
+            if (!Gate::allows('view', $user, User::class)) {
+                return redirect()->route('budgets.index');
+            };
+            $usersAndBudgetsAndClients = User::with('budgets', 'clients', 'costs')->get();
+
+            return Inertia::render('Admin', ['users' => $usersAndBudgetsAndClients]);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Error ' . $th], 400);
         }
     }
 }

@@ -2,14 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCostRequest;
+
 use App\Models\Cost;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 use Inertia\Inertia;
+use Inertia\Response;
 
 class CostViewController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -30,8 +36,12 @@ class CostViewController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response| RedirectResponse
     {
+
+        if (!Gate::allows('view', new Cost())) {
+            return CostViewController::notify("index", "Inactive User", false);
+        }
         return Inertia::render('CreateCosts');
     }
 
@@ -40,20 +50,22 @@ class CostViewController extends Controller
      */
     public function store(Request $request)
     {
+        // if (!Gate::allows('create')) {
+        //     return CostViewController::notify("create", "Inactive User", false);
+        // }
         try {
-            // Obtener el usuario autenticado
-            /** @var User $user */
             $user = Auth::user();
+
             if (!$user) {
-                return redirect()->back()->with('error', 'No authenticated user found.');
+                return back()->with(['error', 'No authenticated user found.']);
             }
             $request->merge(['user_id' => Auth::id()]);
             // Validar los datos
             $validated = $request->validate([
                 'user_id' => 'required|integer|exists:users,id',
                 'description' => 'required|string|max:255',
-                'cost' => 'required|numeric',
-                'unit' => 'required|string|max:50',
+                'cost' => 'required|numeric|min:0',
+                'unit' => 'required|string|min:0|max:50',
                 'periodicity' => 'required|in:unit,daily,monthly,yearly,weekly'
             ]);;
 
@@ -61,25 +73,22 @@ class CostViewController extends Controller
 
             $newCost->save();
 
-            return redirect()->route('costs.index')->with('success', 'Cost created');
+            return CostViewController::notify("index", "Cost created");
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Error saving the cost: ' . $th->getMessage()], 400);
+            return CostViewController::notify("create", "Error Saving the cost", false);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Cost $cost)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Cost $cost)
     {
+        if (!Gate::allows('update', $cost)) {
+            return CostViewController::notify("index", "Inactive User", false);
+        }
+
         return Inertia::render('EditCost', [
             'cost' => $cost
         ]);
@@ -94,16 +103,21 @@ class CostViewController extends Controller
             // Validar los datos
             $validated = $request->validate([
                 'description' => 'required|string|max:255',
-                'cost' => 'required|numeric',
-                'unit' => 'required|string|max:50',
+                'cost' => 'required|numeric|min:0',
+                'unit' => 'required|string|min:0|max:50',
                 'periodicity' => 'required|in:unit,daily,monthly,yearly,weekly'
             ]);
 
             $cost->update($validated);
 
-            return redirect()->route('costs.index')->with('success', 'Cost updated');
+            return redirect()->route('costs.index')->with([
+                'flash' => [
+                    'banner' => 'Cost updated',
+                    'bannerStyle' => 'success',
+                ]
+            ]);
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Error updating the cost: ' . $th->getMessage()], 400);
+            return CostViewController::notify("index", "Error updating the cost", false);
         }
     }
 
@@ -111,12 +125,37 @@ class CostViewController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Cost $cost)
+
     {
+        if (!Gate::allows('delete', $cost)) {
+            return CostViewController::notify("index", "Inactive User", false);
+        }
+
         try {
             CostController::destroy($cost);
-            return redirect()->route('costs.index')->with('success', 'Deleted');
+            CostViewController::notify("index", "Deleted");
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'An error occurred'], 500);
+            return CostViewController::notify("index", "Error deleting the cost", false);
         }
+    }
+
+
+
+    public function notify(String $sub_route, String $message, bool $success = true): RedirectResponse
+    {
+        if (!$success) {
+            return redirect()->route('costs.' . $sub_route)->with([
+                'flash' => [
+                    'banner' => $message,
+                    'bannerStyle' => 'danger',
+                ]
+            ]);
+        }
+        return redirect()->route('costs.' . $sub_route)->with([
+            'flash' => [
+                'banner' => $message,
+                'bannerStyle' => 'success',
+            ]
+        ]);
     }
 }

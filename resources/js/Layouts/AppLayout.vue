@@ -74,6 +74,13 @@ const logout = () => {
                                 >
                                     Costs
                                 </NavLink>
+                                <NavLink
+                                    v-if="$page.props.auth.user.admin == 1"
+                                    :href="route('admin')"
+                                    :active="$page.url === '/admin'"
+                                >
+                                    Admin
+                                </NavLink>
                             </div>
                         </div>
 
@@ -93,7 +100,7 @@ const logout = () => {
                                             >
                                                 {{
                                                     $page.props.auth.user
-                                                        .current_team.name
+                                                        ?.current_team.name
                                                 }}
 
                                                 <svg
@@ -223,41 +230,58 @@ const logout = () => {
                                     <template #trigger>
                                         <button
                                             v-if="
-                                                $page.props.jetstream
-                                                    .managesProfilePhotos
+                                                $page.props.auth.user
+                                                    ?.profile_photo_path
                                             "
-                                            class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
+                                            class="flex items-center gap-1 text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
                                         >
                                             <img
                                                 class="size-8 rounded-full object-cover"
                                                 :src="
                                                     $page.props.auth.user
-                                                        .profile_photo_url
+                                                        ?.profile_photo_path
                                                 "
                                                 :alt="
-                                                    $page.props.auth.user.name
+                                                    $page.props.auth.user?.name
                                                 "
                                             />
+                                            {{
+                                                $page.props.auth.user?.name ??
+                                                ""
+                                            }}
+                                            <svg
+                                                class="ms-2 -me-0.5 size-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke-width="1.5"
+                                                stroke="currentColor"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                                                />
+                                            </svg>
                                         </button>
 
                                         <span
                                             v-else
-                                            class="inline-flex rounded-md"
-                                            ><img
-                                                class="size-8 rounded-full object-cover"
-                                                :src="
-                                                    $page.props.auth.user
-                                                        .profile_photo_path
-                                                "
-                                                :alt="
-                                                    $page.props.auth.user.name
-                                                "
-                                            />
+                                            class="inline-flex items-center justify-center size-8 rounded-full bg-gray-300 text-gray-700 font-bold uppercase"
+                                        >
+                                            {{
+                                                $page.props.auth.user?.name.charAt(
+                                                    0
+                                                )
+                                            }}
                                             <button
                                                 type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
                                             >
-                                                {{ $page.props.auth.user.name }}
+                                                {{
+                                                    $page.props.auth.user
+                                                        ?.name ?? ""
+                                                }}
 
                                                 <svg
                                                     class="ms-2 -me-0.5 size-4"
@@ -400,7 +424,7 @@ const logout = () => {
                                     :src="
                                         $page.props.auth.user.profile_photo_url
                                     "
-                                    :alt="$page.props.auth.user.name"
+                                    :alt="$page.props.auth.user?.name"
                                 />
                             </div>
 
@@ -408,10 +432,10 @@ const logout = () => {
                                 <div
                                     class="font-medium text-base text-gray-800"
                                 >
-                                    {{ $page.props.auth.user.name }}
+                                    {{ $page.props.auth.user?.name ?? "" }}
                                 </div>
                                 <div class="font-medium text-sm text-gray-500">
-                                    {{ $page.props.auth.user.email }}
+                                    {{ $page.props.auth.user?.email ?? "" }}
                                 </div>
                             </div>
                         </div>

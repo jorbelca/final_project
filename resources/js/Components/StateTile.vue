@@ -23,7 +23,7 @@ export default {
     >
         <template v-if="statusState === 'draft'"
             ><span>🕗</span>
-            <button className="text-xs/[5px]" onClick="{handleUpdateState}">
+            <button className="text-xs/[5px] cursor-default">
                 <div className=" flex flex-row ml-1 w-4 text-gray-500">
                     Draft
                 </div>
@@ -33,7 +33,7 @@ export default {
         <template v-if="statusState === 'approved'"
             >✔
 
-            <button className="text-xs/[5px]" onClick="{handleUpdateState}">
+            <button className="text-xs/[5px] cursor-default">
                 <div className="ml-1 w-4 text-white">Approved</div>
             </button>
         </template>
@@ -41,7 +41,7 @@ export default {
         <template v-if="statusState === 'rejected'"
             >X
 
-            <button className="text-xs/[5px]" onClick="{handleUpdateState}">
+            <button className="text-xs/[5px] cursor-default">
                 <div className="ml-1 w-4 text-white">Rejected</div>
             </button>
         </template>

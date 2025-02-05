@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCostRequest;
 use App\Http\Requests\UpdateCostRequest;
 use App\Models\Cost;
-use Illuminate\Support\Facades\Log;
+
+
 
 class CostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public static function index()
     {
         return Cost::all();
     }
@@ -22,6 +23,7 @@ class CostController extends Controller
      */
     public function create()
     {
+
         return response()->json("Save an Expense", 200);
     }
 

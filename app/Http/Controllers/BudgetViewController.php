@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Budget;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class BudgetViewController extends Controller
@@ -35,6 +37,9 @@ class BudgetViewController extends Controller
      */
     public function create()
     {
+        if (!Gate::allows('view', new Budget())) {
+            return BudgetViewController::notify("index", "Inactive User", false);
+        }
 
         return Inertia::render("CreateBudget", [
             'clients' => Auth::user()->clients,
@@ -96,26 +101,23 @@ class BudgetViewController extends Controller
             $budget->save();
 
             if ($budget) {
-                return redirect()->route('budgets.index');
+                return BudgetViewController::notify("index", "Budget saved");
             }
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Error saving the budget: ' . $th->getMessage()], 400);
+            return BudgetViewController::notify("index", "Error saving the budget", false);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Budget $budget)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Budget $budget)
     {
+        if (!Gate::allows('delete', $budget)) {
+            return BudgetViewController::notify("index", "Inactive User", false);
+        }
         return Inertia::render('EditBudget', [
             'budget' => $budget,
             'clients' => Auth::user()->clients,
@@ -128,6 +130,9 @@ class BudgetViewController extends Controller
      */
     public function update(Request $request, Budget $budget)
     {
+        if (!Gate::allows('delete', $budget)) {
+            return BudgetViewController::notify("index", "Inactive User", false);
+        }
 
 
         try {
@@ -169,10 +174,10 @@ class BudgetViewController extends Controller
             $budget->update($validated);
 
             if ($budget) {
-                return redirect()->route('budgets.index');
+                return BudgetViewController::notify("index", "Budget updated");
             }
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Error updating the budget: ' . $th->getMessage()], 400);
+            return BudgetViewController::notify("index", "Error updating the budget", false);
         }
     }
 
@@ -181,11 +186,33 @@ class BudgetViewController extends Controller
      */
     public function destroy(Budget $budget)
     {
+        if (!Gate::allows('delete', $budget)) {
+            return BudgetViewController::notify("index", "Inactive User", false);
+        }
         try {
             BudgetController::destroy($budget);
-            return redirect()->route('budgets.index');
+            return BudgetViewController::notify("index", "Budget deleted");
         } catch (\Throwable $th) {
-            return response()->json(['error' => 'An error occurred'], 500);
+            return BudgetViewController::notify("index", "Error deleting the budget", false);
         }
+    }
+
+
+    public function notify(String $sub_route, String $message, bool $success = true): RedirectResponse
+    {
+        if (!$success) {
+            return redirect()->route('budgets.' . $sub_route)->with([
+                'flash' => [
+                    'banner' => $message,
+                    'bannerStyle' => 'danger',
+                ]
+            ]);
+        }
+        return redirect()->route('budgets.' . $sub_route)->with([
+            'flash' => [
+                'banner' => $message,
+                'bannerStyle' => 'success',
+            ]
+        ]);
     }
 }

@@ -29,32 +29,24 @@ const formDataCosts = useForm({
 
 const submitForm = async () => {
     try {
-        let response;
-
         if (edit) {
             if (props.title === "Client") {
-                response = await formDataClients.put(
-                    `/clients/${props.client.id}`
-                );
+                await formDataClients.put(`/clients/${props.client.id}`);
             } else {
-                response = await formDataCosts.put(`/costs/${props.cost.id}`);
+                await formDataCosts.put(`/costs/${props.cost.id}`);
             }
         } else {
             if (props.title === "Client") {
-                response = await formDataClients.post("/clients");
+                await formDataClients.post("/clients");
             } else {
-                response = await formDataCosts.post("/costs");
+                await formDataCosts.post("/costs");
             }
         }
-
-        alert(response?.data?.message || "The record was successfully saved.");
     } catch (error) {
-        const errorMessage =
-            error.response?.data?.message ||
-            "An error occurred. Please try again.";
-        alert(errorMessage);
+        console.error(error);
     }
 };
+
 const periodicity = ["unit", "monthly", "yearly", "daily", "weekly"];
 </script>
 

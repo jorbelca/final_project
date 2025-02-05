@@ -4,6 +4,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetViewController;
 use App\Http\Controllers\ClientViewController;
 use App\Http\Controllers\CostViewController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,9 +28,14 @@ Route::middleware([
 });
 
 
-Route::resource('budgets', BudgetViewController::class);
-Route::resource('costs', CostViewController::class);
-Route::resource('clients', ClientViewController::class);
+Route::resource('budgets', BudgetViewController::class)->middleware("auth");
+Route::resource('costs', CostViewController::class)->middleware("auth");
+Route::resource('clients', ClientViewController::class)->middleware("auth");
 
 // Generate PDF
 Route::get('/budget/{id}/generate', [BudgetController::class, 'generatePdf']);
+//Admin
+Route::get('/admin', [UserController::class, 'admin'])->name("admin");
+
+
+Route::post('/users/{id}/changestate', [UserController::class, 'changeState']);

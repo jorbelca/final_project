@@ -9,6 +9,7 @@ let props = defineProps({
         required: true,
     },
 });
+
 const currentPath = window.location.pathname;
 const excludedFields = [
     "updated_at",
@@ -65,9 +66,6 @@ const deleteRow = (id) => {
     );
     if (confirmation) {
         router.delete(`${resource}/${id}`, {
-            onSuccess: () => {
-                alert(`Deleted successfully`);
-            },
             onError: (errors) => {
                 console.error(`Error deleting ${resource}:`, errors);
             },
@@ -126,8 +124,15 @@ const generate = (id) => {
                     >
                         {{ column != "id" ? formatColumnHead(column) : "" }}
                     </th>
-                    <th>Actions</th>
-                    <th v-if="currentPath.includes('budgets')">PDF</th>
+                    <th v-if="filteredData.length > 0">Actions</th>
+                    <th
+                        v-if="
+                            currentPath.includes('budgets') &&
+                            filteredData.length > 0
+                        "
+                    >
+                        PDF
+                    </th>
                 </tr>
             </thead>
             <tbody>
