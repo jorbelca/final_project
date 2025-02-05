@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { router } from "@inertiajs/vue3";
-import StateTile from "@/Components/StateTile.vue";
+import BudgetCounter from "@/Components/BudgetCounter.vue";
 
 const props = defineProps({
     users: [],
@@ -21,12 +21,6 @@ const changeState = (user_id) => {
         alert(`Error` + e);
     }
 };
-const getBudgetCounts = (user) => {
-    return user.budgets.reduce((acc, budget) => {
-        acc[budget.state] = (acc[budget.state] || 0) + 1;
-        return acc;
-    }, {});
-};
 </script>
 
 <template>
@@ -44,11 +38,21 @@ const getBudgetCounts = (user) => {
             v-for="user in props.users"
             :key="user.id"
         >
-            <div class="w-1/4 pl-2">
-                <h3 class="font-bold">User</h3>
-                <div class="">{{ user.id }}</div>
-                <img :src="user?.profile_photo_path" alt="" width="30" />
-                <div class="">{{ user.name }}</div>
+            <div class="min-w-[130px] pl-2">
+                <h3 class="font-bold">
+                    User with ID :
+                    <span>{{ user.id }}</span>
+                </h3>
+
+                <div class="flex align-content-center">
+                    <img
+                        v-if="user?.profile_photo_path"
+                        :src="user?.profile_photo_path"
+                        alt=""
+                        width="30"
+                    />
+                    {{ user.name }}
+                </div>
 
                 <div v-if="user.active == 1" class="text-green-500">Active</div>
                 <div v-if="user.active == 0" class="text-red-500">Inactive</div>
@@ -60,52 +64,33 @@ const getBudgetCounts = (user) => {
                     Change State
                 </button>
             </div>
-            <div class="px-4 flex flex-col justify-center items-center w-1/4">
-                <h3 class="font-bold">Budgets</h3>
-                <div>Nº: {{ user.budgets.length }}</div>
+            <div
+                class="px-4 flex flex-nowrap flex-col justify-center items-center min-w-[170px]"
+            >
+                <p class="font-bold">
+                    Nº of Budgets : &nbsp;<span class="font-light">{{
+                        user.budgets.length
+                    }}</span>
+                </p>
 
-                <div>
-                    <span class="flex flex-row items-center gap-2 py-1">
-                        <StateTile
-                            v-if="
-                                user.budgets.some(
-                                    (budget) => budget.state === 'draft'
-                                )
-                            "
-                            :status="'draft'"
-                        />
-                        {{ getBudgetCounts(user).draft }}
-                    </span>
-                    <span class="flex flex-row items-center gap-2 py-1">
-                        <StateTile
-                            v-if="
-                                user.budgets.some(
-                                    (budget) => budget.state === 'approved'
-                                )
-                            "
-                            :status="'approved'"
-                        />{{ getBudgetCounts(user).approved }}
-                    </span>
-                    <span class="flex flex-row items-center gap-2 py-1">
-                        <StateTile
-                            v-if="
-                                user.budgets.some(
-                                    (budget) => budget.state === 'rejected'
-                                )
-                            "
-                            :status="'rejected'"
-                        />
-                        {{ getBudgetCounts(user).rejected }}
-                    </span>
+                <div class="px-4 flex flex-col justify-center items-center">
+                    <BudgetCounter
+                        :admin="true"
+                        :budgets="user.budgets"
+                    ></BudgetCounter>
                 </div>
             </div>
-            <div class="px-4 flex flex-col justify-center items-center w-1/4">
-                <h3 class="font-bold">Clients</h3>
-                <div>Nº: {{ user.clients.length }}</div>
+            <div
+                class="px-4 flex flex-nowrap flex-row justify-center items-center min-w-[150px]"
+            >
+                <h3 class="font-bold">Nº of Clients :&nbsp;</h3>
+                <span>{{ user.clients.length }}</span>
             </div>
-            <div class="px-4 flex flex-col justify-center items-center w-1/4">
-                <h3 class="font-bold">Costs</h3>
-                <div>Nº: {{ user.costs.length }}</div>
+            <div
+                class="px-4 flex flex-row justify-center items-center min-w-[150px]"
+            >
+                <h3 class="font-bold">Nº of Costs :&nbsp;</h3>
+                <span>{{ user.costs.length }}</span>
             </div>
         </div>
         <div class="pb-10"></div>

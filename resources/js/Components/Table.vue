@@ -193,7 +193,7 @@ const generate = (id) => {
                         </span>
 
                         <span v-else-if="key === 'state'">
-                            <StateTile :status="value" />
+                            <StateTile :status="value" :admin="true" />
                         </span>
                         <span v-else class="flex flex-row justify-center">
                             {{ key == "id" || key === "client" ? "" : value }}
