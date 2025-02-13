@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateSubscriptionRequest;
+
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Budget;
+
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
+
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -27,13 +27,7 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -161,7 +155,9 @@ class UserController extends Controller
             if (!Gate::allows('view', $user, User::class)) {
                 return redirect()->route('budgets.index');
             };
-            $usersAndBudgetsAndClients = User::with('budgets', 'clients', 'costs')->get();
+            $usersAndBudgetsAndClients = User::with(['budgets' => function ($query) {
+                $query->select('state', 'user_id');
+            }])->withCount(['clients', 'costs'])->get();
 
             return Inertia::render('Admin', ['users' => $usersAndBudgetsAndClients]);
         } catch (\Throwable $th) {

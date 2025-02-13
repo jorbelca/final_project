@@ -158,7 +158,7 @@ const generate = (id) => {
                     <td
                         v-for="(value, key) in row"
                         :key="key"
-                        class="px-4 py-2 text-sm text-gray-700"
+                        class="px-4 py-2 text-sm text-gray-700 text-center"
                     >
                         <span v-if="key === 'content'">
                             {{
@@ -180,7 +180,10 @@ const generate = (id) => {
                             }}
                         </span>
 
-                        <span v-else-if="key === 'image_url'">
+                        <span
+                            v-else-if="key === 'image_url'"
+                            class="flex justify-center"
+                        >
                             <img
                                 :src="value"
                                 alt="Image"

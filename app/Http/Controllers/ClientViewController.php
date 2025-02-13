@@ -44,9 +44,9 @@ class ClientViewController extends Controller
      */
     public function store(Request $request)
     {
-        // if (!Gate::allows('create')) {
-        //     return ClientViewController::notify("index", "Inactive User", false);
-        // }
+        if (!Gate::allows('create', Client::class)) {
+            return ClientViewController::notify("index", "Inactive User", false);
+        }
         try {
             // Obtener el usuario autenticado
             /** @var User $user */

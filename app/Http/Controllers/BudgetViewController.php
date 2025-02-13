@@ -52,6 +52,9 @@ class BudgetViewController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Gate::allows('create', Budget::class)) {
+            return BudgetViewController::notify("index", "Inactive User", false);
+        }
 
 
         try {
@@ -213,6 +216,26 @@ class BudgetViewController extends Controller
                 'banner' => $message,
                 'bannerStyle' => 'success',
             ]
+        ]);
+    }
+
+
+    public function ordered()
+    {
+        // Obtener el usuario autenticado
+        $user = Auth::user();
+
+
+        if (!Gate::allows('view', $user, Budget::class)) {
+            return BudgetViewController::notify("index", "Only the admin can see THIS", false);
+        };
+
+
+        $b = $user->budgets()->orderBy('updated_at', 'desc')->get();
+
+
+        return Inertia::render('BudgetsOrdered', [
+            'budgets' => $b,
         ]);
     }
 }

@@ -34,6 +34,8 @@ class CostViewPolicy
         return $user->active;
     }
 
+
+
     /**
      * Determine whether the user can update the model.
      */

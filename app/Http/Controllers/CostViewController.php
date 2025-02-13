@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Cost;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -45,14 +46,15 @@ class CostViewController extends Controller
         return Inertia::render('CreateCosts');
     }
 
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // if (!Gate::allows('create')) {
-        //     return CostViewController::notify("create", "Inactive User", false);
-        // }
+        if (!Gate::allows('create', Cost::class)) {
+            return CostViewController::notify("create", "Inactive User", false);
+        }
         try {
             $user = Auth::user();
 
@@ -157,5 +159,54 @@ class CostViewController extends Controller
                 'bannerStyle' => 'success',
             ]
         ]);
+    }
+
+
+    public function parse(): Response| RedirectResponse
+    {
+
+
+        if (!Gate::allows('view', new Cost())) {
+            return CostViewController::notify("index", "Inactive User", false);
+        }
+        return Inertia::render('ParseCost');
+    }
+
+
+    /**
+     * Store costs from a file
+     */
+    public function storeMultiple(Request $request)
+    {
+
+        if (!Gate::allows('create', Cost::class)) {
+            return CostViewController::notify("create", "Inactive User", false);
+        }
+
+        $user = Auth::user();
+
+        if (!$user) {
+            return back()->with(['error', 'No authenticated user found.']);
+        }
+        $costs = $request->input('costs', []);
+        foreach ($costs as $cost) {
+            try {
+                $cost['user_id'] = Auth::id();
+                // Validar los datos
+                $validated = Validator::make($cost, [
+                    'user_id' => 'required|integer|exists:users,id',
+                    'description' => 'required|string|max:255',
+                    'cost' => 'required|numeric|min:0',
+                    'unit' => 'required|string|min:0|max:50',
+                    'periodicity' => 'required|in:unit,daily,monthly,yearly,weekly'
+                ])->validate();
+
+                Cost::create($validated);
+            } catch (\Throwable $th) {
+                $errorMsg = $th->getMessage();
+                return CostViewController::notify("parse", "Error Saving the file: $errorMsg ", false);
+            }
+        }
+        return CostViewController::notify("index", "Costs saved");
     }
 }

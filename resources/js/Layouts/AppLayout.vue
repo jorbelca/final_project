@@ -38,7 +38,7 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-[calc(100vh-50px)] bg-gray-100">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,7 +54,7 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                                class="hidden space-x-8 sm:-my-px sm:ms-5 sm:flex"
                             >
                                 <NavLink
                                     :href="route('budgets.index')"
@@ -80,6 +80,21 @@ const logout = () => {
                                     :active="$page.url === '/admin'"
                                 >
                                     Admin
+                                </NavLink>
+                                <NavLink
+                                    v-if="$page.props.auth.user.admin == 1"
+                                    :href="route('ordered')"
+                                    :active="$page.url === '/ordered'"
+                                >
+                                    Budgets ORDERED
+                                </NavLink>
+                                <NavLink
+                                    :href="route('incidencies.index')"
+                                    :active="
+                                        route().current('incidencies.index')
+                                    "
+                                >
+                                    Incidencies
                                 </NavLink>
                             </div>
                         </div>
@@ -263,6 +278,15 @@ const logout = () => {
                                                     d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                                                 />
                                             </svg>
+                                            <span
+                                                class="pl-2"
+                                                v-if="
+                                                    +$page.props.auth.user
+                                                        ?.active === 1
+                                                "
+                                                >🟢
+                                            </span>
+                                            <span class="pl-2" v-else>🔴</span>
                                         </button>
 
                                         <span
@@ -297,6 +321,17 @@ const logout = () => {
                                                         d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                                                     />
                                                 </svg>
+                                                <span
+                                                    class="pr-6 pl-2"
+                                                    v-if="
+                                                        +$page.props.auth.user
+                                                            ?.active === 1
+                                                    "
+                                                    >🟢
+                                                </span>
+                                                <span class="pr-6 pl-2" v-else
+                                                    >🔴</span
+                                                >
                                             </button>
                                         </span>
                                     </template>
@@ -408,6 +443,19 @@ const logout = () => {
                         >
                             Costs
                         </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user.admin == 1"
+                            :href="route('admin')"
+                            :active="$page.url === '/admin'"
+                        >
+                            Admin
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('incidencies.index')"
+                            :active="route().current('incidencies.index')"
+                        >
+                            Incidencies
+                        </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
@@ -428,15 +476,24 @@ const logout = () => {
                                 />
                             </div>
 
-                            <div>
-                                <div
-                                    class="font-medium text-base text-gray-800"
-                                >
-                                    {{ $page.props.auth.user?.name ?? "" }}
+                            <div class="flex flex-row justify-between w-full">
+                                <div>
+                                    <div
+                                        class="font-medium text-base text-gray-800"
+                                    >
+                                        {{ $page.props.auth.user?.name ?? "" }}
+                                    </div>
+                                    <div
+                                        class="font-medium text-sm text-gray-500"
+                                    >
+                                        {{ $page.props.auth.user?.email ?? "" }}
+                                    </div>
                                 </div>
-                                <div class="font-medium text-sm text-gray-500">
-                                    {{ $page.props.auth.user?.email ?? "" }}
-                                </div>
+                                <span
+                                    v-if="+$page.props.auth.user?.active === 1"
+                                    >🟢
+                                </span>
+                                <span v-else>🔴</span>
                             </div>
                         </div>
 

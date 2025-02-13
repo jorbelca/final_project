@@ -84,13 +84,13 @@ const changeState = (user_id) => {
                 class="px-4 flex flex-nowrap flex-row justify-center items-center min-w-[150px]"
             >
                 <h3 class="font-bold">Nº of Clients :&nbsp;</h3>
-                <span>{{ user.clients.length }}</span>
+                <span>{{ user.clients_count }}</span>
             </div>
             <div
                 class="px-4 flex flex-row justify-center items-center min-w-[150px]"
             >
                 <h3 class="font-bold">Nº of Costs :&nbsp;</h3>
-                <span>{{ user.costs.length }}</span>
+                <span>{{ user.costs_count }}</span>
             </div>
         </div>
         <div class="pb-10"></div>

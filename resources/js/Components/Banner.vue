@@ -18,7 +18,11 @@ watch(
             // Espera 3 segundos y oculta el banner
             setTimeout(() => {
                 show.value = false;
-                message.value = "";
+
+                // Agrega un pequeño retraso antes de limpiar el mensaje
+                setTimeout(() => {
+                    message.value = "";
+                }, 100);
             }, 2000);
         }
     },
