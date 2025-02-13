@@ -225,8 +225,8 @@ class BudgetViewController extends Controller
         // Obtener el usuario autenticado
         $user = Auth::user();
 
-
-        if (!Gate::allows('view', $user, Budget::class)) {
+        // userPolicy , view_ordered
+        if (!Gate::allows('view_ordered', $user, new Budget())) {
             return BudgetViewController::notify("index", "Only the admin can see THIS", false);
         };
 

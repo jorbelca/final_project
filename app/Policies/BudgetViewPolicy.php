@@ -21,7 +21,8 @@ class BudgetViewPolicy
      */
     public function view(User $user, Budget $budget): bool
     {
-        return $user->active;
+
+        return true;
     }
 
     /**
