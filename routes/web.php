@@ -48,8 +48,7 @@ Route::post('/costs/store_multiple', [CostViewController::class, 'storeMultiple'
 //Cambiar estado budget
 Route::post('/users/{id}/changestate', [UserController::class, 'changeState']);
 
-//EXAMEN
-Route::get('/ordered', [BudgetViewController::class, 'ordered'])->name('ordered');;
+
 
 Route::fallback(function () {
     return Inertia::render('404');

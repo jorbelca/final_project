@@ -218,24 +218,4 @@ class BudgetViewController extends Controller
             ]
         ]);
     }
-
-
-    public function ordered()
-    {
-        // Obtener el usuario autenticado
-        $user = Auth::user();
-
-        // userPolicy , view_ordered
-        if (!Gate::allows('view_ordered', $user, new Budget())) {
-            return BudgetViewController::notify("index", "Only the admin can see THIS", false);
-        };
-
-
-        $b = $user->budgets()->orderBy('updated_at', 'desc')->get();
-
-
-        return Inertia::render('BudgetsOrdered', [
-            'budgets' => $b,
-        ]);
-    }
 }

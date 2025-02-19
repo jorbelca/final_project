@@ -62,9 +62,4 @@ class UserPolicy
     {
         return true;
     }
-    public function view_ordered(User $user): bool
-    {
-
-        return $user->admin;
-    }
 }

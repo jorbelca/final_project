@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->string('logo_path', 2048)->nullable();
             $table->string('active')->default('1');
+            $table->string('admin')->default('0');
             $table->timestamps();
         });
 
