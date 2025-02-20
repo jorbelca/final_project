@@ -1,4 +1,5 @@
 <script setup>
+import DarkModeBtn from "@/Components/Btns/DarkModeBtn.vue";
 import Logo from "@/Components/Logo.vue";
 import { Link } from "@inertiajs/vue3";
 
@@ -25,15 +26,17 @@ function handleImageError() {
 
 <template>
     <Head title="Welcome" />
+
     <div class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300">
         <div class="relative min-h-screen flex flex-col items-center pt-10">
+            <DarkModeBtn />
             <div class="relative w-full max-w-2xl px-6 lg:max-w-6xl">
                 <!-- Header -->
                 <header class="flex justify-between items-center py-6">
                     <div
                         class="flex items-center justify-center gap-4 p-6 rounded-xl border-2 border-gray-300 dark:border-gray-700 shadow-lg bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-900"
                     >
-                        <Logo class="text-blue-600 dark:text-blue-400" />
+                        <Logo />
                     </div>
                     <nav v-if="canLogin" class="flex gap-4 w-1/4">
                         <Link
@@ -41,7 +44,7 @@ function handleImageError() {
                             :href="route('dashboard')"
                             class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
                         >
-                            Dashboard
+                            App
                         </Link>
                         <template v-else>
                             <Link
@@ -70,6 +73,7 @@ function handleImageError() {
                     </h2>
                     <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
                         Create, manage, and send professional budgets with ease.
+                        With the power of the AI
                     </p>
 
                     <div class="relative mt-10 flex justify-center">

@@ -5,6 +5,6 @@
             alt=""
             width="30"
         />
-        <h1 class="text-l font-bold text-violet-500">Budget App</h1>
+        <h1 class="text-l font-bold text-green-700">Budget App</h1>
     </div>
 </template>
