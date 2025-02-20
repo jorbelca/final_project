@@ -10,35 +10,22 @@ defineProps({
     canRegister: {
         type: Boolean,
     },
-    laravelVersion: {
-        type: String,
-        required: true,
-    },
 });
-
-function handleImageError() {
-    document.getElementById("screenshot-container")?.classList.add("!hidden");
-    document.getElementById("docs-card")?.classList.add("!row-span-1");
-    document.getElementById("docs-card-content")?.classList.add("!flex-row");
-    document.getElementById("background")?.classList.add("!hidden");
-}
 </script>
 
 <template>
     <Head title="Welcome" />
 
-    <div class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300">
-        <div class="relative min-h-screen flex flex-col items-center pt-10">
-            <DarkModeBtn />
-            <div class="relative w-full max-w-2xl px-6 lg:max-w-6xl">
+    <div class="bg-gray-100 text-gray-800 dark:bg-green-950 dark:text-gray-300">
+        <div class="relative min-h-screen flex flex-col items-center ">
+            <div class="relative w-full">
                 <!-- Header -->
-                <header class="flex justify-between items-center py-6">
-                    <div
-                        class="flex items-center justify-center gap-4 p-6 rounded-xl border-2 border-gray-300 dark:border-gray-700 shadow-lg bg-gradient-to-r from-white to-gray-100 dark:from-gray-800 dark:to-gray-900"
-                    >
-                        <Logo />
-                    </div>
-                    <nav v-if="canLogin" class="flex gap-4 w-1/4">
+                <header
+                    class="fixed top-0 left-0 w-full
+                    flex justify-between items-center py-2 px-10 bg-white/10 dark:bg-gray-900/80 backdrop-blur-md z-50 shadow-md"
+                >
+                    <Logo />
+                    <nav v-if="canLogin" class="flex gap-4 items-center">
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('dashboard')"
@@ -60,35 +47,64 @@ function handleImageError() {
                             >
                                 Register
                             </Link>
+                            <DarkModeBtn />
                         </template>
                     </nav>
                 </header>
 
                 <!-- Main Content -->
-                <main class="relative mt-10 mx-auto w-[500px]">
-                    <h2
-                        class="text-3xl font-semibold text-gray-800 dark:text-gray-200 text-center"
+                <main
+                    class="relative w-full h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth"
+                >
+                    <!-- Sección 1 -->
+                    <section
+                        class="h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-r from-gray-100 to-gray-300 dark:from-gray-800 dark:to-gray-900"
                     >
-                        Simplify your budgets
-                    </h2>
-                    <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
-                        Create, manage, and send professional budgets with ease.
-                        With the power of the AI
-                    </p>
+                        <h2
+                            class="text-4xl font-bold text-gray-800 dark:text-gray-200"
+                        >
+                            Simplify your budgets
+                        </h2>
+                        <p
+                            class="mt-2 text-lg text-gray-600 dark:text-gray-400 text-center"
+                        >
+                            Create, manage, and send professional budgets with
+                            ease. With the power of AI.
+                        </p>
+                        <div class="relative mt-10 flex justify-center">
+                            <img
+                                src="/capturas/app.png"
+                                alt="Example App"
+                                class="rounded-lg shadow-2xl border border-gray-300 dark:border-gray-700 max-w-[500px] max-h-[400px]"
+                            />
+                            <img
+                                src="/capturas/budget.png"
+                                alt="Example Budget"
+                                class="absolute top-10 -right-10 rounded-lg shadow-xl border border-gray-300 dark:border-gray-700 max-w-[500px] max-h-[400px]"
+                            />
+                        </div>
+                    </section>
 
-                    <div class="relative mt-10 flex justify-center">
-                        <img
-                            src="/capturas/app.png"
-                            alt="Example App"
-                            class="rounded-lg shadow-2xl border border-gray-300 dark:border-gray-700 max-w-[500px] max-h-[400px]"
-                        />
-                        <!-- Imagen superpuesta (Budget) -->
-                        <img
-                            src="/capturas/budget.png"
-                            alt="Example Budget"
-                            class="absolute top-10 -right-10 rounded-lg shadow-xl border border-gray-300 dark:border-gray-700 max-w-[500px] max-h-[400px]"
-                        />
-                    </div>
+                    <!-- Sección 2 -->
+                    <section
+                        class="h-screen flex justify-center items-center snap-start bg-green-500 text-white"
+                    >
+                        <h1 class="text-5xl font-bold">With AI</h1>
+                    </section>
+
+                    <!-- Sección 3 -->
+                    <section
+                        class="h-screen flex justify-center items-center snap-start bg-blue-500 text-white"
+                    >
+                        <h1 class="text-5xl font-bold">Manage your budgets</h1>
+                    </section>
+
+                    <!-- Sección 4 -->
+                    <section
+                        class="h-screen flex justify-center items-center snap-start bg-purple-500 text-white"
+                    >
+                        <h1 class="text-5xl font-bold">Manage your clients</h1>
+                    </section>
                 </main>
             </div>
         </div>

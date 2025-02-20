@@ -34,15 +34,14 @@ const submit = () => {
     <DarkModeBtn></DarkModeBtn>
 
     <div
-        class="font-[sans-serif] bg-white flex flex-col items-center mt-[10rem] md:h-screen p-4"
+        class="font-[sans-serif] bg-white flex flex-col items-center pt-[10rem] md:h-screen p-4 dark:bg-green-950"
     >
-        <div
-            class="border-green-700 border-2 rounded-md p-5 bg-slate-200 max-w-[175px] mb-10 shadow-[0_2px_16px_-3px_rgba(6,81,237,0.3)]"
-        >
+        <div class="pb-10">
             <Logo />
         </div>
+
         <div
-            class="shadow-[0_2px_16px_-3px_rgba(6,81,237,0.3)] max-w-6xl max-md:max-w-lg rounded-md p-6"
+            class="shadow-[0_2px_16px_-3px_rgba(6,81,237,0.3)] max-w-6xl max-md:max-w-lg rounded-md p-6 dark:bg-green-700 dark:bg-opacity-25"
         >
             <div class="grid md:grid-cols-2 items-center gap-8">
                 <div class="max-md:order-1">
