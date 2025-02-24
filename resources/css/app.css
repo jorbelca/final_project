@@ -6,3 +6,17 @@
     display: none;
 }
 
+/* 🎨 Colores en modo claro */
+:root {
+    --color-primary: #3b82f6;
+    --color-secondary: #f59e0b;
+    --color-background: #f3f4f6;
+    --color-text: #374151;
+}
+/* 🌙 Colores en modo oscuro */
+.dark {
+    --color-primary: #ffffff;
+    --color-secondary: #d97706;
+    --color-background: #111827;
+    --color-text: #e5e7eb;
+}

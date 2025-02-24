@@ -1,7 +1,9 @@
 <script setup>
-import DarkModeBtn from "@/Components/Btns/DarkModeBtn.vue";
-import Logo from "@/Components/Logo.vue";
-import { Link } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
+import DarkModeBtn from "@/Components/Buttons/DarkModeBtn.vue";
+import Logo from "@/Components/Logo/Logo.vue";
+
+import ImagesLoginRegister from "./Auth/ImagesLoginRegister.vue";
 
 defineProps({
     canLogin: {
@@ -17,18 +19,15 @@ defineProps({
     <Head title="Welcome" />
 
     <div class="bg-gray-100 text-gray-800 dark:bg-green-950 dark:text-gray-300">
-        <div class="relative min-h-screen flex flex-col items-center ">
+        <div class="relative min-h-screen flex flex-col items-center">
             <div class="relative w-full">
                 <!-- Header -->
-                <header
-                    class="fixed top-0 left-0 w-full
-                    flex justify-between items-center py-2 px-10 bg-white/10 dark:bg-gray-900/80 backdrop-blur-md z-50 shadow-md"
-                >
+                <header class="fixed top-0 left-0 sm:w-[calc(100%-15px)] w-full flex justify-between items-center py-1 px-10 bg-white/10 dark:bg-gray-900/80 backdrop-blur-md z-50 shadow-md">
                     <Logo />
                     <nav v-if="canLogin" class="flex gap-4 items-center">
                         <Link
                             v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
+                            :href="route('budgets.index')"
                             class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
                         >
                             App
@@ -36,14 +35,14 @@ defineProps({
                         <template v-else>
                             <Link
                                 :href="route('login')"
-                                class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
+                                class="text-sm sm:text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
                             >
                                 Log in
                             </Link>
                             <Link
                                 v-if="canRegister"
                                 :href="route('register')"
-                                class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
+                                class="text-sm sm:text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
                             >
                                 Register
                             </Link>
@@ -71,18 +70,7 @@ defineProps({
                             Create, manage, and send professional budgets with
                             ease. With the power of AI.
                         </p>
-                        <div class="relative mt-10 flex justify-center">
-                            <img
-                                src="/capturas/app.png"
-                                alt="Example App"
-                                class="rounded-lg shadow-2xl border border-gray-300 dark:border-gray-700 max-w-[500px] max-h-[400px]"
-                            />
-                            <img
-                                src="/capturas/budget.png"
-                                alt="Example Budget"
-                                class="absolute top-10 -right-10 rounded-lg shadow-xl border border-gray-300 dark:border-gray-700 max-w-[500px] max-h-[400px]"
-                            />
-                        </div>
+                        <ImagesLoginRegister />
                     </section>
 
                     <!-- Sección 2 -->

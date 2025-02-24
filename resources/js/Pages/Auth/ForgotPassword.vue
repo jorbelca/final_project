@@ -6,8 +6,8 @@ import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
-import Logo from "@/Components/Logo.vue";
-import ReturnBtn from "@/Components/Btns/ReturnBtn.vue";
+import Logo from "@/Components/Logo/coreLogo.vue";
+import ReturnBtn from "@/Components/Buttons/ReturnBtn.vue";
 
 defineProps({
     status: String,

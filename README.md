@@ -1,7 +1,24 @@
 # TODO
 
--   User admin (nova columna en la bbd i pagina especifica i ruta protegida)
--   Styles
+-   Pujar Images (clients, logos) a cloudinary
+-   i18n (idiomes), Si dona temps
+-   Responsive design
+-   Testing
+    -   e2e
+    -   unitario
+-   Landing (cachear)
+-   Generar presupuesto con prompt
+-   Estadisticas usuario
+    -   Budgets por estado
+    -   Agrupar por cliente
+    -   Graficos
+-   Pujar pdf costes
+-   Admin cambiar api IA
+-   Page prompt
+-   Tabla BBD Prompt
+-   Poder Duplicar presupost
+-   Columna client_created_user (que nomes el creador del client puga editarlo)
+-   Mejorar logo
 
 # Budget App
 
@@ -10,7 +27,7 @@ Aquest projecte és una aplicació web desenvolupada amb el framework Laravel qu
 ## Stack
 
 -   Laravel
--   MySQL
+-   PostgreSQL
 -   VueJS
 -   TailwindCSS
 

@@ -7,7 +7,8 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 import Footer from "@/Components/Footer.vue";
-import Logo from "@/Components/Logo.vue";
+import Logo from "@/Components/Logo/coreLogo.vue";
+import DarkModeBtn from "@/Components/Buttons/DarkModeBtn.vue";
 
 defineProps({
     title: String,
@@ -38,10 +39,10 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-[calc(100vh-50px)] bg-gray-100">
+        <div class="min-h-[95.8vh] w-full bg-gray-100">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-12 lg:px-12">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -81,13 +82,7 @@ const logout = () => {
                                 >
                                     Admin
                                 </NavLink>
-                                <NavLink
-                                    v-if="$page.props.auth.user.admin == 1"
-                                    :href="route('ordered')"
-                                    :active="$page.url === '/ordered'"
-                                >
-                                    Budgets ORDERED
-                                </NavLink>
+
                                 <NavLink
                                     :href="route('incidencies.index')"
                                     :active="
@@ -371,6 +366,7 @@ const logout = () => {
                                     </template>
                                 </Dropdown>
                             </div>
+                            <DarkModeBtn />
                         </div>
 
                         <!-- Hamburger -->
@@ -622,6 +618,7 @@ const logout = () => {
                 <slot />
             </main>
         </div>
-        <Footer></Footer>
+
+        <Footer />
     </div>
 </template>

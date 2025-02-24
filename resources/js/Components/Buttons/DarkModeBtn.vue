@@ -33,7 +33,7 @@ onMounted(() => {
 <template>
     <button
         @click="toggleTheme"
-        class="relative right-0 top-0 pt-2 pr-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
+        class="absolute right-0 top-0 pt-2 pr-2 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5"
     >
         <svg
             v-if="!isDark"
