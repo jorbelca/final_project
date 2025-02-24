@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Incidencie;
+use App\Models\Support;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
-class IncidenciesController extends Controller
+class SupportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,13 +21,13 @@ class IncidenciesController extends Controller
         $user = Auth::user();
 
         if ($user->admin) {
-            $tickets = Incidencie::with(['questioner', 'answerer'])->get();
-            return Inertia::render('Incidencies', ['tickets' => $tickets]);
+            $tickets = Support::with(['questioner', 'answerer'])->get();
+            return Inertia::render('Support/Support', ['tickets' => $tickets]);
         }
-        $tickets = Incidencie::with(['questioner', 'answerer'])->get();
+        $tickets = Support::with(['questioner', 'answerer'])->get();
 
 
-        return Inertia::render('Incidencies', ['tickets' => $tickets]);
+        return Inertia::render('Support/Support', ['tickets' => $tickets]);
     }
 
 
@@ -47,14 +47,14 @@ class IncidenciesController extends Controller
                 'question' => 'required|string|max:255',
             ]);;
 
-            $new_incidencie = new Incidencie($validated);
-            $new_incidencie->save();
+            $new_incidency = new Support($validated);
+            $new_incidency->save();
 
-            return IncidenciesController::notify("index", "Incidencie created");
+            return SupportController::notify("index", "Incidency created");
         } catch (\Throwable $th) {
             $errorMsg = $th->getMessage();
 
-            return IncidenciesController::notify("index", "Error creating the incidencie, $errorMsg", false);
+            return SupportController::notify("index", "Error creating the incidency, $errorMsg", false);
         }
     }
 
@@ -63,11 +63,11 @@ class IncidenciesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Incidencie $incidency)
+    public function update(Request $request, Support $support)
     {
         $user = Auth::user();
-        if (!Gate::allows('update', $incidency)) {
-            return IncidenciesController::notify("index", "You cannot answer this", false);
+        if (!Gate::allows('update', $support)) {
+            return SupportController::notify("index", "You cannot answer this", false);
         }
 
         try {
@@ -84,35 +84,35 @@ class IncidenciesController extends Controller
                 'response_date' => 'required|date',
             ])->validate();
 
-            $incidency->update($validated);
+            $support->update($validated);
 
 
-            if (!$incidency->save()) {
-                return IncidenciesController::notify("index", "Error updating the incidencie", false);
+            if (!$support->save()) {
+                return SupportController::notify("index", "Error updating the incidency", false);
             }
 
-            return IncidenciesController::notify("index", "Incidencie updated");
+            return SupportController::notify("index", "Incidency updated");
         } catch (\Throwable $th) {
             $errorMsg = $th->getMessage();
 
-            return IncidenciesController::notify("index", "Error updating the incidencie, $errorMsg", false);
+            return SupportController::notify("index", "Error updating the incidency, $errorMsg", false);
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Incidencie $incidency)
+    public function destroy(Support $support)
     {
-        if (!Gate::allows('delete', $incidency)) {
-            return IncidenciesController::notify("index", "You cannot delete this incidency", false);
+        if (!Gate::allows('delete', $support)) {
+            return SupportController::notify("index", "You cannot delete this question", false);
         }
 
         try {
-            $incidency->delete();
-            IncidenciesController::notify("index", "Deleted");
+            $support->delete();
+            SupportController::notify("index", "Deleted");
         } catch (\Throwable $th) {
-            return IncidenciesController::notify("index", "Error deleting the incidency", false);
+            return SupportController::notify("index", "Error deleting the incidency", false);
         }
     }
 
@@ -120,14 +120,14 @@ class IncidenciesController extends Controller
     public function notify(String $sub_route, String $message, bool $success = true): RedirectResponse
     {
         if (!$success) {
-            return redirect()->route('incidencies.' . $sub_route)->with([
+            return redirect()->route('support.' . $sub_route)->with([
                 'flash' => [
                     'banner' => $message,
                     'bannerStyle' => 'danger',
                 ]
             ]);
         }
-        return redirect()->route('incidencies.' . $sub_route)->with([
+        return redirect()->route('support.' . $sub_route)->with([
             'flash' => [
                 'banner' => $message,
                 'bannerStyle' => 'success',

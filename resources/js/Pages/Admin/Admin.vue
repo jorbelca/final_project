@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { router } from "@inertiajs/vue3";
-import BudgetCounter from "@/Components/BudgetCounter.vue";
+import BudgetCounter from "@/Components/Budgets/BudgetCounter.vue";
 
 const props = defineProps({
     users: [],

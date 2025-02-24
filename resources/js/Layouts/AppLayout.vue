@@ -84,12 +84,10 @@ const logout = () => {
                                 </NavLink>
 
                                 <NavLink
-                                    :href="route('incidencies.index')"
-                                    :active="
-                                        route().current('incidencies.index')
-                                    "
+                                    :href="route('support.index')"
+                                    :active="route().current('support.index')"
                                 >
-                                    Incidencies
+                                    Support
                                 </NavLink>
                             </div>
                         </div>
@@ -447,10 +445,10 @@ const logout = () => {
                             Admin
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
-                            :href="route('incidencies.index')"
-                            :active="route().current('incidencies.index')"
+                            :href="route('support.index')"
+                            :active="route().current('support.index')"
                         >
-                            Incidencies
+                            Support
                         </ResponsiveNavLink>
                     </div>
 

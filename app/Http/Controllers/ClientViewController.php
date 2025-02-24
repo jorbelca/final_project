@@ -23,7 +23,7 @@ class ClientViewController extends Controller
         // Obtener los clientes asociados al usuario
         $clients = $user->clients;
 
-        return Inertia::render('Clients', [
+        return Inertia::render('Clients/Clients', [
             'clients' => $clients,
         ]);
     }
@@ -36,7 +36,7 @@ class ClientViewController extends Controller
         if (!Gate::allows('view', new Client())) {
             return ClientViewController::notify("index", "Inactive User", false);
         }
-        return Inertia::render('CreateClients');
+        return Inertia::render('Clients/CreateClients');
     }
 
     /**
@@ -88,7 +88,7 @@ class ClientViewController extends Controller
         if (!Gate::allows('update', $client)) {
             return ClientViewController::notify("index", "Inactive User", false);
         }
-        return Inertia::render('EditClient', [
+        return Inertia::render('Clients/EditClient', [
             'client' => $client,
         ]);
     }

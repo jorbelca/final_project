@@ -159,7 +159,7 @@ class UserController extends Controller
                 $query->select('state', 'user_id');
             }])->withCount(['clients', 'costs'])->get();
 
-            return Inertia::render('Admin', ['users' => $usersAndBudgetsAndClients]);
+            return Inertia::render('Admin/Admin', ['users' => $usersAndBudgetsAndClients]);
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Error ' . $th], 400);
         }

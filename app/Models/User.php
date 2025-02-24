@@ -73,7 +73,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Budget::class);
     }
-    
+
     public function clients()
     {
         return $this->belongsToMany(Client::class, 'client_user',  'user_id', 'client_id')->withTimestamps();
@@ -84,6 +84,6 @@ class User extends Authenticatable
     }
     public function incidencies()
     {
-        return $this->hasMany(Incidencie::class);
+        return $this->hasMany(Support::class);
     }
 }

@@ -1,5 +1,6 @@
 # TODO
 
+-   Config del user (iva por defecto, prompt por defecto)
 -   Pujar Images (clients, logos) a cloudinary
 -   i18n (idiomes), Si dona temps
 -   Responsive design
@@ -7,13 +8,13 @@
     -   e2e
     -   unitario
 -   Landing (cachear)
--   Generar presupuesto con prompt
+-   Generar presupuesto con prompt IA
 -   Estadisticas usuario
     -   Budgets por estado
     -   Agrupar por cliente
     -   Graficos
 -   Pujar pdf costes
--   Admin cambiar api IA
+-   Admin
 -   Page prompt
 -   Tabla BBD Prompt
 -   Poder Duplicar presupost

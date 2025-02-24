@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { router } from "@inertiajs/vue3";
-import StateTile from "./StateTile.vue";
+import StateTile from "./Budgets/StateTile.vue";
 // Computed para las columnas
 let props = defineProps({
     data: {

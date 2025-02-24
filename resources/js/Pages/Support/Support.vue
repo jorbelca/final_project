@@ -26,7 +26,7 @@ watchEffect(() => {
 });
 
 function submitAnswer(ticketId) {
-    formAnswers.value[ticketId].put(`/incidencies/${ticketId}`, {
+    formAnswers.value[ticketId].put(`/support/${ticketId}`, {
         onSuccess: () => {
             formAnswers.value[ticketId].reset();
         },
@@ -34,27 +34,27 @@ function submitAnswer(ticketId) {
 }
 
 function deleteTicket(ticketId) {
-    router.delete(`/incidencies/${ticketId}`);
+    router.delete(`/support/${ticketId}`);
 }
 </script>
 
 <template>
-    <AppLayout title="Incidencies">
+    <AppLayout title="Support">
         <template #header>
             <div class="flex align-center justify-center gap-5 items-end">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    Incidencies
+                    Support
                 </h2>
             </div>
         </template>
         <div class="overflow-x-auto p-2 m-3 bg-white rounded-lg">
-            <h3 class="font-black">Create a new incidency</h3>
+            <h3 class="font-black">Create a new ticket</h3>
             <div
                 class="overflow-x-auto p-2 m-3 bg-white rounded-lg flex flex-row justify-between"
             >
                 <form
                     class="flex flex-row w-full gap-3 items-end"
-                    @submit.prevent="form.post('/incidencies')"
+                    @submit.prevent="form.post('/support')"
                 >
                     <textarea
                         v-model="form.question"
@@ -83,7 +83,7 @@ function deleteTicket(ticketId) {
             :key="ticket.id"
         >
             <div class="flex justify-between px-4">
-                <span class="font-black">Incidency : {{ ticket.id }}</span>
+                <span class="font-black">Ticket {{ ticket.id }}</span>
                 <button
                     class="justify-self-end text-red-600 font-black"
                     @click="deleteTicket(ticket.id)"

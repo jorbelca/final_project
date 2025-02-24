@@ -28,7 +28,7 @@ class CostViewController extends Controller
         // Obtener los costs asociados al usuario
         $costs = $user->costs;
 
-        return Inertia::render('Costs', [
+        return Inertia::render('Costs/Costs', [
             'costs' => $costs,
         ]);
     }
@@ -43,7 +43,7 @@ class CostViewController extends Controller
         if (!Gate::allows('view', new Cost())) {
             return CostViewController::notify("index", "Inactive User", false);
         }
-        return Inertia::render('CreateCosts');
+        return Inertia::render('Costs/CreateCosts');
     }
 
 
@@ -91,7 +91,7 @@ class CostViewController extends Controller
             return CostViewController::notify("index", "Inactive User", false);
         }
 
-        return Inertia::render('EditCost', [
+        return Inertia::render('Costs/EditCost', [
             'cost' => $cost
         ]);
     }
@@ -169,7 +169,7 @@ class CostViewController extends Controller
         if (!Gate::allows('view', new Cost())) {
             return CostViewController::notify("index", "Inactive User", false);
         }
-        return Inertia::render('ParseCost');
+        return Inertia::render('Costs/ParseCost');
     }
 
 

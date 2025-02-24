@@ -1,5 +1,5 @@
 <script setup>
-import StateTile from "@/Components/StateTile.vue";
+import StateTile from "@/Components/Budgets/StateTile.vue";
 
 const props = defineProps({
     budgets: Array,

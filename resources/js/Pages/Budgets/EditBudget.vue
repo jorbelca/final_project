@@ -1,5 +1,5 @@
 <script setup>
-import BudgetForm from "@/Components/BudgetForm.vue";
+import BudgetForm from "@/Components/Budgets/BudgetForm.vue";
 
 const props = defineProps({
     clients: Array,

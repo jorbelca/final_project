@@ -26,7 +26,7 @@ class BudgetViewController extends Controller
         $budgets->load('client');
 
 
-        return Inertia::render('Budgets', [
+        return Inertia::render('Budgets/Budgets', [
             'budgets' => $budgets,
         ]);
     }
@@ -41,7 +41,7 @@ class BudgetViewController extends Controller
             return BudgetViewController::notify("index", "Inactive User", false);
         }
 
-        return Inertia::render("CreateBudget", [
+        return Inertia::render("Budgets/CreateBudget", [
             'clients' => Auth::user()->clients,
             'costs' => Auth::user()->costs,
         ]);
@@ -121,7 +121,7 @@ class BudgetViewController extends Controller
         if (!Gate::allows('delete', $budget)) {
             return BudgetViewController::notify("index", "Inactive User", false);
         }
-        return Inertia::render('EditBudget', [
+        return Inertia::render('Budgets/EditBudget', [
             'budget' => $budget,
             'clients' => Auth::user()->clients,
             'costs' => Auth::user()->costs,
