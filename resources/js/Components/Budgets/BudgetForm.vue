@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { useForm } from "@inertiajs/vue3";
-import PrimaryButton from "../PrimaryButton.vue";
+import PrimaryButton from "../Buttons/PrimaryButton.vue";
 import InputLabel from "../InputLabel.vue";
 import TextInput from "../TextInput.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";

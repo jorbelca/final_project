@@ -39,10 +39,10 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-[95.8vh] w-full bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+        <div class="min-h-[95.8vh] w-full bg-background_contrast">
+            <nav class="bg-background_nav border-b border border-border">
                 <!-- Primary Navigation Menu -->
-                <div class="max-w-7xl mx-auto px-4 sm:px-12 lg:px-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
@@ -233,7 +233,7 @@ const logout = () => {
                             </div>
 
                             <!-- Settings Dropdown -->
-                            <div class="ms-3 relative">
+                            <div class="mr-8 relative">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <button
@@ -284,16 +284,11 @@ const logout = () => {
 
                                         <span
                                             v-else
-                                            class="inline-flex items-center justify-center size-8 rounded-full bg-gray-300 text-gray-700 font-bold uppercase"
+                                            class="inline-flex text-text items-center justify-center size-8 rounded-full font-bold uppercase"
                                         >
-                                            {{
-                                                $page.props.auth.user?.name.charAt(
-                                                    0
-                                                )
-                                            }}
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150"
+                                                class="inline-flex text-text items-center px-3 py-2 border border-transparent text-sm leading-4 font-bold rounded-md hover:border focus:outline-none focus:bg-gray-100 active:bg-gray-100 dark:bg-gray-700 dark:active:bg-gray-600 dark:focus:bg-gray-600 transition ease-in-out duration-150"
                                             >
                                                 {{
                                                     $page.props.auth.user
@@ -332,7 +327,7 @@ const logout = () => {
                                     <template #content>
                                         <!-- Account Management -->
                                         <div
-                                            class="block px-4 py-2 text-xs text-gray-400"
+                                            class="block px-4 py-2 text-xs "
                                         >
                                             Manage Account
                                         </div>
@@ -491,7 +486,7 @@ const logout = () => {
                             </div>
                         </div>
 
-                        <div class="mt-3 space-y-1">
+                        <div class="mt-3 space-y-1 text-text">
                             <ResponsiveNavLink
                                 :href="route('profile.show')"
                                 :active="route().current('profile.show')"
@@ -605,8 +600,11 @@ const logout = () => {
             </nav>
 
             <!-- Page Heading -->
-            <header v-if="$slots.header" class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <header
+                v-if="$slots.header"
+                class="bg-background_transparent text-text"
+            >
+                <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>

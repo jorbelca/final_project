@@ -6,17 +6,111 @@
     display: none;
 }
 
-/* 🎨 Colores en modo claro */
+/* Modo claro */
 :root {
-    --color-primary: #3b82f6;
-    --color-secondary: #f59e0b;
-    --color-background: #f3f4f6;
-    --color-text: #374151;
+    --color-primary: #5a67d8;
+    --color-background: #f9fafb;
+    --color-background-contrast: #e4e4e7;
+    --color-background-header: #edf2f7;
+    --color-background-nav: #e2e8f0;
+    --color-text: #2d3748;
+    --color-border: #cbd5e0;
+    --color-hover: #e2e8f0;
+    --color-danger: #fc8181;
+    --color-warning: #fbd38d;
 }
-/* 🌙 Colores en modo oscuro */
+
+/*  Modo oscuro */
 .dark {
-    --color-primary: #ffffff;
-    --color-secondary: #d97706;
-    --color-background: #111827;
-    --color-text: #e5e7eb;
+    --color-primary: #9f7aea;
+    --color-background: #1a202c;
+    --color-background-contrast: #2d3748;
+    --color-background-header: #2b2d42;
+    --color-background-nav: #2b2d42;
+    --color-text: #e2e8f0;
+    --color-border: #4a5568;
+    --color-hover: #4a5568;
+    --color-danger: #fc8181;
+    --color-warning: #f6e05e;
+}
+
+/* Tabla */
+.data-table-container {
+    margin: 1.25rem;
+}
+
+.table-wrapper {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+/*  Encabezados de la tabla */
+.table-header {
+    padding: 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-text);
+    border-bottom: 2px solid var(--color-border);
+}
+
+/*  Celdas de la tabla */
+.table-cell {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/*  Iconos de acciones */
+.icon-edit {
+    color: var(--color-warning);
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.icon-delete {
+    color: var(--color-danger);
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/*  Vista móvil */
+.mobile-view {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.mobile-card {
+    background-color: var(--color-background);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 0.5rem;
+}
+
+.card-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.75rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
 }

@@ -16,6 +16,7 @@
 -   Pujar pdf costes
 -   Admin
 -   Page prompt
+    -   Speech recognition
 -   Tabla BBD Prompt
 -   Poder Duplicar presupost
 -   Columna client_created_user (que nomes el creador del client puga editarlo)

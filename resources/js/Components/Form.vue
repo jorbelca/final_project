@@ -2,7 +2,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
-import PrimaryButton from "./PrimaryButton.vue";
+import PrimaryButton from "./Buttons/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 
 const edit = window.location.pathname.includes("edit");

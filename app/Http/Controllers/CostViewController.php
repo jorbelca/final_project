@@ -25,8 +25,8 @@ class CostViewController extends Controller
         // Obtener el usuario autenticado
         $user = Auth::user();
 
-        // Obtener los costs asociados al usuario
-        $costs = $user->costs;
+        // Obtener los costs asociados al usuario, menos updated_at
+        $costs = $user->costs->makeHidden(['updated_at']);
 
         return Inertia::render('Costs/Costs', [
             'costs' => $costs,

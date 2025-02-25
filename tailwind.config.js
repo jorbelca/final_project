@@ -19,6 +19,11 @@ export default {
                 primary: "var(--color-primary)",
                 secondary: "var(--color-secondary)",
                 background: "var(--color-background)",
+                background_contrast: "var(--color-background-contrast)",
+                background_header: "var(--color-background-header)",
+                background_nav: "var(--color-background-nav)",
+                border: "var(--color-border)",
+                hover: "var(--color-hover)",
                 text: "var(--color-text)",
             },
 
