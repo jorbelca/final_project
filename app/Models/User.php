@@ -16,10 +16,7 @@ class User extends Authenticatable
     use HasApiTokens;
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
-    use HasProfilePhoto;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,8 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        "profile_photo_path",
-        "logo_path",
+        "user_logo_path",
         "active"
     ];
 
@@ -53,7 +49,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url',
+        'profile_photo_path',
     ];
 
     /**
@@ -67,6 +63,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function getProfilePhotoPathAttribute()
+    {
+        return asset('storage/' . $this->attributes['profile_photo_path']) ?? null;
     }
 
     public function budgets(): HasMany

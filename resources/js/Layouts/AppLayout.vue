@@ -253,6 +253,7 @@ const logout = () => {
                                                     $page.props.auth.user?.name
                                                 "
                                             />
+
                                             {{
                                                 $page.props.auth.user?.name ??
                                                 ""
@@ -326,9 +327,7 @@ const logout = () => {
 
                                     <template #content>
                                         <!-- Account Management -->
-                                        <div
-                                            class="block px-4 py-2 text-xs "
-                                        >
+                                        <div class="block px-4 py-2 text-xs">
                                             Manage Account
                                         </div>
 
@@ -459,7 +458,7 @@ const logout = () => {
                                 <img
                                     class="size-10 rounded-full object-cover"
                                     :src="
-                                        $page.props.auth.user.profile_photo_url
+                                        $page.props.auth.user.profile_photo_path
                                     "
                                     :alt="$page.props.auth.user?.name"
                                 />

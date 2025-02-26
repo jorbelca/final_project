@@ -114,3 +114,9 @@
     display: flex;
     gap: 0.5rem;
 }
+.rounded-image {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+}
