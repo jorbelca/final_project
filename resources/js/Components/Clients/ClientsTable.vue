@@ -58,6 +58,9 @@ dayjs.locale("en");
                     <div class="card-header">
                         <div class="flex items-center gap-3">
                             <img
+                                v-if="
+                                    client.image_url && client.image_url !== ''
+                                "
                                 :src="client.image_url"
                                 alt="Client Image"
                                 class="rounded-image"
@@ -124,6 +127,9 @@ dayjs.locale("en");
                         <td class="table-cell">{{ serialNumber(key) }}</td>
                         <td class="table-cell">
                             <img
+                                v-if="
+                                    client.image_url && client.image_url !== ''
+                                "
                                 :src="client.image_url"
                                 alt="Client Image"
                                 class="rounded-image"

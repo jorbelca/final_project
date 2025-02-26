@@ -27,9 +27,14 @@ Route::middleware([
 ])->group(function () {
 
     Route::resource('budgets', BudgetViewController::class)->middleware("auth");
-    Route::resource('costs', CostViewController::class)->middleware("auth")->except('show');;
+    Route::resource('costs', CostViewController::class)->middleware("auth")->except('show');
     Route::resource('clients', ClientViewController::class)->middleware("auth");
     Route::resource('support', SupportController::class)->middleware("auth");
+
+
+    //Update Client with POST Request
+    Route::post('/clients/update/{id}', [ClientViewController::class, 'update'])->middleware("auth");
+
 
     // Generate PDF
     Route::get('/budget/{id}/generate', [BudgetController::class, 'generatePdf']);

@@ -101,6 +101,7 @@ class CostViewController extends Controller
      */
     public function update(Request $request, Cost $cost)
     {
+
         try {
             // Validar los datos
             $validated = $request->validate([

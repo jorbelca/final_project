@@ -19,14 +19,13 @@ class StoreClientRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
-        return [
-            'user_id' => 'required|exists:users,id',
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:clients,email',
-            'company_name' => 'required|string|max:255',
-            'image_url' => 'sometimes|url|max:255',
-        ];
-    }
+    // public function rules(): array
+    // {
+    //     return [
+    //         'user_id' => 'required|exists:users,id',
+    //         'name' => 'required|string|max:255',
+    //         'email' => 'required|email|unique:clients,email',
+    //         'company_name' => 'required|string|max:255',
+    //     ];
+    // }
 }

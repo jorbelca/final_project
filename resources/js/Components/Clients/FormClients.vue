@@ -14,36 +14,47 @@ const formDataClient = useForm({
     name: props.client ? props.client.name : "",
     email: props.client ? props.client.email : "",
     company_name: props.client ? props.client.company_name : "",
-    image_url: props.client ? props.client.image_url : "",
+    image_url: props.client ? props.client.image_url : null,
 });
 
 const submitForm = () => {
     try {
         if (edit) {
-            formDataClient.put(`/clients/${props.client.id}`);
+            formDataClient.post(`/clients/update/${props.client.id}`, {
+                forceFormData: true,
+            });
         } else {
-            formDataClient.post("/clients");
+            formDataClient.post("/clients", { forceFormData: true });
         }
     } catch (error) {
         console.error(error);
     }
 };
+
+const onFileChange = (e) => {
+    const file = e.target.files[0];
+    formDataClient.image_url = file;
+};
 </script>
 
 <template>
     <main class="mb-10">
-        <form class="flex flex-col gap-4 p-7" @submit.prevent="submitForm">
+        <form
+            class="flex flex-col gap-4 p-7"
+            @submit.prevent="submitForm"
+            enctype="multipart/form-data"
+        >
             <div class="flex flex-wrap gap-4 justify-center">
                 <div>
-                    <InputLabel>Client Email</InputLabel>
+                    <InputLabel>Email</InputLabel>
                     <TextInput
                         v-model="formDataClient.email"
-                        type="text"
+                        type="email"
                         placeholder="Email of the client"
                     />
                 </div>
                 <div>
-                    <InputLabel>Client Name</InputLabel>
+                    <InputLabel>Name</InputLabel>
                     <TextInput
                         v-model="formDataClient.name"
                         type="text"
@@ -69,12 +80,12 @@ const submitForm = () => {
                         />
                         <div>
                             <InputLabel>Logo</InputLabel>
-                            <TextInput
-                                v-model="formDataClient.image_url"
+                            <input
+                                type="file"
+                                @change="onFileChange"
                                 class="text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-                                placeholder="Url of the logo"
-                            >
-                            </TextInput>
+                                placeholder="Client Logo"
+                            />
                         </div>
                     </div>
                 </div>
