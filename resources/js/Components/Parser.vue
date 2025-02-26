@@ -2,6 +2,8 @@
 import { ref } from "vue";
 import Papa from "papaparse";
 import { router } from "@inertiajs/vue3";
+import PrimaryButton from "./Buttons/PrimaryButton.vue";
+import TextInput from "./TextInput.vue";
 
 const tableData = ref([]);
 const headers = ref(["DESCRIPTION", "COST", "UNIT", "PERIODICITY"]);
@@ -57,22 +59,22 @@ function submitForm() {
 </script>
 
 <template>
-    <div class="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg">
+    <div class="p-6 max-w-4xl mx-auto rounded-lg text-text">
         <input
             type="file"
             @change="handleFileUpload"
             accept=".csv"
-            class="mb-4 border p-2 rounded w-full"
+            class="mb-4 p-2 w-full"
         />
 
         <form @submit.prevent="submitForm" v-if="tableData.length">
-            <table class="w-full border-collapse border border-gray-300">
+            <table class="w-full border-collapse">
                 <thead>
-                    <tr class="bg-gray-200">
+                    <tr class="bg-hover">
                         <th
                             v-for="header in headers"
                             :key="header"
-                            class="border p-2 text-left"
+                            class="border p-2 text-center"
                         >
                             {{ header }}
                         </th>
@@ -82,31 +84,31 @@ function submitForm() {
                     <tr
                         v-for="(row, rowIndex) in tableData"
                         :key="rowIndex"
-                        class="odd:bg-gray-50 even:bg-white"
+                        class="dark:bg-gray-500 bg-white"
                     >
                         <td class="border p-2">
-                            <input
+                            <TextInput
                                 type="text"
                                 v-model="row.description"
                                 class="border rounded p-1 w-full"
                             />
                         </td>
                         <td class="border p-2">
-                            <input
+                            <TextInput
                                 type="text"
                                 v-model="row.cost"
                                 class="border rounded p-1 w-full"
                             />
                         </td>
                         <td class="border p-2">
-                            <input
+                            <TextInput
                                 type="text"
                                 v-model="row.unit"
                                 class="border rounded p-1 w-full"
                             />
                         </td>
                         <td class="border p-2">
-                            <input
+                            <TextInput
                                 type="text"
                                 v-model="row.periodicity"
                                 class="border rounded p-1 w-full"
@@ -115,12 +117,12 @@ function submitForm() {
                     </tr>
                 </tbody>
             </table>
-            <button
+            <PrimaryButton
                 type="submit"
-                class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
             >
-                Guardar
-            </button>
+                Save
+            </PrimaryButton>
         </form>
     </div>
 </template>
