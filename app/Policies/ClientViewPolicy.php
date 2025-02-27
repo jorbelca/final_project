@@ -37,7 +37,7 @@ class ClientViewPolicy
      */
     public function update(User $user, Client $client): bool
     {
-        return $user->active;
+        return $user->active && $user->id === $client->created_by;
     }
 
     /**

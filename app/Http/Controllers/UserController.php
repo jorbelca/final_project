@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 
 use App\Http\Requests\UpdateUserRequest;
-
+use App\Models\Client;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -118,9 +118,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public static function destroy(User $user)
     {
         try {
+            // Eliminar el usuario
 
             $user->delete();
 

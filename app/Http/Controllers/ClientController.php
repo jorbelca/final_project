@@ -104,6 +104,7 @@ class ClientController extends Controller
     {
 
         try {
+
             $client->users()->detach();
             $client->delete();
 

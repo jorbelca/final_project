@@ -80,6 +80,7 @@ dayjs.locale("en");
                                 )
                             "
                         >
+                            <p class="font-bold text-text">Created</p>
                             {{ dayjs(client.created_at).fromNow() }}</span
                         >
                     </div>
@@ -89,7 +90,13 @@ dayjs.locale("en");
                             <p><b>Email:</b> {{ client.email }}</p>
                         </div>
                         <div class="action-buttons">
-                            <button @click.prevent="editRow(client.id)">
+                            <button
+                                @click.prevent="editRow(client.id)"
+                                v-if="
+                                    $page.props.auth.user.id ===
+                                    client.created_by
+                                "
+                            >
                                 <PencilSquareIcon class="icon-edit" />
                             </button>
                             <button @click.prevent="deleteRow(client.id)">
@@ -150,7 +157,13 @@ dayjs.locale("en");
                             >
                         </td>
                         <td class="table-cell">
-                            <button @click.prevent="editRow(client.id)">
+                            <button
+                                v-if="
+                                    $page.props.auth.user.id ===
+                                    client.created_by
+                                "
+                                @click.prevent="editRow(client.id)"
+                            >
                                 <PencilSquareIcon class="icon-edit mx-3" />
                             </button>
                             <button @click.prevent="deleteRow(client.id)">

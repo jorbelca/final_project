@@ -42,8 +42,11 @@ const periodicity = [
 </script>
 
 <template>
-    <main class="mb-10">
-        <form class="flex flex-col gap-4 p-7" @submit.prevent="submitForm">
+    <main class="mb-10 container mx-auto">
+        <form
+            class="flex flex-col gap-4 p-7 form-wrapper shadow-xl rounded-xl w-full"
+            @submit.prevent="submitForm"
+        >
             <div class="flex flex-wrap gap-4 justify-center">
                 <div>
                     <InputLabel>Description</InputLabel>

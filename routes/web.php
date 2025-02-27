@@ -28,13 +28,18 @@ Route::middleware([
 
     Route::resource('budgets', BudgetViewController::class)->middleware("auth");
     Route::resource('costs', CostViewController::class)->middleware("auth")->except('show');
-    Route::resource('clients', ClientViewController::class)->middleware("auth");
+    Route::resource('clients', ClientViewController::class)->middleware("auth")->except('show');
     Route::resource('support', SupportController::class)->middleware("auth");
 
 
     //Update Client with POST Request
     Route::post('/clients/update/{id}', [ClientViewController::class, 'update'])->middleware("auth");
 
+    //Check if Client exists
+    Route::post('/clients/exists', [ClientViewController::class, 'exists'])->middleware("auth");
+
+    //Vinculate Client with POST Request
+    Route::post('/clients/vinculate', [ClientViewController::class, 'vinculate'])->middleware("auth");
 
     // Generate PDF
     Route::get('/budget/{id}/generate', [BudgetController::class, 'generatePdf']);

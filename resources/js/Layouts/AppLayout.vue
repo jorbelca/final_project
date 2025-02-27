@@ -244,6 +244,10 @@ const logout = () => {
                                             class="flex items-center gap-1 text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition"
                                         >
                                             <img
+                                                v-if="
+                                                    $page.props.auth.user
+                                                        ?.profile_photo_path
+                                                "
                                                 class="size-8 rounded-full object-cover"
                                                 :src="
                                                     $page.props.auth.user
@@ -456,6 +460,10 @@ const logout = () => {
                                 class="shrink-0 me-3"
                             >
                                 <img
+                                    v-if="
+                                        $page.props.auth.user
+                                            ?.profile_photo_path
+                                    "
                                     class="size-10 rounded-full object-cover"
                                     :src="
                                         $page.props.auth.user.profile_photo_path

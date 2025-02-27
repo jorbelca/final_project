@@ -1,6 +1,11 @@
 <script setup>
 import FormClients from "@/Components/Clients/FormClients.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
+
+const props = defineProps({
+    exists: Boolean,
+    email: String,
+});
 </script>
 
 <template>
@@ -24,7 +29,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
         </template>
 
         <div>
-            <FormClients />
+            <FormClients :exists="exists" :email="email" />
         </div>
     </AppLayout>
 </template>

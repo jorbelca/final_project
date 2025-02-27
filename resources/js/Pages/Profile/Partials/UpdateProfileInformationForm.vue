@@ -103,6 +103,7 @@ const clearPhotoFileInput = () => {
                 <!-- Current Profile Photo -->
                 <div v-show="!photoPreview" class="mt-2">
                     <img
+                        v-if="$page.props.auth.user?.profile_photo_path"
                         :src="user.profile_photo_path"
                         :alt="user.name"
                         class="rounded-full size-20 object-cover"

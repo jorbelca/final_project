@@ -66,7 +66,10 @@ class User extends Authenticatable
     }
     public function getProfilePhotoPathAttribute()
     {
-        return asset('storage/' . $this->attributes['profile_photo_path']) ?? null;
+        if ($this->attributes['profile_photo_path'] == null) {
+            return null;
+        };
+        return asset('storage/' . $this->attributes['profile_photo_path']);
     }
 
     public function budgets(): HasMany

@@ -2,12 +2,15 @@
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
-import { useForm } from "@inertiajs/vue3";
+import { router, useForm } from "@inertiajs/vue3";
+import { watch } from "vue";
 
 const edit = window.location.pathname.includes("edit");
 
 const props = defineProps({
     client: Object,
+    exists: Boolean,
+    email: String,
 });
 
 const formDataClient = useForm({
@@ -35,12 +38,36 @@ const onFileChange = (e) => {
     const file = e.target.files[0];
     formDataClient.image_url = file;
 };
+
+const clientExists = () => {
+    try {
+        if (!edit) {
+            router.post(`/clients/exists/`, { email: formDataClient.email });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+watch(() => {
+    if (props.exists) {
+        if (
+            window.confirm(
+                `The client with the email ${props.email} already exists. Do you want to vinculate with it?`
+            )
+        ) {
+            router.post("/clients/vinculate", {
+                email: formDataClient.email,
+            });
+        }
+    }
+});
 </script>
 
 <template>
-    <main class="mb-10">
+    <main class="mb-10 container mx-auto">
         <form
-            class="flex flex-col gap-4 p-7"
+            class="flex flex-col gap-4 p-7 form-wrapper shadow-xl rounded-xl w-full"
             @submit.prevent="submitForm"
             enctype="multipart/form-data"
         >
@@ -51,6 +78,7 @@ const onFileChange = (e) => {
                         v-model="formDataClient.email"
                         type="email"
                         placeholder="Email of the client"
+                        @blur="clientExists"
                     />
                 </div>
                 <div>
@@ -83,7 +111,7 @@ const onFileChange = (e) => {
                             <input
                                 type="file"
                                 @change="onFileChange"
-                                class="text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                class="text-text bg-transparent focus:border-indigo-500 focus:ring-indigo-500"
                                 placeholder="Client Logo"
                             />
                         </div>

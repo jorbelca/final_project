@@ -23,7 +23,7 @@
 /*  Modo oscuro */
 .dark {
     --color-primary: #9f7aea;
-    --color-background: #1a202c;
+    --color-background: #1f2635;
     --color-background-contrast: #2d3748;
     --color-background-header: #2b2d42;
     --color-background-nav: #2b2d42;
@@ -39,7 +39,8 @@
     margin: 1.25rem;
 }
 
-.table-wrapper {
+.table-wrapper,
+.form-wrapper {
     background-color: var(--color-background);
     border: 1px solid var(--color-border);
     border-radius: 0.5rem;
