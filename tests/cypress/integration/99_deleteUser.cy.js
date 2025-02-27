@@ -5,15 +5,14 @@ describe.only("User Delete", () => {
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
         cy.contains("Password").type(testUser.password);
-        cy.contains("Enter").click().wait(1000);
+        cy.contains("Enter").click();
     });
     it("can delete a user", () => {
         cy.contains(testUser.name).should("be.visible").click();
 
         // Eliminar el usuario
         cy.contains("Profile").should("be.visible").click();
-        cy.wait(1500)
-            .scrollTo("bottom")
+        cy.scrollTo("bottom")
             .get("button.bg-red-600")
             .should("be.visible")
             .click();

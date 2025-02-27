@@ -30,7 +30,7 @@ describe.only("User Registration", () => {
             });
 
         // Verifica que el nombre de usuario se haya mostrado, indicando que el registro fue exitoso
-        cy.wait(5000).contains(testUser.name).should("be.visible").click();
+        cy.contains(testUser.name).should("be.visible").click();
 
         // Hacer logout
         cy.contains("Log Out").click();

@@ -1,7 +1,7 @@
 # TODO
 
 -   Config del user (iva por defecto, prompt por defecto)
--   Pujar Images (clients, logos) a cloudinary
+-   Pujar Images ( logos) a cloudinary
 -   i18n (idiomes), Si dona temps
 -   Responsive design
 -   Testing

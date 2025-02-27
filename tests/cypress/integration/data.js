@@ -10,3 +10,8 @@ export const newCost = {
     unit: "none",
     periodicity: "monthly",
 };
+export const newClient = {
+    name: "Client Test",
+    email: "client_test@test.com",
+    company: "Test Company",
+};

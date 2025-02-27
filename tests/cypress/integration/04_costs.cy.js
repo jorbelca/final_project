@@ -17,7 +17,7 @@ describe.only("Costs", () => {
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
         cy.contains("Password").type(testUser.password);
-        cy.contains("Enter").click().wait(4000);
+        cy.contains("Enter").click()
         cy.url().should("include", "/budgets");
 
         //CREAR COSTO
@@ -55,7 +55,8 @@ describe.only("Costs", () => {
         cy.get("button").contains("Edit").click();
 
         cy.contains(newCost.description + " Edited").should("exist");
-
+    });
+    after(() => {
         //ELIMINAR COSTO
         cy.visit("/costs");
         cy.contains("tr", newCost.description + " Edited").within(() => {
