@@ -2,9 +2,12 @@
 import { ref } from "vue";
 import Papa from "papaparse";
 import { router } from "@inertiajs/vue3";
-import PrimaryButton from "./Buttons/PrimaryButton.vue";
-import TextInput from "./TextInput.vue";
+import PrimaryButton from "../Buttons/PrimaryButton.vue";
+import TextInput from "../TextInput.vue";
+import ProcessingMessage from "../UI/ProcessingMessage.vue";
+import { TrashIcon } from "@heroicons/vue/24/solid";
 
+let loading = ref(false);
 const tableData = ref([]);
 const headers = ref(["DESCRIPTION", "COST", "UNIT", "PERIODICITY"]);
 
@@ -49,16 +52,28 @@ function handleFileUpload(event) {
 }
 
 function submitForm() {
+    loading.value = true;
     try {
-        router.post("/costs/store_multiple", { costs: tableData.value });
+        router.post("/costs/store_multiple", {
+            costs: tableData.value,
+            onFinish: () => (loading.value = false),
+        });
     } catch (error) {
         console.error(error);
         alert("Error al guardar los datos");
+        loading.value = false;
     }
+}
+
+function removeCost(indexCost) {
+    tableData.value = tableData.value.filter(
+        (cost, index) => index !== indexCost
+    );
 }
 </script>
 
 <template>
+    <ProcessingMessage :loading="loading" />
     <div class="p-6 max-w-4xl mx-auto rounded-lg text-text">
         <input
             type="file"
@@ -71,6 +86,7 @@ function submitForm() {
             <table class="w-full border-collapse">
                 <thead>
                     <tr class="bg-hover">
+                        <th></th>
                         <th
                             v-for="header in headers"
                             :key="header"
@@ -86,6 +102,14 @@ function submitForm() {
                         :key="rowIndex"
                         class="dark:bg-gray-500 bg-white"
                     >
+                        <td class="border p-2">
+                            <button
+                                type="button"
+                                @click.prevent="removeCost(rowIndex)"
+                            >
+                                <TrashIcon class="icon-delete" />
+                            </button>
+                        </td>
                         <td class="border p-2">
                             <TextInput
                                 type="text"

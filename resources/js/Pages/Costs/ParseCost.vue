@@ -1,5 +1,5 @@
 <script setup>
-import Parser from "@/Components/Parser.vue";
+import Parser from "@/Components/Costs/Parser.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 </script>
 

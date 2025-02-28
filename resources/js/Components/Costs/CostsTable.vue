@@ -1,13 +1,15 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/vue/24/solid";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/en";
 import NoDataMsg from "../UI/NoDataMsg.vue";
+import ProcessingMessage from "../UI/ProcessingMessage.vue";
 
-// Computed para las columnas
+let loading = ref(false);
+
 let props = defineProps({
     data: {
         type: Array,
@@ -30,16 +32,24 @@ function serialNumber(key) {
 
 // Métodos de edición y eliminación
 const deleteRow = (id) => {
+    loading.value = true;
     if (!confirm("Are you sure you want to delete this cost?")) return;
 
     router.delete(`costs/${id}`, {
         onError: (errors) => console.error("Error deleting cost:", errors),
+        onFinish: () => {
+            loading.value = false;
+        },
     });
 };
 
 const editRow = (id) => {
+    loading.value = true;
     router.get(`costs/${id}/edit`, {
         onError: (errors) => alert("Error loading edit form."),
+        onFinish: () => {
+            loading.value = false;
+        },
     });
 };
 
@@ -48,6 +58,7 @@ dayjs.locale("en");
 </script>
 
 <template>
+    <ProcessingMessage :loading="loading" />
     <div class="data-table-container text-text">
         <div class="table-wrapper">
             <NoDataMsg :noData="filteredData.length === 0" />

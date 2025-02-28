@@ -3,7 +3,11 @@ import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
+import { ref } from "vue";
+import ProcessingMessage from "../UI/ProcessingMessage.vue";
 
+
+let loading = ref(false);
 const edit = window.location.pathname.includes("edit");
 
 const props = defineProps({
@@ -18,14 +22,24 @@ const formDataCosts = useForm({
 });
 
 const submitForm = () => {
+    loading.value = true;
     try {
         if (edit) {
-            formDataCosts.put(`/costs/${props.cost.id}`);
+            formDataCosts.put(`/costs/${props.cost.id}`, {
+                onFinish: () => {
+                    loading.value = false;
+                },
+            });
         } else {
-            formDataCosts.post("/costs");
+            formDataCosts.post("/costs", {
+                onFinish: () => {
+                    loading.value = false;
+                },
+            });
         }
     } catch (error) {
         console.error(error);
+        loading.value = false;
     }
 };
 
@@ -43,6 +57,7 @@ const periodicity = [
 
 <template>
     <main class="mb-10 container mx-auto">
+        <ProcessingMessage :loading="loading" />
         <form
             class="flex flex-col gap-4 p-7 form-wrapper shadow-xl rounded-xl w-full"
             @submit.prevent="submitForm"
