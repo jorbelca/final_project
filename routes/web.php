@@ -26,36 +26,36 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-    Route::resource('budgets', BudgetViewController::class)->middleware("auth");
-    Route::resource('costs', CostViewController::class)->middleware("auth")->except('show');
-    Route::resource('clients', ClientViewController::class)->middleware("auth")->except('show');
-    Route::resource('support', SupportController::class)->middleware("auth");
+    Route::resource('budgets', BudgetViewController::class);
+    Route::resource('costs', CostViewController::class)->except('show');
+    Route::resource('clients', ClientViewController::class)->except('show');
+    Route::resource('support', SupportController::class);
 
 
     //Update Client with POST Request
-    Route::post('/clients/update/{id}', [ClientViewController::class, 'update'])->middleware("auth");
+    Route::post('/clients/update/{id}', [ClientViewController::class, 'update']);
 
-    //Check if Client exists
-    Route::post('/clients/exists', [ClientViewController::class, 'exists'])->middleware("auth");
 
     //Vinculate Client with POST Request
-    Route::post('/clients/vinculate', [ClientViewController::class, 'vinculate'])->middleware("auth");
+    Route::post('/clients/vinculate', [ClientViewController::class, 'vinculate']);
 
     // Generate PDF
     Route::get('/budget/{id}/generate', [BudgetController::class, 'generatePdf']);
     //Admin
-    Route::get('/admin', [UserController::class, 'admin'])->name("admin")->middleware("auth");
+    Route::get('/admin', [UserController::class, 'admin'])->name("admin");
 
     //Parse costs
-    Route::get('/costs/parse', [CostViewController::class, 'parse'])->name('costs.parse')->middleware("auth");
+    Route::get('/costs/parse', [CostViewController::class, 'parse'])->name('costs.parse');
 
     //InsertMultiple costs
-    Route::post('/costs/store_multiple', [CostViewController::class, 'storeMultiple'])->name('costs.storeMultiple')->middleware("auth");
+    Route::post('/costs/store_multiple', [CostViewController::class, 'storeMultiple'])->name('costs.storeMultiple');
 
     //Cambiar estado budget
-    Route::post('/users/{id}/changestate', [UserController::class, 'changeState'])->middleware("auth");;
-});
+    Route::post('/users/{id}/changestate', [UserController::class, 'changeState']);
 
-Route::fallback(function () {
-    return Inertia::render('404');
+
+    //FALLBACK
+    Route::fallback(function () {
+        return Inertia::render('404');
+    });
 });

@@ -2,15 +2,15 @@
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
+import ProcessingMessage from "../UI/ProcessingMessage.vue";
 import { router, useForm } from "@inertiajs/vue3";
-import { watch } from "vue";
+import { ref } from "vue";
 
+const loading = ref(false);
 const edit = window.location.pathname.includes("edit");
 
 const props = defineProps({
     client: Object,
-    exists: Boolean,
-    email: String,
 });
 
 const formDataClient = useForm({
@@ -21,57 +21,98 @@ const formDataClient = useForm({
 });
 
 const submitForm = () => {
+    loading.value = true;
     try {
         if (edit) {
             formDataClient.post(`/clients/update/${props.client.id}`, {
                 forceFormData: true,
+                onFinish: () => {
+                    loading.value = false;
+                },
             });
         } else {
-            formDataClient.post("/clients", { forceFormData: true });
+            formDataClient.post("/clients", {
+                forceFormData: true,
+                onFinish: () => {
+                    loading.value = false;
+                },
+            });
         }
     } catch (error) {
         console.error(error);
+        loading.value = false;
     }
 };
-
 const onFileChange = (e) => {
     const file = e.target.files[0];
     formDataClient.image_url = file;
 };
 
 const clientExists = () => {
-    try {
-        if (!edit) {
-            router.post(`/clients/exists/`, { email: formDataClient.email });
-        }
-    } catch (error) {
-        console.error(error);
+    if (!edit) {
+        fetch("/sanctum/csrf-cookie", {
+            method: "GET",
+            credentials: "include",
+        }).then(() => {
+            fetch("/api/clients/exists", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    "X-XSRF-TOKEN": getCookie("XSRF-TOKEN"),
+                },
+                credentials: "include",
+                body: JSON.stringify({ email: formDataClient.email }),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    if (data.exists) vinculateClient();
+                })
+                .catch((error) => console.error("Error:", error));
+        });
     }
 };
-
-watch(() => {
-    if (props.exists) {
-        if (
-            window.confirm(
-                `The client with the email ${props.email} already exists. Do you want to vinculate with it?`
-            )
-        ) {
-            router.post("/clients/vinculate", {
+const getCookie = (name) => {
+    let matches = document.cookie.match(
+        new RegExp(
+            "(?:^|; )" +
+                name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+                "=([^;]*)"
+        )
+    );
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+};
+const vinculateClient = () => {
+    if (
+        window.confirm(
+            `The client with the email ${formDataClient.email} already exists. Do you want to vinculate with it?`
+        )
+    ) {
+        loading.value = true;
+        router.post(
+            "/clients/vinculate",
+            {
                 email: formDataClient.email,
-            });
-        }
+            },
+            {
+                onFinish: () => {
+                    loading.value = false;
+                },
+            }
+        );
     }
-});
+};
 </script>
 
 <template>
     <main class="mb-10 container mx-auto">
+        <ProcessingMessage :loading="loading" />
         <form
             class="flex flex-col gap-4 p-7 form-wrapper shadow-xl rounded-xl w-full"
             @submit.prevent="submitForm"
             enctype="multipart/form-data"
         >
-            <div class="flex flex-wrap gap-4 justify-center">
+            <div class="flex flex-wrap gap-4 justify-center items-center">
                 <div>
                     <InputLabel>Email</InputLabel>
                     <TextInput
@@ -111,6 +152,7 @@ watch(() => {
                             <input
                                 type="file"
                                 @change="onFileChange"
+                                :disabled="loading"
                                 class="text-text bg-transparent focus:border-indigo-500 focus:ring-indigo-500"
                                 placeholder="Client Logo"
                             />
@@ -127,6 +169,7 @@ watch(() => {
                             : 'bg-green-400 hover:bg-green-500'
                     "
                     type="submit"
+                    :disabled="loading"
                 >
                     {{ edit ? "Edit" : "Create" }}
                 </PrimaryButton>

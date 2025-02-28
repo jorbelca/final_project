@@ -1,11 +1,8 @@
 <?php
 
-use App\Http\Controllers\BudgetController;
+
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\CostController;
-use App\Http\Controllers\PlanController;
-use App\Http\Controllers\SubscriptionController;
-use App\Http\Controllers\UserController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +25,9 @@ use Illuminate\Support\Facades\Route;
 // Route::apiResource('costs', CostController::class);
 
 
+//Check if Client exists
 
+Route::middleware(['web', 'auth'])->post('/clients/exists', [ClientController::class, 'exists']);
 
 Route::fallback(function () {
     return response()->json([

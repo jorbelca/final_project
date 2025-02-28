@@ -43,20 +43,6 @@ class ClientViewController extends Controller
     }
 
 
-    public function exists(Request $request)
-    {
-        try {
-            $email = $request['email'];
-            $exists = Client::where('email', $email)->exists() ? true : false;
-            return Inertia::render('Clients/CreateClients', [
-                'exists' => $exists,
-                'email' => $email
-            ]);
-        } catch (\Throwable $th) {
-            return Notify::notify("clients.create", "Error vinculating the client", false);
-        }
-    }
-
 
     public function vinculate(Request $request)
     {

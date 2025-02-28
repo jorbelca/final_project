@@ -6,6 +6,7 @@ use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ClientController extends Controller
@@ -111,6 +112,26 @@ class ClientController extends Controller
             return response()->json(['message' => 'Deleted'], 200);
         } catch (\Throwable $th) {
             // Para cualquier otro error
+            return response()->json(['error' => 'An error occurred'], 500);
+        }
+    }
+
+    public function exists(Request $request)
+    {
+        if (!auth()->check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+
+        try {
+            $email = $request->input('email');
+
+            $exists = Client::where('email', $email)->exists() ? true : false;
+            return response()->json([
+                'exists' => $exists,
+                'email' => $email
+            ], 200);
+        } catch (\Throwable $th) {
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }

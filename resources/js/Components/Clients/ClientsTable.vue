@@ -1,12 +1,15 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/vue/24/solid";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/en";
+import NoDataMsg from "../UI/NoDataMsg.vue";
+import ProcessingMessage from "../UI/ProcessingMessage.vue";
 
-// Computed para las columnas
+let loading = ref(false);
+
 let props = defineProps({
     data: {
         type: Array,
@@ -31,9 +34,18 @@ function serialNumber(key) {
 const deleteRow = (id) => {
     if (!confirm("Are you sure you want to delete this client?")) return;
 
-    router.delete(`clients/${id}`, {
-        onError: (errors) => console.error("Error deleting cost:", errors),
-    });
+    loading.value = true;
+    router.delete(
+        `clients/${id}`,
+        {
+            onFinish: () => {
+                loading.value = false;
+            },
+        },
+        {
+            onError: (errors) => console.error("Error deleting cost:", errors),
+        }
+    );
 };
 
 const editRow = (id) => {
@@ -47,8 +59,10 @@ dayjs.locale("en");
 </script>
 
 <template>
+    <ProcessingMessage :loading="loading" />
     <div class="data-table-container text-text">
         <div class="table-wrapper">
+            <NoDataMsg :noData="filteredData.length === 0" />
             <div class="mobile-view md:hidden">
                 <div
                     v-for="(client, key) in filteredData"
@@ -107,7 +121,10 @@ dayjs.locale("en");
                 </div>
             </div>
 
-            <table class="hidden md:table w-full">
+            <table
+                class="hidden md:table w-full"
+                v-if="filteredData.length > 0"
+            >
                 <thead>
                     <tr>
                         <th class="table-header"></th>
@@ -120,13 +137,7 @@ dayjs.locale("en");
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="filteredData.length === 0">
-                        <td :colspan="6" class="empty-message">
-                            No data found.
-                        </td>
-                    </tr>
                     <tr
-                        v-else
                         v-for="(client, key) in filteredData"
                         :key="client.id"
                         class="hover:bg-hover"

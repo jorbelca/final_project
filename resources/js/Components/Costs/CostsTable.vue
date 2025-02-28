@@ -5,6 +5,7 @@ import { computed } from "vue";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/en";
+import NoDataMsg from "../UI/NoDataMsg.vue";
 
 // Computed para las columnas
 let props = defineProps({
@@ -49,6 +50,7 @@ dayjs.locale("en");
 <template>
     <div class="data-table-container text-text">
         <div class="table-wrapper">
+            <NoDataMsg :noData="filteredData.length === 0" />
             <div class="mobile-view md:hidden">
                 <div
                     v-for="cost in filteredData"
@@ -87,7 +89,10 @@ dayjs.locale("en");
                 </div>
             </div>
 
-            <table class="hidden md:table w-full">
+            <table
+                class="hidden md:table w-full"
+                v-if="filteredData.length > 0"
+            >
                 <thead>
                     <tr>
                         <th class="table-header"></th>
@@ -99,13 +104,7 @@ dayjs.locale("en");
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-if="filteredData.length === 0">
-                        <td :colspan="6" class="empty-message">
-                            No data found.
-                        </td>
-                    </tr>
                     <tr
-                        v-else
                         v-for="(cost, key) in filteredData"
                         :key="cost.id"
                         class="hover:bg-hover"
