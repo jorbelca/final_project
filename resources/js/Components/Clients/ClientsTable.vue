@@ -144,14 +144,17 @@ dayjs.locale("en");
                     >
                         <td class="table-cell">{{ serialNumber(key) }}</td>
                         <td class="table-cell">
-                            <img
-                                v-if="
-                                    client.image_url && client.image_url !== ''
-                                "
-                                :src="client.image_url"
-                                alt="Client Image"
-                                class="rounded-image"
-                            />
+                            <div class="flex justify-center">
+                                <img
+                                    v-if="
+                                        client.image_url &&
+                                        client.image_url !== ''
+                                    "
+                                    :src="client.image_url"
+                                    alt="Client Image"
+                                    class="rounded-image"
+                                />
+                            </div>
                         </td>
                         <td class="table-cell">{{ client.name }}</td>
                         <td class="table-cell">{{ client.email }}</td>

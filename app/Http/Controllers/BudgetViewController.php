@@ -21,9 +21,10 @@ class BudgetViewController extends Controller
         $user = Auth::user();
 
         // Obtener los clientes asociados al usuario
-        $budgets = $user->budgets;
-        //Vincular los presupuestos con los clientes
-        $budgets->load('client');
+        $budgets = $user->budgets()
+            ->orderBy('created_at', 'desc')
+            ->with(['client:id,name,image_url']) // Carga solo los campos deseados
+            ->get();
 
 
         return Inertia::render('Budgets/Budgets', [

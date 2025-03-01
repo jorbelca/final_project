@@ -105,18 +105,25 @@ class BudgetController extends Controller
     public function generatePdf($id)
     {
         try {
-
+            define('FPDF_FONTPATH', storage_path('app/fonts/'));
             // Obtener el presupuesto o factura
             $budget = Budget::findOrFail($id);
 
             // Crear una instancia de FPDF
-            $pdf = new FPDF();
+            $pdf = new FPDF('P', 'mm', 'A4');
             $pdf->AddPage();
 
+            //Fuentes
+
+            $pdf->AddFont('Montserrat', '', ('Montserrat-VariableFont_wght.php'));
+            $pdf->AddFont('Montserrat', 'B', ('Montserrat-VariableFont_wght.php'));
+            $pdf->AddFont('Lato', '', ('Lato-Regular.php'));
+
             // Agregar la información de la empresa (o la información correspondiente)
-            $pdf->SetFont('Arial', 'B', 12);
+
+            $pdf->SetFont('Montserrat', "B",  12);
             $pdf->Cell(0, 10, 'My Company', 0, 1, 'C');
-            $pdf->SetFont('Arial', '', 10);
+            $pdf->SetFont('Montserrat', 'B', 10);
             // $pdf->Cell(0, 10, 'Direccion: Calle Ficticia 123', 0, 1, 'C');
             // $pdf->Cell(0, 10, 'Telefono: +123456789', 0, 1, 'C');
             $pdf->Ln(10);
@@ -127,23 +134,23 @@ class BudgetController extends Controller
             $pdf->Ln(10);
 
             // Información del cliente
-            $pdf->SetFont('Arial', 'B', 12);
+            $pdf->SetFont('Lato', '', 12);
             ($budget->client !== null ? $pdf->Cell(0, 10, 'Client: ' . $budget->client->name, 0, 1, 'L') : "");
             $pdf->SetFont('Arial', '', 10);
 
             $pdf->Ln(10);
 
             // Encabezado de la tabla
-            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->SetFont('Lato', '', 10);
             $pdf->Cell(40, 10, 'Quantity', 1);
             $pdf->Cell(90, 10, 'Description', 1);
-            $pdf->Cell(30, 10, 'Price Unit', 1);
+            $pdf->Cell(30, 10, 'Price', 1);
             $pdf->Cell(30, 10, 'Subtotal ', 1);
 
             $pdf->Ln();
 
             // Datos de los productos (Asegúrate de tener los productos en tu modelo o ajusta según tus datos)
-            $pdf->SetFont('Arial', '', 10);
+            $pdf->SetFont('Lato', '', 10);
             $contentArray = json_decode($budget->content);
             $total = 0;
             foreach ($contentArray as $content) {
@@ -158,7 +165,7 @@ class BudgetController extends Controller
             $total = $total - ($total * $budget->discount / 100);
             $total = $total + ($total * $budget->taxes / 100);
 
-            $pdf->SetFont('Arial', 'B', 10);
+            $pdf->SetFont('Lato', '', 10);
             $pdf->Cell(190, 10, 'Discount: ' . number_format($budget->discount, 2) . " %", 1, 0, 'R');
             $pdf->Ln(10);
             $pdf->Cell(190, 10, 'Taxes: ' . number_format($budget->taxes, 2) . " %", 1, 0, 'R');

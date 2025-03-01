@@ -1,5 +1,9 @@
 <script setup>
-import StateTile from "@/Components/Budgets/StateTile.vue";
+import {
+    CheckCircleIcon,
+    ClockIcon,
+    XCircleIcon,
+} from "@heroicons/vue/24/solid";
 
 const props = defineProps({
     budgets: Array,
@@ -19,17 +23,17 @@ const budgetCounts = getBudgetCounts(props.budgets);
 <template>
     <div :class="admin ? 'flex flex-col ' : 'flex flex-row gap-2'">
         <span v-if="budgetCounts.draft" class="flex items-center gap-1 py-1">
-            <StateTile :admin="admin" status="draft" />
+            <ClockIcon class="w-4 h-4 text-gray-300" />
             <span>{{ budgetCounts.draft }}</span>
         </span>
 
         <span v-if="budgetCounts.approved" class="flex items-center gap-1 py-1">
-            <StateTile :admin="admin" status="approved" />
+            <CheckCircleIcon class="w-4 h-4 text-green-500" />
             <span>{{ budgetCounts.approved }}</span>
         </span>
 
         <span v-if="budgetCounts.rejected" class="flex items-center gap-1 py-1">
-            <StateTile :admin="admin" status="rejected" />
+            <XCircleIcon class="w-4 h-4 text-red-500" />
             <span>{{ budgetCounts.rejected }}</span>
         </span>
     </div>

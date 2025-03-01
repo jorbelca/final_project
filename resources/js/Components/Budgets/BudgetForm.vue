@@ -88,7 +88,7 @@ const stateOptions = ["draft", "approved", "rejected"];
 </script>
 
 <template>
-    <AppLayout title="Create">
+    <AppLayout title="{{ edit?'Edit':'Create' }}">
         <template #header>
             <h2 class="font-semibold text-sm text-amber-500">
                 <a :href="route('budgets.index')"
@@ -217,6 +217,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                         type="number"
                         placeholder="quantity"
                         v-model="quantity"
+                        min="1"
                     />
                     <select
                         class="rounded-lg"

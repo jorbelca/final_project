@@ -1,4 +1,6 @@
 <script setup>
+import { CheckIcon, ClockIcon, XMarkIcon } from "@heroicons/vue/24/solid";
+
 import { computed } from "vue";
 
 const props = defineProps({
@@ -8,32 +10,40 @@ const props = defineProps({
 
 // Clases de color según el estado
 const statusClasses = computed(() => {
-    return {
-        draft: "bg-gray-100 text-gray-500",
-        approved: "bg-green-500 text-white",
-        rejected: "bg-red-500 text-white",
-    }[props.status] || "bg-gray-300 text-black";
+    return (
+        {
+            draft: "bg-gray-100 text-gray-500",
+            approved: "bg-green-500 text-white",
+            rejected: "bg-red-500 text-white",
+        }[props.status] || "bg-gray-300 text-black"
+    );
 });
 
 // Iconos según el estado
 const statusIcons = {
-    draft: "🕗",
-    approved: "✔",
-    rejected: "X",
+    draft: ClockIcon,
+    approved: CheckIcon,
+    rejected: XMarkIcon,
 };
+const capitalizedStatus = computed(
+    () => props.status.charAt(0).toUpperCase() + props.status.slice(1)
+);
 </script>
 
 <template>
-    <div class="status-tile px-2 py-1 rounded-full flex items-center gap-1" :class="statusClasses">
-        <span>{{ statusIcons[status] }}</span>
-        <span v-if="admin">{{ status }}</span>
+    <div
+        class="status-tile px-2 py-1 rounded-full flex items-center gap-1 max-w-20"
+        :class="statusClasses"
+    >
+        <component :is="statusIcons[status]" class="w-4 h-4" />
+        <span>{{ capitalizedStatus }}</span>
     </div>
 </template>
 
 <style>
 .status-tile {
     display: inline-flex;
-    font-size: 0.875rem; /* Tamaño del texto */
-    white-space: nowrap; /* Evita que el texto se divida */
+    font-size: 0.75rem; /* Tamaño del texto */
+    white-space: nowrap; /* Evita que el texto salte de linea */
 }
 </style>

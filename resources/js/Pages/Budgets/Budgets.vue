@@ -1,7 +1,8 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
-import DataTable from "@/Components/Table.vue";
+import BudgetTable from "@/Components/Budgets/BudgetTable.vue";
 import BudgetCounter from "@/Components/Budgets/BudgetCounter.vue";
+import PageHeader from "@/Components/PageHeader.vue";
 
 const props = defineProps({
     budgets: Array,
@@ -10,22 +11,20 @@ const props = defineProps({
 
 <template>
     <AppLayout title="Budgets">
-        <template #header
-            ><h2 class="font-semibold text-sm text-green-500">
-                <a :href="route('budgets.create')">Create a Budget ></a>
-            </h2>
-            <div class="flex align-center justify-center gap-5 items-end">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    Budgets
-                </h2>
-            </div>
-            <div class="flex self-start">
-                <BudgetCounter :budgets="budgets"></BudgetCounter>
-            </div>
+        <template #header>
+            <PageHeader
+                title="Budgets"
+                :links="[
+                    { text: 'Create a Budget >', route: 'budgets.create' },
+                ]"
+            >
+                <div class="flex self-start">
+                    <BudgetCounter :budgets="budgets"></BudgetCounter>
+                </div>
+            </PageHeader>
         </template>
-
-        <div class="py-12">
-            <DataTable :data="budgets"></DataTable>
+        <div>
+            <BudgetTable :data="budgets" />
         </div>
     </AppLayout>
 </template>
