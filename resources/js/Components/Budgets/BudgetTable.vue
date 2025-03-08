@@ -40,11 +40,10 @@ function serialNumber(key) {
 
 // Métodos de edición y eliminación
 const deleteRow = (id) => {
+    if (!confirm("Are you sure you want to delete this budget?")) return;
     loading.value = true;
-    if (!confirm("Are you sure you want to delete this cost?")) return;
-
     router.delete(`budgets/${id}`, {
-        onError: (errors) => console.error("Error deleting cost:", errors),
+        onError: (errors) => console.error("Error deleting budget:", errors),
         onFinish: () => {
             loading.value = false;
         },
@@ -54,7 +53,7 @@ const deleteRow = (id) => {
 const editRow = (id) => {
     loading.value = true;
     router.get(`budgets/${id}/edit`, {
-        onError: (errors) => alert("Error loading edit form."),
+        onError: (errors) => alert("Error loading the budget form."),
         onFinish: () => {
             loading.value = false;
         },
@@ -155,8 +154,8 @@ const generate = (id) => {
                     <tr>
                         <th class="table-header"></th>
                         <th class="table-header">Content</th>
+                        <th class="table-header">State</th>
                         <th class="table-header">Taxes</th>
-
                         <th class="table-header">Discount</th>
                         <th class="table-header">Client</th>
                         <th class="table-header">Created</th>
@@ -174,10 +173,14 @@ const generate = (id) => {
                                 {{ serialNumber(key) }}
                             </p>
                         </td>
+
                         <td class="table-cell">
                             <ContentCell
                                 :content="JSON.parse(budget.content)"
                             />
+                        </td>
+                        <td class="table-cell">
+                            <StateTile :status="budget.state" :admin="true" />
                         </td>
                         <td class="table-cell">{{ budget.taxes }} %</td>
                         <td class="table-cell">{{ budget.discount }} %</td>
@@ -205,7 +208,7 @@ const generate = (id) => {
                                     <PencilSquareIcon class="icon-edit m-1" />
                                 </button>
                                 <button
-                                    @click.prevent="deleteRow(cost.id)"
+                                    @click.prevent="deleteRow(budget.id)"
                                     title="Delete Budget"
                                 >
                                     <TrashIcon class="icon-delete m-1" />

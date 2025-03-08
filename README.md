@@ -1,26 +1,50 @@
 # TODO
 
--   Config del user (iva por defecto, prompt por defecto)
--   Pujar Images ( logos) a cloudinary
--   i18n (idiomes), Si dona temps
--   Responsive design
+-   USER
+    -   Config del user (iva por defecto, prompt por defecto)
+    -   Pujar Images ( logos) a cloudinary
+    -   i18n (idiomes), Si dona temps
+    -   Pago
+
 -   Testing
+
     -   e2e
-    -   unitario
--   Landing (cachear)
--   Generar presupuesto con prompt IA
+
+-   Landing (cachear i fer)
+
+    ESTADISTICAS
+
 -   Estadisticas usuario
+
     -   Budgets por estado
     -   Agrupar por cliente
     -   Graficos
+
+    COSTES
+
 -   Pujar pdf costes
--   Admin
+
+    CLIENTES
+
+-   Pujar pdf clientes
+-   Admin estilos
+
+    IA
+
 -   Page prompt
     -   Speech recognition
 -   Tabla BBD Prompt
+-   Generar presupuesto con prompt IA
+
+    BUDGETS
+
 -   Poder Duplicar presupost
--   Columna client_created_user (que nomes el creador del client puga editarlo)
+-   Form budget
+
+    ESTILOS
+
 -   Mejorar logo
+-   Responsive design nav
 
 # Budget App
 

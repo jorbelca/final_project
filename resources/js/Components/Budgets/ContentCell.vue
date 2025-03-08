@@ -24,7 +24,7 @@ const isOpen = ref(false);
     <div v-if="isMobile">
         <button
             @click="isOpen = !isOpen"
-            class="bg-gray-200 px-4 py-1 rounded flex items-center"
+            class="bg-gray-200 px-4 py-1 rounded flex items-center dark:text-gray-900"
         >
             Content
             <ChevronDoubleDownIcon v-if="!isOpen" class="w-5 h-4 font-bold" />
@@ -54,7 +54,7 @@ const isOpen = ref(false);
     </div>
     <div v-else>
         <div v-for="(item, key) in content" :key="key" class="flex flex-row">
-            <div class="flex flex-row gap-1">
+            <div class="flex flex-row gap-1 text-nowrap">
                 <span class="text-xs">{{ item.quantity }} x </span>
                 <span class="text-xs text-gray-500">{{
                     item.description

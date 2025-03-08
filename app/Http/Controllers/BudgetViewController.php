@@ -42,9 +42,12 @@ class BudgetViewController extends Controller
             return BudgetViewController::notify("index", "Inactive User", false);
         }
 
+
+
         return Inertia::render("Budgets/CreateBudget", [
             'clients' => Auth::user()->clients,
             'costs' => Auth::user()->costs,
+            'taxes' => Auth::user()->default_taxes,
         ]);
     }
 

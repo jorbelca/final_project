@@ -1,9 +1,13 @@
 <script setup>
 import { computed } from "vue";
+const isForm =
+    window.location.pathname.includes("create") ||
+    window.location.pathname.includes("edit");
 
 const props = defineProps({
     title: String,
     links: Array,
+    padding: { Number, default: 14 },
 });
 
 const computedLinks = computed(() => {
@@ -18,15 +22,30 @@ const computedLinks = computed(() => {
             <h2
                 v-for="(link, index) in computedLinks"
                 :key="index"
-                class="font-semibold hover:underline"
-                :class="index === 0 ? 'text-green-500' : 'text-primary pt-1'"
+                class="font-semibold hover:underline text-primary pt-1"
             >
-                <a :href="route(link.route)">{{ link.text }}</a>
+                <a
+                    v-if="isForm"
+                    class="text-yellow-500"
+                    :href="route(link.route)"
+                    >{{ link.text }}</a
+                >
+                <a
+                    v-if="!isForm && !link.text.includes('File')"
+                    class="text-green-500"
+                    :href="route(link.route)"
+                    >{{ link.text }}</a
+                >
+                <a
+                    v-if="link.text.includes('File')"
+                    class="text-blue-500"
+                    :href="route(link.route)"
+                    >{{ link.text }}</a
+                >
             </h2>
         </div>
-
         <!-- Título central -->
-        <div class="flex-grow text-center pr-14">
+        <div class="flex-grow text-center" :class="`pr-${props.padding}`">
             <h2 class="font-semibold text-xl text-text leading-tight">
                 {{ title }}
             </h2>

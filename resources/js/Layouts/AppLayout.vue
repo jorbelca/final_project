@@ -76,7 +76,7 @@ const logout = () => {
                                     Costs
                                 </NavLink>
                                 <NavLink
-                                    v-if="$page.props.auth.user.admin == 1"
+                                    v-if="$page?.props?.auth?.user?.admin == 1"
                                     :href="route('admin')"
                                     :active="$page.url === '/admin'"
                                 >
@@ -436,7 +436,7 @@ const logout = () => {
                             Costs
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
-                            v-if="$page.props.auth.user.admin == 1"
+                            v-if="$page?.props?.auth?.user?.admin == 1"
                             :href="route('admin')"
                             :active="$page.url === '/admin'"
                         >

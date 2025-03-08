@@ -17,6 +17,7 @@ const props = defineProps({
                 :links="[
                     { text: 'Create a Budget >', route: 'budgets.create' },
                 ]"
+                :padding="8"
             >
                 <div class="flex self-start">
                     <BudgetCounter :budgets="budgets"></BudgetCounter>

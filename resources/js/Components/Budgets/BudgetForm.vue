@@ -1,18 +1,19 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PrimaryButton from "../Buttons/PrimaryButton.vue";
 import InputLabel from "../InputLabel.vue";
 import TextInput from "../TextInput.vue";
-import AppLayout from "@/Layouts/AppLayout.vue";
+import ProcessingMessage from "../UI/ProcessingMessage.vue";
 
+let loading = ref(false);
 const edit = window.location.pathname.includes("edit");
 
 const props = defineProps({
-    title: String,
     costs: Array,
     clients: Array,
     budget: Object,
+    taxes: Number,
 });
 
 let selectedCost = "";
@@ -21,13 +22,14 @@ let quantity = 1;
 const formData = useForm({
     client_id: props.budget ? props.budget.client_id : null,
     content: props.budget ? JSON.parse(props.budget.content) : [],
-    taxes: props.budget ? props.budget.taxes : 0,
+    taxes: props.budget ? props.budget.taxes : props.taxes,
     discount: props.budget ? props.budget.discount : 0,
     user_id: props.budget ? props.budget.user_id : null,
     state: props.budget ? props.budget.state : "draft",
 });
 
-const submitForm = () => {
+const submitForm = async () => {
+    loading.value = true;
     // Convertir los valores de content antes de enviarlos
     const formattedContent = formData.content.map((item) => ({
         description: item.description,
@@ -44,13 +46,16 @@ const submitForm = () => {
     try {
         if (edit) {
             formattedData.put(`/budgets/${props.budget.id}`);
+            loading.value = false;
             return;
         }
         formattedData.post("/budgets", {
             preserveScroll: true,
         });
+        loading.value = false;
     } catch (error) {
         console.error(error);
+        loading.value = false;
     }
 };
 
@@ -88,26 +93,16 @@ const stateOptions = ["draft", "approved", "rejected"];
 </script>
 
 <template>
-    <AppLayout title="{{ edit?'Edit':'Create' }}">
-        <template #header>
-            <h2 class="font-semibold text-sm text-amber-500">
-                <a :href="route('budgets.index')"
-                    >◀ List of {{ props.title }}s</a
-                >
-            </h2>
-            <div class="flex align-center justify-center gap-5 items-end">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    <template v-if="edit"> Edit </template>
-                    <template v-else> Create </template>
-                    a {{ props.title }}
-                </h2>
-            </div>
-        </template>
-        <main class="mb-10">
-            <form class="flex flex-col gap-4 p-7" @submit.prevent="submitForm">
+    <div class="relative">
+        <ProcessingMessage :loading="loading" />
+        <main class="mb-10 container mx-auto">
+            <form
+                class="flex flex-col gap-4 p-2 form-wrapper shadow-xl rounded-xl w-full"
+                @submit.prevent="submitForm"
+            >
                 <InputLabel>Client </InputLabel>
                 <select
-                    class="rounded-lg"
+                    class="text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     name="client"
                     id="client"
                     v-model="formData.client_id"
@@ -128,13 +123,15 @@ const stateOptions = ["draft", "approved", "rejected"];
                         v-for="(content, index) in formData.content"
                         :key="index"
                     >
-                        <div class="flex justify-between">
-                            <div>
+                        <div
+                            class="flex justify-between dark:border rounded-lg p-1 px-2 dark:bg-gray-800"
+                        >
+                            <div class="text-text">
                                 {{ content.quantity }} x
                                 {{ content.description }} - {{ content.cost }} $
                             </div>
                             <div class="flex flex-row gap-6">
-                                <div>
+                                <div class="text-text">
                                     <b>
                                         {{ content.quantity * content.cost }}
                                         $</b
@@ -151,44 +148,47 @@ const stateOptions = ["draft", "approved", "rejected"];
                     </div>
                 </template>
                 <template v-if="edit && formData.content.length > 0">
-                    <table>
+                    <table class="text-text">
                         <thead>
-                            <tr
-                                class="flex justify-between align-center items-end"
-                            >
-                                <td>Quantity</td>
-                                <td>Description</td>
-                                <td>Cost</td>
-                                <td>SubTotal&nbsp;</td>
+                            <tr class="flex align-center text-sm">
+                                <div
+                                    class="flex justify-between flex-row w-full pr-[10vw]"
+                                >
+                                    <td>Quantity</td>
+                                    <td>Description</td>
+                                    <td>Cost</td>
+                                </div>
+                                <td class="pr-4">SubTotal</td>
                             </tr>
                         </thead>
                         <tr
                             v-for="(content, index) in formData.content"
                             :key="index"
                         >
-                            <td
-                                class="flex justify-between align-center items-end"
-                            >
-                                <TextInput
-                                    class="w-1/6"
-                                    type="number"
-                                    placeholder="quantity"
-                                    v-model="content.quantity"
-                                />
-                                <TextInput
-                                    class="w-1/3"
-                                    type="text"
-                                    placeholder="quantity"
-                                    v-model="content.description"
-                                />
-                                <TextInput
-                                    class="w-1/6"
-                                    type="number"
-                                    placeholder="quantity"
-                                    v-model="content.cost"
-                                />
-
-                                <div class="flex flex-row gap-6">
+                            <td class="flex justify-between items-center gap-5">
+                                <div class="flex flex-row w-full">
+                                    <TextInput
+                                        class="w-[50px]"
+                                        type="number"
+                                        placeholder="quantity"
+                                        v-model="content.quantity"
+                                    />
+                                    <TextInput
+                                        class="w-full"
+                                        type="text"
+                                        placeholder="quantity"
+                                        v-model="content.description"
+                                    />
+                                    <TextInput
+                                        class="w-[70px] sm:w-[100px]"
+                                        type="number"
+                                        placeholder="quantity"
+                                        v-model="content.cost"
+                                    />
+                                </div>
+                                <div
+                                    class="flex flex-row justify-end gap-1 sm:gap-4 text-nowrap w-1/6"
+                                >
                                     <div>
                                         <b>
                                             {{
@@ -199,41 +199,43 @@ const stateOptions = ["draft", "approved", "rejected"];
                                     </div>
                                     <button
                                         v-on:click="deleteContent(index)"
-                                        class="text-red-600/100 font-bold"
+                                        class="text-red-600"
                                     >
-                                        X
+                                        ❌
                                     </button>
                                 </div>
                             </td>
                         </tr>
                     </table>
                 </template>
-                <div class="flex flex-row flex-wrap gap-3">
-                    <PrimaryButton @click.prevent="addCost"
+                <div class="flex flex-col sm:flex-row flex-wrap gap-3">
+                    <div class="flex flex-row gap-5">
+                        <TextInput
+                            class="w-1/6"
+                            type="number"
+                            placeholder="quantity"
+                            v-model="quantity"
+                            min="1"
+                        />
+                        <select
+                            class="w-full text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                            name="costs"
+                            id="costs"
+                            v-model="selectedCost"
+                        >
+                            <option value="" disabled>Select a cost</option>
+                            <option
+                                v-for="cost in props.costs"
+                                :key="cost.id"
+                                :value="cost.id"
+                            >
+                                {{ cost.description }} - {{ cost.cost }}
+                            </option>
+                        </select>
+                    </div>
+                    <PrimaryButton @click.prevent="addCost" class="text-center"
                         >Add cost</PrimaryButton
                     >
-                    <TextInput
-                        class="w-1/6"
-                        type="number"
-                        placeholder="quantity"
-                        v-model="quantity"
-                        min="1"
-                    />
-                    <select
-                        class="rounded-lg"
-                        name="costs"
-                        id="costs"
-                        v-model="selectedCost"
-                    >
-                        <option value="" disabled>Select a cost</option>
-                        <option
-                            v-for="cost in props.costs"
-                            :key="cost.id"
-                            :value="cost.id"
-                        >
-                            {{ cost.description }} - {{ cost.cost }}
-                        </option>
-                    </select>
                 </div>
 
                 <div class="flex flex-wrap justify-between gap-5">
@@ -256,32 +258,35 @@ const stateOptions = ["draft", "approved", "rejected"];
                                 max="99"
                             />
                         </div>
+                        <div>
+                            <template v-if="edit">
+                                <InputLabel for="state">State</InputLabel>
+                                <select
+                                    class="w-full text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                    name="state"
+                                    id="state"
+                                    v-model="formData.state"
+                                >
+                                    <option
+                                        v-for="state in stateOptions"
+                                        :key="state"
+                                        :value="state"
+                                    >
+                                        {{ state }}
+                                    </option>
+                                </select>
+                            </template>
+                        </div>
                     </div>
                     <div class="flex flex-row self-end">
                         <p>
-                            <b class="text-lg font-extrabold"
+                            <b class="text-text text-lg font-extrabold"
                                 >Total: {{ computedTotal }} $</b
                             >
                         </p>
                     </div>
                 </div>
-                <template v-if="edit">
-                    <label for="state">State</label>
-                    <select
-                        class="rounded-lg w-1/6"
-                        name="state"
-                        id="state"
-                        v-model="formData.state"
-                    >
-                        <option
-                            v-for="state in stateOptions"
-                            :key="state"
-                            :value="state"
-                        >
-                            {{ state }}
-                        </option>
-                    </select>
-                </template>
+
                 <template v-if="edit">
                     <div class="flex justify-center pt-20">
                         <PrimaryButton
@@ -304,5 +309,5 @@ const stateOptions = ["draft", "approved", "rejected"];
                 </template>
             </form>
         </main>
-    </AppLayout>
+    </div>
 </template>

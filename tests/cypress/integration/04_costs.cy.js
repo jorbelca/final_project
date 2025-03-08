@@ -56,15 +56,15 @@ describe.only("Costs", () => {
 
         cy.contains(newCost.description + " Edited").should("exist");
     });
-    after(() => {
-        //ELIMINAR COSTO
-        cy.visit("/costs");
-        cy.contains("tr", newCost.description + " Edited").within(() => {
-            cy.get(".icon-delete").click();
-        });
+    // after(() => {
+    //     //ELIMINAR COSTO
+    //     cy.visit("/costs");
+    //     cy.contains("tr", newCost.description + " Edited").within(() => {
+    //         cy.get(".icon-delete").click();
+    //     });
 
-        cy.on("window:confirm", () => true);
+    //     cy.on("window:confirm", () => true);
 
-        cy.contains(newCost.description + " Edited").should("not.exist");
-    });
+    //     cy.contains(newCost.description + " Edited").should("not.exist");
+    // });
 });

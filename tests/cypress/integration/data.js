@@ -15,3 +15,10 @@ export const newClient = {
     email: "client_test@test.com",
     company: "Test Company",
 };
+export const newBudget = {
+    client: newClient.name,
+    cost: newCost.description,
+    taxes: 21,
+    discount: 10,
+    total: 326.7,
+};

@@ -23,7 +23,7 @@ const budgetCounts = getBudgetCounts(props.budgets);
 <template>
     <div :class="admin ? 'flex flex-col ' : 'flex flex-row gap-2'">
         <span v-if="budgetCounts.draft" class="flex items-center gap-1 py-1">
-            <ClockIcon class="w-4 h-4 text-gray-300" />
+            <ClockIcon class="w-4 h-4 text-gray-500 dark:text-gray-200" />
             <span>{{ budgetCounts.draft }}</span>
         </span>
 
