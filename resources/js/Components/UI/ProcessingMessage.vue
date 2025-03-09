@@ -6,9 +6,6 @@ export default {
             required: true,
         },
     },
-    mounted() {
-        setTimeout(() => console.log("ProcessingMessage montado"), 1000);
-    },
 };
 </script>
 
