@@ -24,11 +24,17 @@ class BudgetViewController extends Controller
         $budgets = $user->budgets()
             ->orderBy('created_at', 'desc')
             ->with(['client:id,name,image_url']) // Carga solo los campos deseados
-            ->paginate(5);
+            ->paginate(4);
+
+        $budgetCount = $user->budgets()
+            ->selectRaw("state, COUNT(*) as count")
+            ->groupBy('state')
+            ->pluck('count', 'state');
 
 
         return Inertia::render('Budgets/Budgets', [
             'budgets' => $budgets,
+            'budgetCount' => $budgetCount
         ]);
     }
 

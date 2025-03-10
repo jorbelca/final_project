@@ -20,7 +20,10 @@ const pages = computed(() => {
             v-for="(page, index) in pages"
             :key="index"
             class="px-3 py-1 mx-1 border rounded"
-            :class="{ 'bg-gray-300': page.active }"
+            :class="{
+                'bg-gray-300 text-black': page.active && !darkMode,
+                'bg-gray-700 text-white': page.active && darkMode,
+            }"
             v-html="page.label"
             @click="emit('page-change', page.url)"
             :disabled="!page.url"

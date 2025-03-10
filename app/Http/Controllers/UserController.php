@@ -156,9 +156,17 @@ class UserController extends Controller
             if (!Gate::allows('view', $user, User::class)) {
                 return redirect()->route('budgets.index');
             };
+            // Obtener usuarios con budgets y contar budgets por estado
             $usersAndBudgetsAndClients = User::with(['budgets' => function ($query) {
                 $query->select('state', 'user_id');
             }])->withCount(['clients', 'costs'])->get();
+
+            // Añadir el conteo de budgets por estado a cada usuario
+            $usersAndBudgetsAndClients->each(function ($user) {
+                $user->budgetCounts = $user->budgets
+                    ->groupBy('state')
+                    ->map(fn($items) => $items->count());
+            });
 
             return Inertia::render('Admin/Admin', ['users' => $usersAndBudgetsAndClients]);
         } catch (\Throwable $th) {

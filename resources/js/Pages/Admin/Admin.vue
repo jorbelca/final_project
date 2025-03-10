@@ -76,8 +76,8 @@ const changeState = (user_id) => {
                 <div class="px-4 flex flex-col justify-center items-center">
                     <BudgetCounter
                         :admin="true"
-                        :budgets="user.budgets"
-                    ></BudgetCounter>
+                        :budgetCount="user.budgetCounts"
+                    />
                 </div>
             </div>
             <div
