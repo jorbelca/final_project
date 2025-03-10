@@ -15,6 +15,7 @@ import ProcessingMessage from "../UI/ProcessingMessage.vue";
 import StateTile from "./StateTile.vue";
 import ContentCell from "./ContentCell.vue";
 import ClientCell from "./ClientCell.vue";
+import Pagination from "../Pagination/Pagination.vue";
 
 let loading = ref(false);
 
@@ -23,8 +24,13 @@ let props = defineProps({
         type: Array,
         required: true,
     },
+    pagination: {
+        type: Object,
+        required: true,
+    },
 });
 
+const emit = defineEmits(["page-change"]);
 const filteredData = computed(() => {
     return props.data.map((item) => {
         const filteredItem = { ...item };
@@ -239,6 +245,10 @@ const generate = (id) => {
                     </tr>
                 </tbody>
             </table>
+            <Pagination
+                :meta="pagination"
+                @page-change="emit('page-change', $event)"
+            />
         </div>
     </div>
 </template>

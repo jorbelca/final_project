@@ -24,7 +24,7 @@ class BudgetViewController extends Controller
         $budgets = $user->budgets()
             ->orderBy('created_at', 'desc')
             ->with(['client:id,name,image_url']) // Carga solo los campos deseados
-            ->get();
+            ->paginate(5);
 
 
         return Inertia::render('Budgets/Budgets', [
