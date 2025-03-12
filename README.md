@@ -1,24 +1,16 @@
 # TODO
 
 -   USER
+
     -   Config del user (iva por defecto, prompt por defecto)
     -   Pujar Images ( logos) a cloudinary
-    -   i18n (idiomes), Si dona temps
-    -   Pago
+    -   Gestionar el plan de uso
 
 -   Testing
 
     -   e2e
 
 -   Landing (cachear i fer)
-
-    ESTADISTICAS
-
--   Estadisticas usuario
-
-    -   Budgets por estado
-    -   Agrupar por cliente
-    -   Graficos
 
     COSTES
 
@@ -31,19 +23,32 @@
 
     IA
 
--   Page prompt
-    -   Speech recognition
+-   Crear la VIsta en la que s'interactue en el prompt
+-   Speech recognition
 -   Tabla BBD Prompt
 -   Generar presupuesto con prompt IA
+-   Limitar el uso de la IA segun el plan (creditos)
 
     BUDGETS
 
 -   Poder Duplicar presupost
+-   Boto per a Poder copiar el PDF del budget
 
     ESTILOS
 
--   Mejorar logo
+-   Mejorar logo / Buscar nuevo logo
 -   Responsive design nav
+
+--- AMPLIACIONS
+
+-   i18n, idiomes, ( Si donara temps )
+-   Pasarela de Pago, ( Si donara temps )
+
+-   Estadisticas usuario
+
+    -   Budgets por estado
+    -   Agrupar por cliente
+    -   Graficos
 
 # Budget App
 
@@ -64,6 +69,7 @@ Aquest projecte és una aplicació web desenvolupada amb el framework Laravel qu
 4. Suscriptions
 5. Clients
 6. User_Client
+7. Prompt Adicional (o tambe podria ser configuracio adicional en relacio al user)
 
 [Estructura de Base de Datos](./esquema_reduit.pdf)
 
