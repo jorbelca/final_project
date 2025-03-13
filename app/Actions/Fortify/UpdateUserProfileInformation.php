@@ -3,6 +3,7 @@
 namespace App\Actions\Fortify;
 
 use App\Models\User;
+use App\Services\CloudinaryService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -23,12 +24,26 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
         ])->validateWithBag('updateProfileInformation');
 
-        if (isset($input['photo'])) {
-            $user->updateProfilePhoto($input['photo']);
+        if (isset($input['photo']) && $input['photo'] instanceof \Illuminate\Http\UploadedFile) {
+            // Si el usuario ya tiene una foto, eliminarla de Cloudinary antes de subir la nueva
+            if ($user->profile_photo_path) {
+                CloudinaryService::deletePhoto($user->profile_photo_path, "user_images");
+            }
+            // Subir la imagen a Cloudinary
+            // El método uploadPhoto ya devuelve la URL directamente
+            $cloudinaryUrl = CloudinaryService::uploadPhoto($input['photo'], "user_images");
+
+            // Guardar la URL en el usuario
+            $user->forceFill([
+                'profile_photo_path' => $cloudinaryUrl,
+            ])->save();
         }
 
-        if ($input['email'] !== $user->email &&
-            $user instanceof MustVerifyEmail) {
+
+        if (
+            $input['email'] !== $user->email &&
+            $user instanceof MustVerifyEmail
+        ) {
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([

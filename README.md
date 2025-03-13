@@ -19,7 +19,7 @@
     CLIENTES
 
 -   Pujar pdf clientes
--   Admin estilos
+-   Admin estilos (responsive, black mode, millorarW)
 
     IA
 

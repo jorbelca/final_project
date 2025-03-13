@@ -3,6 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+;
+
+use App\Services\CloudinaryService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -69,7 +73,9 @@ class User extends Authenticatable
         if ($this->attributes['profile_photo_path'] == null) {
             return null;
         };
-        return asset('storage/' . $this->attributes['profile_photo_path']);
+        //en local -> return asset('storage/' . $this->attributes['profile_photo_path']);
+        //Cloudinary
+        return $this->attributes['profile_photo_path'];
     }
 
     public function budgets(): HasMany
@@ -88,5 +94,19 @@ class User extends Authenticatable
     public function incidencies()
     {
         return $this->hasMany(Support::class);
+    }
+    public function deleteProfilePhoto(): void
+    {
+        if (!$this->profile_photo_path) {
+            return;
+        }
+
+        // Eliminar de Cloudinary
+        CloudinaryService::deletePhoto($this->profile_photo_path, 'user_images');
+
+        // Eliminar de la base de datos
+        $this->forceFill([
+            'profile_photo_path' => null,
+        ])->save();
     }
 }
