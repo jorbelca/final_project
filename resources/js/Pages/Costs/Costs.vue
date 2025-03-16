@@ -15,7 +15,7 @@ defineProps({
                 title="Costs"
                 :links="[
                     { text: 'Create a Cost >', route: 'costs.create' },
-                    { text: 'Upload a File >', route: 'costs.parse' },
+                    { text: 'Upload from a File >', route: 'costs.parse' },
                 ]"
             />
         </template>

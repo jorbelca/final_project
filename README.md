@@ -3,23 +3,18 @@
 -   USER
 
     -   Config del user (iva por defecto, prompt por defecto)
-    -   Pujar Images ( logos) a cloudinary
     -   Gestionar el plan de uso
 
 -   Testing
 
     -   e2e
 
--   Landing (cachear i fer)
-
-    COSTES
-
--   Pujar pdf costes
+-   Landing (cachear i acabar)
 
     CLIENTES
 
--   Pujar pdf clientes
--   Admin estilos (responsive, black mode, millorarW)
+-   Pujar pdf clientes ??? 
+-   Estil Admin (responsive, black mode, millorar UI)
 
     IA
 

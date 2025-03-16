@@ -1,68 +1,75 @@
 <script setup>
 import { ref } from "vue";
-import Papa from "papaparse";
 import { router } from "@inertiajs/vue3";
-import PrimaryButton from "../Buttons/PrimaryButton.vue";
-import TextInput from "../TextInput.vue";
-import ProcessingMessage from "../UI/ProcessingMessage.vue";
+import PrimaryButton from "../../Buttons/PrimaryButton.vue";
+import TextInput from "../../TextInput.vue";
+import ProcessingMessage from "../../UI/ProcessingMessage.vue";
 import { TrashIcon } from "@heroicons/vue/24/solid";
+import parseCsv from "./parseCsv";
+import parsePdfText from "./parsePdf";
 
 let loading = ref(false);
-const tableData = ref([]);
+let tableData = ref([]);
 const headers = ref(["DESCRIPTION", "COST", "UNIT", "PERIODICITY"]);
 
 function handleFileUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
 
-    Papa.parse(file, {
-        complete: (result) => {
-            if (result.data.length <= 1) return;
-
-            // Detectar índice de las columnas que nos interesan
-            let columns = result.data[0].map((h) => h.trim().toUpperCase());
-            let idxDesc = columns.indexOf("DESCRIPTION");
-            let idxCost = columns.indexOf("COST");
-            let idxUnit = columns.indexOf("UNIT");
-            let idxPeriod = columns.indexOf("PERIODICITY");
-
-            // Filtrar y transformar los datos
-            tableData.value = result.data.slice(1).map((row) => {
-                let description = row[idxDesc] || "";
-                let cost = row[idxCost] || "";
-                let unit =
-                    idxUnit !== -1
-                        ? row[idxUnit].toLowerCase() || "unit"
-                        : "unit";
-                let periodicity =
-                    idxPeriod !== -1
-                        ? row[idxPeriod].toLowerCase() || "unit"
-                        : "unit";
-
-                return { description, cost, unit, periodicity };
-            });
-
-            // Filtrar filas vacías
-            tableData.value = tableData.value.filter(
-                (row) => row.description && row.cost
-            );
-        },
-        skipEmptyLines: true,
-    });
+    if (
+        file.type === "text/csv" ||
+        file.type === "application/vnd.ms-excel" ||
+        file.name.split(".").pop() === "csv"
+    ) {
+        tableData = parseCsv(file, tableData);
+    } else if (
+        file.type === "text/pdf" ||
+        file.type === "application/vnd.ms-excel" ||
+        file.name.split(".").pop() === "pdf"
+    ) {
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onload = async () => {
+            const pdfData = new Uint8Array(reader.result);
+            tableData = await parsePdfText(pdfData, tableData);
+        };
+    } else {
+        alert("No se ha podido leer el archivo seleccionado");
+        return;
+    }
 }
 
 function submitForm() {
-    loading.value = true;
-    try {
-        router.post("/costs/store_multiple", {
-            costs: tableData.value,
-            onFinish: () => (loading.value = false),
-        });
-    } catch (error) {
-        console.error(error);
-        alert("Error al guardar los datos");
-        loading.value = false;
+    if (!tableData.value || tableData.value.length === 0) {
+        alert("No hay datos para enviar. ");
+        return;
     }
+    loading.value = true;
+
+    router.visit("/costs/store_multiple", {
+        method: "post",
+        data: {
+            costs: tableData.value,
+        },
+        preserveState: true,
+        preserveScroll: true,
+
+        onSuccess: () => {
+            loading.value = false;
+        },
+        onError: (errors) => {
+            loading.value = false;
+            console.error("Errores de validación:", errors);
+            alert(
+                `Error al guardar los datos: ${Object.values(errors).join(
+                    ", "
+                )}`
+            );
+        },
+        onFinish: () => {
+            loading.value = false;
+        },
+    });
 }
 
 function removeCost(indexCost) {
@@ -74,11 +81,49 @@ function removeCost(indexCost) {
 
 <template>
     <ProcessingMessage :loading="loading" />
+    <div class="px-6 max-w-4xl mx-auto rounded-lg text-text">
+        <p class="mb-4">
+            Upload a CSV or PDF file with at least the following columns:
+        </p>
+        <div class="mb-4">
+            <p class="font-medium mb-2">File structure example:</p>
+            <table class="w-full mb-4 border-collapse">
+                <thead>
+                    <tr class="bg-hover">
+                        <th
+                            v-for="header in headers"
+                            :key="header"
+                            class="border p-2 text-center"
+                        >
+                            {{ header }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="dark:bg-gray-500 bg-white">
+                        <td class="border p-2 text-center font-bold">
+                            Required
+                        </td>
+                        <td class="border p-2 text-center font-semibold">
+                            Required
+                        </td>
+                        <td class="border p-2 text-center">Optional</td>
+                        <td class="border p-2 text-center">Optional</td>
+                    </tr>
+                    <tr class="dark:bg-gray-500 bg-white">
+                        <td colspan="4" class="border p-2 text-center italic">
+                            ...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <div class="p-6 max-w-4xl mx-auto rounded-lg text-text">
         <input
             type="file"
             @change="handleFileUpload"
-            accept=".csv"
+            accept=".csv,.pdf,application/vnd.ms-excel"
             class="mb-4 p-2 w-full"
         />
 

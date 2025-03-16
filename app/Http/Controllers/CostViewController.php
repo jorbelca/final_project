@@ -9,8 +9,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -179,7 +181,6 @@ class CostViewController extends Controller
      */
     public function storeMultiple(Request $request)
     {
-
         if (!Gate::allows('create', Cost::class)) {
             return CostViewController::notify("create", "Inactive User", false);
         }
@@ -189,25 +190,69 @@ class CostViewController extends Controller
         if (!$user) {
             return back()->with(['error', 'No authenticated user found.']);
         }
+
         $costs = $request->input('costs', []);
-        foreach ($costs as $cost) {
-            try {
-                $cost['user_id'] = Auth::id();
-                // Validar los datos
-                $validated = Validator::make($cost, [
+
+        if (empty($costs)) {
+            return CostViewController::notify("parse", "No costs uploaded", false);
+        }
+
+        // Preparar los datos para validación masiva
+        $allCosts = [];
+        $userId = Auth::id();
+        $validator = Validator::make([], []); // Inicializar validador vacío
+        $now = now();
+
+        try {
+            DB::beginTransaction();
+
+            // Primera pasada: validar todos los registros
+            foreach ($costs as $index => $cost) {
+                $cost['user_id'] = $userId;
+
+                // Validar cada registro
+                $itemValidator = Validator::make($cost, [
                     'user_id' => 'required|integer|exists:users,id',
                     'description' => 'required|string|max:255',
                     'cost' => 'required|numeric|min:0',
-                    'unit' => 'required|string|min:0|max:50',
+                    'unit' => 'required|string|max:50',
                     'periodicity' => 'required|in:unit,daily,monthly,yearly,weekly'
-                ])->validate();
+                ]);
 
-                Cost::create($validated);
-            } catch (\Throwable $th) {
-                $errorMsg = $th->getMessage();
-                return CostViewController::notify("parse", "Error Saving the file: $errorMsg ", false);
+                if ($itemValidator->fails()) {
+                    // Agregar errores al validador principal
+                    foreach ($itemValidator->errors()->messages() as $key => $messages) {
+                        foreach ($messages as $message) {
+                            $validator->errors()->add("costs.{$index}.{$key}", $message);
+                        }
+                    }
+                } else {
+                    // Si es válido, guardarlo para inserción
+                    $validated = $itemValidator->validated();
+                    $validated['created_at'] = $now;
+                    $validated['updated_at'] = $now;
+                    $allCosts[] = $validated;
+                }
             }
+
+            // Si hay errores de validación, fallar
+            if ($validator->errors()->isNotEmpty()) {
+                throw new ValidationException($validator);
+            }
+
+            // Segunda pasada: insertar en lotes para máxima eficiencia
+            $chunks = array_chunk($allCosts, 100); // Dividir en grupos de 100 para evitar problemas de rendimiento
+
+            foreach ($chunks as $chunk) {
+                Cost::insert($chunk);
+            }
+
+            DB::commit();
+            return CostViewController::notify("index", count($allCosts) . " costs has been saved correctly");
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return CostViewController::notify("parse", "Error saving the costs: " . $th->getMessage(), false);
         }
-        return CostViewController::notify("index", "Costs saved");
     }
 }
