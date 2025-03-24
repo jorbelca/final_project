@@ -5,24 +5,23 @@
     -   Config del user (iva por defecto, prompt por defecto)
     -   Gestionar el plan de uso
 
--   Testing
-
-    -   e2e
+-   Repasar Testing e2e
 
 -   Landing (cachear i acabar)
 
-    CLIENTES
-
--   Pujar pdf clientes ??? 
 -   Estil Admin (responsive, black mode, millorar UI)
 
     IA
 
--   Crear la VIsta en la que s'interactue en el prompt
+-   Crear la View en la que s'interactue en el prompt
 -   Speech recognition
 -   Tabla BBD Prompt
 -   Generar presupuesto con prompt IA
 -   Limitar el uso de la IA segun el plan (creditos)
+
+    CLIENTS
+
+-   Columna deleted, modificar algoritmo de asignacion de client
 
     BUDGETS
 

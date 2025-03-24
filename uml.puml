@@ -1,0 +1,202 @@
+@startuml Budget App Class Diagram
+skinparam classAttributeIconSize 0
+skinparam classFontSize 12
+skinparam classFontName Arial
+skinparam classBackgroundColor #F5F5F5
+skinparam classBorderColor #333333
+skinparam titleFontSize 20
+skinparam titleFontName Arial
+
+title Budget App Class Diagram
+
+class User {
+  # id: int
+  # name: string
+  # email: string
+  # password: string
+  # admin: string
+  # profile_photo_path: string
+  # default_taxes: int
+  # active: int
+  # remember_token: string
+  # created_at: timestamp
+  # updated_at: timestamp
+  --
+  + clients(): hasMany
+  + budgets(): hasMany
+  + costs(): hasMany
+  + subscription(): hasOne
+  + aiPrompts(): hasMany
+  --
+  + isAdmin(): boolean
+  + register(Request): RedirectResponse
+  + login(Request): RedirectResponse
+  + logout(): RedirectResponse
+  + updateProfile(Request): RedirectResponse
+}
+
+class Subscription {
+  # id: int
+  # user_id: int
+  # plan_id: int
+  # starts_at: date
+  # ends_at: date
+  # status: int
+  # credits: int
+  # created_at: date
+  # updated_at: date
+  --
+  + user(): belongsTo
+  + plan(): belongsTo
+  --
+  + getCreditsLeft(): int
+  + hasSufficientCredits(): boolean
+  + useCredit(): void
+  + isActive(): boolean
+  + daysLeft(): int
+  + renew(): void
+  + cancel(): void
+  + index(): View
+  + choosePlan(): View
+  + subscribe(Plan): RedirectResponse
+  + manageBilling(): View
+  + cancelSubscription(): RedirectResponse
+}
+
+class Plan {
+  # id: int
+  # name: string
+  # description: text
+  # price: decimal
+  # features: json
+  # ai_credits: int
+  # created_at: date
+  # updated_at: date
+  --
+  + subscriptions(): hasMany
+  --
+  + getAllPlans(): Collection
+  + createPlan(Request): Plan
+  + updatePlan(Request): boolean
+  + deletePlan(int): boolean
+}
+
+class Budget {
+  # id: int
+  # user_id: int
+  # client_id: int
+  # content: json
+  # state: string
+  # discount: decimal
+  # taxes: decimal
+  # is_ai_generated: boolean
+  # created_at: timestamp
+  # updated_at: timestamp
+  --
+  + user(): belongsTo
+  + client(): belongsTo
+  --
+  + calculateTotal(): decimal
+  + calculateSubtotal(): decimal
+  + calculateTaxAmount(): decimal
+  + calculateDiscountAmount(): decimal
+  + toPDF(): Response
+  + index(): View
+  + create(): View
+  + store(Request): RedirectResponse
+  + show(int): View
+  + edit(int): View
+  + update(int, Request): RedirectResponse
+  + destroy(int): RedirectResponse
+  + duplicate(int): RedirectResponse
+  + changeState(int, string): RedirectResponse
+}
+
+class Client {
+  # id: int
+  # user_id: int
+  # name: string
+  # email: string
+  # company_name: string
+  # image_url : string
+  # deleted :boolean
+  # created_at: date
+  # updated_at: date
+  --
+  + user(): belongsTo
+  + budgets(): hasMany
+  --
+  + index(): View
+  + create(): View
+  + store(Request): RedirectResponse
+  + show(int): View
+  + edit(int): View
+  + update(int, Request): RedirectResponse
+  + destroy(int): RedirectResponse
+}
+
+class Cost {
+  # id: int
+  # user_id: int
+  # description: string
+  # cost: decimal
+  # periodicity : array
+  # created_at: timestamp
+  # updated_at: timestamp
+  --
+  + user(): belongsTo
+  --
+  + index(): View
+  + create(): View
+  + store(Request): RedirectResponse
+  + edit(int): View
+  + update(int, Request): RedirectResponse
+  + destroy(int): RedirectResponse
+  + storeMultiple(): RedirectResponse
+}
+
+
+class AdditionalPrompt {
+  # id: int
+  # user_id: int
+  # prompt: text
+  --
+  + user(): belongsTo
+  --
+  + index(): View
+  + show(int): View
+}
+
+class SupportTicket {
+  # id: int
+  # qustioner_id: int
+  # answerer_id: int
+  # question: string
+  # answer: string
+  # created_at: timestamp
+  # updated_at: timestamp
+  --
+  + questioner(): belongsTo
+  + answerer(): belongsTo
+
+  --
+  + index(): View
+  + create(): View
+  + store(Request): RedirectResponse
+  + show(int): View
+  + update(int, Request): RedirectResponse
+}
+
+' Relaciones
+User "1" -- "0..1" Subscription : has >
+Subscription "1" -- "1" Plan : subscribes to >
+User "1" -- "many" Budget : creates >
+User "1" -- "many" Client : has >
+User "1" -- "many" Cost : has >
+User "1" -- "1" AdditionalPrompt : has >
+User "1" -- "many" SupportTicket : creates >
+User "1" -- "many" SupportTicket : answers >
+Budget "many" -- "0..1" Client : belongs to >
+AdditionalPrompt "0..1" -- "0..1" Budget : generates >
+
+@enduml
