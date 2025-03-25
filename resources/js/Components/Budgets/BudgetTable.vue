@@ -1,6 +1,7 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
 import {
+    ArchiveBoxArrowDownIcon,
     DocumentDuplicateIcon,
     PencilSquareIcon,
     PrinterIcon,
@@ -77,6 +78,34 @@ const generate = (id) => {
         console.error("Error generating budget:", error);
     }
 };
+
+const downloadPdf = async (id) => {
+    try {
+        loading.value = true;
+        const response = await fetch(`/budget/${id}/generate?download=true`);
+        if (!response.ok) {
+            throw new Error("No se recibió el PDF.");
+        }
+        const data = await response.blob(); // Convertir la respuesta en un archivo
+        const url = window.URL.createObjectURL(data); // Crear una url temporal
+        const a = document.createElement("a"); //Crear enlace
+        a.href = url;
+        a.download = `budget-${id}.pdf`; //Nombre del archivo
+        document.body.appendChild(a);
+        a.click(); //Simular click
+        document.body.removeChild(a); //Elimina enlace
+        window.URL.revokeObjectURL(url); //Liberar memoria
+
+        loading.value = false;
+        alert("Pdf descargado");
+
+        loading.value = false;
+    } catch (error) {
+        loading.value = false;
+        alert("Error generando el pdf");
+        console.error("Error generando el pdf:", error);
+    }
+};
 </script>
 
 <template>
@@ -112,10 +141,10 @@ const generate = (id) => {
                     <div class="card-body">
                         <div class="text-nowrap">
                             <p class="text-sm">
-                                <b>Taxes:</b> {{ budget.taxes }} %
+                                <b>Impuestos:</b> {{ budget.taxes }} %
                             </p>
                             <p class="text-sm">
-                                <b>Discount:</b> {{ budget.discount }} %
+                                <b>Descuento:</b> {{ budget.discount }} %
                             </p>
                         </div>
                         <div class="flex flex-col">
@@ -146,6 +175,15 @@ const generate = (id) => {
                                         class="size-5 text-gray-500 dark:text-gray-100"
                                     />
                                 </button>
+                                <button
+                                    v-on:click.prevent="
+                                        downloadPdf(`${budget.id}`)
+                                    "
+                                >
+                                    <ArchiveBoxArrowDownIcon
+                                        class="size-5 text-green-500 dark:text-gray-100"
+                                    />
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -159,13 +197,13 @@ const generate = (id) => {
                 <thead>
                     <tr>
                         <th class="table-header"></th>
-                        <th class="table-header">Content</th>
-                        <th class="table-header">State</th>
-                        <th class="table-header">Taxes</th>
-                        <th class="table-header">Discount</th>
-                        <th class="table-header">Client</th>
-                        <th class="table-header">Created</th>
-                        <th class="table-header">Actions</th>
+                        <th class="table-header">Contenido</th>
+                        <th class="table-header">Estado</th>
+                        <th class="table-header">Impuestos</th>
+                        <th class="table-header">Descuento</th>
+                        <th class="table-header">Cliente</th>
+                        <th class="table-header">Creado</th>
+                        <th class="table-header">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -238,6 +276,15 @@ const generate = (id) => {
                                 >
                                     <DocumentDuplicateIcon
                                         class="size-5 text-gray-500 dark:text-gray-100 m-1"
+                                    />
+                                </button>
+                                <button
+                                    v-on:click.prevent="
+                                        downloadPdf(`${budget.id}`)
+                                    "
+                                >
+                                    <ArchiveBoxArrowDownIcon
+                                        class="size-5 text-green-500 dark:text-gray-100"
                                     />
                                 </button>
                             </div>

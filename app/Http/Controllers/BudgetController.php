@@ -174,11 +174,17 @@ class BudgetController extends Controller
             $pdf->Cell(190, 10, 'Total: ' . number_format($total, 2) . " $", 1, 0, 'R');
             $pdf->Ln(10);
 
+            if (request()->query('download') === 'true') {
+                return response($pdf->Output('', 'S'), 200)
+                    ->header('Content-Type', 'application/pdf')
+                    ->header('Content-Disposition', 'attachment; filename="budget_' . $budget->id . '.pdf"');
+            }
+
             // Generar y devolver el PDF
             // Enviar el PDF al navegador para que lo abra en una nueva ventana
             return response($pdf->Output('S'), 200)
                 ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'inline; filename="factura_' . $budget->id . '.pdf"');
+                ->header('Content-Disposition', 'inline; filename="budget_' . $budget->id . '.pdf"');
         } catch (\Throwable $th) {
 
             return response()->json(['error' => 'An error occurred', dd($th)], 500);

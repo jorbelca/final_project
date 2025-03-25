@@ -52,11 +52,12 @@ body {
 
 /*  Encabezados de la tabla */
 .table-header {
-    padding: 1rem;
+    padding: 1vw;
     text-align: center;
     font-weight: bold;
     color: var(--color-text);
     border-bottom: 2px solid var(--color-border);
+    font-size: 0.9rem;
 }
 
 /*  Celdas de la tabla */
