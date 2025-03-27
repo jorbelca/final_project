@@ -7,8 +7,7 @@ use App\Http\Requests\UpdateBudgetRequest;
 use App\Models\Budget;
 use Fpdf\Fpdf;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
-
+use Illuminate\Support\Facades\Auth;
 
 class BudgetController extends Controller
 {
@@ -108,7 +107,7 @@ class BudgetController extends Controller
             define('FPDF_FONTPATH', storage_path('app/fonts/'));
             // Obtener el presupuesto o factura
             $budget = Budget::findOrFail($id);
-
+            $user = Auth::user();
             // Crear una instancia de FPDF
             $pdf = new FPDF('P', 'mm', 'A4');
             $pdf->AddPage();
@@ -122,7 +121,7 @@ class BudgetController extends Controller
             // Agregar la información de la empresa (o la información correspondiente)
 
             $pdf->SetFont('Montserrat', "B",  12);
-            $pdf->Cell(0, 10, 'My Company', 0, 1, 'C');
+            $pdf->Cell(0, 10, $user?->company_name ?? 'My Company', 0, 1, 'C');
             $pdf->SetFont('Montserrat', 'B', 10);
             // $pdf->Cell(0, 10, 'Direccion: Calle Ficticia 123', 0, 1, 'C');
             // $pdf->Cell(0, 10, 'Telefono: +123456789', 0, 1, 'C');

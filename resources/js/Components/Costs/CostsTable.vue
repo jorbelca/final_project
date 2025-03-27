@@ -7,6 +7,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/en";
 import NoDataMsg from "../UI/NoDataMsg.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
+import { periodicity } from "./FormCosts.vue";
 
 let loading = ref(false);
 
@@ -54,7 +55,7 @@ const editRow = (id) => {
 };
 
 dayjs.extend(relativeTime);
-dayjs.locale("en");
+dayjs.locale("es");
 </script>
 
 <template>
@@ -85,8 +86,8 @@ dayjs.locale("en");
                     <hr />
                     <div class="card-body">
                         <div>
-                            <p><b>Cost:</b> {{ cost.cost }} $</p>
-                            <p><b>Periodicity:</b> {{ cost.periodicity }}</p>
+                            <p><b>Coste:</b> {{ cost.cost }} €</p>
+                            <p><b>Periodicidad:</b> {{ cost.periodicity }}</p>
                         </div>
                         <div class="action-buttons">
                             <button @click.prevent="editRow(cost.id)">
@@ -107,11 +108,11 @@ dayjs.locale("en");
                 <thead>
                     <tr>
                         <th class="table-header"></th>
-                        <th class="table-header">Description</th>
-                        <th class="table-header">Cost</th>
-                        <th class="table-header">Periodicity</th>
-                        <th class="table-header">Created</th>
-                        <th class="table-header">Actions</th>
+                        <th class="table-header">Descripcion</th>
+                        <th class="table-header">Coste</th>
+                        <th class="table-header">Periodicidad</th>
+                        <th class="table-header">Creado</th>
+                        <th class="table-header">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -123,7 +124,7 @@ dayjs.locale("en");
                         <td class="table-cell">{{ serialNumber(key) }}</td>
                         <td class="table-cell">{{ cost.description }}</td>
                         <td class="table-cell">{{ cost.cost }}</td>
-                        <td class="table-cell">{{ cost.periodicity }}</td>
+                    <td class="table-cell">{{ periodicity[cost.periodicity] }}</td>
                         <td class="table-cell">
                             <span
                                 :title="

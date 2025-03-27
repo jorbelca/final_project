@@ -5,6 +5,7 @@ import PrimaryButton from "../Buttons/PrimaryButton.vue";
 import InputLabel from "../InputLabel.vue";
 import TextInput from "../TextInput.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
+import { stateOptions } from "./StateTile.vue";
 
 const edit = window.location.pathname.includes("edit");
 let selectedCost = "";
@@ -12,6 +13,7 @@ const quantity = ref(1);
 let loading = ref(false);
 
 const props = defineProps({
+    clone: Boolean,
     costs: Array,
     clients: Array,
     budget: Object,
@@ -87,7 +89,7 @@ const computedTotal = computed(() => {
 const deleteContent = (index) => {
     formData.content.splice(index, 1);
 };
-const stateOptions = ["draft", "approved", "rejected"];
+
 </script>
 
 <template>
@@ -97,14 +99,14 @@ const stateOptions = ["draft", "approved", "rejected"];
             class="flex flex-col gap-4 p-2 form-wrapper shadow-xl rounded-xl w-full"
             @submit.prevent="submitForm"
         >
-            <InputLabel>Client </InputLabel>
+            <InputLabel>Cliente </InputLabel>
             <select
                 class="text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                 name="client"
                 id="client"
                 v-model="formData.client_id"
             >
-                <option value="" disabled>Select a client</option>
+                <option value="" disabled>Selecciona el cliente</option>
                 <option
                     v-for="client in props.clients"
                     :key="client.id"
@@ -114,7 +116,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                 </option>
             </select>
 
-            <InputLabel>Content of the Budget</InputLabel>
+            <InputLabel>Contenido del Presupuesto</InputLabel>
             <template v-if="formData.content.length > 0 && !edit">
                 <div
                     v-for="(content, index) in formData.content"
@@ -189,7 +191,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                                 <div>
                                     <b>
                                         {{ content.quantity * content.cost }}
-                                        $</b
+                                        €</b
                                     >
                                 </div>
                                 <button
@@ -218,7 +220,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                         id="costs"
                         v-model="selectedCost"
                     >
-                        <option value="" disabled>Select a cost</option>
+                        <option value="" disabled>Selecciona un coste</option>
                         <option
                             v-for="cost in props.costs"
                             :key="cost.id"
@@ -229,14 +231,14 @@ const stateOptions = ["draft", "approved", "rejected"];
                     </select>
                 </div>
                 <PrimaryButton @click.prevent="addCost" class="text-center"
-                    >Add cost</PrimaryButton
+                    >Añadir coste</PrimaryButton
                 >
             </div>
 
             <div class="flex flex-wrap justify-between gap-5">
                 <div class="flex flex-wrap gap-10">
                     <div>
-                        <InputLabel>Tax</InputLabel>
+                        <InputLabel>Impuestos</InputLabel>
                         <TextInput
                             v-model="formData.taxes"
                             type="number"
@@ -245,7 +247,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                         />
                     </div>
                     <div>
-                        <InputLabel>Discount</InputLabel>
+                        <InputLabel>Descuento</InputLabel>
                         <TextInput
                             v-model="formData.discount"
                             type="number"
@@ -255,7 +257,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                     </div>
                     <div>
                         <template v-if="edit">
-                            <InputLabel for="state">State</InputLabel>
+                            <InputLabel for="state">Estado</InputLabel>
                             <select
                                 class="w-full text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                                 name="state"
@@ -263,11 +265,11 @@ const stateOptions = ["draft", "approved", "rejected"];
                                 v-model="formData.state"
                             >
                                 <option
-                                    v-for="state in stateOptions"
-                                    :key="state"
+                                    v-for="(state, index) in Object.keys(stateOptions)"
+                                    :key="index"
                                     :value="state"
                                 >
-                                    {{ state }}
+                                    {{ stateOptions[state] }}
                                 </option>
                             </select>
                         </template>
@@ -276,7 +278,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                 <div class="flex flex-row self-end">
                     <p>
                         <b class="text-text text-lg font-extrabold"
-                            >Total: {{ computedTotal }} $</b
+                            >Total: {{ computedTotal }} €</b
                         >
                     </p>
                 </div>
@@ -288,7 +290,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                         class="w-1/5 justify-center bg-yellow-500 hover:bg-yellow-600"
                         type="submit"
                         :disabled="formData.content.length === 0"
-                        >Edit</PrimaryButton
+                        >Editar</PrimaryButton
                     >
                 </div>
             </template>
@@ -298,7 +300,7 @@ const stateOptions = ["draft", "approved", "rejected"];
                         class="w-1/5 justify-center bg-green-400 hover:bg-green-500"
                         type="submit"
                         :disabled="formData.content.length === 0"
-                        >Create</PrimaryButton
+                        >{{ clone ? "Clonar" : "Crear" }}</PrimaryButton
                     >
                 </div>
             </template>

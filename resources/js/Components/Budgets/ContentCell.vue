@@ -26,7 +26,7 @@ const isOpen = ref(false);
             @click="isOpen = !isOpen"
             class="bg-gray-200 px-4 py-1 rounded flex items-center dark:text-gray-900"
         >
-            Content
+            Contenido
             <ChevronDoubleDownIcon v-if="!isOpen" class="w-5 h-4 font-bold" />
             <ChevronDoubleUpIcon v-else class="w-5 h-4" />
         </button>

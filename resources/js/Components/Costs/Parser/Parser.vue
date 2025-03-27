@@ -10,7 +10,7 @@ import parsePdfText from "./parsePdf";
 
 let loading = ref(false);
 let tableData = ref([]);
-const headers = ref(["DESCRIPTION", "COST", "UNIT", "PERIODICITY"]);
+const headers = ref(["DESCRIPCION", "COSTE", "UNIDAD", "PERIODICIDAD"]);
 
 function handleFileUpload(event) {
     const file = event.target.files[0];
@@ -83,10 +83,10 @@ function removeCost(indexCost) {
     <ProcessingMessage :loading="loading" />
     <div class="px-6 max-w-4xl mx-auto rounded-lg text-text">
         <p class="mb-4">
-            Upload a CSV or PDF file with at least the following columns:
+            Sube un archivo CSV o PDF con al menos las siguientes columnas
         </p>
         <div class="mb-4">
-            <p class="font-medium mb-2">File structure example:</p>
+            <p class="font-medium mb-2">Ejemplo de la estructura:</p>
             <table class="w-full mb-4 border-collapse">
                 <thead>
                     <tr class="bg-hover">
@@ -102,13 +102,13 @@ function removeCost(indexCost) {
                 <tbody>
                     <tr class="dark:bg-gray-500 bg-white">
                         <td class="border p-2 text-center font-bold">
-                            Required
+                            Requerido
                         </td>
                         <td class="border p-2 text-center font-semibold">
-                            Required
+                            Requerido
                         </td>
-                        <td class="border p-2 text-center">Optional</td>
-                        <td class="border p-2 text-center">Optional</td>
+                        <td class="border p-2 text-center">Opcional</td>
+                        <td class="border p-2 text-center">Opcional</td>
                     </tr>
                     <tr class="dark:bg-gray-500 bg-white">
                         <td colspan="4" class="border p-2 text-center italic">
@@ -190,7 +190,7 @@ function removeCost(indexCost) {
                 type="submit"
                 class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
             >
-                Save
+                Guardar
             </PrimaryButton>
         </form>
     </div>

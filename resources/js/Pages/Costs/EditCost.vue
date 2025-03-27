@@ -14,14 +14,14 @@ const props = defineProps({
                 <!-- Enlaces alineados a la izquierda -->
                 <div class="flex flex-col text-xs sm:text-sm">
                     <h2 class="font-semibold text-amber-500">
-                        <a :href="route('costs.index')">◀ List of Costs</a>
+                        <a :href="route('costs.index')">◀ Lista de Costes</a>
                     </h2>
                 </div>
 
                 <!-- Título seccion-->
                 <div class="flex-grow text-center pr-14">
                     <h2 class="font-semibold text-xl text-text leading-tight">
-                        Edit a Cost
+                        Editar un Coste
                     </h2>
                 </div>
             </div>

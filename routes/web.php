@@ -41,6 +41,9 @@ Route::middleware([
 
     // Generate PDF
     Route::get('/budget/{id}/generate', [BudgetController::class, 'generatePdf']);
+    // Clone budget
+    Route::get('/budget/{id}/clone', [BudgetViewController::class, 'clone']);
+
     //Admin
     Route::get('/admin', [UserController::class, 'admin'])->name("admin");
 

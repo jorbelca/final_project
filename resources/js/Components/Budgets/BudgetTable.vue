@@ -67,8 +67,17 @@ const editRow = (id) => {
     });
 };
 
+const cloneBudget = (id) => {
+    loading.value = true;
+    router.get(`budget/${id}/clone`, {
+        onError: (errors) => alert("Error loading the budget form."),
+        onFinish: () => {
+            loading.value = false;
+        },
+    });
+};
 dayjs.extend(relativeTime);
-dayjs.locale("en");
+dayjs.locale("es-ES");
 
 const generate = (id) => {
     try {
@@ -170,7 +179,11 @@ const downloadPdf = async (id) => {
                                 >
                                     <PrinterIcon class="size-5 text-blue-500" />
                                 </button>
-                                <button v-on:click.prevent="">
+                                <button
+                                    v-on:click.prevent="
+                                        cloneBudget(`${budget.id}`)
+                                    "
+                                >
                                     <DocumentDuplicateIcon
                                         class="size-5 text-gray-500 dark:text-gray-100"
                                     />
@@ -271,11 +284,13 @@ const downloadPdf = async (id) => {
                                 </button>
 
                                 <button
-                                    v-on:click.prevent=""
+                                    v-on:click.prevent="
+                                        cloneBudget(`${budget.id}`)
+                                    "
                                     title="Duplicate the same budget"
                                 >
                                     <DocumentDuplicateIcon
-                                        class="size-5 text-gray-500 dark:text-gray-100 m-1"
+                                        class="size-5 text-gray-500 dark:text-gray-400 m-1"
                                     />
                                 </button>
                                 <button
@@ -284,7 +299,7 @@ const downloadPdf = async (id) => {
                                     "
                                 >
                                     <ArchiveBoxArrowDownIcon
-                                        class="size-5 text-green-500 dark:text-gray-100"
+                                        class="size-5 text-green-500 dark:text-gren-500 m-1"
                                     />
                                 </button>
                             </div>

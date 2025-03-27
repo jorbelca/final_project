@@ -9,13 +9,13 @@ defineProps({
 </script>
 
 <template>
-    <AppLayout title="Costs">
+    <AppLayout title="Costes">
         <template #header>
             <PageHeader
-                title="Costs"
+                title="Costes"
                 :links="[
-                    { text: 'Create a Cost >', route: 'costs.create' },
-                    { text: 'Upload from a File >', route: 'costs.parse' },
+                    { text: 'Crear un Coste >', route: 'costs.create' },
+                    { text: 'Subir archivo >', route: 'costs.parse' },
                 ]"
             />
         </template>

@@ -32,7 +32,7 @@ function serialNumber(key) {
 
 // Métodos de edición y eliminación
 const deleteRow = (id) => {
-    if (!confirm("Are you sure you want to delete this client?")) return;
+    if (!confirm("Estas seguro que quieres elimnar este cliente?")) return;
 
     loading.value = true;
     router.delete(
@@ -55,7 +55,7 @@ const editRow = (id) => {
 };
 
 dayjs.extend(relativeTime);
-dayjs.locale("en");
+dayjs.locale("es");
 </script>
 
 <template>
@@ -94,7 +94,7 @@ dayjs.locale("en");
                                 )
                             "
                         >
-                            <p class="font-bold text-text">Created</p>
+                            <p class="font-bold text-text">Creado</p>
                             {{ dayjs(client.created_at).fromNow() }}</span
                         >
                     </div>
@@ -129,11 +129,11 @@ dayjs.locale("en");
                     <tr>
                         <th class="table-header"></th>
                         <th class="table-header">Logo</th>
-                        <th class="table-header">Name</th>
+                        <th class="table-header">Nombre</th>
                         <th class="table-header">Email</th>
-                        <th class="table-header">Company</th>
-                        <th class="table-header">Created</th>
-                        <th class="table-header">Actions</th>
+                        <th class="table-header">Empresa</th>
+                        <th class="table-header">Creado</th>
+                        <th class="table-header">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>

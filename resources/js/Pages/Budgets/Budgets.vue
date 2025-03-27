@@ -29,12 +29,12 @@ const changePage = (url) => {
 </script>
 
 <template>
-    <AppLayout title="Budgets">
+    <AppLayout title="Presupuestos">
         <template #header>
             <PageHeader
-                title="Budgets"
+                title="Presupuestos"
                 :links="[
-                    { text: 'Create a Budget >', route: 'budgets.create' },
+                    { text: 'Crea un Presupuesto >', route: 'budgets.create' },
                 ]"
                 :padding="8"
             >

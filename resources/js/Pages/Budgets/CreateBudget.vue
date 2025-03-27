@@ -12,13 +12,11 @@ const props = defineProps({
 </script>
 
 <template>
-    <AppLayout title="Create a Budget">
+    <AppLayout title="Crea un Presupuesto">
         <template #header>
             <PageHeader
-                title="Create a Budget"
-                :links="[
-                    { text: '◀ List of Budgets ', route: 'budgets.index' },
-                ]"
+                title="Crear un Presupuesto"
+                :links="[ { text: '◀ Lista de Presupuestos ', route: 'budgets.index' } ]"
                 :form="true"
             >
             </PageHeader>

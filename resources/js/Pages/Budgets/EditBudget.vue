@@ -4,6 +4,7 @@ import PageHeader from "@/Components/PageHeader.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
+    clone: Boolean,
     clients: Array,
     costs: Array,
     budget: Object,
@@ -11,17 +12,25 @@ const props = defineProps({
 </script>
 
 <template>
-    <AppLayout :title="'Budget ' + props.budget.id">
+    <AppLayout :title="'Presupuesto ' + props.budget.id">
         <template #header>
             <PageHeader
-                :title="'Edition Budget  ' + props.budget.id"
+                :title="
+                    clone
+                        ? 'Clone del Presupuesto ' + props.budget.id
+                        : 'Edicion del Presupuesto  ' + props.budget.id
+                "
                 :links="[
-                    { text: '◀ List of Budgets ', route: 'budgets.index' },
+                    {
+                        text: '◀ Lista de Presupuestos ',
+                        route: 'budgets.index',
+                    },
                 ]"
             >
             </PageHeader>
         </template>
         <BudgetForm
+            :clone="true"
             :clients="props.clients"
             :costs="props.costs"
             :budget="props.budget"

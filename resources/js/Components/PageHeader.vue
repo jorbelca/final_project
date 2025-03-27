@@ -31,13 +31,13 @@ const computedLinks = computed(() => {
                     >{{ link.text }}</a
                 >
                 <a
-                    v-if="!isForm && !link.text.includes('File')"
+                    v-if="!isForm && !link.text.includes('archivo')"
                     class="text-green-500"
                     :href="route(link.route)"
                     >{{ link.text }}</a
                 >
                 <a
-                    v-if="link.text.includes('File')"
+                    v-if="link.text.includes('archivo')"
                     class="text-blue-500"
                     :href="route(link.route)"
                     >{{ link.text }}</a

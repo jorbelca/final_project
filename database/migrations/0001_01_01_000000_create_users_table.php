@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('active')->default('1');
             $table->string('admin')->default('0');
             $table->string('default_taxes')->default('20');
+            $table->string('company_name')->nullable();
             $table->timestamps();
         });
 

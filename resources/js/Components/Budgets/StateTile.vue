@@ -1,3 +1,10 @@
+<script>
+export const stateOptions = {
+    draft: "Borrador",
+    approved: "Aprobado",
+    rejected: "Rechazado",
+};
+</script>
 <script setup>
 import { CheckIcon, ClockIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 
@@ -25,9 +32,6 @@ const statusIcons = {
     approved: CheckIcon,
     rejected: XMarkIcon,
 };
-const capitalizedStatus = computed(
-    () => props.status.charAt(0).toUpperCase() + props.status.slice(1)
-);
 </script>
 
 <template>
@@ -36,7 +40,7 @@ const capitalizedStatus = computed(
         :class="statusClasses"
     >
         <component :is="statusIcons[status]" class="w-4 h-4" />
-        <span>{{ capitalizedStatus }}</span>
+        <span>{{ stateOptions[props.status] }}</span>
     </div>
 </template>
 

@@ -1,3 +1,17 @@
+<script>
+export const periodicity = {
+    unit: "unidad",
+    minute: "minuto",
+    hourly: "hora",
+    daily: "día",
+    monthly: "mes",
+    yearly: "año",
+    daily: "diario",
+    weekly: "semanal",
+    biweekly: "quincenal",
+};
+</script>
+
 <script setup>
 import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
@@ -5,7 +19,6 @@ import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
-
 
 let loading = ref(false);
 const edit = window.location.pathname.includes("edit");
@@ -42,17 +55,6 @@ const submitForm = () => {
         loading.value = false;
     }
 };
-
-const periodicity = [
-    "unit",
-    "minute",
-    "hourly",
-    "daily",
-    "monthly",
-    "yearly",
-    "daily",
-    "weekly",
-];
 </script>
 
 <template>
@@ -64,14 +66,14 @@ const periodicity = [
         >
             <div class="flex flex-wrap gap-4 justify-center">
                 <div>
-                    <InputLabel>Description</InputLabel>
+                    <InputLabel>Descripcion</InputLabel>
                     <TextInput
                         v-model="formDataCosts.description"
                         type="text"
                     />
                 </div>
                 <div>
-                    <InputLabel>Cost</InputLabel>
+                    <InputLabel>Coste</InputLabel>
                     <TextInput
                         v-model="formDataCosts.cost"
                         type="number"
@@ -79,7 +81,7 @@ const periodicity = [
                     />
                 </div>
                 <div>
-                    <InputLabel>Unit</InputLabel>
+                    <InputLabel>Unidad</InputLabel>
                     <TextInput
                         v-model="formDataCosts.unit"
                         type="text"
@@ -87,18 +89,18 @@ const periodicity = [
                     />
                 </div>
                 <div>
-                    <InputLabel>Periodicity</InputLabel>
+                    <InputLabel>Periodicidad</InputLabel>
                     <select
                         v-model="formDataCosts.periodicity"
                         class="text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     >
                         ">
                         <option
-                            v-for="item in periodicity"
-                            :key="item"
+                            v-for="(item, index) in Object.keys(periodicity)"
+                            :key="index"
                             :value="item"
                         >
-                            {{ item }}
+                            {{ periodicity[item] }}
                         </option>
                     </select>
                 </div>
@@ -113,7 +115,7 @@ const periodicity = [
                     "
                     type="submit"
                 >
-                    {{ edit ? "Edit" : "Create" }}
+                    {{ edit ? "Editar" : "Crear" }}
                 </PrimaryButton>
             </div>
         </form>

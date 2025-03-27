@@ -43,12 +43,12 @@ function deleteTicket(ticketId) {
         <template #header>
             <div class="flex align-center justify-center gap-5 items-end">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    Support
+                    Soporte
                 </h2>
             </div>
         </template>
         <div class="overflow-x-auto p-2 m-3 bg-white rounded-lg">
-            <h3 class="font-black">Create a new ticket</h3>
+            <h3 class="font-black">Crear un nuevo ticket</h3>
             <div
                 class="overflow-x-auto p-2 m-3 bg-white rounded-lg flex flex-row justify-between"
             >
@@ -59,7 +59,7 @@ function deleteTicket(ticketId) {
                     <textarea
                         v-model="form.question"
                         class="w-full rounded-lg"
-                        placeholder="Message"
+                        placeholder="Mensaje"
                     >
                     </textarea>
                     <div v-if="form.errors.question">
@@ -70,7 +70,7 @@ function deleteTicket(ticketId) {
                         :disabled="form.processing"
                         class="rounded-lg bg-green-400 hover:bg-green-500 text-white p-2 w-10px max-h-10 text-center"
                     >
-                        Send
+                        Enviar
                     </button>
                 </form>
             </div>
@@ -113,7 +113,7 @@ function deleteTicket(ticketId) {
                     class="px-4 flex flex-nowrap flex-col justify-center items-center min-w-[170px]"
                 >
                     <p class="font-bold text-blue-500">
-                        Question : &nbsp;<span class="font-light text-black">{{
+                        Pregunta : &nbsp;<span class="font-normal text-black">{{
                             ticket.question
                         }}</span>
                     </p>
@@ -151,7 +151,7 @@ function deleteTicket(ticketId) {
                     class="flex flex-nowrap flex-col justify-center items-center min-w-[170px]"
                 >
                     <p class="font-bold text-green-500">
-                        Answer : &nbsp;<span class="font-light text-black">{{
+                        Respuesta : &nbsp;<span class="font-normal text-black">{{
                             ticket.answer
                         }}</span>
                     </p>
@@ -190,7 +190,7 @@ function deleteTicket(ticketId) {
                         <textarea
                             v-model="formAnswers[ticket.id].answer"
                             class="w-full rounded-lg"
-                            placeholder="Response"
+                            placeholder="Respuesta"
                         >
                         </textarea>
                         <div v-if="form.errors.question">
@@ -201,7 +201,7 @@ function deleteTicket(ticketId) {
                             :disabled="form.processing"
                             class="rounded-lg bg-blue-400 hover:bg-blue-500 text-white p-1 w-10px"
                         >
-                            Reply
+                            Responder
                         </button>
                     </form>
                 </div>

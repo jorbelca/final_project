@@ -9,12 +9,12 @@ const props = defineProps({
 </script>
 
 <template>
-    <AppLayout title="Clients">
+    <AppLayout title="Clientes">
         <template #header>
             <PageHeader
-                title="Clients"
+                title="Clientes"
                 :links="[
-                    { text: 'Create a Client >', route: 'clients.create' },
+                    { text: 'Crear un Cliente >', route: 'clients.create' },
                 ]"
             />
         </template>

@@ -68,7 +68,7 @@ const changeState = (user_id) => {
                 class="px-4 flex flex-nowrap flex-col justify-center items-center min-w-[170px]"
             >
                 <p class="font-bold">
-                    Nº of Budgets : &nbsp;<span class="font-light">{{
+                    Nº of Budgets : &nbsp;<span class="ht">{{
                         user.budgets.length
                     }}</span>
                 </p>

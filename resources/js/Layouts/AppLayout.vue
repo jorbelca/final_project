@@ -61,19 +61,19 @@ const logout = () => {
                                     :href="route('budgets.index')"
                                     :active="route().current('budgets.index')"
                                 >
-                                    Budgets
+                                    Presupuestos
                                 </NavLink>
                                 <NavLink
                                     :href="route('clients.index')"
                                     :active="route().current('clients.index')"
                                 >
-                                    Clients
+                                    Clientes
                                 </NavLink>
                                 <NavLink
                                     :href="route('costs.index')"
                                     :active="route().current('costs.index')"
                                 >
-                                    Costs
+                                    Costes
                                 </NavLink>
                                 <NavLink
                                     v-if="$page?.props?.auth?.user?.admin == 1"
@@ -87,7 +87,7 @@ const logout = () => {
                                     :href="route('support.index')"
                                     :active="route().current('support.index')"
                                 >
-                                    Support
+                                    Soporte
                                 </NavLink>
                             </div>
                         </div>
@@ -135,7 +135,7 @@ const logout = () => {
                                             <div
                                                 class="block px-4 py-2 text-xs text-gray-400"
                                             >
-                                                Manage Team
+                                                Gestion de Equipos
                                             </div>
 
                                             <!-- Team Settings -->
@@ -148,7 +148,7 @@ const logout = () => {
                                                     )
                                                 "
                                             >
-                                                Team Settings
+                                                Ajustes del Equipo
                                             </DropdownLink>
 
                                             <DropdownLink
@@ -158,7 +158,7 @@ const logout = () => {
                                                 "
                                                 :href="route('teams.create')"
                                             >
-                                                Create New Team
+                                                Crear un nuevo Equipo
                                             </DropdownLink>
 
                                             <!-- Team Switcher -->
@@ -175,7 +175,7 @@ const logout = () => {
                                                 <div
                                                     class="block px-4 py-2 text-xs text-gray-400"
                                                 >
-                                                    Switch Teams
+                                                    Cambiar de Equipo
                                                 </div>
 
                                                 <template
@@ -258,10 +258,10 @@ const logout = () => {
                                                 "
                                             />
 
-                                            {{
+                                            <span class="text-text">{{
                                                 $page.props.auth.user?.name ??
                                                 ""
-                                            }}
+                                            }}</span>
                                             <svg
                                                 class="ms-2 -me-0.5 size-4"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -332,13 +332,13 @@ const logout = () => {
                                     <template #content>
                                         <!-- Account Management -->
                                         <div class="block px-4 py-2 text-xs">
-                                            Manage Account
+                                            Gestión de Cuenta
                                         </div>
 
                                         <DropdownLink
                                             :href="route('profile.show')"
                                         >
-                                            Profile
+                                            Perfil
                                         </DropdownLink>
 
                                         <DropdownLink
@@ -356,7 +356,7 @@ const logout = () => {
                                         <!-- Authentication -->
                                         <form @submit.prevent="logout">
                                             <DropdownLink as="button">
-                                                Log Out
+                                                Cerrar Sesión
                                             </DropdownLink>
                                         </form>
                                     </template>
@@ -421,19 +421,19 @@ const logout = () => {
                             :href="route('budgets.index')"
                             :active="route().current('budgets.index')"
                         >
-                            Budgets
+                            Presupuestos
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('clients.index')"
                             :active="route().current('clients.index')"
                         >
-                            Clients
+                            Clientes
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('costs.index')"
                             :active="route().current('costs.index')"
                         >
-                            Costs
+                            Costes
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             v-if="$page?.props?.auth?.user?.admin == 1"
@@ -446,7 +446,7 @@ const logout = () => {
                             :href="route('support.index')"
                             :active="route().current('support.index')"
                         >
-                            Support
+                            Soporte
                         </ResponsiveNavLink>
                     </div>
 
@@ -498,7 +498,7 @@ const logout = () => {
                                 :href="route('profile.show')"
                                 :active="route().current('profile.show')"
                             >
-                                Profile
+                                Perfil
                             </ResponsiveNavLink>
 
                             <ResponsiveNavLink
@@ -512,7 +512,7 @@ const logout = () => {
                             <!-- Authentication -->
                             <form method="POST" @submit.prevent="logout">
                                 <ResponsiveNavLink as="button">
-                                    Log Out
+                                    Cerrar Sesión
                                 </ResponsiveNavLink>
                             </form>
 
@@ -525,7 +525,7 @@ const logout = () => {
                                 <div
                                     class="block px-4 py-2 text-xs text-gray-400"
                                 >
-                                    Manage Team
+                                    Gestion de Equipos
                                 </div>
 
                                 <!-- Team Settings -->
@@ -538,7 +538,7 @@ const logout = () => {
                                     "
                                     :active="route().current('teams.show')"
                                 >
-                                    Team Settings
+                                    Ajustes del Equipo
                                 </ResponsiveNavLink>
 
                                 <ResponsiveNavLink
@@ -561,7 +561,7 @@ const logout = () => {
                                     <div
                                         class="block px-4 py-2 text-xs text-gray-400"
                                     >
-                                        Switch Teams
+                                        Cambiar de Equipo
                                     </div>
 
                                     <template

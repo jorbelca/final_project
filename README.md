@@ -24,14 +24,14 @@
 -   Columna deleted, modificar algoritmo de asignacion de client
 
     BUDGETS
-
--   Poder Duplicar presupost
--   Boto per a Poder copiar el PDF del budget
+-   Agrupar botons de acciones en budgets en responsive
+-   Acabar el boto de content en responsive
 
     ESTILOS
 
 -   Mejorar logo / Buscar nuevo logo
 -   Responsive design nav
+-   Dark mode Login, Register, Admin, User Profile, Support
 
 --- AMPLIACIONS
 
@@ -63,7 +63,9 @@ Aquest projecte és una aplicació web desenvolupada amb el framework Laravel qu
 4. Suscriptions
 5. Clients
 6. User_Client
-7. Prompt Adicional (o tambe podria ser configuracio adicional en relacio al user)
+7. Aditiional_Prompt
+8. Support
+9. Plans
 
 [Estructura de Base de Datos](./esquema_reduit.pdf)
 

@@ -85,7 +85,7 @@ const getCookie = (name) => {
 const vinculateClient = () => {
     if (
         window.confirm(
-            `The client with the email ${formDataClient.email} already exists. Do you want to vinculate with it?`
+            `El cliente con el correo electrónico ${formDataClient.email} ya existe. ¿Desea vincularse con él?`
         )
     ) {
         loading.value = true;
@@ -118,25 +118,25 @@ const vinculateClient = () => {
                     <TextInput
                         v-model="formDataClient.email"
                         type="email"
-                        placeholder="Email of the client"
+                        placeholder="Email del cliente"
                         @blur="clientExists"
                     />
                 </div>
                 <div>
-                    <InputLabel>Name</InputLabel>
+                    <InputLabel>Nombre</InputLabel>
                     <TextInput
                         v-model="formDataClient.name"
                         type="text"
-                        placeholder="Name of the client"
+                        placeholder="Nombre del cliente"
                     />
                 </div>
 
                 <div>
-                    <InputLabel>Company</InputLabel>
+                    <InputLabel>Empresa</InputLabel>
                     <TextInput
                         v-model="formDataClient.company_name"
                         type="text"
-                        placeholder="Company name"
+                        placeholder="Nombre de la empresa"
                     />
                 </div>
                 <div>
@@ -171,7 +171,7 @@ const vinculateClient = () => {
                     type="submit"
                     :disabled="loading"
                 >
-                    {{ edit ? "Edit" : "Create" }}
+                    {{ edit ? "Editar" : "Crear" }}
                 </PrimaryButton>
             </div>
         </form>

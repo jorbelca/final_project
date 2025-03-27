@@ -10,14 +10,14 @@ import AppLayout from "@/Layouts/AppLayout.vue";
                 <!-- Enlaces alineados a la izquierda -->
                 <div class="flex flex-col text-xs sm:text-sm">
                     <h2 class="font-semibold text-amber-500">
-                        <a :href="route('costs.index')">◀ List of Costs</a>
+                        <a :href="route('costs.index')">◀ Listado de Costes</a>
                     </h2>
                 </div>
 
                 <!-- Título seccion-->
                 <div class="flex-grow text-center pr-14">
                     <h2 class="font-semibold text-xl text-text leading-tight">
-                        Files Upload
+                        Archivos 
                     </h2>
                 </div>
             </div>

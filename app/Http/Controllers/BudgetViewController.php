@@ -138,6 +138,24 @@ class BudgetViewController extends Controller
         ]);
     }
 
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function clone(String $id)
+    {
+        $budget = Budget::findOrFail($id);
+        if (!Gate::allows('delete', $budget)) {
+            return BudgetViewController::notify("index", "Inactive User", false);
+        }
+        return Inertia::render('Budgets/EditBudget', [
+            'clone' => true,
+            'budget' => $budget,
+            'clients' => Auth::user()->clients,
+            'costs' => Auth::user()->costs,
+        ]);
+    }
+
     /**
      * Update the specified resource in storage.
      */
