@@ -14,7 +14,6 @@ import { ref } from "vue";
 // Initialize the relativeTime plugin
 dayjs.extend(relativeTime);
 dayjs.locale("es");
-let loading = ref(false);
 
 const props = defineProps({
     user: Object,
@@ -29,11 +28,10 @@ const form = useForm({
 });
 
 const updateSubscription = () => {
-    loading.value = true;
     form.put(route("subscription.update", props.subscription), {
         preserveScroll: true,
         onError: (errors) => {
-            console.log(errors);
+            console.error(errors);
         },
         onFinish: () => {
             loading.value = false;

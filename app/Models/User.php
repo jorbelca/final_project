@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+    // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 ;
 
@@ -94,6 +94,10 @@ class User extends Authenticatable
     public function incidencies()
     {
         return $this->hasMany(Support::class);
+    }
+    public function subscription()
+    {
+        return $this->hasOne(Subscription::class);
     }
     public function deleteProfilePhoto(): void
     {

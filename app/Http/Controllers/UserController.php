@@ -7,6 +7,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Client;
 use App\Models\Subscription;
+use App\Models\Support;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 
@@ -157,20 +158,30 @@ class UserController extends Controller
                 return redirect()->route('budgets.index');
             };
             // Obtener usuarios con budgets y contar budgets por estado
-            $usersAndBudgetsAndClients = User::with(['budgets' => function ($query) {
+            $usersAndBudgetsAndClientsAndSubscriptionAndIncidencies = User::with(['budgets' => function ($query) {
                 $query->select('state', 'user_id');
             }])->withCount(['clients', 'costs'])->get();
 
             // Añadir el conteo de budgets por estado a cada usuario
-            $usersAndBudgetsAndClients->each(function ($user) {
+            $usersAndBudgetsAndClientsAndSubscriptionAndIncidencies->each(function ($user) {
                 $user->budgetCounts = $user->budgets
                     ->groupBy('state')
                     ->map(fn($items) => $items->count());
             });
 
-            return Inertia::render('Admin/Admin', ['users' => $usersAndBudgetsAndClients]);
+
+            // Añadir la suscripción y las incidencias a cada usuario
+            $usersAndBudgetsAndClientsAndSubscriptionAndIncidencies->each(function ($user) {
+                $user->setAttribute('subscription_data', Subscription::where('subscriptions.user_id', $user->id)
+                    ->join('plans', 'subscriptions.plan_id', '=', 'plans.id')
+                    ->select('subscriptions.*', 'plans.name as plan_name', 'plans.price as plan_price')
+                    ->first());
+                $user->setAttribute('incidencies_count', Support::where('support.questioner_id', $user->id) ->count());
+
+            });
+            return Inertia::render('Admin/Admin', ['users' => $usersAndBudgetsAndClientsAndSubscriptionAndIncidencies]);
         } catch (\Throwable $th) {
-            return response()->json(['message' => 'Error ' . $th], 400);
+            return response()->json(['message' => 'Error ' . $th->getMessage()], 400);
         }
     }
 }

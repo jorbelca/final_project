@@ -1,11 +1,5 @@
 # TODO
 
--   USER
-
-    -   Config del user (iva por defecto)
-    -   Gestionar el plan de uso ,SUBSCRIPTIONS
-    -   Nom Empresa
-
 -   Repasar Testing e2e
 
 -   Landing (cachear i acabar)
