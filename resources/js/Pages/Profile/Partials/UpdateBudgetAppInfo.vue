@@ -1,11 +1,20 @@
 <script setup>
-import { Link, router, useForm } from "@inertiajs/vue3";
+import { useForm } from "@inertiajs/vue3";
 import ActionMessage from "@/Components/ActionMessage.vue";
 import FormSection from "@/Components/FormSection.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
+import PlansTiles from "./PlansTiles.vue";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import "dayjs/locale/es";
+import { ref } from "vue";
+// Initialize the relativeTime plugin
+dayjs.extend(relativeTime);
+dayjs.locale("es");
+let loading = ref(false);
 
 const props = defineProps({
     user: Object,
@@ -14,10 +23,23 @@ const props = defineProps({
 });
 
 const form = useForm({
-    _method: "PUT",
     default_taxes: props.user.default_taxes,
     company_name: props.user.company_name,
+    subscription: props.subscription,
 });
+
+const updateSubscription = () => {
+    loading.value = true;
+    form.put(route("subscription.update", props.subscription), {
+        preserveScroll: true,
+        onError: (errors) => {
+            console.log(errors);
+        },
+        onFinish: () => {
+            loading.value = false;
+        },
+    });
+};
 </script>
 
 <template>
@@ -45,9 +67,11 @@ const form = useForm({
                         <TextInput
                             id="default_taxes"
                             v-model="form.default_taxes"
-                            type="text"
+                            type="number"
                             class="mt-1 block w-full"
                             required
+                            min="0"
+                            max="99"
                             autocomplete="IVA por defecto"
                         />
                         <InputError
@@ -78,42 +102,90 @@ const form = useForm({
 
                 <!-- Subscriptions -->
                 <div class="col-span-6">
-                    <h5>Subscripcion</h5>
-                    <InputLabel for="plan" value="Planes" />
-                    <!-- Tiles for plans -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div
-                            v-for="plan in props.plans"
-                            :key="plan.id"
-                            class="bg-white border border-gray-200 dark:bg-hover rounded-lg shadow-sm p-4 flex flex-col justify-between text-center"
-                        >
-                            <div>
-                                <h5 class="font-semibold text-text">
-                                    {{ plan.name }}
-                                </h5>
-                                <p class="text-text">
-                                    {{ plan.description }}
-                                </p>
-                                <p class="font-thin text-text">
-                                    {{ plan.price }} €
+                    <InputLabel for="subscription" value="Subscripción" />
+
+                    <div
+                        class="bg-white dark:bg-hover border border-gray-200 rounded-lg p-4 my-3"
+                    >
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="flex flex-col items-center">
+                                <h6
+                                    class="text-sm text-gray-500 dark:text-gray-400"
+                                >
+                                    Créditos restantes
+                                </h6>
+                                <p class="text-xl font-bold text-text">
+                                    {{ props.subscription.credits }}
                                 </p>
                             </div>
-                            <div class="mt-4">
-                                <input
-                                    type="radio"
-                                    :value="plan.id"
-                                    v-model="form.plan"
-                                    name="plan"
-                                    id="plan_{{ plan.id }}"
-                                />
-                                <label
-                                    :for="'plan_' + plan.id"
-                                    class="ml-2 text-text cursor-pointer"
-                                    >Seleccionar</label
+                            <div class="flex flex-col items-center">
+                                <h6
+                                    class="text-sm text-gray-500 dark:text-gray-400"
                                 >
+                                    Finaliza
+                                </h6>
+                                <p class="text-text">
+                                    {{
+                                        props.subscription &&
+                                        props.subscription.ends_at
+                                            ? dayjs(
+                                                  props.subscription.ends_at
+                                              ).fromNow()
+                                            : "-"
+                                    }}
+                                </p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <h6
+                                    class="text-sm text-gray-500 dark:text-gray-400"
+                                >
+                                    Número de tarjeta
+                                </h6>
+                                <input
+                                    type="text"
+                                    class="text-text border border-gray-300 dark:border-gray-300 rounded-md text-center w-full max-w-[200px] text-xs font-bold bg-transparent focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                    v-model="form.subscription.payment_number"
+                                    maxlength="19"
+                                    @input="
+                                        (e) => {
+                                            const start =
+                                                e.target.selectionStart;
+                                            const raw = e.target.value.replace(
+                                                /[^\d]/g,
+                                                ''
+                                            );
+                                            let formatted = '';
+                                            for (
+                                                let i = 0;
+                                                i < raw.length && i < 16;
+                                                i++
+                                            ) {
+                                                if (i > 0 && i % 4 === 0)
+                                                    formatted += '-';
+                                                formatted += raw[i];
+                                            }
+                                            form.subscription.payment_number =
+                                                formatted || '0';
+                                            e.target.value = formatted;
+                                            e.target.setSelectionRange(
+                                                start,
+                                                start
+                                            );
+                                        }
+                                    "
+                                />
                             </div>
                         </div>
                     </div>
+
+                    <InputLabel for="plan" value="Planes" />
+                    <PlansTiles
+                        :plans="props.plans"
+                        :planSelected="props.subscription.plan_id"
+                        @update:planSelected="
+                            (planId) => (form.subscription.plan_id = planId)
+                        "
+                    />
                     <InputError :message="form.errors.plan" class="mt-2" />
                 </div>
             </div>
@@ -127,6 +199,7 @@ const form = useForm({
             <PrimaryButton
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
+                @click="updateSubscription"
             >
                 Guardar
             </PrimaryButton>

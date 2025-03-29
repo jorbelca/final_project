@@ -4,6 +4,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetViewController;
 use App\Http\Controllers\ClientViewController;
 use App\Http\Controllers\CostViewController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -25,11 +26,11 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-
     Route::resource('budgets', BudgetViewController::class);
     Route::resource('costs', CostViewController::class)->except('show');
     Route::resource('clients', ClientViewController::class)->except('show');
     Route::resource('support', SupportController::class);
+    Route::resource('subscription', SubscriptionController::class)->except('show');
 
 
     //Update Client with POST Request
@@ -55,6 +56,7 @@ Route::middleware([
 
     //Cambiar estado budget
     Route::post('/users/{id}/changestate', [UserController::class, 'changeState']);
+
 
 
     //FALLBACK

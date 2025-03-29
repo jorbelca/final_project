@@ -17,7 +17,6 @@ defineProps({
 </script>
 
 <template>
-    {{ console.log(Subscription) }}
     <AppLayout title="Profile">
         <template #header>
             <h2 class="font-semibold text-xl text-text leading-tight">
