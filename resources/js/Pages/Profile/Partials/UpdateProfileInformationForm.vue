@@ -126,7 +126,7 @@ const clearPhotoFileInput = () => {
                 </div>
 
                 <SecondaryButton
-                    class="mt-2 me-2"
+                    class="mt-2 me-2 dark:bg-gray-400 dark:text-gray-200"
                     type="button"
                     @click.prevent="selectNewPhoto"
                 >
@@ -145,7 +145,7 @@ const clearPhotoFileInput = () => {
                 <InputError :message="form.errors.photo" class="mt-2" />
             </div>
 
-           
+
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="name" value="Name" />
@@ -206,14 +206,14 @@ const clearPhotoFileInput = () => {
 
         <template #actions>
             <ActionMessage :on="form.recentlySuccessful" class="me-3">
-                Saved.
+                Guardado.
             </ActionMessage>
 
             <PrimaryButton
                 :class="{ 'opacity-25': form.processing }"
                 :disabled="form.processing"
             >
-                Save
+                Guardar
             </PrimaryButton>
         </template>
     </FormSection>

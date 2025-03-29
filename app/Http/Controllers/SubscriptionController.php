@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubscriptionRequest;
 use App\Http\Requests\UpdateSubscriptionRequest;
+use App\Models\Plan;
 use App\Models\Subscription;
+use App\Models\User;
 
 class SubscriptionController extends Controller
 {
@@ -16,12 +18,30 @@ class SubscriptionController extends Controller
         return Subscription::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public static function getUserSubscription(User $user)
     {
-        //
+        return Subscription::where('user_id', $user->id)->first();
+    }
+
+    /**
+     * Create a new subscription with the plan free
+     */
+    public static function create(User $user)
+    {
+        $plan = Plan::findById(1);
+        if (!$plan) {
+            return response()->json(['message' => 'Plan not found'], 404);
+        }
+        // Check if the user already has a subscription
+        $subscription = new Subscription();
+        $subscription->user_id = $user->id;
+        $subscription->plan_id = $plan->id;
+        $subscription->active = 1;
+        $subscription->starts_at = now();
+        $subscription->credits = $plan->credits;
+        $subscription->save();
+
+        return response()->json(['message' => 'Subscription created successfully'], 201);
     }
 
     /**

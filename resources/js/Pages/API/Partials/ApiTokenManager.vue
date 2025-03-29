@@ -221,7 +221,7 @@ const deleteApiToken = () => {
                     :disabled="updateApiTokenForm.processing"
                     @click="updateApiToken"
                 >
-                    Save
+                    Guardar
                 </PrimaryButton>
             </template>
         </DialogModal>

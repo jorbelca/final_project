@@ -6,14 +6,18 @@ import SectionBorder from "@/Components/SectionBorder.vue";
 import TwoFactorAuthenticationForm from "@/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue";
 import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
 import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm.vue";
+import UpdateBudgetAppInfo from "./Partials/UpdateBudgetAppInfo.vue";
 
 defineProps({
     confirmsTwoFactorAuthentication: Boolean,
     sessions: Array,
+    Subscription: Object,
+    Plans: Array,
 });
 </script>
 
 <template>
+    {{ console.log(Subscription) }}
     <AppLayout title="Profile">
         <template #header>
             <h2 class="font-semibold text-xl text-text leading-tight">
@@ -23,6 +27,15 @@ defineProps({
 
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8 text-text">
+                <div>
+                    <UpdateBudgetAppInfo
+                        :user="$page.props.auth.user"
+                        :subscription="Subscription"
+                        :plans="Plans"
+                    />
+
+                    <SectionBorder />
+                </div>
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <UpdateProfileInformationForm
                         :user="$page.props.auth.user"

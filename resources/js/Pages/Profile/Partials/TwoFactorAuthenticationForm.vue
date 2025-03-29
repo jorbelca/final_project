@@ -261,7 +261,7 @@ const disableTwoFactorAuthentication = () => {
                             :class="{ 'opacity-25': enabling }"
                             :disabled="enabling"
                         >
-                            Enable
+                            Activar
                         </PrimaryButton>
                     </ConfirmsPassword>
                 </div>

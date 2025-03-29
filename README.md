@@ -30,7 +30,7 @@
 
 -   Mejorar logo / Buscar nuevo logo
 -   Responsive design nav
--   Dark mode Login, Register, Admin, User Profile, Support
+-   Dark mode Login, Register, Admin, Support
 
 --- AMPLIACIONS
 

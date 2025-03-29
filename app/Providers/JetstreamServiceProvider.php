@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Actions\Jetstream\DeleteUser;
+use App\Http\Controllers\SubscriptionController;
+use App\Models\Plan;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
@@ -27,6 +29,16 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::deleteUsersUsing(DeleteUser::class);
 
         Vite::prefetch(concurrency: 3);
+
+        Jetstream::inertia()->whenRendering(
+            'Profile/Show',
+            function ($request, array $data) {
+                return array_merge($data, [
+                    'Subscription' => SubscriptionController::getUserSubscription($request->user()),
+                    'Plans' => Plan::all(),
+                ]);
+            }
+        );
     }
 
     /**

@@ -19,7 +19,7 @@ class PlansSeeder extends Seeder
             [
                 'name' => 'Plan Gratuito',
                 'price' => 0.00,
-                'duration_in_days' => 30,
+                'duration_in_days' => 0,
                 'features' => json_encode([
                     'Credits' => 0,
                     'Soporte prioritario' => false
