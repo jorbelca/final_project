@@ -100,6 +100,7 @@ const submitForm = () => {
                             :key="index"
                             :value="item"
                         >
+                            {{ console.log(item) }}
                             {{ periodicity[item] }}
                         </option>
                     </select>

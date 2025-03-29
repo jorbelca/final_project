@@ -3,7 +3,8 @@
 -   USER
 
     -   Config del user (iva por defecto, prompt por defecto)
-    -   Gestionar el plan de uso
+    -   Gestionar el plan de uso ,SUBSCRIPTIONS
+    -   Nom Empresa
 
 -   Repasar Testing e2e
 
@@ -24,8 +25,10 @@
 -   Columna deleted, modificar algoritmo de asignacion de client
 
     BUDGETS
+
 -   Agrupar botons de acciones en budgets en responsive
 -   Acabar el boto de content en responsive
+-   Millorar pdf
 
     ESTILOS
 
@@ -35,14 +38,16 @@
 
 --- AMPLIACIONS
 
--   i18n, idiomes, ( Si donara temps )
--   Pasarela de Pago, ( Si donara temps )
+-   i18n, idiomes
+-   Pasarela de Pago
 
 -   Estadisticas usuario
 
     -   Budgets por estado
     -   Agrupar por cliente
     -   Graficos
+
+-- Bug en safari . - Vincular un cliente no funciona correctamente. (Failed to load resource: No se puede analizar la respuesta http://localhost:8000/sanctum/csrf-cookie)
 
 # Budget App
 

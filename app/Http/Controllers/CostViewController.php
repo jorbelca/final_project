@@ -18,7 +18,7 @@ use Inertia\Response;
 
 class CostViewController extends Controller
 {
-
+    protected $periodicity = ['unit', 'monthly', 'yearly', 'daily', 'weekly', 'minute', 'hourly', 'biweekly'];
     /**
      * Display a listing of the resource.
      */
@@ -70,7 +70,7 @@ class CostViewController extends Controller
                 'description' => 'required|string|max:255',
                 'cost' => 'required|numeric|min:0',
                 'unit' => 'required|string|min:0|max:50',
-                'periodicity' => 'required|in:unit,daily,monthly,yearly,weekly'
+                'periodicity' => 'required|in:' . implode(',', $this->periodicity),
             ]);;
 
             $newCost = new Cost($validated);
@@ -110,7 +110,7 @@ class CostViewController extends Controller
                 'description' => 'required|string|max:255',
                 'cost' => 'required|numeric|min:0',
                 'unit' => 'required|string|min:0|max:50',
-                'periodicity' => 'required|in:unit,daily,monthly,yearly,weekly'
+                'periodicity' => 'required|in:' . implode(',', $this->periodicity),
             ]);
 
             $cost->update($validated);
@@ -122,6 +122,7 @@ class CostViewController extends Controller
                 ]
             ]);
         } catch (\Throwable $th) {
+            dd($th);
             return CostViewController::notify("index", "Error updating the cost", false);
         }
     }
@@ -216,7 +217,7 @@ class CostViewController extends Controller
                     'description' => 'required|string|max:255',
                     'cost' => 'required|numeric|min:0',
                     'unit' => 'required|string|max:50',
-                    'periodicity' => 'required|in:unit,daily,monthly,yearly,weekly'
+                    'periodicity' => 'required|in:' . implode(',', $this->periodicity),
                 ]);
 
                 if ($itemValidator->fails()) {

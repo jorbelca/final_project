@@ -36,7 +36,7 @@ const statusIcons = {
 
 <template>
     <div
-        class="status-tile px-2 py-1 rounded-full flex items-center gap-1 max-w-20"
+        class="status-tile px-1 py-1 rounded-full flex items-center gap-1 max-w-20"
         :class="statusClasses"
     >
         <component :is="statusIcons[status]" class="w-4 h-4" />

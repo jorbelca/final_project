@@ -23,7 +23,8 @@ class Client extends Model
         'email',
         'company_name',
         'image_url',
-        'created_by'
+        'created_by',
+        'deleted'
     ];
 
     /**
@@ -68,6 +69,17 @@ class Client extends Model
             // Asignar el nuevo creador
             $client->update(['created_by' => $secondOldestUser->user_id]);
         } else {
+            // Si no hay más usuarios, marcar el cliente como deleted (soft delete)
+
+            $client->update(['deleted' => '1']);
+        }
+    }
+
+    public static function removeClient(Client $client): void
+    {
+        //Si está eliminado, eliminarlo
+        if ($client->deleted === '1') {
+            //Si tiene imagen, eliminarla
             if ($client->image_url) {
                 CloudinaryService::deletePhoto($client->image_url, "client_logos");
             }

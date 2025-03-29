@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('company_name')->nullable();
             $table->string('image_url')->nullable();
+            $table->string('deleted')->default('0');
             $table->unsignedBigInteger('created_by')->constrained('users');;
             $table->timestamps();
 

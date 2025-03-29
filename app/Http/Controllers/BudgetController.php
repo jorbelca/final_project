@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreBudgetRequest;
 use App\Http\Requests\UpdateBudgetRequest;
 use App\Models\Budget;
+use App\Models\Client;
 use Fpdf\Fpdf;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -86,6 +87,11 @@ class BudgetController extends Controller
     static public function destroy(Budget $budget)
     {
         try {
+            // Si es el ultimo presupuesto del cliente, eliminar el cliente
+
+            if ($budget->client->budgets->count() === 1) {
+                Client::removeClient($budget->client);
+            }
             $budget->delete();
 
 

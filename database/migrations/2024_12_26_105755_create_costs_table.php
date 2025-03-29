@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->decimal('cost', 10, 2);
             $table->string('unit');
-            $table->enum('periodicity', ['unit', 'monthly', 'yearly','daily','weekly'])->default('unit');
+            $table->enum('periodicity', ['unit', 'monthly', 'yearly', 'daily', 'weekly', 'minute', 'hourly', 'biweekly'])->default('unit');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

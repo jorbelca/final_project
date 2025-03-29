@@ -23,8 +23,8 @@ class ClientViewController extends Controller
         // Obtener el usuario autenticado
         $user = Auth::user();
 
-        // Obtener los clientes asociados al usuario
-        $clients = $user->clients;
+        // Obtener los clientes asociados al usuario y que no esten eliminados
+        $clients = $user->clients->where('deleted', 0);
 
         return Inertia::render('Clients/Clients', [
             'clients' => $clients,

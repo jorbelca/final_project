@@ -16,12 +16,12 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->call(PlansSeeder::class);
 
-        $this->call(SubscriptionsSeeder::class);
-        $this->call(ClientSeeder::class);
+        // $this->call(SubscriptionsSeeder::class);
+        // $this->call(ClientSeeder::class);
 
-        $this->call(BudgetsSeeder::class);
-        $this->call(CostsSeeder::class);
+        // $this->call(BudgetsSeeder::class);
+        // $this->call(CostsSeeder::class);
 
-        $this->call(Client_UserSeeder::class);
+        // $this->call(Client_UserSeeder::class);
     }
 }

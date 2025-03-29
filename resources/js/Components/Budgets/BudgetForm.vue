@@ -89,7 +89,14 @@ const computedTotal = computed(() => {
 const deleteContent = (index) => {
     formData.content.splice(index, 1);
 };
-
+const temporality = {
+    monthly: "al mes",
+    yearly: "anualmente",
+    weekly: "semanalmente",
+    daily: "diariamente",
+    hourly: "por hora",
+    "one-time": "una vez",
+};
 </script>
 
 <template>
@@ -226,7 +233,8 @@ const deleteContent = (index) => {
                             :key="cost.id"
                             :value="cost.id"
                         >
-                            {{ cost.description }} - {{ cost.cost }}
+                            {{ cost.description }} - {{ cost.cost }} €
+                            {{ temporality[cost.periodicity] }}
                         </option>
                     </select>
                 </div>
@@ -265,7 +273,9 @@ const deleteContent = (index) => {
                                 v-model="formData.state"
                             >
                                 <option
-                                    v-for="(state, index) in Object.keys(stateOptions)"
+                                    v-for="(state, index) in Object.keys(
+                                        stateOptions
+                                    )"
                                     :key="index"
                                     :value="state"
                                 >
