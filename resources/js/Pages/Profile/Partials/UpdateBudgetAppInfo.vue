@@ -18,6 +18,8 @@ const form = useForm({
     name: props.user.name,
     email: props.user.email,
     photo: null,
+    default_taxes: props.user.default_taxes,
+    company_name: props.user.company_name,
 });
 
 const verificationLinkSent = ref(null);
@@ -145,7 +147,43 @@ const clearPhotoFileInput = () => {
                 <InputError :message="form.errors.photo" class="mt-2" />
             </div>
 
-           
+            <div
+                class="col-span-6 sm:col-span-2 flex flex-col sm:flex-row sm:gap-4"
+            >
+                <!-- default_taxes -->
+                <div class="col-span-6 sm:col-span-2">
+                    <InputLabel for="default_taxes" value="default_taxes" />
+                    <TextInput
+                        id="default_taxes"
+                        v-model="form.default_taxes"
+                        type="text"
+                        class="mt-1 block w-full"
+                        required
+                        autocomplete="default_taxes"
+                    />
+                    <InputError
+                        :message="form.errors.default_taxes"
+                        class="mt-2"
+                    />
+                </div>
+
+                <!-- company_name(pdf) -->
+                <div class="col-span-3 sm:col-span-2">
+                    <InputLabel for="company_name" value="company_name" />
+                    <TextInput
+                        id="company_name"
+                        v-model="form.company_name"
+                        type="text"
+                        class="mt-1 block w-full"
+                        required
+                        autocomplete="company_name"
+                    />
+                    <InputError
+                        :message="form.errors.company_name"
+                        class="mt-2"
+                    />
+                </div>
+            </div>
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="name" value="Name" />

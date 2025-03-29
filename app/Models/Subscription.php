@@ -20,7 +20,9 @@ class Subscription extends Model
         'plan_id',
         'payment_number',
         'active',
-        'start_date'
+        'starts_at',
+        'ends_at',
+        'credits',
     ];
 
     /**

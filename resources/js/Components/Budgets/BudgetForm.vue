@@ -95,7 +95,9 @@ const temporality = {
     weekly: "semanalmente",
     daily: "diariamente",
     hourly: "por hora",
-    "one-time": "una vez",
+    unit: "una vez",
+    biweekly: "cada dos semanas",
+    minute: "por minuto",
 };
 </script>
 

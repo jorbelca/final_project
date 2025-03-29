@@ -39,40 +39,48 @@ const closeModal = () => {
 
 <template>
     <ActionSection>
-        <template #title> Delete Account </template>
+        <template #title>
+            <span class="text-text">Eliminar Cuenta</span>
+        </template>
 
-        <template #description> Permanently delete your account. </template>
+        <template #description>
+            <span class="text-text">Elimina tu cuenta de forma permanente.</span>
+        </template>
 
         <template #content>
             <div class="max-w-xl text-sm text-text">
-                Once your account is deleted, all of its resources and data will
-                be permanently deleted. Before deleting your account, please
-                download any data or information that you wish to retain.
+                Una vez que tu cuenta sea eliminada, todos sus recursos y datos
+                serán eliminados de forma permanente. Antes de eliminar tu
+                cuenta, por favor descarga cualquier dato o información que
+                desees conservar.
             </div>
 
             <div class="mt-5">
                 <DangerButton @click="confirmUserDeletion">
-                    Delete Account
+                    Eliminar Cuenta
                 </DangerButton>
             </div>
 
-            <!-- Delete Account Confirmation Modal -->
+            <!-- Modal de Confirmación para Eliminar Cuenta -->
             <DialogModal :show="confirmingUserDeletion" @close="closeModal">
-                <template #title> Delete Account </template>
+                <template #title>
+                    <span class="text-text">Eliminar Cuenta</span>
+                </template>
 
                 <template #content>
-                    Are you sure you want to delete your account? Once your
-                    account is deleted, all of its resources and data will be
-                    permanently deleted. Please enter your password to confirm
-                    you would like to permanently delete your account.
+                    ¿Estás seguro de que deseas eliminar tu cuenta? Una vez que
+                    tu cuenta sea eliminada, todos sus recursos y datos serán
+                    eliminados de forma permanente. Por favor, introduce tu
+                    contraseña para confirmar que deseas eliminar tu cuenta de
+                    forma permanente.
 
                     <div class="mt-4">
                         <TextInput
                             ref="passwordInput"
                             v-model="form.password"
                             type="password"
-                            class="mt-1 block w-3/4"
-                            placeholder="Password"
+                            class="mt-1 block w-3/4 text-text"
+                            placeholder="Contraseña"
                             autocomplete="current-password"
                             @keyup.enter="deleteUser"
                             id="password_delete_user"
@@ -80,14 +88,14 @@ const closeModal = () => {
 
                         <InputError
                             :message="form.errors.password"
-                            class="mt-2"
+                            class="mt-2 text-text"
                         />
                     </div>
                 </template>
 
                 <template #footer>
                     <SecondaryButton @click="closeModal">
-                        Cancel
+                        Cancelar
                     </SecondaryButton>
 
                     <DangerButton
@@ -97,7 +105,7 @@ const closeModal = () => {
                         @click="deleteUser"
                         id="btn_delete_user_final"
                     >
-                        Delete Account
+                        Eliminar Cuenta
                     </DangerButton>
                 </template>
             </DialogModal>

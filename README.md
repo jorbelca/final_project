@@ -2,7 +2,7 @@
 
 -   USER
 
-    -   Config del user (iva por defecto, prompt por defecto)
+    -   Config del user (iva por defecto)
     -   Gestionar el plan de uso ,SUBSCRIPTIONS
     -   Nom Empresa
 
@@ -14,15 +14,11 @@
 
     IA
 
--   Crear la View en la que s'interactue en el prompt
+-   Crear la View en la que s'interactue en el prompt + prompt por defecto
 -   Speech recognition
 -   Tabla BBD Prompt
 -   Generar presupuesto con prompt IA
 -   Limitar el uso de la IA segun el plan (creditos)
-
-    CLIENTS
-
--   Columna deleted, modificar algoritmo de asignacion de client
 
     BUDGETS
 
@@ -46,8 +42,6 @@
     -   Budgets por estado
     -   Agrupar por cliente
     -   Graficos
-
--- Bug en safari . - Vincular un cliente no funciona correctamente. (Failed to load resource: No se puede analizar la respuesta http://localhost:8000/sanctum/csrf-cookie)
 
 # Budget App
 
