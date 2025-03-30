@@ -70,8 +70,11 @@ class Client extends Model
             $client->update(['created_by' => $secondOldestUser->user_id]);
         } else {
             // Si no hay más usuarios, marcar el cliente como deleted (soft delete)
-
             $client->update(['deleted' => '1']);
+            // Si no hay budgets relacinados con el cliente, eliminarlo
+            if ($client->budgets()->count() === 0) {
+                Client::removeClient($client);
+            }
         }
     }
 

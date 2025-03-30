@@ -57,6 +57,10 @@ class ClientViewController extends Controller
                 return Notify::notify("clients.create", "Inactive User", false);
             }
             $user->clients()->attach($client->id);
+            if ($client->deleted === '1') {
+                $client->deleted = 0;
+                $client->save();
+            }
             return Notify::notify("clients.index", "Client vinculated succesfully");
         } catch (\Throwable $th) {
             return Notify::notify("clients.create", "Error vinculating the client", false);

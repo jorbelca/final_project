@@ -309,6 +309,7 @@ const downloadPdf = async (id) => {
                 </tbody>
             </table>
             <Pagination
+                v-if="props.data.length > 0"
                 :meta="pagination"
                 @page-change="emit('page-change', $event)"
             />

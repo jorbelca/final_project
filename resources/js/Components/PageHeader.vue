@@ -45,7 +45,7 @@ const computedLinks = computed(() => {
             </h2>
         </div>
         <!-- Título central -->
-        <div class="flex-grow text-center" :class="`pr-${props.padding}`">
+        <div class="flex-grow text-center" :class="` pr-28`">
             <h2 class="font-semibold text-xl text-text leading-tight">
                 {{ title }}
             </h2>
