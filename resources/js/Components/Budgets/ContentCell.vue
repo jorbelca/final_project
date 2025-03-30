@@ -24,7 +24,7 @@ const isOpen = ref(false);
     <div v-if="isMobile">
         <button
             @click="isOpen = !isOpen"
-            class="bg-gray-200 px-4 py-1 rounded flex items-center dark:text-gray-900"
+            class="bg-gray-200 px-4 py-1 rounded flex items-center dark:bg-gray-600 text-text dark:border-gray-600"
         >
             Contenido
             <ChevronDoubleDownIcon v-if="!isOpen" class="w-5 h-4 font-bold" />

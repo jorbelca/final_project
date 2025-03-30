@@ -4,7 +4,6 @@
 
 -   Landing (cachear i acabar)
 
--   Estil Admin (responsive, black mode, millorar UI)
 
     IA
 
@@ -24,7 +23,7 @@
 
 -   Mejorar logo / Buscar nuevo logo
 -   Responsive design nav
--   Dark mode Login, Register, Admin, Support
+-   Dark mode Login, Register
 
 --- AMPLIACIONS
 
@@ -32,7 +31,6 @@
 -   Pasarela de Pago
 
 -   Estadisticas usuario
-
     -   Budgets por estado
     -   Agrupar por cliente
     -   Graficos

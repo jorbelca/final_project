@@ -44,7 +44,7 @@ class SupportController extends Controller
 
             $validated = $request->validate([
                 'questioner_id' => 'required|integer|exists:users,id',
-                'question' => 'required|string|max:255',
+                'question' => 'required|string|max:20000',
             ]);;
 
             $new_incidency = new Support($validated);
@@ -80,7 +80,7 @@ class SupportController extends Controller
             // Validar los datos
             $validated = Validator::make($data, [
                 'answerer_id' => 'required|integer|exists:users,id',
-                'answer' => 'required|string|max:255',
+                'answer' => 'required|string|max:20000',
                 'response_date' => 'required|date',
             ])->validate();
 

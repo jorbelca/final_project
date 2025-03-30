@@ -55,7 +55,7 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div
-                                class="hidden space-x-8 sm:-my-px sm:ms-5 sm:flex"
+                                class="hidden space-x-6 md:-my-px md:ms-5 md:flex"
                             >
                                 <NavLink
                                     :href="route('budgets.index')"
@@ -233,7 +233,7 @@ const logout = () => {
                             </div>
 
                             <!-- Settings Dropdown -->
-                            <div class="mr-8 relative">
+                            <div class="hidden mr-8 relative md:flex">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <button
@@ -362,11 +362,13 @@ const logout = () => {
                                     </template>
                                 </Dropdown>
                             </div>
-                            <DarkModeBtn />
+                            <span class="hidden md:block">
+                                <DarkModeBtn />
+                            </span>
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="-me-2 flex items-center sm:hidden">
+                        <div class="mr-6 flex items-center md:hidden">
                             <button
                                 class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
                                 @click="
@@ -402,8 +404,10 @@ const logout = () => {
                                         stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12"
                                     />
-                                </svg>
-                            </button>
+                                </svg></button
+                            ><span class="md:hidden">
+                                <DarkModeBtn />
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -414,7 +418,7 @@ const logout = () => {
                         block: showingNavigationDropdown,
                         hidden: !showingNavigationDropdown,
                     }"
-                    class="sm:hidden"
+                    class="md:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
@@ -475,7 +479,7 @@ const logout = () => {
                             <div class="flex flex-row justify-between w-full">
                                 <div>
                                     <div
-                                        class="font-medium text-base text-gray-800"
+                                        class="font-medium text-base text-text"
                                     >
                                         {{ $page.props.auth.user?.name ?? "" }}
                                     </div>

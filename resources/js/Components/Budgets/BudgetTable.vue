@@ -142,7 +142,7 @@ const downloadPdf = async (id) => {
                                 "
                                 class="text-sm"
                             >
-                                <small class="font-bold">Created &nbsp;</small
+                                <small class="font-normal">Creado &nbsp;</small
                                 >{{ dayjs(budget.created_at).fromNow() }}</span
                             ><StateTile :status="budget.state" :admin="true" />
                         </div>

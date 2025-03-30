@@ -42,15 +42,15 @@ function deleteTicket(ticketId) {
     <AppLayout title="Support">
         <template #header>
             <div class="flex align-center justify-center gap-5 items-end">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <h2 class="font-semibold text-xl text-text leading-tight">
                     Soporte
                 </h2>
             </div>
         </template>
-        <div class="overflow-x-auto p-2 m-3 bg-white rounded-lg">
-            <h3 class="font-black">Crear un nuevo ticket</h3>
+        <div class="overflow-x-auto p-2 m-3 bg-white dark:bg-hover rounded-lg">
+            <h3 class="font-black text-text">Crear un nuevo ticket</h3>
             <div
-                class="overflow-x-auto p-2 m-3 bg-white rounded-lg flex flex-row justify-between"
+                class="overflow-x-auto p-2 m-3 bg-white dark:bg-hover rounded-lg flex flex-row justify-between"
             >
                 <form
                     class="flex flex-row w-full gap-3 items-end"
@@ -58,7 +58,7 @@ function deleteTicket(ticketId) {
                 >
                     <textarea
                         v-model="form.question"
-                        class="w-full rounded-lg"
+                        class="w-full rounded-lg dark:bg-slate-400 dark:border-slate-200 dark:placeholder:text-white"
                         placeholder="Mensaje"
                     >
                     </textarea>
@@ -77,7 +77,7 @@ function deleteTicket(ticketId) {
         </div>
 
         <div
-            class="overflow-x-auto p-2 m-3 rounded-lg flex flex-col border border-grey-600 bg-violet-100"
+            class="overflow-x-auto p-2 m-3 rounded-lg flex flex-col border border-gray-300 dark:border-gray-400 bg-violet-100 dark:bg-blue-900 text-text"
             :if="tickets.length > 0"
             v-for="ticket in props.tickets"
             :key="ticket.id"
@@ -85,92 +85,89 @@ function deleteTicket(ticketId) {
             <div class="flex justify-between px-4">
                 <span class="font-black">Ticket {{ ticket.id }}</span>
                 <button
-                    class="justify-self-end text-red-600 font-black"
+                    class="justify-self-end text-red-500 font-bold"
                     @click="deleteTicket(ticket.id)"
                 >
                     X
                 </button>
             </div>
             <div
-                class="flex justify-around py-2 border border-grey-400 rounded-lg"
+                class="grid grid-cols-6 gap-4 border py-2 border-gray-300 dark:border-gray-400 rounded-lg"
             >
-                <div
-                    class="min-w-[130px] py-2 flex flew-col items-center gap-2"
-                >
+                <div class="col-span-2 min-w-[130px] py-2 pl-4 gap-2">
                     <img
                         v-if="ticket.questioner.profile_photo_path"
                         :src="ticket.questioner.profile_photo_path"
                         alt=""
                         width="30"
                     />
-                    <h3 class="font-bold">
+                    <h3 class="font-normal">
                         <span> {{ ticket.questioner.name }}</span
                         >, ID :
                         <span>{{ ticket.questioner_id }}</span>
                     </h3>
+                    <small class="text-[9px]">
+                        {{
+                            new Date(ticket.created_at).toLocaleDateString(
+                                "es-ES",
+                                {
+                                    year: "numeric",
+                                    month: "numeric",
+                                    day: "numeric",
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                }
+                            )
+                        }}</small
+                    >
                 </div>
                 <div
-                    class="px-4 flex flex-nowrap flex-col justify-center items-center min-w-[170px]"
+                    class="col-span-4 flex flex-nowrap flex-col justify-center"
                 >
-                    <p class="font-bold text-blue-500">
-                        Pregunta : &nbsp;<span class="font-normal text-black">{{
-                            ticket.question
-                        }}</span>
+                    <p class="font-bold text-blue-500 dark:text-blue-200">
+                        Pregunta : &nbsp;<span
+                            class="font-normal text-text text-justify"
+                            >{{ ticket.question }}</span
+                        >
                     </p>
                 </div>
-                <small class="w-1/8 align-self-end text-xs flex items-end">
-                    {{
-                        new Date(ticket.created_at).toLocaleDateString(
-                            "es-ES",
-                            {
-                                year: "numeric",
-                                month: "numeric",
-                                day: "numeric",
-                                hour: "numeric",
-                                minute: "numeric",
-                            }
-                        )
-                    }}</small
-                >
             </div>
             <div
-                class="flex justify-around py-2 border border-grey-400"
+                class="grid grid-cols-6 gap-4 py-2 border border-gray-300 dark:border-gray-400 rounded-lg"
                 v-if="ticket.answer !== null"
             >
-                <div class="min-w-[130px] pl-2">
-                    <small class="font-bold text-red-800 text-xs"
+                <div class="col-span-2 min-w-[130px] pl-4">
+                    <small class="font-bold text-red-600 text-xs"
                         >(Admin)</small
                     >
-                    <h3 class="font-bold">
+                    <h3 class="font-normal">
                         <span> {{ ticket.answerer.name }}</span
                         >, ID :
                         <span>{{ ticket.answerer_id }}</span>
                     </h3>
+                    <small class="text-[9px]">
+                        {{
+                            new Date(ticket.updated_at).toLocaleDateString(
+                                "es-ES",
+                                {
+                                    year: "numeric",
+                                    month: "numeric",
+                                    day: "numeric",
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                }
+                            )
+                        }}</small
+                    >
                 </div>
-                <div
-                    class="flex flex-nowrap flex-col justify-center items-center min-w-[170px]"
-                >
-                    <p class="font-bold text-green-500">
-                        Respuesta : &nbsp;<span class="font-normal text-black">{{
+                <div class="col-span-4 flex flex-col justify-center">
+                    <p class="font-bold text-green-500 dark:text-green-400">
+                        Respuesta : &nbsp;
+                        <span class="font-normal text-text">{{
                             ticket.answer
                         }}</span>
                     </p>
                 </div>
-
-                <small class="w-1/8 align-self-end text-xs flex items-end">
-                    {{
-                        new Date(ticket.updated_at).toLocaleDateString(
-                            "es-ES",
-                            {
-                                year: "numeric",
-                                month: "numeric",
-                                day: "numeric",
-                                hour: "numeric",
-                                minute: "numeric",
-                            }
-                        )
-                    }}</small
-                >
             </div>
 
             <div
