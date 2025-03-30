@@ -36,7 +36,7 @@ const changePage = (url) => {
                 :links="[
                     { text: 'Crea un Presupuesto >', route: 'budgets.create' },
                 ]"
-                :padding="8"
+                :padding="24"
             >
                 <div class="flex self-start">
                     <BudgetCounter :budgetCount="budgetCount" />

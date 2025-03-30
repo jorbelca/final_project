@@ -13,6 +13,7 @@ defineProps({
         <template #header>
             <PageHeader
                 title="Costes"
+                padding="24"
                 :links="[
                     { text: 'Crear un Coste >', route: 'costs.create' },
                     { text: 'Subir archivo >', route: 'costs.parse' },

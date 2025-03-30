@@ -30,7 +30,6 @@ const changeState = (user_id) => {
 </script>
 
 <template>
-    {{ console.log(props.users) }}
     <AppLayout title="Admin">
         <template #header>
             <div class="flex align-center justify-center gap-5 items-end">

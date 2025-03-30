@@ -10,7 +10,7 @@ import PlansTiles from "./PlansTiles.vue";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/es";
-import { ref } from "vue";
+
 // Initialize the relativeTime plugin
 dayjs.extend(relativeTime);
 dayjs.locale("es");
@@ -32,9 +32,6 @@ const updateSubscription = () => {
         preserveScroll: true,
         onError: (errors) => {
             console.error(errors);
-        },
-        onFinish: () => {
-            loading.value = false;
         },
     });
 };

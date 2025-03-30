@@ -76,7 +76,7 @@ const clearPhotoFileInput = () => {
 </script>
 
 <template>
-    <FormSection @submitted="updateProfileInformation" >
+    <FormSection @submitted="updateProfileInformation">
         <template #title>
             <span class="text-text">Información del Perfil</span>
         </template>
@@ -103,7 +103,7 @@ const clearPhotoFileInput = () => {
                     @change="updatePhotoPreview"
                 />
 
-                <InputLabel for="photo" value="Photo" />
+                <InputLabel for="photo" value="Logo (se usa en el PDF)" />
 
                 <!-- Current Profile Photo -->
                 <div v-show="!photoPreview" class="mt-2">
@@ -130,7 +130,7 @@ const clearPhotoFileInput = () => {
                     type="button"
                     @click.prevent="selectNewPhoto"
                 >
-                    Select A New Photo
+                    Selecciona un logo
                 </SecondaryButton>
 
                 <SecondaryButton
@@ -139,12 +139,11 @@ const clearPhotoFileInput = () => {
                     class="mt-2"
                     @click.prevent="deletePhoto"
                 >
-                    Remove Photo
+                    Eliminar logo
                 </SecondaryButton>
 
                 <InputError :message="form.errors.photo" class="mt-2" />
             </div>
-
 
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">

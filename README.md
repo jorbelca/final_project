@@ -4,7 +4,6 @@
 
 -   Landing (cachear i acabar)
 
-
     IA
 
 -   Crear la View en la que s'interactue en el prompt + prompt por defecto

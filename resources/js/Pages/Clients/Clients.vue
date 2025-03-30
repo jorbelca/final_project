@@ -12,6 +12,7 @@ const props = defineProps({
     <AppLayout title="Clientes">
         <template #header>
             <PageHeader
+                padding="24"
                 title="Clientes"
                 :links="[
                     { text: 'Crear un Cliente >', route: 'clients.create' },

@@ -177,6 +177,7 @@ const downloadPdf = async (id) => {
                                     v-on:click.prevent="
                                         generate(`${budget.id}`)
                                     "
+                                    title="Generate PDF"
                                 >
                                     <PrinterIcon class="size-5 text-blue-500" />
                                 </button>
@@ -184,6 +185,7 @@ const downloadPdf = async (id) => {
                                     v-on:click.prevent="
                                         cloneBudget(`${budget.id}`)
                                     "
+                                    title="Duplicate the same budget"
                                 >
                                     <DocumentDuplicateIcon
                                         class="size-5 text-gray-500 dark:text-gray-100"
@@ -193,6 +195,7 @@ const downloadPdf = async (id) => {
                                     v-on:click.prevent="
                                         downloadPdf(`${budget.id}`)
                                     "
+                                    title="Download"
                                 >
                                     <ArchiveBoxArrowDownIcon
                                         class="size-5 text-green-500 dark:text-gray-100"
@@ -298,6 +301,7 @@ const downloadPdf = async (id) => {
                                     v-on:click.prevent="
                                         downloadPdf(`${budget.id}`)
                                     "
+                                    title="Download"
                                 >
                                     <ArchiveBoxArrowDownIcon
                                         class="size-5 text-green-500 dark:text-gren-500 m-1"

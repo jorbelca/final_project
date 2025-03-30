@@ -7,7 +7,7 @@ const isForm =
 const props = defineProps({
     title: String,
     links: Array,
-    padding: { Number, default: 14 },
+    padding: Number,
 });
 
 const computedLinks = computed(() => {
@@ -45,7 +45,7 @@ const computedLinks = computed(() => {
             </h2>
         </div>
         <!-- Título central -->
-        <div class="flex-grow text-center" :class="` pr-28`">
+        <div class="flex-grow text-center" :class="`pr-${props.padding}`">
             <h2 class="font-semibold text-xl text-text leading-tight">
                 {{ title }}
             </h2>

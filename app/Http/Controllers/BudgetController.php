@@ -116,6 +116,7 @@ class BudgetController extends Controller
             $user = Auth::user();
             // Crear una instancia de FPDF
             $pdf = new FPDF('P', 'mm', 'A4');
+            $pdf->SetMargins(10, 10, 0);
             $pdf->AddPage();
 
             //Fuentes
@@ -125,17 +126,44 @@ class BudgetController extends Controller
             $pdf->AddFont('Lato', '', ('Lato-Regular.php'));
 
             // Agregar la información de la empresa (o la información correspondiente)
+            $pdf->SetFont('Lato', "", 12);
 
-            $pdf->SetFont('Montserrat', "B",  12);
-            $pdf->Cell(0, 10, $user?->company_name ?? 'My Company', 0, 1, 'C');
-            $pdf->SetFont('Montserrat', 'B', 10);
-            // $pdf->Cell(0, 10, 'Direccion: Calle Ficticia 123', 0, 1, 'C');
-            // $pdf->Cell(0, 10, 'Telefono: +123456789', 0, 1, 'C');
-            $pdf->Ln(10);
+            // Calculate center position for text alignment
+            $pageWidth = $pdf->GetPageWidth();
+            $companyName = $user?->company_name ?? 'My Company';
+            $textWidth = $pdf->GetStringWidth($companyName);
+            // Position image and text on the left side with a reduced top margin
+            $leftMargin = 10; // Space from the left edge
+            $topMargin = 8; // Reduced from 20 to move content up
+            $imageWidth = 15;
+            $spacing = 5; // Space between image and text
 
-            // Información de la factura
-            $pdf->Cell(0, 10, 'Budget : ' . $budget->id, 0, 1, 'C');
-            $pdf->Cell(0, 10, 'Date: ' . now()->format('d/m/Y'), 0, 1, 'C');
+            // Set position for proper vertical alignment
+            $pdf->SetX($leftMargin);
+
+            // Draw image first on the left side
+            if ($user?->profile_photo_path) {
+                $pdf->Image(($user->profile_photo_path),
+                    $leftMargin,
+                    $topMargin,
+                    $imageWidth,
+                    $imageWidth
+                );
+            }
+
+            // Draw company name to the right of the image
+            $pdf->SetY($topMargin + 5); // Adjusted vertical position
+            $pdf->SetX($leftMargin + $imageWidth + $spacing);
+            $pdf->Cell($textWidth, 10, $companyName, 0, 1, 'L');
+
+
+
+
+            $pdf->SetFont('Lato', "", 16);
+            // Información del presupuesto
+            $pdf->Cell(0, 10, 'Presupuesto : ' . $budget->id, 0, 1, 'C');
+            $pdf->SetFont('Montserrat', "", 8);
+            $pdf->Cell(0, 10, 'Fecha: ' . now()->format('d/m/Y'), 0, 1, 'C');
             $pdf->Ln(10);
 
             // Información del cliente
@@ -147,10 +175,10 @@ class BudgetController extends Controller
 
             // Encabezado de la tabla
             $pdf->SetFont('Lato', '', 10);
-            $pdf->Cell(40, 10, 'Quantity', 1);
-            $pdf->Cell(90, 10, 'Description', 1);
-            $pdf->Cell(30, 10, 'Price', 1);
-            $pdf->Cell(30, 10, 'Subtotal ', 1);
+            $pdf->Cell(40, 10, 'Cantidad', 'B');
+            $pdf->Cell(90, 10, 'Descripcion', 'B');
+            $pdf->Cell(30, 10, 'Precio', 'B');
+            $pdf->Cell(30, 10, 'Subtotal ', 'B');
 
             $pdf->Ln();
 
@@ -159,25 +187,44 @@ class BudgetController extends Controller
             $contentArray = json_decode($budget->content);
             $total = 0;
             foreach ($contentArray as $content) {
-                $pdf->Cell(40, 10, $content->quantity, 1);
-                $pdf->Cell(90, 10, $content->description, 1);
-                $pdf->Cell(30, 10, $content->cost . " $", 1);
+                $pdf->Cell(40, 10, $content->quantity, 0);
+                $pdf->Cell(90, 10, $content->description, 0);
+                $pdf->Cell(30, 10, $content->cost . " e", 0);
                 $total += $content->quantity * $content->cost;
-                $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2) . " $", 1);
+                $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2) . " e", 0);
                 $pdf->Ln();
             }
 
             $total = $total - ($total * $budget->discount / 100);
             $total = $total + ($total * $budget->taxes / 100);
 
-            $pdf->SetFont('Lato', '', 10);
-            $pdf->Cell(190, 10, 'Discount: ' . number_format($budget->discount, 2) . " %", 1, 0, 'R');
+            $pdf->SetFont('Arial', '', 10);
+            //Descuento
+            // Move to the bottom of the page
+            $pdf->SetY(-65); // Position 40mm from bottom of page
+            $pdf->SetX(2); // Reset X position to the left margin
+
+
+            // Discount
+            $pdf->Cell(190, 10, 'Descuento: ' . number_format($budget->discount) . " %", 0, 0, 'R');
+            $pdf->Ln(5);
+            $pdf->SetX(2);
+            //Impuesto
+            $pdf->Cell(190, 10, 'Impuestos: ' . number_format($budget->taxes) . " %", 0, 0, 'R');
             $pdf->Ln(10);
-            $pdf->Cell(190, 10, 'Taxes: ' . number_format($budget->taxes, 2) . " %", 1, 0, 'R');
-            $pdf->Ln(10);
+            $pdf->SetX(2);
             // Total
-            $pdf->Cell(190, 10, 'Total: ' . number_format($total, 2) . " $", 1, 0, 'R');
-            $pdf->Ln(10);
+            $pdf->Cell(190, 12, 'Total: ' . number_format($total, 2) . " e", 0, 0, 'R');
+            $pdf->Ln(5);
+
+
+            $pdf->SetY(-38); // Position 40mm from bottom of page
+            $pdf->SetFont('Montserrat', 'B',  8);
+            //Footer
+            $pdf->SetY(-29);
+            $pdf->Cell(0, 5, 'Este presupuesto tiene validez por 30 dias ', 0, 1, 'C');
+            $pdf->SetFont('Montserrat', 'B', 5); // Smaller font for Budget App
+            $pdf->Cell(0, 3, 'Budget App', 0, 1, 'C'); // Note: To remove margins, add $pdf->SetMargins(0,0,0); after creating the PDF object
 
             if (request()->query('download') === 'true') {
                 return response($pdf->Output('', 'S'), 200)

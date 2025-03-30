@@ -15,9 +15,10 @@ const props = defineProps({
     <AppLayout :title="'Presupuesto ' + props.budget.id">
         <template #header>
             <PageHeader
+                :padding="24"
                 :title="
                     clone
-                        ? 'Clone del Presupuesto ' + props.budget.id
+                        ? 'Clon del Presupuesto ' + props.budget.id
                         : 'Edicion del Presupuesto  ' + props.budget.id
                 "
                 :links="[
