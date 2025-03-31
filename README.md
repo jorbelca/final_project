@@ -16,7 +16,8 @@
 
 -   Agrupar botons de acciones en budgets en responsive
 -   Acabar el boto de content en responsive
--   Millorar pdf
+-   Millorar pdf (falta un poc)
+-   Añadir coste extra
 
     ESTILOS
 

@@ -117,7 +117,7 @@ const updateSubscription = () => {
                                 <h6
                                     class="text-sm text-gray-500 dark:text-gray-400"
                                 >
-                                    Finaliza
+                                    Finaliza en
                                 </h6>
                                 <p class="text-text">
                                     {{
@@ -125,7 +125,7 @@ const updateSubscription = () => {
                                         props.subscription.ends_at
                                             ? dayjs(
                                                   props.subscription.ends_at
-                                              ).fromNow()
+                                              ).diff(dayjs(), "day") + " días"
                                             : "-"
                                     }}
                                 </p>
