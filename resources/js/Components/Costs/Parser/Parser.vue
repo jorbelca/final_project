@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
 import PrimaryButton from "../../Buttons/PrimaryButton.vue";
-import TextInput from "../../TextInput.vue";
+import TextInput from "../../_Default/TextInput.vue";
 import ProcessingMessage from "../../UI/ProcessingMessage.vue";
 import { TrashIcon } from "@heroicons/vue/24/solid";
 import parseCsv from "./parseCsv";

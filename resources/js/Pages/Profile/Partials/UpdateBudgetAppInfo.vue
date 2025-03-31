@@ -1,11 +1,11 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import ActionMessage from "@/Components/ActionMessage.vue";
-import FormSection from "@/Components/FormSection.vue";
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
+import ActionMessage from "@/Components/_Default/ActionMessage.vue";
+import FormSection from "@/Components/_Default/FormSection.vue";
+import InputError from "@/Components/_Default/InputError.vue";
+import InputLabel from "@/Components/_Default/InputLabel.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
+import TextInput from "@/Components/_Default/TextInput.vue";
 import PlansTiles from "./PlansTiles.vue";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";

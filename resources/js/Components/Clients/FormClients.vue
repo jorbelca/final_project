@@ -1,6 +1,6 @@
 <script setup>
-import InputLabel from "@/Components/InputLabel.vue";
-import TextInput from "@/Components/TextInput.vue";
+import InputLabel from "@/Components/_Default/InputLabel.vue";
+import TextInput from "@/Components/_Default/TextInput.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
 import { router, useForm } from "@inertiajs/vue3";

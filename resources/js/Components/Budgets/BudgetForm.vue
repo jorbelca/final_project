@@ -2,8 +2,8 @@
 import { computed, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PrimaryButton from "../Buttons/PrimaryButton.vue";
-import InputLabel from "../InputLabel.vue";
-import TextInput from "../TextInput.vue";
+import InputLabel from "../_Default/InputLabel.vue";
+import TextInput from "../_Default/TextInput.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
 import { stateOptions } from "./StateTile.vue";
 

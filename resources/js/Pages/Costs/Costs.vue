@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import CostsTable from "@/Components/Costs/CostsTable.vue";
-import PageHeader from "@/Components/PageHeader.vue";
+import PageHeader from "@/Components/_Default/PageHeader.vue";
 
 defineProps({
     costs: Object,

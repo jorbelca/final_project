@@ -1,6 +1,6 @@
 <script setup>
 import BudgetForm from "@/Components/Budgets/BudgetForm.vue";
-import PageHeader from "@/Components/PageHeader.vue";
+import PageHeader from "@/Components/_Default/PageHeader.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({

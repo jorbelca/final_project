@@ -1,6 +1,6 @@
 <script setup>
 import BudgetForm from "@/Components/Budgets/BudgetForm.vue";
-import PageHeader from "@/Components/PageHeader.vue";
+import PageHeader from "@/Components/_Default/PageHeader.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { defineProps } from "vue";
 const props = defineProps({
@@ -16,7 +16,12 @@ const props = defineProps({
         <template #header>
             <PageHeader
                 title="Crear un Presupuesto"
-                :links="[ { text: '◀ Lista de Presupuestos ', route: 'budgets.index' } ]"
+                :links="[
+                    {
+                        text: '◀ Lista de Presupuestos ',
+                        route: 'budgets.index',
+                    },
+                ]"
                 :form="true"
             >
             </PageHeader>

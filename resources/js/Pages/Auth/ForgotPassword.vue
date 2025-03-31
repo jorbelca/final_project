@@ -1,11 +1,11 @@
 <script setup>
 import { Head, useForm } from "@inertiajs/vue3";
-import AuthenticationCard from "@/Components/AuthenticationCard.vue";
+import AuthenticationCard from "@/Components/_Default/AuthenticationCard.vue";
 
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
+import InputError from "@/Components/_Default/InputError.vue";
+import InputLabel from "@/Components/_Default/InputLabel.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
+import TextInput from "@/Components/_Default/TextInput.vue";
 import Logo from "@/Components/Logo/coreLogo.vue";
 import ReturnBtn from "@/Components/Buttons/ReturnBtn.vue";
 
