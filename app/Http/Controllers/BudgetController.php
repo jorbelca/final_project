@@ -118,7 +118,7 @@ class BudgetController extends Controller
             $pdf = new FPDF('P', 'mm', 'A4');
             $pdf->SetMargins(10, 10, 0);
             $pdf->AddPage();
-
+            define('EURO',chr(128));
             //Fuentes
 
             $pdf->AddFont('Montserrat', '', ('Montserrat-VariableFont_wght.php'));
@@ -189,9 +189,9 @@ class BudgetController extends Controller
             foreach ($contentArray as $content) {
                 $pdf->Cell(40, 10, $content->quantity, 0);
                 $pdf->Cell(90, 10, $content->description, 0);
-                $pdf->Cell(30, 10, $content->cost . " e", 0);
+                $pdf->Cell(30, 10, $content->cost ." ". EURO, 0);
                 $total += $content->quantity * $content->cost;
-                $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2) . " e", 0);
+                $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2) ." ". EURO, 0);
                 $pdf->Ln();
             }
 
@@ -214,7 +214,7 @@ class BudgetController extends Controller
             $pdf->Ln(10);
             $pdf->SetX(2);
             // Total
-            $pdf->Cell(190, 12, 'Total: ' . number_format($total, 2) . " e", 0, 0, 'R');
+            $pdf->Cell(190, 12, 'Total: ' . number_format($total, 2) ." ". EURO, 0, 0, 'R');
             $pdf->Ln(5);
 
 
