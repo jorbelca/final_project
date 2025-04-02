@@ -89,6 +89,13 @@ const logout = () => {
                                 >
                                     Soporte
                                 </NavLink>
+
+                                <NavLink
+                                    :href="route('prompt.index')"
+                                    :active="route().current('prompt.index')"
+                                >
+                                    IA
+                                </NavLink>
                             </div>
                         </div>
 
@@ -451,6 +458,12 @@ const logout = () => {
                             :active="route().current('support.index')"
                         >
                             Soporte
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('prompt.index')"
+                            :active="route().current('prompt.index')"
+                        >
+                            IA
                         </ResponsiveNavLink>
                     </div>
 
