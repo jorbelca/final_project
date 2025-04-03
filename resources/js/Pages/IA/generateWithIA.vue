@@ -33,7 +33,6 @@ const promptId = ref(null);
 </script>
 
 <template>
-    {{ console.log(props.prompt )}}
     <AppLayout title="Generar con IA" :header="false">
         <template #header>
             <PageHeader title="Generador de Presupuestos IA" padding="16" />

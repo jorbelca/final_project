@@ -25,6 +25,13 @@ class Subscription extends Model
         'credits',
     ];
 
+    // protected $hidden = [
+    //     'payment_number',
+    //     'active',
+    //     'starts_at',
+    //     'ends_at',
+    //     'credits',
+    // ];
     /**
      * Las relaciones del modelo.
      */

@@ -4,10 +4,12 @@ import PageHeader from "@/Components/_Default/PageHeader.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
 const props = defineProps({
+    IA: Boolean,
     clone: Boolean,
     clients: Array,
     costs: Array,
     budget: Object,
+    notas: String,
 });
 </script>
 
@@ -17,7 +19,9 @@ const props = defineProps({
             <PageHeader
                 :padding="24"
                 :title="
-                    clone
+                    IA
+                        ? 'Presupuesto generado por IA '
+                        : clone
                         ? 'Clon del Presupuesto ' + props.budget.id
                         : 'Edicion del Presupuesto  ' + props.budget.id
                 "
@@ -31,7 +35,9 @@ const props = defineProps({
             </PageHeader>
         </template>
         <BudgetForm
-            :clone="true"
+            :IA="props.IA"
+            :notas="props.notas"
+            :clone="props.clone"
             :clients="props.clients"
             :costs="props.costs"
             :budget="props.budget"
