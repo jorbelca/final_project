@@ -17,6 +17,7 @@
 -   Agrupar botons de acciones en budgets en responsive
 -   Acabar el boto de content en responsive
 -   Millorar pdf
+-   Cuando haya muchos items en content, que muestre ...
 
     ESTILOS
 
