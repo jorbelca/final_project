@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Models\Budget;
 use App\Models\Client;
 use App\Models\Cost;
+use App\Models\Prompt;
 use App\Models\Subscription;
 use App\Models\Support;
 use App\Policies\BudgetViewPolicy;
 use App\Policies\ClientViewPolicy;
 use App\Policies\CostViewPolicy;
+use App\Policies\PromptPolicy;
 use App\Policies\SubscriptionPolicy;
 use App\Policies\SupportPolicy;
 use Illuminate\Routing\UrlGenerator;
@@ -35,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(Budget::class, BudgetViewPolicy::class);
         Gate::policy(Support::class, SupportPolicy::class);
         Gate::policy(Subscription::class, SubscriptionPolicy::class);
+        Gate::policy(Prompt::class, PromptPolicy::class);
+
 
         if (env('APP_ENV') == 'production') {
             $url->forceScheme('https');

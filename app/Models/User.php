@@ -121,6 +121,13 @@ class User extends Authenticatable
 
     function hasCredits()
     {
+        if ($this->subscription->credits === 0) {
+            $this->subscription->active === false;
+        }
         return $this->subscription->credits > 0;
+    }
+    function isActive()
+    {
+        return $this->active === 1;
     }
 }

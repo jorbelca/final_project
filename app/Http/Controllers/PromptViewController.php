@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Budget;
+use App\Models\Client;
 use App\Models\Prompt;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use OpenAI\Laravel\Facades\OpenAI;
+
 
 class PromptViewController extends Controller
 {
@@ -49,6 +52,10 @@ class PromptViewController extends Controller
         try {
 
             $user = Auth::user();
+            if (!Gate::allows('create', $user, new Prompt())) {
+                return PromptViewController::notify("No Credits or User Inactive", false);
+            }
+
             $request->validate([
                 'additioNalPrompt' => 'string|max:40000',
                 'prompt' => 'required|string|max:4000',
@@ -73,7 +80,7 @@ class PromptViewController extends Controller
             if ($response->status === true) {
                 return Inertia::render('Budgets/EditBudget', [
                     'IA' => true,
-                    'clone' => true,
+                    'clone' => false,
                     'clients' => Auth::user()->clients,
                     'costs' => Auth::user()->costs,
                     'budget' => $response->budget,
@@ -116,9 +123,10 @@ class PromptViewController extends Controller
          un costo unitario y una temporalidad . El formato de la respuesta debe ser un JSON que debe contener exactamente
         {descuento: descuento si el usuario cita alguno en el prompt,
          content: (contenido del presupuesto, sin notas) {description: Mantenimiento,cost: 50,quantity: 1},
-         notas: notas que consideres y que den un contexto y explicacion a las decisiones tomadas para generar el presupuesto}.
+         notas: notas que consideres y que den un contexto y explicacion a las decisiones tomadas para generar el presupuesto, cliente: en el caso de que si el usuario cita o tu intuyes a quien va dirigido}.
           Debes tener en cuenta la complejidad de la tarea y si hay elementos que no estan incluidos en los costes de produccion, incluirlos
             en el presupuesto. El presupuesto debe ser claro y conciso, y puede incluir algun tipo de explicacion en el apartado notas.
+            Puede que en el prompt el usuario incluya para quien es el presupuesto o quien se lo ha pedido, si es asi, debes incluirlo en la respuesta como client.
             Quiero que presupuestes en base a este prompt:$prompt.
             Tengo estos costes de produccion: $costs.
             Usa este contexto adicional proporcionado por el usuario: $additionalPrompt.
@@ -146,15 +154,15 @@ class PromptViewController extends Controller
 
             $responseData = json_decode($response, true);
 
-
             // Check if JSON parsing was successful
             if (!$responseData) {
                 // If still failing, try a more aggressive approach
-                if (preg_match('/"descuento".*?"content"\s*:\s*\[(.*?)\].*?"notas"\s*:\s*"(.*?)(?:"|$)/s', $response, $matches)) {
+                if (preg_match('/"descuento".*?"content"\s*:\s*\[(.*?)\].*?"notas"\s*:\s*"(.*?)"(?:.*?"client"\s*:\s*"(.*?)")?/s', $response, $matches)) {
                     $responseData = [
-                        'descuento' => null,
+                        'descuento' => $matches[1] ?? 0,
                         'content' => json_decode('[' . $matches[1] . ']', true) ?: [],
-                        'notas' => $matches[2] ?? ''
+                        'notas' => $matches[2] ?? '',
+                        'client' => isset($matches[3]) ? $matches[3] : null,
                     ];
                 } else {
                     dd($response, $responseData);
@@ -164,12 +172,40 @@ class PromptViewController extends Controller
 
             // Subtract one credit from user
             $user->subscription->decrement('credits');
+            // Try to find client by name from the AI response
+            $clientPrompted = null;
+            if (!empty($responseData['client'])) {
+                // Find client ID from clients table and check the relationship in client_user
+                $client = Client::where(function ($query) use ($responseData) {
+                    $query->where('name', 'like', '%' . $responseData['client'] . '%')
+                        ->orWhere('name', 'like', '%' . 'empresa' . '%');
+                })
+                    ->whereHas('users', function ($query) use ($user) {
+                        $query->where('users.id', $user->id);
+                    })
+                    ->first();
 
+                // If no exact match, try a more flexible search
+                if (!$client) {
+                    $client = Client::where(function ($query) use ($responseData) {
+                        $query->where('name', 'like', '%' . substr($responseData['client'], 0, 10) . '%')
+                            ->orWhere('name', 'like', '%' . 'empresa' . '%');
+                    })
+                        ->whereHas('users', function ($query) use ($user) {
+                            $query->where('users.id', $user->id);
+                        })
+                        ->first();
+                }
+
+                if ($client) {
+                    $clientPrompted = $client->id;
+                }
+            }
 
             // Create a budget object from AI response
             $budget = new Budget([
                 'user_id' => $user->id,
-                'client_id' => null,
+                'client_id' => $clientPrompted ?? null,
                 'content' => $responseData['content'] ?? [],
                 'state' => 'draft',
                 'discount' => $responseData['descuento'] ?? 0,

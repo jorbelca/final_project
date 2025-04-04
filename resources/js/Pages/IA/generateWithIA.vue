@@ -3,23 +3,29 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import PageHeader from "@/Components/_Default/PageHeader.vue";
+import ProcessingMessage from "@/Components/UI/ProcessingMessage.vue";
 const props = defineProps({
     credits: Number,
     prompt: Text,
 });
-
+let loading = ref(false);
 const form = useForm({
     additioNalPrompt: props.prompt.prompt,
     prompt: "",
 });
 
 function generate() {
+    loading.value = true;
     form.post(`/prompt`, {
         onSuccess: () => {
             togglePrompt();
             form.reset("prompt");
         },
+        onFinish: () => {
+            loading.value = false;
+        },
         onError: (errors) => {
+            loading.value = false;
             console.log(errors);
         },
     });
@@ -29,17 +35,16 @@ const isPromptExpanded = ref(false);
 const togglePrompt = () => {
     isPromptExpanded.value = !isPromptExpanded.value;
 };
-const promptId = ref(null);
 </script>
 
 <template>
+    <ProcessingMessage :loading="loading" />
     <AppLayout title="Generar con IA" :header="false">
         <template #header>
             <PageHeader title="Generador de Presupuestos IA" padding="16" />
         </template>
 
         <div class="max-w-7xl mx-auto py-3 px-2 sm:px-3 lg:px-4">
-            <!-- Visualización de créditos más pequeña -->
             <div
                 class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg p-2 mb-3 shadow-md inline-flex items-center"
             >
@@ -60,7 +65,9 @@ const promptId = ref(null);
                     </svg>
                 </div>
                 <div>
-                    <p class="text-xs text-white font-medium">
+                    <p
+                        class="text-xs text-white font-medium border-b border-gray-300 dark:border-gray-600 pb-1"
+                    >
                         Créditos:
                         <span class="text-sm font-bold">{{
                             props.credits
@@ -70,7 +77,7 @@ const promptId = ref(null);
             </div>
             <!-- Sección de prompt adicional (desplegable) -->
             <div
-                class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-3 overflow-hidden"
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-3 overflow-hidden border dark:border-gray-600"
             >
                 <div
                     @click="togglePrompt"
@@ -83,7 +90,7 @@ const promptId = ref(null);
                     </h3>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 transition-transform duration-300"
+                        class="h-4 w-4 transition-transform duration-300 dark:text-white"
                         :class="isPromptExpanded ? 'rotate-180' : ''"
                         viewBox="0 0 20 20"
                         fill="currentColor"
@@ -103,7 +110,7 @@ const promptId = ref(null);
                         <textarea
                             v-model="form.additioNalPrompt"
                             rows="3"
-                            class="w-full px-2 py-1 text-gray-700 border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none"
+                            class="w-full px-2 py-1 text-gray-700 border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none"
                             placeholder="Introduce detalles adicionales sobre tu actividad para dar mayor contexto a la IA y asi mejorar la calidad de la respuesta."
                         ></textarea>
                     </div>
@@ -112,7 +119,7 @@ const promptId = ref(null);
 
             <!-- Sección de generación de presupuesto -->
             <div
-                class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden"
+                class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border dark:border-gray-600"
             >
                 <div class="p-2 border-b border-gray-200 dark:border-gray-700">
                     <h3
@@ -142,8 +149,8 @@ const promptId = ref(null);
                             <textarea
                                 v-model="form.prompt"
                                 rows="5"
-                                class="w-full px-2 py-1 text-gray-700 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none"
-                                placeholder="Que quieres presupuestar?"
+                                class="w-full px-2 py-1 text-gray-700 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none"
+                                placeholder="Que te gustaría presupuestar?"
                             ></textarea>
                             <p
                                 v-if="form.errors.question"
