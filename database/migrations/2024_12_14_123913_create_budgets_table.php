@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('discount');
             $table->integer('taxes');
             $table->enum('state', ['draft', 'approved', 'rejected'])->default('draft');
+            $table->text('notes')->nullable();
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('clients')->onDelete('set null');

@@ -22,7 +22,8 @@ class Budget extends Model
         'content',
         'state',
         'discount',
-        'taxes'
+        'taxes',
+        'notes',
     ];
 
     /**
@@ -38,5 +39,5 @@ class Budget extends Model
         return $this->belongsTo(Client::class);
     }
 
-   
+
 }

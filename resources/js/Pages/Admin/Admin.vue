@@ -76,19 +76,19 @@ const changeState = (user_id) => {
                 <h3 class="font-bold">
                     Creditos :
                     <span class="text-sm font-normal">{{
-                        user.subscription_data.credits
+                        user.subscription_data?.credits
                     }}</span>
                 </h3>
                 <h3 class="font-bold">
                     <span class="text-sm font-normal">{{
-                        user.subscription_data.plan_name
+                        user.subscription_data?.plan_name
                     }}</span>
                 </h3>
                 <h3 class="font-bold">
                     Acaba :
                     <span class="text-sm font-normal">{{
-                        user.subscription_data.ends_at
-                            ? dayjs(user.subscription_data.ends_at).fromNow()
+                        user.subscription_data?.ends_at
+                            ? dayjs(user.subscription_data?.ends_at).fromNow()
                             : "-"
                     }}</span>
                 </h3>

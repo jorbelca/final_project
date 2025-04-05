@@ -23,6 +23,7 @@ class Subscription extends Model
         'starts_at',
         'ends_at',
         'credits',
+        'renovations'
     ];
 
     // protected $hidden = [

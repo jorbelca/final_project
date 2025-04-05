@@ -24,7 +24,7 @@ const props = defineProps({
 const form = useForm({
     default_taxes: props.user.default_taxes,
     company_name: props.user.company_name,
-    subscription: props.subscription,
+    subscription: props.subscription ?? {},
 });
 
 const updateSubscription = () => {
@@ -96,7 +96,7 @@ const updateSubscription = () => {
                 </div>
 
                 <!-- Subscriptions -->
-                <div class="col-span-6">
+                <div v-if="props.subscription" class="col-span-6">
                     <InputLabel for="subscription" value="Subscripción" />
 
                     <div
@@ -110,7 +110,7 @@ const updateSubscription = () => {
                                     Créditos restantes
                                 </h6>
                                 <p class="text-xl font-bold text-text">
-                                    {{ props.subscription.credits }}
+                                    {{ props.subscription?.credits }}
                                 </p>
                             </div>
                             <div class="flex flex-col items-center">
@@ -143,29 +143,28 @@ const updateSubscription = () => {
                                     maxlength="19"
                                     @input="
                                         (e) => {
-                                            const start =
-                                                e.target.selectionStart;
-                                            const raw = e.target.value.replace(
-                                                /[^\d]/g,
-                                                ''
-                                            );
+                                            const oldPos = e.target.selectionStart;
+                                            const oldVal = e.target.value;
+                                            const raw = oldVal.replace(/\D/g, '');
+                                            if (!raw) {
+                                                form.subscription.payment_number = '';
+                                                e.target.value = '';
+                                                return;
+                                            }
                                             let formatted = '';
-                                            for (
-                                                let i = 0;
-                                                i < raw.length && i < 16;
-                                                i++
-                                            ) {
-                                                if (i > 0 && i % 4 === 0)
-                                                    formatted += '-';
+                                            for (let i = 0; i < raw.length && i < 16; i++) {
+                                                if (i > 0 && i % 4 === 0) formatted += '-';
                                                 formatted += raw[i];
                                             }
-                                            form.subscription.payment_number =
-                                                formatted || '0';
+                                            form.subscription.payment_number = formatted;
                                             e.target.value = formatted;
-                                            e.target.setSelectionRange(
-                                                start,
-                                                start
-                                            );
+
+                                            // Simple cursor offset calculation
+                                            const dashesBefore = (oldVal.slice(0, oldPos).match(/-/g) || []).length;
+                                            const dashesAfter = (formatted.slice(0, oldPos).match(/-/g) || []).length;
+                                            const newPos = oldPos + (dashesAfter - dashesBefore);
+
+                                            e.target.setSelectionRange(newPos, newPos);
                                         }
                                     "
                                 />

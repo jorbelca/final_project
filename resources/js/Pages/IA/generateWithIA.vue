@@ -10,7 +10,7 @@ const props = defineProps({
 });
 let loading = ref(false);
 const form = useForm({
-    additioNalPrompt: props.prompt.prompt,
+    additioNalPrompt: props.prompt?.prompt ?? "",
     prompt: "",
 });
 
@@ -70,7 +70,7 @@ const togglePrompt = () => {
                     >
                         Créditos:
                         <span class="text-sm font-bold">{{
-                            props.credits
+                            props.credits ?? 0
                         }}</span>
                     </p>
                 </div>

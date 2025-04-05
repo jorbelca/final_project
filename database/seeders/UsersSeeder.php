@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Http\Controllers\SubscriptionController;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,17 +15,19 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        $admin = User::create([
             'name' => 'Admin',
             'email' => 'admin@admin.es',
             'password' => Hash::make('password'),
             'admin' => 1
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => 'User',
             'email' => 'user@user.es',
             'password' => Hash::make('password')
         ]);
+        SubscriptionController::create($admin);
+        SubscriptionController::create($user);
     }
 }

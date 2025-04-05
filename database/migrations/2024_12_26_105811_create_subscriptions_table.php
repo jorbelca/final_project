@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();
             $table->integer('credits')->default(0);
+            $table->integer('renovations')->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

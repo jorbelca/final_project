@@ -31,7 +31,7 @@ class SubscriptionController extends Controller
     {
         $plan = Plan::find(1); // Assuming 1 is the ID of the free plan
         if (!$plan) {
-            return response()->json(['message' => 'Plan not found'], 404);
+            return ['message' => 'Plan not found', 'status' => 'error'];
         }
         // Check if the user already has a subscription
         $subscription = new Subscription();
@@ -41,10 +41,10 @@ class SubscriptionController extends Controller
         $subscription->starts_at = now();
         $features = json_decode($plan->features, true);
         $subscription->credits = $features['Credits'];
-        $subscription->payment_number = null;
+        $subscription->payment_number = "0000-0000-0000-0000";
         $subscription->save();
 
-        return response()->json(['message' => 'Subscription created successfully'], 201);
+        return ['message' => 'Welcome', 'status' => 'success', 'subscription_id' => $subscription->id];
     }
 
 
@@ -56,10 +56,8 @@ class SubscriptionController extends Controller
      */
     public function update(UpdateSubscriptionRequest $request, Subscription $subscription)
     {
-       
-        if ($request->input('subscription.payment_number')!== $_ENV['TARJETA']) {
-            return SubscriptionController::notify("", "Wrong Card", false);
-        }
+
+
         try {
             $user = User::find($request->input('subscription.user_id'));
 
@@ -72,6 +70,7 @@ class SubscriptionController extends Controller
             $user->company_name = $validatedData['company_name'] ?? $user->company_name ?? null;
             $user->save();
 
+
             if (
                 $request->input('subscription.id') == $subscription->id &&
                 $request->input('subscription.plan_id') == $subscription->plan_id &&
@@ -80,6 +79,14 @@ class SubscriptionController extends Controller
                 return SubscriptionController::notify('', "Updated");
             }
 
+            //Comprobar la tarjeta
+            if ($request->input('subscription.payment_number') !== $_ENV['TARJETA']) {
+                return SubscriptionController::notify("", "Wrong Card", false);
+            }
+            //Comprobar las renovaciones ///DEVELOP
+            if ($request->input('subscription.renewal') == 1) {
+                return SubscriptionController::notify("", "Renewal not allowed, we are in develop", false);
+            }
 
             //Cambiar el plan y los creditos
             $plan = Plan::find($request->input('subscription.plan_id'));
@@ -109,7 +116,7 @@ class SubscriptionController extends Controller
             ]);
 
 
-
+            $subscription->renovations = $subscription->renovations + 1;
             $subscription->update($validated['subscription']);
 
 

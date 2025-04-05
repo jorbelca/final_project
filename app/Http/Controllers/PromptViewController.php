@@ -28,7 +28,7 @@ class PromptViewController extends Controller
             'IA/generateWithIA',
             [
                 'prompt' => $user->prompt,
-                'credits' => $user->subscription->credits,
+                'credits' => $user->subscription->credits ?? 0,
             ]
         );
     }
@@ -117,7 +117,7 @@ class PromptViewController extends Controller
         $costs = CostController::getUserCostsString($user);
 
         $rawPrompt = file_get_contents(resource_path('/prompts/budget_prompt.txt'));
-        $cached_prompt= str_replace(
+        $cached_prompt = str_replace(
             ['{{user_prompt}}', '{{costs}}', '{{context}}'],
             [$prompt, $costs, $additionalPrompt],
             $rawPrompt
