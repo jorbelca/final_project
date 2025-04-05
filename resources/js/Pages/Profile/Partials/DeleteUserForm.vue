@@ -1,12 +1,12 @@
 <script setup>
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
-import ActionSection from "@/Components/ActionSection.vue";
-import DangerButton from "@/Components/DangerButton.vue";
-import DialogModal from "@/Components/DialogModal.vue";
-import InputError from "@/Components/InputError.vue";
-import SecondaryButton from "@/Components/SecondaryButton.vue";
-import TextInput from "@/Components/TextInput.vue";
+import ActionSection from "@/Components/_Default/ActionSection.vue";
+import DangerButton from "@/Components/_Default/DangerButton.vue";
+import DialogModal from "@/Components/_Default/DialogModal.vue";
+import InputError from "@/Components/_Default/InputError.vue";
+import SecondaryButton from "@/Components/_Default/SecondaryButton.vue";
+import TextInput from "@/Components/_Default/TextInput.vue";
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
@@ -44,7 +44,9 @@ const closeModal = () => {
         </template>
 
         <template #description>
-            <span class="text-text">Elimina tu cuenta de forma permanente.</span>
+            <span class="text-text"
+                >Elimina tu cuenta de forma permanente.</span
+            >
         </template>
 
         <template #content>

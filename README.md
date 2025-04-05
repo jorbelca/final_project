@@ -6,18 +6,14 @@
 
     IA
 
--   Crear la View en la que s'interactue en el prompt + prompt por defecto
 -   Speech recognition
--   Tabla BBD Prompt
--   Generar presupuesto con prompt IA
--   Limitar el uso de la IA segun el plan (creditos)
+-   Comprobar Limitar el uso de la IA segun el plan (creditos)
 
     BUDGETS
 
 -   Agrupar botons de acciones en budgets en responsive
 -   Acabar el boto de content en responsive
--   Millorar pdf
--   Cuando haya muchos items en content, que muestre ...
+-   Millorar pdf (falta un poc)
 
     ESTILOS
 

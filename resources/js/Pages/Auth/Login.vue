@@ -1,10 +1,10 @@
 <script setup>
 import { Head, Link, useForm } from "@inertiajs/vue3";
-import Checkbox from "@/Components/Checkbox.vue";
-import InputError from "@/Components/InputError.vue";
-import InputLabel from "@/Components/InputLabel.vue";
+import Checkbox from "@/Components/_Default/Checkbox.vue";
+import InputError from "@/Components/_Default/InputError.vue";
+import InputLabel from "@/Components/_Default/InputLabel.vue";
 
-import TextInput from "@/Components/TextInput.vue";
+import TextInput from "@/Components/_Default/TextInput.vue";
 import Logo from "@/Components/Logo/Logo.vue";
 import ReturnBtn from "@/Components/Buttons/ReturnBtn.vue";
 import DarkModeBtn from "@/Components/Buttons/DarkModeBtn.vue";

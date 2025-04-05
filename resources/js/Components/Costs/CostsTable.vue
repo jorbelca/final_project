@@ -8,6 +8,7 @@ import "dayjs/locale/en";
 import NoDataMsg from "../UI/NoDataMsg.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
 import { periodicity } from "./FormCosts.vue";
+import { showDescription } from "../Budgets/helpers";
 
 let loading = ref(false);
 
@@ -71,7 +72,8 @@ dayjs.locale("es");
                 >
                     <div class="card-header">
                         <p class="font-bold">
-                            {{ cost.id }}. {{ cost.description }}
+                            {{ cost.id }}.
+                            <span v-html="showDescription(cost)"></span>
                         </p>
                         <span
                             :title="
@@ -122,9 +124,14 @@ dayjs.locale("es");
                         class="hover:bg-hover"
                     >
                         <td class="table-cell">{{ serialNumber(key) }}</td>
-                        <td class="table-cell">{{ cost.description }}</td>
+                        <td
+                            v-html="showDescription(cost)"
+                            class="table-cell"
+                        ></td>
                         <td class="table-cell">{{ cost.cost }}</td>
-                    <td class="table-cell">{{ periodicity[cost.periodicity] }}</td>
+                        <td class="table-cell">
+                            {{ periodicity[cost.periodicity] }}
+                        </td>
                         <td class="table-cell">
                             <span
                                 :title="

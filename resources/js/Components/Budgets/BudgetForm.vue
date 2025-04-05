@@ -2,8 +2,8 @@
 import { computed, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PrimaryButton from "../Buttons/PrimaryButton.vue";
-import InputLabel from "../InputLabel.vue";
-import TextInput from "../TextInput.vue";
+import InputLabel from "../_Default/InputLabel.vue";
+import TextInput from "../_Default/TextInput.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
 import { stateOptions } from "./StateTile.vue";
 
@@ -13,16 +13,22 @@ const quantity = ref(1);
 let loading = ref(false);
 
 const props = defineProps({
+    IA: Boolean,
     clone: Boolean,
     costs: Array,
     clients: Array,
     budget: Object,
     taxes: Number,
+    notas: String,
 });
 
 const formData = useForm({
     client_id: props.budget ? props.budget.client_id : null,
-    content: props.budget ? JSON.parse(props.budget.content) : [],
+    content: props.budget
+        ? typeof props.budget.content === "string"
+            ? JSON.parse(props.budget.content)
+            : props.budget.content
+        : [],
     taxes: props.budget ? props.budget.taxes : props.taxes,
     discount: props.budget ? props.budget.discount : 0,
     user_id: props.budget ? props.budget.user_id : null,
@@ -95,14 +101,20 @@ const temporality = {
     weekly: "semanalmente",
     daily: "diariamente",
     hourly: "por hora",
-    unit: "una vez",
+    unit: "por servicio / producto",
     biweekly: "cada dos semanas",
     minute: "por minuto",
+};
+const limitDescription = (description) => {
+    if (description.length > 20) {
+        return description.substring(0, 20) + "...";
+    }
+    return description;
 };
 </script>
 
 <template>
-    <main class="mb-10 container mx-auto">
+    <main class="xs:mb-10 container mx-auto">
         <ProcessingMessage :loading="loading" />
         <form
             class="flex flex-col gap-4 p-2 form-wrapper shadow-xl rounded-xl w-full"
@@ -126,7 +138,7 @@ const temporality = {
             </select>
 
             <InputLabel>Contenido del Presupuesto</InputLabel>
-            <template v-if="formData.content.length > 0 && !edit">
+            <!-- <template v-if="formData.content.length > 0 && !edit">
                 <div
                     v-for="(content, index) in formData.content"
                     :key="index"
@@ -135,13 +147,13 @@ const temporality = {
                     <div class="flex justify-between px-2">
                         <div class="text-text">
                             {{ content.quantity }} x {{ content.description }} -
-                            {{ content.cost }} $
+                            {{ content.cost }} €
                         </div>
                         <div class="flex flex-row gap-6">
                             <div class="text-text">
                                 <b>
                                     {{ content.quantity * content.cost }}
-                                    $</b
+                                    €</b
                                 >
                             </div>
                             <button
@@ -153,8 +165,8 @@ const temporality = {
                         </div>
                     </div>
                 </div>
-            </template>
-            <template v-if="edit && formData.content.length > 0">
+            </template> -->
+            <template v-if="formData.content.length > 0">
                 <table class="text-text">
                     <thead>
                         <tr class="flex align-center text-sm">
@@ -162,9 +174,9 @@ const temporality = {
                             <td
                                 class="flex justify-between flex-row w-full pr-[10vw]"
                             >
-                                <p>Quantity</p>
-                                <p>Description</p>
-                                <p>Cost</p>
+                                <p>Cantidad</p>
+                                <p>Descripcion</p>
+                                <p>Coste</p>
                             </td>
                             <td class="pr-4">SubTotal</td>
                         </tr>
@@ -235,7 +247,8 @@ const temporality = {
                             :key="cost.id"
                             :value="cost.id"
                         >
-                            {{ cost.description }} - {{ cost.cost }} €
+                            {{ limitDescription(cost.description) }} -
+                            {{ cost.cost }} €
                             {{ temporality[cost.periodicity] }}
                         </option>
                     </select>
@@ -246,7 +259,7 @@ const temporality = {
             </div>
 
             <div class="flex flex-wrap justify-between gap-5">
-                <div class="flex flex-wrap gap-10">
+                <div class="flex flex-wrap gap-5">
                     <div>
                         <InputLabel>Impuestos</InputLabel>
                         <TextInput
@@ -287,7 +300,9 @@ const temporality = {
                         </template>
                     </div>
                 </div>
-                <div class="flex flex-row self-end">
+                <div
+                    class="flex flex-row w-full sm:w-1/4 justify-center items-end"
+                >
                     <p>
                         <b class="text-text text-lg font-extrabold"
                             >Total: {{ computedTotal }} €</b
@@ -312,10 +327,27 @@ const temporality = {
                         class="w-1/5 justify-center bg-green-400 hover:bg-green-500"
                         type="submit"
                         :disabled="formData.content.length === 0"
-                        >{{ clone ? "Clonar" : "Crear" }}</PrimaryButton
+                        >{{
+                            props.IA ? "Guardar" : clone ? "Clonar" : "Crear"
+                        }}</PrimaryButton
                     >
                 </div>
             </template>
         </form>
+        <div
+            v-if="props.notas"
+            class="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner"
+        >
+            <h4
+                class="text-sm uppercase font-semibold text-gray-600 dark:text-gray-300 mb-2"
+            >
+                Notas:
+            </h4>
+            <p
+                class="text-text italic text-gray-700 dark:text-gray-300 leading-relaxed"
+            >
+                {{ props.notas }}
+            </p>
+        </div>
     </main>
 </template>

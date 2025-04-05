@@ -13,8 +13,8 @@ export const periodicity = {
 </script>
 
 <script setup>
-import InputLabel from "@/Components/InputLabel.vue";
-import TextInput from "@/Components/TextInput.vue";
+import InputLabel from "@/Components/_Default/InputLabel.vue";
+import TextInput from "@/Components/_Default/TextInput.vue";
 import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
@@ -77,7 +77,7 @@ const submitForm = () => {
                     <TextInput
                         v-model="formDataCosts.cost"
                         type="number"
-                        placeholder="$"
+                        placeholder="€"
                     />
                 </div>
                 <div>

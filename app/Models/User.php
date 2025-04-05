@@ -99,6 +99,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Subscription::class);
     }
+    public function prompt()
+    {
+        return $this->hasOne(Prompt::class);
+    }
+
     public function deleteProfilePhoto(): void
     {
         if (!$this->profile_photo_path) {
@@ -112,5 +117,17 @@ class User extends Authenticatable
         $this->forceFill([
             'profile_photo_path' => null,
         ])->save();
+    }
+
+    function hasCredits()
+    {
+        if ($this->subscription->credits === 0) {
+            $this->subscription->active === false;
+        }
+        return $this->subscription->credits > 0;
+    }
+    function isActive()
+    {
+        return $this->active === 1;
     }
 }

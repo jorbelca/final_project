@@ -7,7 +7,7 @@ import {
     PrinterIcon,
     TrashIcon,
 } from "@heroicons/vue/24/solid";
-import { computed, ref } from "vue";
+import { computed, ref, onMounted, onBeforeUnmount } from "vue";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/es";
@@ -20,6 +20,7 @@ import StateTile from "./StateTile.vue";
 import ContentCell from "./ContentCell.vue";
 import ClientCell from "./ClientCell.vue";
 import Pagination from "../Pagination/Pagination.vue";
+import Tooltip from "./Tooltip.vue";
 
 let loading = ref(false);
 
@@ -116,11 +117,31 @@ const downloadPdf = async (id) => {
         console.error("Error generando el pdf:", error);
     }
 };
+
+const isMobileState = ref(window.innerWidth < 500);
+
+const checkIfMobile = () => {
+    isMobileState.value = window.innerWidth < 500;
+};
+
+const isMobile = () => {
+    return isMobileState.value;
+};
+
+onMounted(() => {
+    window.addEventListener("resize", checkIfMobile);
+    // Initial check
+    checkIfMobile();
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener("resize", checkIfMobile);
+});
 </script>
 
 <template>
     <ProcessingMessage :loading="loading" />
-    <div class="data-table-container text-text">
+    <div class="p-4 sm:p-6 text-text">
         <div class="table-wrapper">
             <NoDataMsg :noData="filteredData.length === 0" />
             <div class="mobile-view md:hidden">
@@ -151,10 +172,15 @@ const downloadPdf = async (id) => {
                     <div class="card-body">
                         <div class="text-nowrap">
                             <p class="text-sm">
-                                <b>Impuestos:</b> {{ budget.taxes }} %
+                                <Tooltip v-if="isMobile()" text="Impuestos" />
+                                <b v-if="!isMobile()"> Impuestos:</b>
+                                {{ budget.taxes }} %
                             </p>
+
                             <p class="text-sm">
-                                <b>Descuento:</b> {{ budget.discount }} %
+                                <Tooltip v-if="isMobile()" text="Descuento" />
+                                <b v-if="!isMobile()"> Descuento:</b>
+                                {{ budget.discount }} %
                             </p>
                         </div>
                         <div class="flex flex-col">

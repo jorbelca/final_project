@@ -3,7 +3,7 @@ import { router } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import BudgetTable from "@/Components/Budgets/BudgetTable.vue";
 import BudgetCounter from "@/Components/Budgets/BudgetCounter.vue";
-import PageHeader from "@/Components/PageHeader.vue";
+import PageHeader from "@/Components/_Default/PageHeader.vue";
 import ProcessingMessage from "@/Components/UI/ProcessingMessage.vue";
 import { ref } from "vue";
 

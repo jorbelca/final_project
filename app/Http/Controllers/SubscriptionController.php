@@ -56,13 +56,12 @@ class SubscriptionController extends Controller
      */
     public function update(UpdateSubscriptionRequest $request, Subscription $subscription)
     {
+       
+        if ($request->input('subscription.payment_number')!== $_ENV['TARJETA']) {
+            return SubscriptionController::notify("", "Wrong Card", false);
+        }
         try {
             $user = User::find($request->input('subscription.user_id'));
-
-            if (!Gate::allows('update', $user)) {
-                return SubscriptionController::notify("", "Inactive User", false);
-            }
-
 
             $validatedData = $request->validate([
                 'default_taxes' => 'required|int|between:1,99',
@@ -81,9 +80,7 @@ class SubscriptionController extends Controller
                 return SubscriptionController::notify('', "Updated");
             }
 
-            if (!Gate::allows('update', $subscription)) {
-                return SubscriptionController::notify("", "Inactive User", false);
-            }
+
             //Cambiar el plan y los creditos
             $plan = Plan::find($request->input('subscription.plan_id'));
             if (!$plan) {

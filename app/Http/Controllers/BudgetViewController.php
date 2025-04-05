@@ -131,6 +131,7 @@ class BudgetViewController extends Controller
         if (!Gate::allows('delete', $budget)) {
             return BudgetViewController::notify("index", "Inactive User", false);
         }
+
         return Inertia::render('Budgets/EditBudget', [
             'budget' => $budget,
             'clients' => Auth::user()->clients,

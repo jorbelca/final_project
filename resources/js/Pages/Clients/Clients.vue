@@ -1,7 +1,7 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import ClientsTable from "@/Components/Clients/ClientsTable.vue";
-import PageHeader from "@/Components/PageHeader.vue";
+import PageHeader from "@/Components/_Default/PageHeader.vue";
 
 const props = defineProps({
     clients: Object,

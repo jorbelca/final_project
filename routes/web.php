@@ -4,6 +4,7 @@ use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\BudgetViewController;
 use App\Http\Controllers\ClientViewController;
 use App\Http\Controllers\CostViewController;
+use App\Http\Controllers\PromptViewController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UserController;
@@ -31,6 +32,7 @@ Route::middleware([
     Route::resource('clients', ClientViewController::class)->except('show');
     Route::resource('support', SupportController::class);
     Route::resource('subscription', SubscriptionController::class)->except('show');
+    Route::resource('prompt', PromptViewController::class)->except('show');
 
 
     //Update Client with POST Request
