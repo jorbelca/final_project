@@ -77,7 +77,7 @@ const submitForm = () => {
                     <TextInput
                         v-model="formDataCosts.cost"
                         type="number"
-                        placeholder="$"
+                        placeholder="€"
                     />
                 </div>
                 <div>

@@ -9,6 +9,7 @@ use App\Models\User;
 
 class CostController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -26,7 +27,7 @@ class CostController extends Controller
             'weekly' => "semanalmente",
             'daily' => "diariamente",
             'hourly' => "por hora",
-            'unit' => "una vez",
+            'unit' => "por servicio / producto",
             'biweekly' => "cada dos semanas",
             'minute' => "por minuto",
         ];
@@ -35,7 +36,7 @@ class CostController extends Controller
 
         $costsStrings = $costs->map(function ($cost) use ($temporality) {
             $period = $temporality[$cost->periodicity] ?? $cost->periodicity;
-            return "{$cost->description}: {$cost->cost} {$cost->unit} {$period}";
+            return "{$cost->description}: {$cost->cost} € {$period}";
         });
 
         return $costsStrings->implode(".");

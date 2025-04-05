@@ -24,3 +24,5 @@ yarn-error.log
 ./docker-compose.yaml
 docker-compose.yml
 IACODE.md
+
+/resources/prompts/budget_prompt.txt

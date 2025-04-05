@@ -116,21 +116,12 @@ class PromptViewController extends Controller
     {
         $costs = CostController::getUserCostsString($user);
 
-        $cached_prompt = "Eres un consultor experto en diversos ambitos .
-        Quiero que generes el contenido de un presupuesto profesional en base a una peticion del usuario que mas adelante se te proporcionara  .
-          El contenido del presupuesto debe estar basado
-         en unos costes de produccion del usuario que se te pasaran mas adelante. Cada coste incluye una descripción,
-         un costo unitario y una temporalidad . El formato de la respuesta debe ser un JSON que debe contener exactamente
-        {descuento: descuento si el usuario cita alguno en el prompt,
-         content: (contenido del presupuesto, sin notas) {description: Mantenimiento,cost: 50,quantity: 1},
-         notas: notas que consideres y que den un contexto y explicacion a las decisiones tomadas para generar el presupuesto, cliente: en el caso de que si el usuario cita o tu intuyes a quien va dirigido}.
-          Debes tener en cuenta la complejidad de la tarea y si hay elementos que no estan incluidos en los costes de produccion, incluirlos
-            en el presupuesto. El presupuesto debe ser claro y conciso, y puede incluir algun tipo de explicacion en el apartado notas.
-            Puede que en el prompt el usuario incluya para quien es el presupuesto o quien se lo ha pedido, si es asi, debes incluirlo en la respuesta como client.
-            Quiero que presupuestes en base a este prompt:$prompt.
-            Tengo estos costes de produccion: $costs.
-            Usa este contexto adicional proporcionado por el usuario: $additionalPrompt.
-          ";
+        $rawPrompt = file_get_contents(resource_path('/prompts/budget_prompt.txt'));
+        $cached_prompt= str_replace(
+            ['{{user_prompt}}', '{{costs}}', '{{context}}'],
+            [$prompt, $costs, $additionalPrompt],
+            $rawPrompt
+        );
 
 
         try {
