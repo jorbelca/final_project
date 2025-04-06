@@ -39,7 +39,7 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-[95.8vh] w-full bg-background_contrast">
+        <div class="min-h-[93.2vh] w-full bg-background_contrast">
             <nav class="bg-background_nav border-b border border-border">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -91,6 +91,9 @@ const logout = () => {
                                 </NavLink>
 
                                 <NavLink
+                                    v-if="
+                                        +$page?.props?.auth?.user?.active === 1
+                                    "
                                     :href="route('prompt.index')"
                                     :active="route().current('prompt.index')"
                                 >
@@ -460,6 +463,7 @@ const logout = () => {
                             Soporte
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
+                            v-if="+$page?.props?.auth?.user?.active === 1"
                             :href="route('prompt.index')"
                             :active="route().current('prompt.index')"
                         >

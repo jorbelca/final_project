@@ -9,7 +9,6 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use OpenAI\Laravel\Facades\OpenAI;
 
@@ -24,6 +23,10 @@ class PromptViewController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        if (!$user->isActive()) {
+            return BudgetViewController::notify("index", "Inactive User", false);
+        }
         return Inertia::render(
             'IA/generateWithIA',
             [
@@ -31,16 +34,6 @@ class PromptViewController extends Controller
                 'credits' => $user->subscription->credits ?? 0,
             ]
         );
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $user = Auth::user();
-        $prompts = Prompt::where('user_id', $user->id)->get();
-        return Inertia::render('IA/generateWithIA', compact('prompts'));
     }
 
     /**
@@ -52,8 +45,9 @@ class PromptViewController extends Controller
         try {
 
             $user = Auth::user();
-            if (!Gate::allows('create', $user, new Prompt())) {
-                return PromptViewController::notify("No Credits or User Inactive", false);
+
+            if (!$user->hasCredits()) {
+                return PromptViewController::notify("No Credits ", false);
             }
 
             $request->validate([
@@ -84,7 +78,6 @@ class PromptViewController extends Controller
                     'clients' => Auth::user()->clients,
                     'costs' => Auth::user()->costs,
                     'budget' => $response->budget,
-                    'notas' => $response->notas,
                 ]);
             }
         } catch (\Throwable $th) {
@@ -125,7 +118,7 @@ class PromptViewController extends Controller
 
 
         try {
-            if ($user->subscription->credits <= 0) {
+            if (+$user->subscription->credits <= 0) {
                 return PromptViewController::notify("You don't have enough credits", false);
             }
 
@@ -200,14 +193,14 @@ class PromptViewController extends Controller
                 'content' => $responseData['content'] ?? [],
                 'state' => 'draft',
                 'discount' => $responseData['descuento'] ?? 0,
-                'taxes' => $user->default_taxes
+                'taxes' => $user->default_taxes,
+                'notes' => $responseData['notas'] ?? '',
             ]);
 
 
             return (object)[
                 'status' => true,
                 'budget' => $budget,
-                'notas' => $responseData['notas'] ?? '',
             ];
         } catch (\Throwable $th) {
             dd($th);

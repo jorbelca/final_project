@@ -56,22 +56,22 @@ const deleteRow = (id) => {
     } else if (currentPath.includes("costs")) {
         resource = "costs";
     } else {
-        alert("Cannot determine resource to delete.");
+        alert("No se puede determinar el recurso a eliminar.");
         return;
     }
 
     // Confirmar y enviar la solicitud
     const confirmation = confirm(
-        `Are you sure you want to delete this ${resource}?`
+        `¿Estás seguro de que deseas eliminar este ${resource}?`
     );
     if (confirmation) {
         router.delete(`${resource}/${id}`, {
             onError: (errors) => {
-                console.error(`Error deleting ${resource}:`, errors);
+                console.error(`Error al eliminar ${resource}:`, errors);
             },
         });
     } else {
-        alert(`Deletion of ${resource} canceled.`);
+        alert(`Eliminación de ${resource} cancelada.`);
     }
 };
 
@@ -85,13 +85,13 @@ const editRow = (id) => {
     } else if (currentPath.includes("costs")) {
         resource = "costs";
     } else {
-        console.error("Cannot determine resource to edit.");
+        console.error("No se puede determinar el recurso a editar.");
         return;
     }
 
     router.get(`${resource}/${id}/edit`, {
         onError: (errors) => {
-            alert("Error loading edit form.");
+            alert("Error al cargar el formulario de edición.");
             console.error(`Error:`, errors);
         },
     });
@@ -100,8 +100,8 @@ const generate = (id) => {
     try {
         window.open(`/budget/${id}/generate`, "_blank");
     } catch (error) {
-        alert("Error generating budget.");
-        console.error("Error generating budget:", error);
+        alert("Error al generar el presupuesto.");
+        console.error("Error al generar el presupuesto:", error);
     }
 };
 </script>

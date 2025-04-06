@@ -1,4 +1,4 @@
-<script setup >
+<script setup>
 import { ref } from "vue";
 import { showDescription } from "./helpers";
 
@@ -9,20 +9,19 @@ defineProps({
     },
     isMobile: {
         type: Boolean,
-        required: false,
         default: false,
     },
 });
-
 
 const isOpen = ref(false);
 </script>
 
 <template>
-    <div v-if="isMobile">
+    <div v-if="isMobile" class="flex flex-col items-center gap-2">
         <button
             @click="isOpen = !isOpen"
-            class="bg-gray-200 px-4 py-1 rounded flex items-center dark:bg-gray-600 text-text dark:border-gray-600"
+            class="bg-gray-200 px-2 py-1 rounded flex items-center transition-all duration-300 dark:bg-gray-600 text-text dark:border-gray-600"
+            :class="{ '-ml-4': isOpen }"
         >
             Contenido
             <span class="ml-2">
@@ -43,52 +42,46 @@ const isOpen = ref(false);
         </button>
 
         <transition name="fade">
-            <div v-if="isOpen">
+            <div
+                v-if="isOpen"
+                class="bg-gray-200 p-1 rounded flex flex-col gap-2 dark:bg-gray-600 text-text dark:border-gray-600"
+            >
                 <div
                     v-for="(item, key) in content"
                     :key="key"
-                    class="flex flex-row"
+                    class="flex gap-1 items-center whitespace-nowrap"
                 >
-                    <div
-                        class="flex flex-row gap-2 items-center whitespace-nowrap"
+                    <span class="text-xs">{{ item.quantity }}x</span>
+                    <span
+                        v-html="showDescription(item)"
+                        class="flex-shrink-0 text-xs"
+                    ></span>
+                    <span class="text-xs">{{ item.cost }}€</span>
+                    <span class="text-xs font-semibold"
+                        >= {{ item.quantity * item.cost }}€</span
                     >
-                        <span class="text-xs whitespace-nowrap"
-                            >{{ item.quantity }}x</span
-                        >
-                        <span
-                            v-html="showDescription(item)"
-                            class="flex-shrink-0"
-                        ></span>
-                        <span class="text-xs">{{ item.cost }}$</span>
-                        <span class="text-xs font-semibold"
-                            >= {{ item.quantity * item.cost }}$</span
-                        >
-                    </div>
                 </div>
             </div>
         </transition>
     </div>
+
     <div v-else>
-        <div v-for="(item, key) in content" :key="key" class="flex flex-row">
-            <div class="flex flex-row gap-2 items-center whitespace-nowrap">
-                <span class="text-xs whitespace-nowrap"
-                    >{{ item.quantity }}x</span
-                >
-                <span
-                    v-html="showDescription(item)"
-                    class="flex-shrink-0"
-                ></span>
-                <span class="text-xs">{{ item.cost }}$</span>
-                <span class="text-xs font-semibold"
-                    >= {{ item.quantity * item.cost }}$</span
-                >
-            </div>
+        <div
+            v-for="(item, key) in content"
+            :key="key"
+            class="flex gap-1 items-center whitespace-nowrap"
+        >
+            <span class="text-xs">{{ item.quantity }}x</span>
+            <span v-html="showDescription(item)" class="flex-shrink-0"></span>
+            <span class="text-xs">{{ item.cost }}€</span>
+            <span class="text-xs font-semibold"
+                >= {{ item.quantity * item.cost }}€</span
+            >
         </div>
     </div>
 </template>
 
 <style scoped>
-/* Animación de entrada y salida */
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -96,6 +89,6 @@ const isOpen = ref(false);
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-20px);
 }
 </style>

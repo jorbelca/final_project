@@ -6,6 +6,7 @@ import BudgetCounter from "@/Components/Budgets/BudgetCounter.vue";
 import PageHeader from "@/Components/_Default/PageHeader.vue";
 import ProcessingMessage from "@/Components/UI/ProcessingMessage.vue";
 import { ref } from "vue";
+import { adaptarTexto } from "@/Components/Budgets/helpers";
 
 const props = defineProps({
     budgets: Array,
@@ -26,6 +27,7 @@ const changePage = (url) => {
         });
     }
 };
+
 </script>
 
 <template>
@@ -34,7 +36,10 @@ const changePage = (url) => {
             <PageHeader
                 title="Presupuestos"
                 :links="[
-                    { text: 'Crea un Presupuesto >', route: 'budgets.create' },
+                    {
+                        text: adaptarTexto('Crea un Presupuesto >'),
+                        route: 'budgets.create',
+                    },
                 ]"
                 :padding="24"
             >

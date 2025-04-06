@@ -35,10 +35,14 @@ function serialNumber(key) {
 // Métodos de edición y eliminación
 const deleteRow = (id) => {
     loading.value = true;
-    if (!confirm("Are you sure you want to delete this cost?")) return;
+    if (!confirm("¿Estás seguro de que deseas eliminar este coste?")) {
+        loading.value = false;
+        return;
+    }
 
     router.delete(`costs/${id}`, {
-        onError: (errors) => console.error("Error deleting cost:", errors),
+        onError: (errors) =>
+            console.error("Error al eliminar el coste:", errors),
         onFinish: () => {
             loading.value = false;
         },
@@ -48,7 +52,7 @@ const deleteRow = (id) => {
 const editRow = (id) => {
     loading.value = true;
     router.get(`costs/${id}/edit`, {
-        onError: (errors) => alert("Error loading edit form."),
+        onError: (errors) => alert("Error al cargar el formulario de edición."),
         onFinish: () => {
             loading.value = false;
         },
@@ -61,7 +65,7 @@ dayjs.locale("es");
 
 <template>
     <ProcessingMessage :loading="loading" />
-    <div class="sm:data-table-container sm:p-4 text-text">
+    <div class="p-4 sm:p-6 text-text">
         <div class="table-wrapper">
             <NoDataMsg :noData="filteredData.length === 0" />
             <div class="mobile-view md:hidden">

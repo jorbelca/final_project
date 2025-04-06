@@ -191,7 +191,7 @@ function removeCost(indexCost) {
                             </td>
                             <td class="border p-2">
                                 <select
-                                    class="text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm border rounded p-1 w-full"
+                                    class="text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm border rounded p-1 w-full"
                                     type="text"
                                     v-model="row.periodicity"
                                 >

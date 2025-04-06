@@ -1,5 +1,6 @@
 <script setup>
 import BudgetForm from "@/Components/Budgets/BudgetForm.vue";
+import { adaptarTexto } from "@/Components/Budgets/helpers";
 import PageHeader from "@/Components/_Default/PageHeader.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 
@@ -27,7 +28,7 @@ const props = defineProps({
                 "
                 :links="[
                     {
-                        text: '◀ Lista de Presupuestos ',
+                        text: adaptarTexto('◀ Lista de Presupuestos '),
                         route: 'budgets.index',
                     },
                 ]"

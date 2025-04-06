@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Prompt;
 use App\Models\User;
 
+
 class PromptPolicy
 {
 
@@ -23,7 +24,8 @@ class PromptPolicy
      */
     public function view(User $user, Prompt $prompt): bool
     {
-        return $user->hasCredits();
+
+        return $user->isActive();
     }
 
     /**
@@ -31,6 +33,7 @@ class PromptPolicy
      */
     public function create(User $user, Prompt $prompt): bool
     {
+        
         return $user->hasCredits() && $user->isActive();
     }
 

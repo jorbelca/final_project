@@ -105,8 +105,14 @@ class BudgetViewController extends Controller
                 'content' => ["sometimes", "array"],
                 'state' => 'sometimes|in:draft,approved,rejected',
                 'discount' => 'sometimes|integer',
-                'taxes' => 'required|integer'
+                'taxes' => 'required|integer',
+                'notes' => 'sometimes|string|max:10000'
             ]);
+            // Sanitize the 'notes' field
+            if (isset($validated['notes'])) {
+                $validated['notes'] = strip_tags($validated['notes']);
+            }
+
             $validated['content'] = json_encode($validated['content']);
 
 
@@ -198,8 +204,15 @@ class BudgetViewController extends Controller
                 'content' => ["sometimes", "array"],
                 'state' => 'sometimes|in:draft,approved,rejected',
                 'discount' => 'sometimes|integer',
-                'taxes' => 'required|integer'
+                'taxes' => 'required|integer',
+                'notes' => 'sometimes|string|max:10000',
             ]);
+
+            // Sanitize the 'notes' field
+            if (isset($validated['notes'])) {
+                $validated['notes'] = strip_tags($validated['notes']);
+            }
+
             $validated['content'] = json_encode($validated['content']);
 
 
@@ -230,7 +243,7 @@ class BudgetViewController extends Controller
     }
 
 
-    public function notify(String $sub_route, String $message, bool $success = true): RedirectResponse
+    public static function notify(String $sub_route, String $message, bool $success = true): RedirectResponse
     {
         if (!$success) {
             return redirect()->route('budgets.' . $sub_route)->with([

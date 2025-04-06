@@ -19,7 +19,6 @@ const props = defineProps({
     clients: Array,
     budget: Object,
     taxes: Number,
-    notas: String,
 });
 
 const formData = useForm({
@@ -33,6 +32,7 @@ const formData = useForm({
     discount: props.budget ? props.budget.discount : 0,
     user_id: props.budget ? props.budget.user_id : null,
     state: props.budget ? props.budget.state : "draft",
+    notes: props.budget ? props.budget.notes : "",
 });
 
 const submitForm = async () => {
@@ -138,34 +138,6 @@ const limitDescription = (description) => {
             </select>
 
             <InputLabel>Contenido del Presupuesto</InputLabel>
-            <!-- <template v-if="formData.content.length > 0 && !edit">
-                <div
-                    v-for="(content, index) in formData.content"
-                    :key="index"
-                    class="rounded-md dark:bg-gray-600"
-                >
-                    <div class="flex justify-between px-2">
-                        <div class="text-text">
-                            {{ content.quantity }} x {{ content.description }} -
-                            {{ content.cost }} €
-                        </div>
-                        <div class="flex flex-row gap-6">
-                            <div class="text-text">
-                                <b>
-                                    {{ content.quantity * content.cost }}
-                                    €</b
-                                >
-                            </div>
-                            <button
-                                v-on:click@prevent="deleteContent(index)"
-                                class="text-red-600/100 font-bold"
-                            >
-                                X
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </template> -->
             <template v-if="formData.content.length > 0">
                 <table class="text-text">
                     <thead>
@@ -188,7 +160,7 @@ const limitDescription = (description) => {
                         <td class="flex justify-between items-center gap-5">
                             <div class="flex flex-row w-full">
                                 <TextInput
-                                    class="w-[50px]"
+                                    class="w-[80px]"
                                     type="number"
                                     placeholder="quantity"
                                     v-model="content.quantity"
@@ -335,19 +307,14 @@ const limitDescription = (description) => {
             </template>
         </form>
         <div
-            v-if="props.notas"
-            class="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner"
+            class="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner text-text"
         >
-            <h4
-                class="text-sm uppercase font-semibold text-gray-600 dark:text-gray-300 mb-2"
-            >
-                Notas:
-            </h4>
-            <p
-                class="text-text italic text-gray-700 dark:text-gray-300 leading-relaxed"
-            >
-                {{ props.notas }}
-            </p>
+            <h2 class="text-lg font-semibold">Notas</h2>
+            <textarea
+                v-model="formData.notes"
+                class="w-full h-32 p-2 border border-gray-300 rounded-md dark:bg-hover resize-none sm:resize-y"
+                placeholder="Escribe anotaciones sobre el presupuesto aquí..."
+            ></textarea>
         </div>
     </main>
 </template>

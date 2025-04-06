@@ -8,16 +8,13 @@
 
 -   Speech recognition
 
+    CLIENTS
+
+-   Paginacion
+
     BUDGETS
-
--   Agrupar botons de acciones en budgets en responsive
--   Millorar el boto de content en responsive
 -   Millorar pdf (falta un poc)
--   Implementar notas
 
-    COSTS
-
--   Upload file (temporality pasar al español), donar mes info
 
     ESTILOS
 
@@ -25,7 +22,7 @@
 -   Responsive design nav
 -   Dark mode Login, Register
 
---- AMPLIACIONS
+--- AMPLIACIONES
 
 -   i18n, idiomes
 -   Pasarela de Pago
@@ -41,7 +38,7 @@
 
 # Budget App
 
-Aquest projecte és una aplicació web desenvolupada amb el framework Laravel que permet la gestió de pressupostos. Els usuaris poden introduir detalls dels seus costos, i l'aplicació genera un pressupost formatejat llest per enviar al client.
+Este proyecto es una aplicación web desarrollada con el framework Laravel que permite la gestión de presupuestos. Los usuarios pueden introducir detalles de sus costes, y la aplicación genera un presupuesto formateado listo para enviar al cliente.
 
 ## Stack
 
@@ -62,95 +59,92 @@ Aquest projecte és una aplicació web desenvolupada amb el framework Laravel qu
 8. Support
 9. Plans
 
-[Estructura de Base de Datos](./esquema_reduit.pdf)
-
-## Requisits
+## Requisitos
 
 -   PHP >= 7.3
 -   Composer
--   MySQL o qualsevol altre sistema de gestió de bases de dades compatible
-    [!("./esquema_reduit.pdf")](esquema_reduit.pdf)
+-   MySQL o cualquier otro sistema de gestión de bases de datos compatible
 
-## Instal·lació
+## Instalación
 
-1. Clona el repositori:
+1. Clona el repositorio:
 
     ```bash
     git clone https://github.com/usuari/projecte-laravel.git
     ```
 
-2. Accedeix al directori del projecte:
+2. Accede al directorio del proyecto:
 
     ```bash
     cd projecte-laravel
     ```
 
-3. Instal·la les dependències:
+3. Instala las dependencias:
 
     ```bash
     composer install && npm install
     ```
 
-4. Crea un fitxer `.env` a partir del fitxer d'exemple:
+4. Crea un archivo `.env` a partir del archivo de ejemplo:
 
     ```bash
     cp .env.example .env
     ```
 
-5. Genera la clau de l'aplicació:
+5. Genera la clave de la aplicación:
 
     ```bash
     php artisan key:generate
     ```
 
-6. Configura la connexió a la base de dades al fitxer `.env`.
+6. Configura la conexión a la base de datos en el archivo `.env`.
 
-7. Executa les migracions per crear les taules de la base de dades:
+7. Ejecuta las migraciones para crear las tablas de la base de datos:
 
     ```bash
     php artisan migrate
     ```
 
-8. Imprescindible: Popula la base de dades amb dades de prova, se crean los planes, si no, no se podran crear las suscripciones:
+8. Imprescindible: Puebla la base de datos con datos de prueba, se crean los planes, si no, no se podrán crear las suscripciones:
     ```bash
     php artisan db:seed
     ```
 
-## Ús
+## Uso
 
-1. Inicia el servidor de desenvolupament:
+1. Inicia el servidor de desarrollo:
 
     ```bash
     php artisan serve y npm run dev
     ```
 
-2. Accedeix a l'aplicació a través del navegador:
+2. Accede a la aplicación a través del navegador:
 
     ```
     http://localhost:8000
     ```
 
-3. Registra't o inicia sessió per començar a gestionar les teves tasques.
+3. Regístrate o inicia sesión para comenzar a gestionar tus tareas.
 
-4. Crea, edita i elimina tasques segons les teves necessitats.
+4. Crea, edita y elimina tareas según tus necesidades.
 
-## Estructura del projecte
+## Estructura del proyecto
 
--   `app/`: Conté els models, controladors i serveis de l'aplicació.
--   `database/`: Conté les migracions i seeders.
--   `resources/`: Conté les vistes i els recursos estàtics.
--   `routes/`: Conté els fitxers de rutes de l'aplicació.
+-   `app/`: Contiene los modelos, controladores y servicios de la aplicación.
+-   `database/`: Contiene las migraciones y seeders.
+-   `resources/`: Contiene las vistas y los recursos estáticos.
+-   `routes/`: Contiene los archivos de rutas de la aplicación.
 
-## Contribució
+## Contribución
 
-Si vols contribuir a aquest projecte, si us plau, segueix els següents passos:
+Si quieres contribuir a este proyecto, por favor, sigue los siguientes pasos:
 
-1. Fes un fork del repositori.
-2. Crea una nova branca (`git checkout -b feature/nova-funcio`).
-3. Fes els teus canvis i commiteja'ls (`git commit -am 'Afegeix nova funció'`).
-4. Puja els canvis a la teva branca (`git push origin feature/nova-funcio`).
+1. Haz un fork del repositorio.
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcion`).
+3. Haz tus cambios y comitéalos (`git commit -am 'Añade nueva función'`).
+4. Sube los cambios a tu rama (`git push origin feature/nueva-funcion`).
 5. Crea una pull request.
 
-## Llicència
+## Licencia
 
-Aquest projecte està llicenciat sota la [MIT License](LICENSE).
+Este proyecto está licenciado bajo la [MIT License](LICENSE).

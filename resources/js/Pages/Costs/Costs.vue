@@ -2,6 +2,7 @@
 import AppLayout from "@/Layouts/AppLayout.vue";
 import CostsTable from "@/Components/Costs/CostsTable.vue";
 import PageHeader from "@/Components/_Default/PageHeader.vue";
+import { adaptarTexto } from "@/Components/Budgets/helpers";
 
 defineProps({
     costs: Object,
@@ -15,8 +16,14 @@ defineProps({
                 title="Costes"
                 padding="24"
                 :links="[
-                    { text: 'Crear un Coste >', route: 'costs.create' },
-                    { text: 'Subir archivo >', route: 'costs.parse' },
+                    {
+                        text: adaptarTexto('Crear un Coste >'),
+                        route: 'costs.create',
+                    },
+                    {
+                        text: adaptarTexto('Subir archivo >'),
+                        route: 'costs.parse',
+                    },
                 ]"
             />
         </template>

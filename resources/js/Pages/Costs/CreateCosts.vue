@@ -1,26 +1,23 @@
 <script setup>
+import PageHeader from "@/Components/_Default/PageHeader.vue";
+import { adaptarTexto } from "@/Components/Budgets/helpers";
 import FormCosts from "@/Components/Costs/FormCosts.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 </script>
 
 <template>
-    <AppLayout title="Create Cost">
+    <AppLayout title="Crear Coste">
         <template #header>
-            <div class="flex justify-between items-center w-full">
-                <!-- Enlaces alineados a la izquierda -->
-                <div class="flex flex-col text-xs sm:text-sm">
-                    <h2 class="font-semibold text-amber-500">
-                        <a :href="route('costs.index')">◀ Lista de Costes</a>
-                    </h2>
-                </div>
-
-                <!-- Título seccion-->
-                <div class="flex-grow text-center pr-14">
-                    <h2 class="font-semibold text-xl text-text leading-tight">
-                        Crear un Coste
-                    </h2>
-                </div>
-            </div>
+            <PageHeader
+                title="Crear un Coste"
+                padding="24"
+                :links="[
+                    {
+                        text: adaptarTexto('◀ Lista de Costes'),
+                        route: 'costs.index',
+                    },
+                ]"
+            />
         </template>
         <div>
             <FormCosts /></div

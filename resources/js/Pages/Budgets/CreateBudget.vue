@@ -3,6 +3,8 @@ import BudgetForm from "@/Components/Budgets/BudgetForm.vue";
 import PageHeader from "@/Components/_Default/PageHeader.vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { defineProps } from "vue";
+import { adaptarTexto } from "@/Components/Budgets/helpers.js";
+
 const props = defineProps({
     costs: Array,
     clients: Array,
@@ -18,7 +20,7 @@ const props = defineProps({
                 title="Crear un Presupuesto"
                 :links="[
                     {
-                        text: '◀ Lista de Presupuestos ',
+                        text: adaptarTexto('◀ Lista de Presupuestos '),
                         route: 'budgets.index',
                     },
                 ]"
