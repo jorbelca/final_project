@@ -7,6 +7,7 @@ import ProcessingMessage from "../../UI/ProcessingMessage.vue";
 import { TrashIcon } from "@heroicons/vue/24/solid";
 import parseCsv from "./parseCsv";
 import parsePdfText from "./parsePdf";
+import { periodicity } from "../FormCosts.vue";
 
 let loading = ref(false);
 let tableData = ref([]);
@@ -82,42 +83,53 @@ function removeCost(indexCost) {
 <template>
     <ProcessingMessage :loading="loading" />
     <div class="px-6 max-w-4xl mx-auto rounded-lg text-text">
-        <p class="mb-4">
+        <p class="mb-4 text-sm md:text-base lg:text-lg">
             Sube un archivo CSV o PDF con al menos las siguientes columnas
         </p>
         <div class="mb-4">
-            <p class="font-medium mb-2">Ejemplo de la estructura:</p>
-            <table class="w-full mb-4 border-collapse">
-                <thead>
-                    <tr class="bg-hover">
-                        <th
-                            v-for="header in headers"
-                            :key="header"
-                            class="border p-2 text-center"
-                        >
-                            {{ header }}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="dark:bg-gray-500 bg-white">
-                        <td class="border p-2 text-center font-bold">
-                            Requerido
-                        </td>
-                        <td class="border p-2 text-center font-semibold">
-                            Requerido
-                        </td>
-                        <td class="border p-2 text-center">Opcional</td>
-                        <td class="border p-2 text-center">Opcional</td>
-                    </tr>
-                    <tr class="dark:bg-gray-500 bg-white">
-                        <td colspan="4" class="border p-2 text-center italic">
-                            ...
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <p class="font-medium mb-2 text-sm md:text-base lg:text-lg">Ejemplo de la estructura:</p>
+            <div class="overflow-x-auto mb-4">
+                <table class="w-full border-collapse min-w-full">
+                    <thead>
+                        <tr class="bg-hover">
+                            <th
+                                v-for="header in headers"
+                                :key="header"
+                                class="border p-2 text-center text-xs md:text-sm lg:text-base"
+                            >
+                                {{ header }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="dark:bg-gray-500 bg-white">
+                            <td class="border p-2 text-center font-bold text-xs md:text-sm lg:text-base">
+                                Requerido
+                            </td>
+                            <td class="border p-2 text-center font-semibold text-xs md:text-sm lg:text-base">
+                                Requerido
+                            </td>
+                            <td class="border p-2 text-center text-xs md:text-sm lg:text-base">Opcional</td>
+                            <td class="border p-2 text-center text-xs md:text-sm lg:text-base">Opcional</td>
+                        </tr>
+                        <tr class="dark:bg-gray-500 bg-white">
+                            <td
+                                colspan="4"
+                                class="border p-2 text-center italic text-xs md:text-sm lg:text-base"
+                            >
+                                ...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <p class="text-sm mb-4">
+            *Unidad (de medida): pieza, m3, kg, etc. (En servicios mejor dejarlo
+            vacio)<br />
+            *La periodicidad que se admite es la siguiente: unidad, minuto,
+            hora, día, mes, año, diario, semanal, quincenal
+        </p>
     </div>
     <div class="p-6 max-w-4xl mx-auto rounded-lg text-text">
         <input
@@ -128,64 +140,76 @@ function removeCost(indexCost) {
         />
 
         <form @submit.prevent="submitForm" v-if="tableData.length">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-hover">
-                        <th></th>
-                        <th
-                            v-for="header in headers"
-                            :key="header"
-                            class="border p-2 text-center"
-                        >
-                            {{ header }}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                        v-for="(row, rowIndex) in tableData"
-                        :key="rowIndex"
-                        class="dark:bg-gray-500 bg-white"
-                    >
-                        <td class="border p-2">
-                            <button
-                                type="button"
-                                @click.prevent="removeCost(rowIndex)"
+            <div class="overflow-x-auto mb-4">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-hover">
+                            <th></th>
+                            <th
+                                v-for="header in headers"
+                                :key="header"
+                                class="border p-2 text-center"
                             >
-                                <TrashIcon class="icon-delete" />
-                            </button>
-                        </td>
-                        <td class="border p-2">
-                            <TextInput
-                                type="text"
-                                v-model="row.description"
-                                class="border rounded p-1 w-full"
-                            />
-                        </td>
-                        <td class="border p-2">
-                            <TextInput
-                                type="text"
-                                v-model="row.cost"
-                                class="border rounded p-1 w-full"
-                            />
-                        </td>
-                        <td class="border p-2">
-                            <TextInput
-                                type="text"
-                                v-model="row.unit"
-                                class="border rounded p-1 w-full"
-                            />
-                        </td>
-                        <td class="border p-2">
-                            <TextInput
-                                type="text"
-                                v-model="row.periodicity"
-                                class="border rounded p-1 w-full"
-                            />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                                {{ header }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            v-for="(row, rowIndex) in tableData"
+                            :key="rowIndex"
+                            class="dark:bg-gray-500 bg-white"
+                        >
+                            <td class="border p-2">
+                                <button
+                                    type="button"
+                                    @click.prevent="removeCost(rowIndex)"
+                                >
+                                    <TrashIcon class="icon-delete" />
+                                </button>
+                            </td>
+                            <td class="border p-2">
+                                <TextInput
+                                    type="text"
+                                    v-model="row.description"
+                                    class="border rounded p-1 w-full"
+                                />
+                            </td>
+                            <td class="border p-2">
+                                <TextInput
+                                    type="text"
+                                    v-model="row.cost"
+                                    class="border rounded p-1 w-full"
+                                />
+                            </td>
+                            <td class="border p-2">
+                                <TextInput
+                                    type="text"
+                                    v-model="row.unit"
+                                    class="border rounded p-1 w-full"
+                                />
+                            </td>
+                            <td class="border p-2">
+                                <select
+                                    class="text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm border rounded p-1 w-full"
+                                    type="text"
+                                    v-model="row.periodicity"
+                                >
+                                    <option
+                                        v-for="(item, index) in Object.keys(
+                                            periodicity
+                                        )"
+                                        :key="index"
+                                        :value="item"
+                                    >
+                                        {{ periodicity[item] }}
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <PrimaryButton
                 type="submit"
                 class="mt-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"

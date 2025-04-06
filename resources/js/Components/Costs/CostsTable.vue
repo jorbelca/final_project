@@ -3,8 +3,8 @@ import { router } from "@inertiajs/vue3";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/vue/24/solid";
 import { computed, ref } from "vue";
 import dayjs from "dayjs";
+import "dayjs/locale/es";
 import relativeTime from "dayjs/plugin/relativeTime";
-import "dayjs/locale/en";
 import NoDataMsg from "../UI/NoDataMsg.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
 import { periodicity } from "./FormCosts.vue";
@@ -61,7 +61,7 @@ dayjs.locale("es");
 
 <template>
     <ProcessingMessage :loading="loading" />
-    <div class="data-table-container text-text">
+    <div class="sm:data-table-container sm:p-4 text-text">
         <div class="table-wrapper">
             <NoDataMsg :noData="filteredData.length === 0" />
             <div class="mobile-view md:hidden">
@@ -75,21 +75,24 @@ dayjs.locale("es");
                             {{ cost.id }}.
                             <span v-html="showDescription(cost)"></span>
                         </p>
-                        <span
+                        <small
                             :title="
                                 dayjs(cost.created_at).format(
                                     'DD/MM/YYYY HH:mm:ss'
                                 )
                             "
                         >
-                            {{ dayjs(cost.created_at).fromNow() }}</span
+                            Creado {{ dayjs(cost.created_at).fromNow() }}</small
                         >
                     </div>
                     <hr />
                     <div class="card-body">
                         <div>
                             <p><b>Coste:</b> {{ cost.cost }} €</p>
-                            <p><b>Periodicidad:</b> {{ cost.periodicity }}</p>
+                            <p>
+                                <b>Periodicidad:</b>
+                                {{ periodicity[cost.periodicity] }}
+                            </p>
                         </div>
                         <div class="action-buttons">
                             <button @click.prevent="editRow(cost.id)">

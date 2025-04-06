@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('user_logo_path', 2048)->nullable();
             $table->string('active')->default('1');
             $table->string('admin')->default('0');
-            $table->string('default_taxes')->default('20');
+            $table->string('default_taxes')->default('21');
             $table->string('company_name')->nullable();
             $table->timestamps();
         });

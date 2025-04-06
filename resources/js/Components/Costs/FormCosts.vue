@@ -1,14 +1,14 @@
 <script>
 export const periodicity = {
-    unit: "unidad",
-    minute: "minuto",
-    hourly: "hora",
-    daily: "día",
-    monthly: "mes",
-    yearly: "año",
-    daily: "diario",
-    weekly: "semanal",
-    biweekly: "quincenal",
+    unit: "por servicio / producto",
+    minute: "por minuto",
+    hourly: "por hora",
+    daily: "al día",
+    monthly: "al mes",
+    yearly: "al año",
+    daily: "diarios",
+    weekly: "a la semana",
+    biweekly: "cada dos semanas",
 };
 </script>
 
@@ -85,7 +85,7 @@ const submitForm = () => {
                     <TextInput
                         v-model="formDataCosts.unit"
                         type="text"
-                        placeholder="piece, m3, kg, etc"
+                        placeholder="pieza, m3, kg, etc"
                     />
                 </div>
                 <div>
