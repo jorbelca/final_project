@@ -7,13 +7,17 @@
     IA
 
 -   Speech recognition
--   Comprobar Limitar el uso de la IA segun el plan (creditos)
 
     BUDGETS
 
 -   Agrupar botons de acciones en budgets en responsive
--   Acabar el boto de content en responsive
+-   Millorar el boto de content en responsive
 -   Millorar pdf (falta un poc)
+-   Implementar notas
+
+    COSTS
+
+-   Upload file (temporality pasar al español), donar mes info
 
     ESTILOS
 
@@ -27,9 +31,13 @@
 -   Pasarela de Pago
 
 -   Estadisticas usuario
+
     -   Budgets por estado
     -   Agrupar por cliente
     -   Graficos
+
+-   Iframe para PDF
+    -   Mini Captura para a poder enviar por app de mensageria
 
 # Budget App
 
@@ -103,7 +111,7 @@ Aquest projecte és una aplicació web desenvolupada amb el framework Laravel qu
     php artisan migrate
     ```
 
-8. Opcional: Popula la base de dades amb dades de prova:
+8. Imprescindible: Popula la base de dades amb dades de prova, se crean los planes, si no, no se podran crear las suscripciones:
     ```bash
     php artisan db:seed
     ```
