@@ -21,7 +21,16 @@ class SubscriptionController extends Controller
 
     public static function getUserSubscription(User $user)
     {
-        return Subscription::where('user_id', $user->id)->first();
+        return Subscription::where('user_id', $user->id)->select(
+            'id',
+            'user_id',
+            'plan_id',
+            'active',
+            'starts_at',
+            'ends_at',
+            'credits',
+            'renovations'
+        )->first();
     }
 
     /**

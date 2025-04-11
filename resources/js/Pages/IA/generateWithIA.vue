@@ -39,9 +39,9 @@ const togglePrompt = () => {
 
 <template>
     <ProcessingMessage :loading="loading" />
-    <AppLayout title="Generar con IA" :header="false">
+    <AppLayout title="Asistente IA para Presupuestos" :header="false">
         <template #header>
-            <PageHeader title="Generador de Presupuestos IA" padding="16" />
+            <PageHeader title="Asistente IA para Presupuestos" padding="16" />
         </template>
 
         <div class="max-w-7xl mx-auto py-3 px-2 sm:px-3 lg:px-4">
