@@ -163,11 +163,11 @@ class BudgetController extends Controller
 
 
 
-            $pdf->SetFont('Lato', "", 16);
+            $pdf->SetFont('Lato', "", 20);
             // Información del presupuesto
-            $pdf->Cell(0, 10, 'Presupuesto : ' . $budget->id, 0, 1, 'C');
+            $pdf->Cell(0, 15, 'Presupuesto ', 0, 1, 'C');
             $pdf->SetFont('Montserrat', "", 8);
-            $pdf->Cell(0, 10, 'Fecha: ' . now()->format('d/m/Y'), 0, 1, 'C');
+            $pdf->Cell(0, 0, 'Fecha: ' . now()->format('d/m/Y'), 0, 1, 'C');
             $pdf->Ln(10);
 
             // Información del cliente
@@ -179,7 +179,7 @@ class BudgetController extends Controller
 
             // Encabezado de la tabla
             $pdf->SetFont('Lato', '', 10);
-            $pdf->Cell(40, 10, 'Cantidad', 'B');
+            $pdf->Cell(25, 10, 'Cantidad', 'B');
             $pdf->Cell(90, 10, 'Descripcion', 'B');
             $pdf->Cell(30, 10, 'Precio', 'B');
             $pdf->Cell(30, 10, 'Subtotal ', 'B');
@@ -191,32 +191,44 @@ class BudgetController extends Controller
             $contentArray = json_decode($budget->content);
             $total = 0;
             foreach ($contentArray as $content) {
-                $pdf->Cell(40, 10, $content->quantity, 0);
-                $pdf->Cell(90, 10, $content->description, 0);
+                $pdf->Cell(25, 10, $content->quantity, 0);
+                $description = $this->normalizeBudgetContent($content->description, 45);
+                $pdf->Cell(90, 10, $description, 0);
                 $pdf->Cell(30, 10, $content->cost . " " . EURO, 0);
                 $total += $content->quantity * $content->cost;
                 $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2) . " " . EURO, 0);
                 $pdf->Ln();
             }
-
-            $total = $total - ($total * $budget->discount / 100);
-            $total = $total + ($total * $budget->taxes / 100);
+            $subtotal = $total;
+            // Calculate discount amount
+            $discountAmount = $subtotal * ($budget->discount / 100);
+            // Calculate discounted total
+            $discountedTotal = $subtotal - $discountAmount;
+            // Calculate tax amount
+            $taxAmount = $discountedTotal * ($budget->taxes / 100);
+            // Calculate final total
+            $total = $discountedTotal + $taxAmount;
 
             $pdf->SetFont('Arial', '', 10);
-            //Descuento
             // Move to the bottom of the page
-            $pdf->SetY(-65); // Position 40mm from bottom of page
-            $pdf->SetX(2); // Reset X position to the left margin
+            $pdf->SetY(-65);
+            $pdf->SetX(2);
 
-
-            // Discount
-            $pdf->Cell(190, 10, 'Descuento: ' . number_format($budget->discount) . " %", 0, 0, 'R');
+            // Subtotal
+            $pdf->Cell(190, 10, 'Subtotal: ' . number_format($subtotal, 2) . " " . EURO, 0, 0, 'R');
             $pdf->Ln(5);
             $pdf->SetX(2);
-            //Impuesto
-            $pdf->Cell(190, 10, 'Impuestos: ' . number_format($budget->taxes) . " %", 0, 0, 'R');
+
+            // Only show discount if greater than 0
+            if ($budget->discount > 0) {
+                $pdf->Cell(190, 10, 'Descuento: ' . number_format($budget->discount) . " % (-" . number_format($discountAmount, 2) . " " . EURO . ")", 0, 0, 'R');
+                $pdf->Ln(5);
+                $pdf->SetX(2);
+            }
+            $pdf->Cell(190, 10, 'Impuestos: ' . number_format($budget->taxes) . " % (" . number_format($taxAmount, 2) . " " . EURO . ")", 0, 0, 'R');
             $pdf->Ln(10);
             $pdf->SetX(2);
+            $pdf->SetFont('Arial', '', 12);
             // Total
             $pdf->Cell(190, 12, 'Total: ' . number_format($total, 2) . " " . EURO, 0, 0, 'R');
             $pdf->Ln(5);
@@ -242,8 +254,37 @@ class BudgetController extends Controller
                 ->header('Content-Type', 'application/pdf')
                 ->header('Content-Disposition', 'inline; filename="budget_' . $budget->id . '.pdf"');
         } catch (\Throwable $th) {
-
+            throw new Exception('An error occurred generating the budget' . $th, 500); // Otros errores
             return response()->json(['error' => 'An error occurred', dd($th)], 500);
         }
+    }
+
+    /**
+     * Normalize budget content by converting accented characters to non-accented equivalents
+     * and adding line breaks at specified character limits
+     *
+     * @param string $content The content to normalize
+     * @param int $maxCharsPerLine Maximum characters per line before adding a line break
+     * @return string Normalized content
+     */
+    public function normalizeBudgetContent($content, $maxCharsPerLine = 120)
+    {
+        // Convert to UTF-8
+        $content = mb_convert_encoding($content, 'UTF-8', 'UTF-8');
+
+        // Convert accented characters to their non-accented equivalents
+        $search = ['á', 'é', 'í', 'ó', 'ú', 'ñ', 'ü', 'Á', 'É', 'Í', 'Ó', 'Ú', 'Ñ', 'Ü', 'à', 'è', 'ì', 'ò', 'ù', 'À', 'È', 'Ì', 'Ò', 'Ù'];
+        $replace = ['a', 'e', 'i', 'o', 'u', 'n', 'u', 'A', 'E', 'I', 'O', 'U', 'N', 'U', 'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'];
+        $content = str_replace($search, $replace, $content);
+
+
+
+        // Insert line breaks when text exceeds the character limit
+        if (mb_strlen($content) > $maxCharsPerLine) {
+            $content = mb_substr($content, 0, $maxCharsPerLine) . '...';
+        }
+
+        // Remove any leading or trailing whitespace
+        return $content;
     }
 }
