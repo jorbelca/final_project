@@ -23,7 +23,7 @@ class UserController extends Controller
         try {
             return User::all();
         } catch (\Throwable $th) {
-
+            throw new \Exception("Error fetching users", 0, $th);
             return response()->json(['message' => 'Error '], 400);
         }
     }
@@ -47,7 +47,7 @@ class UserController extends Controller
 
             return response()->json(['message' => 'User Created : \n ', $newUser], 201);
         } catch (\Throwable $th) {
-
+            throw new \Exception("Error creating user", 0, $th);
             return response()->json(['message' => 'Error '], 400);
         }
     }
@@ -60,7 +60,7 @@ class UserController extends Controller
         try {
             return $user;
         } catch (\Throwable $th) {
-
+            throw new \Exception("Error fetching user", 0, $th);
             return response()->json(['message' => 'Error '], 400);
         }
     }
@@ -75,7 +75,7 @@ class UserController extends Controller
 
             return response()->json(['Budgets of ' . $user->name => $user->budgets]);
         } catch (\Throwable $th) {
-
+            throw new \Exception("Error fetching user budgets", 0, $th);
             return response()->json(['message' => 'Error '], 400);
         }
     }
@@ -87,17 +87,11 @@ class UserController extends Controller
 
             return response()->json(['Clients of ' . $user->name => $user->clients]);
         } catch (\Throwable $th) {
-
+            throw new \Exception("Error fetching user clients", 0, $th);
             return response()->json(['message' => 'Error '], 400);
         }
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Subscription $subscription)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -111,7 +105,7 @@ class UserController extends Controller
 
             return response()->json(['message' => 'User Updated ', "userUpdated" => $user], 200);
         } catch (\Throwable $th) {
-
+            throw new \Exception("Error updating user", 0, $th);
             return response()->json(['message' => 'Error '], 400);
         }
     }
@@ -129,6 +123,7 @@ class UserController extends Controller
             return response()->json(['message' => 'Deleted'], 200);
         } catch (\Throwable $th) {
             // Para cualquier otro error
+            throw new \Exception("Error deleting user", 0, $th);
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
@@ -146,6 +141,7 @@ class UserController extends Controller
             response()->json(['message' => 'Changed'], 200);
             return redirect('admin');
         } catch (\Throwable $th) {
+            throw new \Exception("Error changing user state", 0, $th);
             return response()->json(['message' => 'Error '], 400);
         }
     }
@@ -176,11 +172,11 @@ class UserController extends Controller
                     ->join('plans', 'subscriptions.plan_id', '=', 'plans.id')
                     ->select('subscriptions.*', 'plans.name as plan_name', 'plans.price as plan_price')
                     ->first());
-                $user->setAttribute('incidencies_count', Support::where('support.questioner_id', $user->id) ->count());
-
+                $user->setAttribute('incidencies_count', Support::where('support.questioner_id', $user->id)->count());
             });
             return Inertia::render('Admin/Admin', ['users' => $usersAndBudgetsAndClientsAndSubscriptionAndIncidencies]);
         } catch (\Throwable $th) {
+            throw new \Exception("Error fetching admin data", 0, $th);
             return response()->json(['message' => 'Error ' . $th->getMessage()], 400);
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Budget;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,6 @@ class BudgetViewController extends Controller
             ->selectRaw("state, COUNT(*) as count")
             ->groupBy('state')
             ->pluck('count', 'state');
-
 
         return Inertia::render('Budgets/Budgets', [
             'budgets' => $budgets,
@@ -123,6 +123,7 @@ class BudgetViewController extends Controller
                 return BudgetViewController::notify("index", "Budget saved");
             }
         } catch (\Throwable $th) {
+            throw new Exception("Error saving the budget", 0, $th);
             return BudgetViewController::notify("index", "Error saving the budget", false);
         }
     }
@@ -222,6 +223,7 @@ class BudgetViewController extends Controller
                 return BudgetViewController::notify("index", "Budget updated");
             }
         } catch (\Throwable $th) {
+            throw new Exception("Error updating the budget", 0, $th);
             return BudgetViewController::notify("index", "Error updating the budget", false);
         }
     }
@@ -238,6 +240,7 @@ class BudgetViewController extends Controller
             BudgetController::destroy($budget);
             return BudgetViewController::notify("index", "Budget deleted");
         } catch (\Throwable $th) {
+            throw new Exception("Error deleting the budget", 0, $th);
             return BudgetViewController::notify("index", "Error deleting the budget", false);
         }
     }

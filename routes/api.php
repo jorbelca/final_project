@@ -2,8 +2,7 @@
 
 
 use App\Http\Controllers\ClientController;
-
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 // Route::apiResource('users', UserController::class);
@@ -28,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 //Check if Client exists
 
 Route::middleware(['web', 'auth'])->post('/clients/exists', [ClientController::class, 'exists']);
+
 
 Route::fallback(function () {
     return response()->json([

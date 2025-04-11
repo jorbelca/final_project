@@ -2,4 +2,14 @@
 ;Desarrollo;50.00;hour;hourly
 ;Mantenimiento;50.00;Unit;Monthly
 ;Implantar SSL;35.00;Unit;Unit
-;Consultoria;50;Hour;hourly
+;Consultoría;50.00;hour;hourly
+;Soporte técnico;40.00;hour;hourly
+;Desarrollo web;60.00;hour;hourly
+;Auditoría de seguridad;75.00;Unit;Unit
+;Integración de API;55.00;hour;hourly
+;Optimización de rendimiento;70.00;hour;hourly
+;Pruebas de calidad;45.00;hour;hourly
+;Documentación técnica;30.00;hour;hourly
+;Actualización de sistema;40.00;Unit;Monthly
+;Diseño de base de datos;65.00;hour;hourly
+;Formación;55.00;hour;hourly

@@ -6,6 +6,7 @@ use App\Http\Requests\StoreBudgetRequest;
 use App\Http\Requests\UpdateBudgetRequest;
 use App\Models\Budget;
 use App\Models\Client;
+use Exception;
 use Fpdf\Fpdf;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -41,8 +42,10 @@ class BudgetController extends Controller
 
             return response()->json(['messsage' => "New Budget Created", $newBudget], 201);
         } catch (ModelNotFoundException $e) {
+            throw new Exception('Budget not found', 404); // Respuesta clara si no se encuentra el presupuesto
             return response()->json(['error' => 'Budget not found'], 404); // Respuesta clara si no se encuentra el presupuesto
         } catch (\Throwable $th) {
+            throw new Exception('An error occurred', 500); // Otros errores
             return response()->json(['error' => 'An error occurred'], 500); // Otros errores
         }
     }
@@ -55,6 +58,7 @@ class BudgetController extends Controller
         try {
             return $budget;
         } catch (\Throwable $th) {
+            throw new Exception('An error occurred' . $th, 500); // Otros errores
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }
@@ -118,7 +122,7 @@ class BudgetController extends Controller
             $pdf = new FPDF('P', 'mm', 'A4');
             $pdf->SetMargins(10, 10, 0);
             $pdf->AddPage();
-            define('EURO',chr(128));
+            define('EURO', chr(128));
             //Fuentes
 
             $pdf->AddFont('Montserrat', '', ('Montserrat-VariableFont_wght.php'));
@@ -189,9 +193,9 @@ class BudgetController extends Controller
             foreach ($contentArray as $content) {
                 $pdf->Cell(40, 10, $content->quantity, 0);
                 $pdf->Cell(90, 10, $content->description, 0);
-                $pdf->Cell(30, 10, $content->cost ." ". EURO, 0);
+                $pdf->Cell(30, 10, $content->cost . " " . EURO, 0);
                 $total += $content->quantity * $content->cost;
-                $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2) ." ". EURO, 0);
+                $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2) . " " . EURO, 0);
                 $pdf->Ln();
             }
 
@@ -214,7 +218,7 @@ class BudgetController extends Controller
             $pdf->Ln(10);
             $pdf->SetX(2);
             // Total
-            $pdf->Cell(190, 12, 'Total: ' . number_format($total, 2) ." ". EURO, 0, 0, 'R');
+            $pdf->Cell(190, 12, 'Total: ' . number_format($total, 2) . " " . EURO, 0, 0, 'R');
             $pdf->Ln(5);
 
 

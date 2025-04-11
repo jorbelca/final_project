@@ -31,6 +31,7 @@ class SubscriptionController extends Controller
     {
         $plan = Plan::find(1); // Assuming 1 is the ID of the free plan
         if (!$plan) {
+            throw new \Exception('Plan not found');
             return ['message' => 'Plan not found', 'status' => 'error'];
         }
         // Check if the user already has a subscription
@@ -122,7 +123,7 @@ class SubscriptionController extends Controller
 
             return SubscriptionController::notify('', "Updated");
         } catch (\Throwable $th) {
-            dd($th);
+            throw new \Exception("Error updating the subscription", 0, $th);
             return SubscriptionController::notify('', "Error updating the subscription", false);
         }
     }

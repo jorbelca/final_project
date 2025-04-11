@@ -79,6 +79,7 @@ class CostViewController extends Controller
 
             return CostViewController::notify("index", "Cost created");
         } catch (\Throwable $th) {
+            throw new \Exception("Error saving the cost", 0, $th);
             return CostViewController::notify("create", "Error Saving the cost", false);
         }
     }
@@ -122,7 +123,7 @@ class CostViewController extends Controller
                 ]
             ]);
         } catch (\Throwable $th) {
-            dd($th);
+            throw new \Exception("Error updating the cost", 0, $th);
             return CostViewController::notify("index", "Error updating the cost", false);
         }
     }
@@ -141,6 +142,7 @@ class CostViewController extends Controller
             CostController::destroy($cost);
             CostViewController::notify("index", "Deleted");
         } catch (\Throwable $th) {
+            throw new \Exception("Error deleting the cost", 0, $th);
             return CostViewController::notify("index", "Error deleting the cost", false);
         }
     }
@@ -253,6 +255,7 @@ class CostViewController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
 
+            throw new \Exception("Error saving the costs", 0, $th);
             return CostViewController::notify("parse", "Error saving the costs: " . $th->getMessage(), false);
         }
     }

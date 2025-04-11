@@ -6,6 +6,7 @@ use App\Models\Budget;
 use App\Models\Client;
 use App\Models\Prompt;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,7 @@ class PromptViewController extends Controller
                 ]);
             }
         } catch (\Throwable $th) {
-            dd($th);
+            throw new \Exception("Error generating the prompt", 0, $th);
             return PromptViewController::notify("Error generating the prompt", false);
         }
     }
@@ -121,10 +122,10 @@ class PromptViewController extends Controller
             if (+$user->subscription->credits <= 0) {
                 return PromptViewController::notify("You don't have enough credits", false);
             }
-
+            $model = ENV('OPENAI_MODEL');
             // Llamar al endpoint de IA
             $result = OpenAI::chat()->create([
-                'model' => 'gpt-4o-mini',
+                'model' => $model,
                 'messages' => [
                     ['role' => 'user', 'content' => $cached_prompt],
                 ],
@@ -149,7 +150,7 @@ class PromptViewController extends Controller
                         'client' => isset($matches[3]) ? $matches[3] : null,
                     ];
                 } else {
-                    dd($response, $responseData);
+                    throw new Exception("Error parsing AI response", $response);
                     return PromptViewController::notify("Error parsing AI response", false);
                 }
             }
@@ -203,7 +204,7 @@ class PromptViewController extends Controller
                 'budget' => $budget,
             ];
         } catch (\Throwable $th) {
-            dd($th);
+            throw new \Exception("Error generating the prompt", 0, $th);
             return PromptViewController::notify("Error generating the prompt", false);
         }
     }

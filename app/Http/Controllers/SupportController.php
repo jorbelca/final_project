@@ -53,7 +53,7 @@ class SupportController extends Controller
             return SupportController::notify("index", "Incidency created");
         } catch (\Throwable $th) {
             $errorMsg = $th->getMessage();
-
+            throw new \Exception("Error creating the incidency", 0, $th);
             return SupportController::notify("index", "Error creating the incidency, $errorMsg", false);
         }
     }
@@ -94,7 +94,7 @@ class SupportController extends Controller
             return SupportController::notify("index", "Incidency updated");
         } catch (\Throwable $th) {
             $errorMsg = $th->getMessage();
-
+            throw new \Exception("Error updating the incidency", 0, $th);
             return SupportController::notify("index", "Error updating the incidency, $errorMsg", false);
         }
     }
@@ -112,6 +112,7 @@ class SupportController extends Controller
             $support->delete();
             SupportController::notify("index", "Deleted");
         } catch (\Throwable $th) {
+            throw new \Exception("Error deleting the incidency", 0, $th);
             return SupportController::notify("index", "Error deleting the incidency", false);
         }
     }

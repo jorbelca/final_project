@@ -63,6 +63,7 @@ class ClientViewController extends Controller
             }
             return Notify::notify("clients.index", "Client vinculated succesfully");
         } catch (\Throwable $th) {
+            throw new \Exception("Error vinculating the client", 0, $th);
             return Notify::notify("clients.create", "Error vinculating the client", false);
         }
     }
@@ -117,7 +118,7 @@ class ClientViewController extends Controller
 
             return Notify::notify("clients.index", "Client created succesfully");
         } catch (\Throwable $th) {
-            dd($th);
+            throw new \Exception("Error saving the client", 0, $th);
             return Notify::notify("clients.create", "Error saving the client", false);
         }
     }
@@ -174,7 +175,7 @@ class ClientViewController extends Controller
 
             return Notify::notify("clients.index", "Client updated succesfully");
         } catch (\Throwable $th) {
-            dd($th);
+            throw new \Exception("Error updating the client", 0, $th);
             return Notify::notify("clients.index", "Error updating the client", false);
         }
     }
@@ -197,6 +198,7 @@ class ClientViewController extends Controller
             $user->clients()->detach($client->id);
             return Notify::notify("clients.index", "Client deleted");
         } catch (\Throwable $th) {
+            throw new \Exception("Error deleting the client", 0, $th);
             return Notify::notify("clients.index", "Error deleting the client", false);
         }
     }

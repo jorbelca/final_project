@@ -13,8 +13,10 @@
 -   Paginacion
 
     BUDGETS
--   Millorar pdf (falta un poc)
 
+-   Millorar pdf (falta un poc , llevar accents quant es mostren y limitar el contingut)
+
+-   No mostrar tarjeta
 
     ESTILOS
 
