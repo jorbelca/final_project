@@ -4,11 +4,14 @@ import { useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
 import PageHeader from "@/Components/_Default/PageHeader.vue";
 import ProcessingMessage from "@/Components/UI/ProcessingMessage.vue";
+import { start, stop } from "./speechRecognition";
+import RecordBtn from "./recordBtn.vue";
 const props = defineProps({
     credits: Number,
     prompt: Text,
 });
 let loading = ref(false);
+let transcriptionError = ref(false);
 const form = useForm({
     additioNalPrompt: props.prompt?.prompt ?? "",
     prompt: "",
@@ -34,6 +37,27 @@ function generate() {
 const isPromptExpanded = ref(false);
 const togglePrompt = () => {
     isPromptExpanded.value = !isPromptExpanded.value;
+};
+
+const startRecording = async () => {
+    const response = await start();
+    if (response) {
+        form.prompt = response;
+        loading.value = false;
+    } else {
+        loading.value = false;
+        form.prompt = "";
+        transcriptionError.value = true;
+        setTimeout(() => {
+            transcriptionError.value = false;
+        }, 3000);
+    }
+};
+
+const stopRecording = () => {
+    loading.value = true;
+    form.prompt = "";
+    stop();
 };
 </script>
 
@@ -159,7 +183,23 @@ const togglePrompt = () => {
                                 {{ form.errors.question }}
                             </p>
                         </div>
-                        <div class="text-right">
+
+                        <div
+                            class="text-right inline-flex items-end justify-between gap-2"
+                        >
+                            <div class="w-3/6 flex">
+                                <RecordBtn
+                                    @startRecording="startRecording"
+                                    @stop="stopRecording"
+                                />
+                                <span
+                                    v-if="transcriptionError"
+                                    class="text-xs text-red-600 flex items-end"
+                                >
+                                    {{ "Error in transcription" }}
+                                </span>
+                            </div>
+
                             <button
                                 type="submit"
                                 :disabled="form.prompt === ''"

@@ -29,7 +29,10 @@ const formData = useForm({
             : props.budget.content
         : [],
     taxes: props.budget ? props.budget.taxes : props.taxes,
-    discount: props.budget ? props.budget.discount : 0,
+    discount:
+        props.budget && typeof props.budget.discount == "number"
+            ? props.budget.discount
+            : 0,
     user_id: props.budget ? props.budget.user_id : null,
     state: props.budget ? props.budget.state : "draft",
     notes: props.budget ? props.budget.notes : "",

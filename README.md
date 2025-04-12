@@ -4,23 +4,15 @@
 
 -   Landing (cachear i acabar)
 
-    IA
-
--   Speech recognition
-
-    CLIENTS
-
--   Paginacion
-
-    
-    PERFIL
--   No mostrar tarjeta
-
     ESTILOS
 
 -   Mejorar logo / Buscar nuevo logo
 -   Responsive design nav
 -   Dark mode Login, Register
+
+    CLIENTS
+
+-   Paginacion
 
 --- AMPLIACIONES
 
