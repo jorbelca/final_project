@@ -26,6 +26,7 @@ class PromptViewController extends Controller
         $user = Auth::user();
 
         if (!$user->isActive()) {
+            // Se le redirige a la vista de presupuestos porque no tiene permisos para ver la vista de IA
             return BudgetViewController::notify("index", "Inactive User", false);
         }
         return Inertia::render(
@@ -48,7 +49,13 @@ class PromptViewController extends Controller
             $user = Auth::user();
 
             if (!$user->hasCredits()) {
-                return PromptViewController::notify("No Credits ", false);
+                return PromptViewController::notify("No Credits, en el apartado Perfil puedes actualizar tu suscripcion ->", false);
+            }
+
+            $costs = CostController::getUserCostsString($user);
+
+            if (strlen($costs) < 1) {
+                return PromptViewController::notify("Necesitas tener costes registrados para poder operar con el asistente", false);
             }
 
             $request->validate([
@@ -70,7 +77,10 @@ class PromptViewController extends Controller
                 ]);
             }
 
-            $response = $this->generateWithIA($prompt->prompt, $request->input('prompt'), $user);
+            $response = $this->generateWithIA($prompt->prompt, $request->input('prompt'), $user, $costs);
+            if ($response->status === false) {
+                return PromptViewController::notify("Error generating the prompt", false);
+            }
 
             if ($response->status === true) {
                 return Inertia::render('Budgets/EditBudget', [
@@ -82,6 +92,7 @@ class PromptViewController extends Controller
                 ]);
             }
         } catch (\Throwable $th) {
+            dd($th);
             throw new \Exception("Error generating the prompt", 0, $th);
             return PromptViewController::notify("Error generating the prompt", false);
         }
@@ -106,9 +117,9 @@ class PromptViewController extends Controller
     }
 
 
-    public function generateWithIA(String $additionalPrompt, String $prompt, User $user)
+    public function generateWithIA(String $additionalPrompt, String $prompt, User $user, String $costs)
     {
-        $costs = CostController::getUserCostsString($user);
+
 
         $rawPrompt = file_get_contents(resource_path('/prompts/budget_prompt.txt'));
         $cached_prompt = str_replace(
