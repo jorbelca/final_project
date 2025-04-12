@@ -17,8 +17,8 @@ import Tooltip from "./Tooltip.vue";
 import Buttons from "./Buttons.vue";
 
 let loading = ref(false);
-
-let props = defineProps({
+// Replace the local ref with a prop
+const props = defineProps({
     data: {
         type: Array,
         required: true,
@@ -29,7 +29,8 @@ let props = defineProps({
     },
 });
 
-const emit = defineEmits(["page-change"]);
+const emit = defineEmits(["page-change", "page-size-change"]);
+
 const filteredData = computed(() => {
     return props.data.map((item) => {
         const filteredItem = { ...item };
@@ -39,16 +40,18 @@ const filteredData = computed(() => {
 });
 
 // Métodos para el componente
-function serialNumber(key) {
-    return key + 1;
-}
+// function serialNumber(key) {
+//     return key + 1;
+// }
 
 // Métodos de edición y eliminación
 const deleteRow = (id) => {
-    if (!confirm("¿Estás seguro de que deseas eliminar este presupuesto?")) return;
+    if (!confirm("¿Estás seguro de que deseas eliminar este presupuesto?"))
+        return;
     loading.value = true;
     router.delete(`budgets/${id}`, {
-        onError: (errors) => console.error("Error eliminando el presupuesto:", errors),
+        onError: (errors) =>
+            console.error("Error eliminando el presupuesto:", errors),
         onFinish: () => {
             loading.value = false;
         },
@@ -58,7 +61,8 @@ const deleteRow = (id) => {
 const editRow = (id) => {
     loading.value = true;
     router.get(`budgets/${id}/edit`, {
-        onError: (errors) => alert("Error cargando el formulario del presupuesto."),
+        onError: (errors) =>
+            alert("Error cargando el formulario del presupuesto."),
         onFinish: () => {
             loading.value = false;
         },
@@ -68,7 +72,8 @@ const editRow = (id) => {
 const cloneBudget = (id) => {
     loading.value = true;
     router.get(`budget/${id}/clone`, {
-        onError: (errors) => alert("Error cargando el formulario del presupuesto."),
+        onError: (errors) =>
+            alert("Error cargando el formulario del presupuesto."),
         onFinish: () => {
             loading.value = false;
         },
@@ -177,7 +182,7 @@ onBeforeUnmount(() => {
                                 {{ budget.discount }} %
                             </p>
                         </div>
-                        <div >
+                        <div>
                             <ContentCell
                                 :content="JSON.parse(budget.content)"
                                 :isMobile="true"
@@ -261,6 +266,7 @@ onBeforeUnmount(() => {
                 v-if="props.data.length > 0"
                 :meta="pagination"
                 @page-change="emit('page-change', $event)"
+                @page-size-change="emit('page-size-change', $event)"
             />
         </div>
     </div>

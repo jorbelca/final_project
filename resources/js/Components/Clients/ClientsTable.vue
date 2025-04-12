@@ -1,24 +1,29 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
 import { PencilSquareIcon, TrashIcon } from "@heroicons/vue/24/solid";
-import { computed, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import "dayjs/locale/es";
 import NoDataMsg from "../UI/NoDataMsg.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
+import Pagination from "../Pagination/Pagination.vue";
 
 let loading = ref(false);
-
+const emit = defineEmits(["page-change", "page-size-change"]);
 let props = defineProps({
     data: {
         type: Array,
         required: true,
     },
+    pagination: {
+        type: Object,
+        required: true,
+    },
 });
 
 const filteredData = computed(() => {
-    return props.data.map((item) => {
+    return props?.data?.map((item) => {
         const filteredItem = { ...item };
         delete filteredItem.user_id;
         return filteredItem;
@@ -62,7 +67,7 @@ dayjs.locale("es");
     <ProcessingMessage :loading="loading" />
     <div class="data-table-container text-text">
         <div class="table-wrapper">
-            <NoDataMsg :noData="filteredData.length === 0" />
+            <NoDataMsg :noData="filteredData?.length === 0" />
             <div class="mobile-view md:hidden">
                 <div
                     v-for="(client, key) in filteredData"
@@ -123,7 +128,7 @@ dayjs.locale("es");
 
             <table
                 class="hidden md:table w-full"
-                v-if="filteredData.length > 0"
+                v-if="filteredData?.length > 0"
             >
                 <thead>
                     <tr>
@@ -187,6 +192,14 @@ dayjs.locale("es");
                     </tr>
                 </tbody>
             </table>
+
+            <Pagination
+                v-if="props.data?.length > 0"
+                :meta="pagination"
+                @page-change="emit('page-change', $event)"
+                @page-size-change="emit('page-size-change', $event)"
+                :pageSizeOptions="[5, 10, 20, 30, 50, 100]"
+            />
         </div>
     </div>
 </template>

@@ -18,13 +18,17 @@ class ClientViewController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $size = $request->input('size', 5); // Default to 5 if not provided
         // Obtener el usuario autenticado
         $user = Auth::user();
 
         // Obtener los clientes asociados al usuario y que no esten eliminados
-        $clients = $user->clients->where('deleted', 0);
+        $clients = $user->clients()
+            ->where('deleted', 0)
+            ->orderBy('created_at', 'desc')
+            ->paginate($size);
 
         return Inertia::render('Clients/Clients', [
             'clients' => $clients,

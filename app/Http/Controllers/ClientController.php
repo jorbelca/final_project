@@ -126,7 +126,15 @@ class ClientController extends Controller
         try {
             $email = $request->input('email');
 
-            $exists = Client::where('email', $email)->exists() ? true : false;
+            $user = auth()->user();
+            $client = Client::where('email', $email)->first();
+            $exists = false;
+
+            if ($client) {
+                // Check if this client is already linked to the authenticated user
+                $exists = !$user->clients()->where('client_id', $client->id)->exists();
+            }
+
             return response()->json([
                 'exists' => $exists,
                 'email' => $email

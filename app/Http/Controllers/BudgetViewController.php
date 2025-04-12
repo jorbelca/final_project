@@ -16,8 +16,9 @@ class BudgetViewController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $size = $request->input('size', 4); // Default to 4 if not provided
         // Obtener el usuario autenticado
         $user = Auth::user();
 
@@ -25,7 +26,7 @@ class BudgetViewController extends Controller
         $budgets = $user->budgets()
             ->orderBy('created_at', 'desc')
             ->with(['client:id,name,image_url']) // Carga solo los campos deseados
-            ->paginate(4);
+            ->paginate($size);
 
         $budgetCount = $user->budgets()
             ->selectRaw("state, COUNT(*) as count")
@@ -106,7 +107,7 @@ class BudgetViewController extends Controller
                 'state' => 'sometimes|in:draft,approved,rejected',
                 'discount' => 'sometimes|integer',
                 'taxes' => 'required|integer',
-                'notes' => 'sometimes|string|max:10000'
+                'notes' => 'sometimes|string|max:10000|nullable',
             ]);
             // Sanitize the 'notes' field
             if (isset($validated['notes'])) {
@@ -206,7 +207,7 @@ class BudgetViewController extends Controller
                 'state' => 'sometimes|in:draft,approved,rejected',
                 'discount' => 'sometimes|integer',
                 'taxes' => 'required|integer',
-                'notes' => 'sometimes|string|max:10000',
+                'notes' => 'sometimes|string|max:10000|nullable',
             ]);
 
             // Sanitize the 'notes' field
