@@ -10,10 +10,6 @@
 -   Responsive design nav
 -   Dark mode Login, Register
 
-    CLIENTS
-
--   Paginacion
-
 --- AMPLIACIONES
 
 -   i18n, idiomes

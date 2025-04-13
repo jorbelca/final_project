@@ -196,7 +196,7 @@ class BudgetController extends Controller
                 $pdf->Cell(90, 10, $description, 0);
                 $pdf->Cell(30, 10, $content->cost . " " . EURO, 0);
                 $total += $content->quantity * $content->cost;
-                $pdf->Cell(30, 10, number_format($content->quantity * $content->cost, 2) . " " . EURO, 0);
+                $pdf->Cell(30, 10, $this->formatMoney($content->quantity * $content->cost) . " " . EURO, 0);
                 $pdf->Ln();
             }
             $subtotal = $total;
@@ -215,22 +215,22 @@ class BudgetController extends Controller
             $pdf->SetX(2);
 
             // Subtotal
-            $pdf->Cell(190, 10, 'Subtotal: ' . number_format($subtotal, 2) . " " . EURO, 0, 0, 'R');
+            $pdf->Cell(190, 10, 'Subtotal: ' . $this->formatMoney($subtotal) . " " . EURO, 0, 0, 'R');
             $pdf->Ln(5);
             $pdf->SetX(2);
 
             // Only show discount if greater than 0
             if ($budget->discount > 0) {
-                $pdf->Cell(190, 10, 'Descuento: ' . number_format($budget->discount) . " % (-" . number_format($discountAmount, 2) . " " . EURO . ")", 0, 0, 'R');
+                $pdf->Cell(190, 10, 'Descuento: ' . number_format($budget->discount) . " % (-" . $this->formatMoney($discountAmount) . " " . EURO . ")", 0, 0, 'R');
                 $pdf->Ln(5);
                 $pdf->SetX(2);
             }
-            $pdf->Cell(190, 10, 'Impuestos: ' . number_format($budget->taxes) . " % (" . number_format($taxAmount, 2) . " " . EURO . ")", 0, 0, 'R');
+            $pdf->Cell(190, 10, 'Impuestos: ' . number_format($budget->taxes) . " % (" . $this->formatMoney($taxAmount) . " " . EURO . ")", 0, 0, 'R');
             $pdf->Ln(10);
             $pdf->SetX(2);
             $pdf->SetFont('Arial', '', 12);
             // Total
-            $pdf->Cell(190, 12, 'Total: ' . number_format($total, 2) . " " . EURO, 0, 0, 'R');
+            $pdf->Cell(190, 12, 'Total: ' . $this->formatMoney(+$total) . " " . EURO, 0, 0, 'R');
             $pdf->Ln(5);
 
 
@@ -286,5 +286,21 @@ class BudgetController extends Controller
 
         // Remove any leading or trailing whitespace
         return $content;
+    }
+
+
+    /**
+     * Format a number as money with two decimal places and comma as decimal separator
+     *
+     * @param mixed $value The value to format
+     * @return string Formatted money string
+     */
+    public function formatMoney($value)
+    {
+        $number = (float)$value;
+        if (is_nan($number)) {
+            return $value;
+        }
+        return number_format($number, 2, ',', '.');
     }
 }

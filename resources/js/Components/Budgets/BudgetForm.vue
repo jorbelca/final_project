@@ -6,6 +6,7 @@ import InputLabel from "../_Default/InputLabel.vue";
 import TextInput from "../_Default/TextInput.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
 import { stateOptions } from "./StateTile.vue";
+import { formatMonyey } from "./helpers";
 
 const edit = window.location.pathname.includes("edit");
 let selectedCost = "";
@@ -142,64 +143,72 @@ const limitDescription = (description) => {
 
             <InputLabel>Contenido del Presupuesto</InputLabel>
             <template v-if="formData.content.length > 0">
-                <table class="text-text">
-                    <thead>
-                        <tr class="flex align-center text-sm">
-                            <!-- //Processing Message no se muestra, testing -->
-                            <td
-                                class="flex justify-between flex-row w-full pr-[10vw]"
-                            >
-                                <p>Cantidad</p>
-                                <p>Descripcion</p>
-                                <p>Coste</p>
-                            </td>
-                            <td class="pr-4">SubTotal</td>
-                        </tr>
-                    </thead>
-                    <tr
-                        v-for="(content, index) in formData.content"
-                        :key="index"
-                    >
-                        <td class="flex justify-between items-center gap-5">
-                            <div class="flex flex-row w-full">
-                                <TextInput
-                                    class="w-[80px]"
-                                    type="number"
-                                    placeholder="quantity"
-                                    v-model="content.quantity"
-                                />
-                                <TextInput
-                                    class="w-full"
-                                    type="text"
-                                    placeholder="quantity"
-                                    v-model="content.description"
-                                />
-                                <TextInput
-                                    class="w-[70px] sm:w-[100px]"
-                                    type="number"
-                                    placeholder="quantity"
-                                    v-model="content.cost"
-                                />
-                            </div>
-                            <div
-                                class="flex flex-row justify-end gap-1 sm:gap-4 text-nowrap w-1/6"
-                            >
-                                <div>
-                                    <b>
-                                        {{ content.quantity * content.cost }}
-                                        €</b
-                                    >
-                                </div>
-                                <button
-                                    v-on:click="deleteContent(index)"
-                                    class="text-red-600"
+                <div class="overflow-auto max-w-[200vw]">
+                    <table class="text-text w-full">
+                        <thead>
+                            <tr class="flex align-center text-sm">
+                                <!-- //Processing Message no se muestra, testing -->
+                                <td
+                                    class="flex justify-between flex-row w-full pr-[10vw]"
                                 >
-                                    ❌
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
+                                    <p>Cantidad</p>
+                                    <p>Descripcion</p>
+                                    <p>Coste</p>
+                                </td>
+                                <td class="pr-4">SubTotal</td>
+                            </tr>
+                        </thead>
+                        <tr
+                            v-for="(content, index) in formData.content"
+                            :key="index"
+                        >
+                            <td class="flex justify-between items-center gap-5">
+                                <div class="flex flex-row w-full">
+                                    <TextInput
+                                        class="w-[80px]"
+                                        type="number"
+                                        placeholder="quantity"
+                                        v-model="content.quantity"
+                                    />
+                                    <TextInput
+                                        class="w-full"
+                                        type="text"
+                                        placeholder="quantity"
+                                        v-model="content.description"
+                                    />
+                                    <TextInput
+                                        class="w-[70px] sm:w-[100px]"
+                                        type="number"
+                                        placeholder="quantity"
+                                        v-model="content.cost"
+                                    />
+                                </div>
+                                <div
+                                    class="flex flex-row justify-start gap-1 sm:gap-4 text-nowrap w-1/6"
+                                >
+                                    <div>
+                                        <b
+                                            class="block text-ellipsis whitespace-nowrap min-w-[40px]"
+                                        >
+                                            {{
+                                                content.quantity * content.cost
+                                            }}€
+                                        </b>
+                                    </div>
+                                    <button
+                                        @click.prevent.stop="
+                                            deleteContent(index)
+                                        "
+                                        class="text-red-600"
+                                        type="button"
+                                    >
+                                        ❌
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </template>
             <div class="flex flex-col sm:flex-row flex-wrap gap-3">
                 <div class="flex flex-row gap-5">
@@ -280,7 +289,7 @@ const limitDescription = (description) => {
                 >
                     <p>
                         <b class="text-text text-lg font-extrabold"
-                            >Total: {{ computedTotal }} €</b
+                            >Total: {{ formatMonyey(computedTotal) }} €</b
                         >
                     </p>
                 </div>

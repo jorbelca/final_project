@@ -65,7 +65,7 @@ dayjs.locale("es");
 
 <template>
     <ProcessingMessage :loading="loading" />
-    <div class="data-table-container text-text">
+    <div class="p-4 text-text">
         <div class="table-wrapper">
             <NoDataMsg :noData="filteredData?.length === 0" />
             <div class="mobile-view md:hidden">

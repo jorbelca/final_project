@@ -30,3 +30,16 @@ export const adaptarTexto = (texto) => {
         return texto;
     }
 };
+
+export const formatMonyey = (value) => {
+    const number = Number(value);
+    if (isNaN(number)) {
+        return value;
+    }
+    return new Intl.NumberFormat("es-ES", {
+        style: "decimal",
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 2,
+        useGrouping: true // Explicitly enable thousands separators
+    }).format(number);
+};

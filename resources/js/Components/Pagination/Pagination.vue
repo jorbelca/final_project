@@ -25,9 +25,7 @@ const currentPageSize = computed(() => {
 <template>
     <nav class="flex justify-center mt-4">
         <select
-            class="pl-3 pr-8 py-1 border rounded border-gray-300 dark:border-gray-700 text-text bg-gray-50
-             hover:bg-gray-200 dark:hover:bg-gray-600 dark:bg-black dark:active:bg-gray-700 cursor-pointer
-             absolute left-0 sm:ml-10 ml-6"
+            class="pl-3 pr-8 py-1 border rounded border-gray-300 dark:border-gray-700 text-text bg-gray-50 hover:bg-gray-200 dark:hover:bg-gray-600 dark:bg-black dark:active:bg-gray-700 cursor-pointer absolute left-0 sm:ml-10 ml-8"
             @change="emit('page-size-change', parseInt($event.target.value))"
             :value="currentPageSize"
             default="currentPageSize"

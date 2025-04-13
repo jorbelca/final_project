@@ -143,7 +143,7 @@ onBeforeUnmount(() => {
     <div class="p-2 sm:p-6 text-text">
         <div class="table-wrapper">
             <NoDataMsg :noData="filteredData.length === 0" />
-            <div class="mobile-view md:hidden">
+            <div class="mobile-view min-[825px]:hidden">
                 <div
                     v-for="budget in filteredData"
                     :key="budget.id"
@@ -204,11 +204,11 @@ onBeforeUnmount(() => {
             </div>
 
             <table
-                class="hidden md:table w-full"
+                class="hidden min-[825px]:table w-full"
                 v-if="filteredData.length > 0"
             >
                 <thead>
-                    <tr>
+                    <tr class="text-xs">
                         <th class="table-header">Contenido</th>
                         <th class="table-header">Estado</th>
                         <th class="table-header">Impuestos</th>
