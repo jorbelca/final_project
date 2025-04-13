@@ -124,7 +124,6 @@ const submit = () => {
                     <hr class="w-full border-gray-300" />
                 </div>
 
-             
                 <ReturnBtn />
             </form>
             <div
@@ -138,3 +137,31 @@ const submit = () => {
         </div>
     </div>
 </template>
+<style>
+/* Dark mode */
+.dark .bg-gray-50 {
+    @apply bg-gray-900;
+}
+
+.dark h3.text-primary {
+    @apply text-blue-400;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-800,
+.dark .text-gray-900 {
+    @apply text-gray-300;
+}
+
+.dark .bg-green-200 {
+    @apply bg-green-800;
+}
+
+.dark hr.border-gray-300 {
+    @apply border-gray-700;
+}
+
+.dark .hover\:text-gray-900:hover {
+    @apply hover:text-gray-100;
+}
+</style>

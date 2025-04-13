@@ -7,7 +7,7 @@
             />
             <h1
                 class="text-xs sm:text-sm md:text-base font-bold
-                 text-green-700 dark:text-yellow-500 whitespace-nowrap"
+                 text-green-700 dark:text-green-500 whitespace-nowrap"
             >
                 Budget App
             </h1>

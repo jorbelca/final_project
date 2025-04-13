@@ -48,7 +48,7 @@ const submit = () => {
                 @submit.prevent="submit"
             >
                 <div class="mb-10">
-                    <h3 class="text-gray-800 text-4xl font-extrabold">
+                    <h3 class="text-green-700 text-4xl font-extrabold">
                         Register
                     </h3>
                     <div class="flex items-center justify-end mt-0">
@@ -158,7 +158,7 @@ const submit = () => {
                 <div class="mt-8">
                     <button
                         type="submit"
-                        class="w-full py-2.5 px-5 text-sm tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
+                        class="w-full py-2.5 px-5 text-sm tracking-wide rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none"
                         :disabled="form.processing"
                     >
                         Register
@@ -171,9 +171,37 @@ const submit = () => {
                     <hr class="w-full border-gray-300" />
                 </div>
 
-                
                 <ReturnBtn />
             </form>
         </div>
     </div>
 </template>
+
+<style>
+/* Dark mode */
+.dark .bg-gray-50 {
+    @apply bg-gray-900;
+}
+
+.dark h3.text-green-700 {
+    @apply text-green-400;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-800,
+.dark .text-gray-900 {
+    @apply text-gray-300;
+}
+
+.dark .bg-green-200 {
+    @apply bg-green-800;
+}
+
+.dark hr.border-gray-300 {
+    @apply border-gray-700;
+}
+
+.dark .hover\:text-gray-900:hover {
+    @apply hover:text-gray-100;
+}
+</style>

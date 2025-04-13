@@ -8,7 +8,6 @@
 
 -   Mejorar logo / Buscar nuevo logo
 -   Responsive design nav
--   Dark mode Login, Register
 
 --- AMPLIACIONES
 
