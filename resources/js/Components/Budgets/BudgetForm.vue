@@ -298,7 +298,8 @@ const limitDescription = (description) => {
             <template v-if="edit">
                 <div class="flex justify-center pt-20">
                     <PrimaryButton
-                        class="w-1/5 justify-center bg-yellow-500 hover:bg-yellow-600"
+                        color="yellow"
+                        class="w-1/5 justify-center"
                         type="submit"
                         :disabled="formData.content.length === 0"
                         >Editar</PrimaryButton
@@ -308,7 +309,8 @@ const limitDescription = (description) => {
             <template v-else>
                 <div class="flex justify-center pt-20">
                     <PrimaryButton
-                        class="w-1/5 justify-center bg-green-400 hover:bg-green-500"
+                        :color="props.IA ? 'red' : clone ? 'blue' : 'green'"
+                        class="w-1/5 justify-center"
                         type="submit"
                         :disabled="formData.content.length === 0"
                         >{{

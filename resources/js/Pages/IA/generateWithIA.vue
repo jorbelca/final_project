@@ -6,6 +6,7 @@ import PageHeader from "@/Components/_Default/PageHeader.vue";
 import ProcessingMessage from "@/Components/UI/ProcessingMessage.vue";
 import { start, stop } from "./speechRecognition";
 import RecordBtn from "./recordBtn.vue";
+import PopUp from "./PopUp.vue";
 const props = defineProps({
     credits: Number,
     prompt: Text,
@@ -59,6 +60,7 @@ const stopRecording = () => {
     form.prompt = "";
     stop();
 };
+const firstTime = ref(true);
 </script>
 
 <template>
@@ -99,6 +101,12 @@ const stopRecording = () => {
                     </p>
                 </div>
             </div>
+            <!-- Mensaje de error si no hay créditos -->
+            <small v-if="props.credits == 0" class="text-red-600">
+                No tienes creditos dirigete a la pantalla de
+                <a href="user/profile"><u>Perfil</u></a></small
+            >
+
             <!-- Sección de prompt adicional (desplegable) -->
             <div
                 class="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-3 overflow-hidden border dark:border-gray-600"
@@ -202,7 +210,9 @@ const stopRecording = () => {
 
                             <button
                                 type="submit"
-                                :disabled="form.prompt === ''"
+                                :disabled="
+                                    form.prompt === '' || props.credits <= 0 || form.additioNalPrompt === ''
+                                "
                                 class="inline-flex items-center px-3 py-1 bg-green-600 border border-transparent rounded-md text-sm text-white hover:bg-green-700 active:bg-green-800 focus:outline-none focus:ring-1 focus:ring-green-500 transition-colors duration-200 ease-in-out disabled:opacity-50"
                             >
                                 <svg
@@ -221,6 +231,12 @@ const stopRecording = () => {
                             </button>
                         </div>
                     </form>
+                    <PopUp
+                        v-if="firstTime"
+                        :message="`Debes tener en cuenta que el uso reconocimiento de voz implica una descarga de unos 100 megas, por lo que es recomendable usar una red Wi-Fi o tener una buena conexión de datos.`"
+                        :click="(firstTime = false)"
+                        @close="firstTime = false"
+                    />
                 </div>
             </div>
         </div>

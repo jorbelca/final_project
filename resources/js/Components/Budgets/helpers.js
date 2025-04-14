@@ -4,14 +4,14 @@ export const showDescription = (item) => {
             <span class="text-normal text-text relative group cursor-pointer">
                 ${item.description.slice(0, 15)}...
                 <span
-                    class="absolute left-0 top-full mt-1 w-max bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity z-50"
+                    class="text-normal absolute left-0 top-full mt-1 w-max bg-gray-700 text-white rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity z-50"
                 >
                     ${item.description}
                 </span>
             </span>
         `;
     }
-    return `<span class="text-sm text-gray-500">${item.description}</span>`;
+    return `<span class="text-normal text-text">${item.description}</span>`;
 };
 
 export const adaptarTexto = (texto) => {
@@ -40,6 +40,6 @@ export const formatMonyey = (value) => {
         style: "decimal",
         minimumFractionDigits: 1,
         maximumFractionDigits: 2,
-        useGrouping: true // Explicitly enable thousands separators
+        useGrouping: true, // Explicitly enable thousands separators
     }).format(number);
 };

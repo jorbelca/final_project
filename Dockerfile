@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     zip unzip git curl libzip-dev libpng-dev libonig-dev \
     libpq-dev nano \
     libapache2-mod-security2 \
+    fail2ban \
     && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip \
     && apt-get install -y certbot python3-certbot-apache \
     && apt-get install -y openssl
@@ -15,7 +16,25 @@ RUN apt-get update && apt-get install -y \
     # Configura ModSecurity con reglas básicas pero en modo menos restrictivo para desarrollo
     RUN cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf \
         && sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf \
-        && sed -i 's/SecAuditLog \/var\/log\/modsec_audit.log/SecAuditLog \/dev\/null/' /etc/modsecurity/modsecurity.conf
+        && sed -i 's/SecAuditLog \/var\/log\/modsec_audit.log/SecAuditLog \/var\/log\/apache2\/modsec_audit.log/' /etc/modsecurity/modsecurity.conf
+
+
+    # Añade después de la configuración de ModSecurity
+    RUN mkdir -p /etc/fail2ban/filter.d/ && \
+        echo '[Definition]' > /etc/fail2ban/filter.d/modsecurity.conf && \
+        echo 'failregex = .*\[client <HOST>\].*ModSecurity:.*\[msg ".*"\]' >> /etc/fail2ban/filter.d/modsecurity.conf && \
+        echo 'ignoreregex =' >> /etc/fail2ban/filter.d/modsecurity.conf
+
+    # Configura Fail2Ban para ModSecurity
+    RUN echo '[modsecurity]' > /etc/fail2ban/jail.d/modsecurity.conf && \
+    echo 'enabled = true' >> /etc/fail2ban/jail.d/modsecurity.conf && \
+    echo 'filter = modsecurity' >> /etc/fail2ban/jail.d/modsecurity.conf && \
+    echo 'logpath = /var/log/apache2/modsec_audit.log' >> /etc/fail2ban/jail.d/modsecurity.conf && \
+    echo 'maxretry = 3' >> /etc/fail2ban/jail.d/modsecurity.conf && \
+    echo 'bantime = 48*3600' >> /etc/fail2ban/jail.d/modsecurity.conf && \
+    echo 'findtime = 600' >> /etc/fail2ban/jail.d/modsecurity.conf && \
+    echo 'action = iptables-allports' >> /etc/fail2ban/jail.d/modsecurity.conf
+
 
     # Descarga y configura OWASP Core Rule Set (versión estable)
     RUN cd /tmp && \
@@ -82,12 +101,20 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/ssl/certs/apache-selfsigned.crt \
     -subj "/C=ES/ST=State/L=Locality/O=Organization/OU=Unit/CN=localhost"
 
+
+RUN composer install --no-dev --optimize-autoloader
+# Genera la clave de aplicación de Laravel
+RUN php artisan key:generate
+# Configura permisos para almacenamiento y caché
 RUN php artisan route:cache && php artisan view:cache
+# Configura permisos para almacenamiento y caché
+RUN php artisan storage:link
+
 
 # Exponer los puertos 80 y 443
 EXPOSE 80 443
 
 # Comando por defecto para iniciar el contenedor
-CMD ["apache2-foreground"]
+CMD ["service fail2ban && apache2-foreground && php artisan serve"]
 
 

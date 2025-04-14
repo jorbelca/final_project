@@ -12,11 +12,17 @@ const props = defineProps({
     },
 });
 
-// Computed para obtener la clase de color
-const buttonColor = computed(
-    () =>
-        `bg-${props.color}-500 hover:bg-${props.color}-700 active:bg-${props.color}-900`
-);
+// Computed para obtener la clase de color según la prop
+const buttonColor = computed(() => {
+    const colors = {
+        blue: 'bg-blue-500 hover:bg-blue-600 active:bg-blue-900 dark:bg-blue-600 dark:hover:bg-blue-700 dark:active:bg-blue-800',
+        red: 'bg-red-500 hover:bg-red-600 active:bg-red-900 dark:bg-red-600 dark:hover:bg-red-700 dark:active:bg-red-800',
+        green: 'bg-green-500 hover:bg-green-600 active:bg-green-900 dark:bg-green-600 dark:hover:bg-green-700 dark:active:bg-green-800',
+        yellow: 'bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:active:bg-yellow-800',
+        indigo: 'bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-900 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:active:bg-indigo-800',
+    };
+    return colors[props.color] || colors['blue'];
+});
 </script>
 
 <template>
