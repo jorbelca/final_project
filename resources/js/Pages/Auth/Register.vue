@@ -114,6 +114,7 @@ const submit = () => {
                         class="mt-1 block w-full"
                         required
                         autocomplete="new-password"
+                        @keydown.enter="submit"
                     />
                     <InputError
                         class="mt-2"
