@@ -26,3 +26,5 @@ docker-compose.yml
 IACODE.md
 .env.cypress
 /resources/prompts/budget_prompt.txt
+.env.cypress
+ 

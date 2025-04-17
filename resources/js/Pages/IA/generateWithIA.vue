@@ -6,11 +6,15 @@ import PageHeader from "@/Components/_Default/PageHeader.vue";
 import ProcessingMessage from "@/Components/UI/ProcessingMessage.vue";
 import { start, stop } from "./speechRecognition";
 import RecordBtn from "./recordBtn.vue";
-import PopUp from "./PopUp.vue";
+
+import { onMounted } from "vue";
+
 const props = defineProps({
     credits: Number,
     prompt: Text,
 });
+
+let firstTime = ref(false);
 let loading = ref(false);
 let transcriptionError = ref(false);
 const form = useForm({
@@ -60,7 +64,15 @@ const stopRecording = () => {
     form.prompt = "";
     stop();
 };
-const firstTime = ref(true);
+
+onMounted(() => {
+    const alreadyShown = localStorage.getItem("voicePromptNoticeShown");
+
+    if (!alreadyShown) {
+        firstTime.value = true;
+        localStorage.setItem("voicePromptNoticeShown", "true");
+    }
+});
 </script>
 
 <template>
@@ -211,7 +223,9 @@ const firstTime = ref(true);
                             <button
                                 type="submit"
                                 :disabled="
-                                    form.prompt === '' || props.credits <= 0 || form.additioNalPrompt === ''
+                                    form.prompt === '' ||
+                                    props.credits <= 0 ||
+                                    form.additioNalPrompt === ''
                                 "
                                 class="inline-flex items-center px-3 py-1 bg-green-600 border border-transparent rounded-md text-sm text-white hover:bg-green-700 active:bg-green-800 focus:outline-none focus:ring-1 focus:ring-green-500 transition-colors duration-200 ease-in-out disabled:opacity-50"
                             >
@@ -231,12 +245,61 @@ const firstTime = ref(true);
                             </button>
                         </div>
                     </form>
-                    <PopUp
-                        v-if="firstTime"
-                        :message="`Debes tener en cuenta que el uso reconocimiento de voz implica una descarga de unos 100 megas, por lo que es recomendable usar una red Wi-Fi o tener una buena conexión de datos.`"
-                        :click="(firstTime = false)"
-                        @close="firstTime = false"
-                    />
+
+                    <!-- <PopUp
+                        v-if="firstTime.value"
+                        message="Debes tener en cuenta que el uso reconocimiento de voz implica una descarga de unos 100 megas, por lo que es recomendable usar una red Wi-Fi o tener una buena conexión de datos."
+                        @close="firstTime.value = false"
+                    /> -->
+                </div>
+            </div>
+        </div>
+
+        <div
+            v-if="firstTime === true"
+            class="mx-5 my-4 p-3 bg-yellow-50 dark:bg-gray-600 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-md shadow-sm"
+        >
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 text-yellow-500"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-gray-700 dark:text-gray-300">
+                        <strong>Nota:</strong> El reconocimiento de voz requiere
+                        descargar aproximadamente 100MB de datos. Se recomienda
+                        usar una conexión Wi-Fi o una buena conexión de datos
+                        móviles.
+                    </p>
+                </div>
+                <div class="ml-auto">
+                    <button
+                        @click="firstTime = false"
+                        class="text-yellow-500 hover:text-yellow-600"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                        >
+                            <path
+                                fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                            />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
