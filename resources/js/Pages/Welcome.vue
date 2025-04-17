@@ -1,8 +1,8 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3"; 
+import { Head, Link } from "@inertiajs/vue3";
 import DarkModeBtn from "@/Components/Buttons/DarkModeBtn.vue";
 import Logo from "@/Components/Logo/Logo.vue";
-
+import Prices from "./Prices.vue";
 import ImagesLoginRegister from "./Auth/ImagesLoginRegister.vue";
 
 defineProps({
@@ -195,22 +195,17 @@ defineProps({
                     >
                         <div class="max-w-4xl mx-auto text-center">
                             <h2
-                                class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8"
+                                class="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8"
                             >
-                                Planes adaptados a tus necesidades
+                                Con Planes adaptados a tus necesidades
                             </h2>
 
                             <div class="relative mb-6 sm:mb-10">
-                                <!-- <img
-                                    src="/imgs/plans.svg"
-                                    alt="Planes Disponibles"
-                                    class="w-40 sm:w-48 md:w-56 mx-auto rounded-lg shadow-xl dark:opacity-90"
-                                    onerror="this.src='/imgs/default-plans.png'"
-                                /> -->
+                                <Prices />
                             </div>
 
                             <p
-                                class="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto"
+                                class="text-lg sm:text-normal md:text-normal leading-relaxed max-w-3xl mx-auto"
                             >
                                 Enfocados en
                                 <span class="font-semibold"
@@ -219,6 +214,52 @@ defineProps({
                                 herramientas a medida que crece tu negocio.
                             </p>
                         </div>
+
+                        <!-- Footer -->
+                        <footer
+                            class="w-full bg-gray-900 dark:bg-gray-950 text-gray-400 py-4 px-4 sm:px-8 absolute bottom-0 left-0"
+                        >
+                            <div
+                                class="container mx-auto flex flex-col md:flex-row justify-center items-center text-sm"
+                            >
+                                <p class="text-center mb-2 md:mb-0">
+                                    <!-- Información del desarrollador -->
+
+                                    <a
+                                        href="mailto:jorbelcal@alumno.edu.gva.es?subject=SoporteBudgetApp"
+                                        class="hover:text-gray-300 transition duration-300"
+                                        >Desarrollado por @jorbelca </a
+                                    >
+
+                                    © 2025 Proyecto Final. Proyecto académico
+                                    sin fines comerciales.
+                                </p>
+                            </div>
+
+                            <!-- Separador -->
+                            <hr class="w-full border-gray-700 my-2" />
+
+                            <!-- Enlaces legales -->
+                            <div
+                                class="flex flex-wrap justify-center gap-x-4 sm:gap-x-6 gap-y-1 mb-2 md:mb-0"
+                            >
+                                <a
+                                    href="/terms"
+                                    class="hover:text-white transition duration-300 text-xs sm:text-sm"
+                                    >Política de Cookies</a
+                                >
+                                <a
+                                    href="/terms"
+                                    class="hover:text-white transition duration-300 text-xs sm:text-sm"
+                                    >Tratamiento de Datos</a
+                                >
+                                <a
+                                    href="/terms"
+                                    class="hover:text-white transition duration-300 text-xs sm:text-sm"
+                                    >Aviso Legal</a
+                                >
+                            </div>
+                        </footer>
                     </section>
                 </main>
             </div>

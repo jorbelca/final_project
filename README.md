@@ -7,7 +7,6 @@
 -   Repasar Testing e2e
 
 -   Landing (cachear i acabar)
-    (Peu de pàgina en la landing page (portada) inclou: Copyright, contacte o similar on diga qui ho desenvolupa, política de cookies, tractament de dades i avis legal (més o menys). No cal que estiga tot "legalista" pots fer una versió a partir d'alguna web inclús indicant que és un projecte o treball i que no està en producció. No voldria que consumires massa temps en aquest apartat però deixar ja els enllaços (en qualsevol projecte real caldria posar-ho))
 
     ESTILOS
 

@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Plan Gratuito",
+        "price": "0.00 €",
+        "duration_in_days": 0,
+        "features": {
+            "Funcionalidades avanzadas": false,
+            "Mejora de imagen profesional": false,
+            "Presupuestos mensuales con IA": 0,
+            "Soporte prioritario": false
+        }
+    },
+    {
+        "name": "Plan Profesional",
+        "price": "9.99 €",
+        "duration_in_days": 30,
+        "features": {
+            "Funcionalidades avanzadas": true,
+            "Mejora de imagen profesional": true,
+            "Presupuestos mensuales con IA": 40,
+            "Soporte prioritario": false
+        }
+    },
+    {
+        "name": "Plan Business",
+        "price": "19.99 €",
+        "duration_in_days": 30,
+        "features": {
+            "Funcionalidades avanzadas": true,
+            "Mejora de imagen profesional": true,
+            "Presupuestos mensuales con IA": 100,
+            "Soporte prioritario": true
+        }
+    }
+]

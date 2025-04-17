@@ -63,3 +63,8 @@ Route::middleware([
         return Inertia::render('404');
     });
 });
+
+// Politicas de la web
+Route::get('/terms', function () {
+    return Inertia::render('TermsOfService');
+});
