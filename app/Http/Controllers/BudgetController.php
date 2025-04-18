@@ -172,7 +172,9 @@ class BudgetController extends Controller
 
             // Información del cliente
             $pdf->SetFont('Lato', '', 12);
-            ($budget->client !== null ? $pdf->Cell(0, 10, 'Client: ' . $budget->client->name, 0, 1, 'L') : "");
+            ($budget->client !== null ? $pdf->Cell(0, 10, 'Cliente: ' . $budget->client->name, 0, 1, 'L') : "");
+            $pdf->SetFont('Lato', '', 8);
+            ($budget->client !== null ? $pdf->Cell(0, 8, $budget->client->email, 0, 1, 'L') : "");
             $pdf->SetFont('Arial', '', 10);
 
             $pdf->Ln(10);
