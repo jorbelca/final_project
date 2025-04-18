@@ -106,3 +106,26 @@ const plans = ref(plansData);
         </div>
     </div>
 </template>
+<style scoped>
+@media (max-width: 640px) {
+    .grid > div {
+        @apply p-4 mx-4 scale-100;
+    }
+    
+    .grid > div h2 {
+        @apply text-lg;
+    }
+    
+    .grid > div p {
+        @apply text-xl mb-3;
+    }
+    
+    .grid > div ul {
+        @apply space-y-1 mb-4;
+    }
+    
+    .grid > div a {
+        @apply px-4 py-2 text-sm;
+    }
+}
+</style>

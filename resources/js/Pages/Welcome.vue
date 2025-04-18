@@ -84,7 +84,7 @@ defineProps({
                                 >
                             </p>
 
-                            <ImagesLoginRegister />
+                            <ImagesLoginRegister :landing="true" />
                         </div>
                     </section>
 
@@ -127,17 +127,17 @@ defineProps({
 
                     <!-- Sección 3: Gestión de Costes -->
                     <section
-                        class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-blue-400 to-blue-600 dark:from-blue-800 dark:to-blue-950 text-white relative overflow-hidden px-4 sm:px-8 py-16"
+                        class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-blue-400 to-blue-600 dark:from-blue-800 dark:to-blue-950 text-white relative overflow-hidden px-4 sm:px-8 py-8 sm:py-16"
                     >
                         <div class="max-w-4xl mx-auto text-center">
                             <h2
-                                class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8"
+                                class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 md:mb-2 md:mt-6"
                             >
                                 Gestiona tus costes con precisión
                             </h2>
 
                             <p
-                                class="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto mb-10"
+                                class="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-3xl mx-auto mb-6 sm:mb-10"
                             >
                                 Obtén
                                 <span class="font-semibold">control total</span>
@@ -148,68 +148,72 @@ defineProps({
                                 para importar datos de forma rápida y eficiente.
                             </p>
 
-                            <div class="relative mt-12 mb-6 px-4">
+                            <div class="relative mt-0 mb-0 px-4">
                                 <!-- Screenshot background -->
                                 <div
-                                    class="relative w-full max-w-3xl mx-auto h-64 sm:h-80 md:h-96"
+                                    class="relative w-full max-w-xl mx-auto h-48 sm:h-64 md:h-80 lg:h-96"
                                 >
                                     <!-- First card/image -->
                                     <div
-                                        class="absolute top-0 left-1/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-10 w-[80%] sm:w-[75%] md:w-[70%]"
+                                        class="absolute top-0 left-1/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-10 w-[75%] sm:w-[75%] md:w-[70%]"
                                     >
                                         <img
                                             src="/capturas/costes.png"
                                             alt="Gestión de costes screenshot"
-                                            class="w-full h-auto rounded-lg shadow-xl dark:opacity-90 border-2 border-white/30"
+                                            class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
                                             onerror="this.src='/imgs/default-costs.png'"
                                         />
                                     </div>
 
                                     <!-- Second card/image -->
                                     <div
-                                        class="absolute top-32 sm:top-28 md:top-28 left-2/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-0 w-[50%] sm:w-[55%] md:w-[60%]"
+                                        class="absolute top-20 sm:top-24 md:top-28 left-2/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-0 w-[65%] sm:w-[65%] md:w-[60%]"
                                     >
                                         <img
                                             src="/capturas/costes-archivo.png"
                                             alt="Gestión de costes screenshot"
-                                            class="w-full h-auto rounded-lg shadow-xl dark:opacity-90 border-2 border-white/30"
+                                            class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
                                             onerror="this.src='/imgs/default-costs.png'"
                                         />
                                     </div>
                                 </div>
 
-                                <!-- Overlapping icons -->
+                                <!-- Icons container -->
                                 <div
-                                    class="absolute -top-18 left-1/4 transform -translate-x-1/2 z-10 transition-transform hover:scale-110 duration-300"
+                                    class="flex justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-16 sm:mt-24 md:mt-0 relative z-20"
                                 >
-                                    <img
-                                        src="/imgs/pdf.svg"
-                                        alt="PDF Upload"
-                                        class="w-16 sm:w-20 md:w-24 rounded-lg shadow-lg dark:opacity-90"
-                                        onerror="this.src='/imgs/default-pdf.png'"
-                                    />
-                                </div>
+                                    <div
+                                        class="transition-transform hover:scale-110 duration-300"
+                                    >
+                                        <img
+                                            src="/imgs/pdf.svg"
+                                            alt="PDF Upload"
+                                            class="w-12 sm:w-16 md:w-20 lg:w-24 rounded-lg shadow-lg dark:opacity-90"
+                                            onerror="this.src='/imgs/default-pdf.png'"
+                                        />
+                                    </div>
 
-                                <div
-                                    class="absolute -top-18 right-1/4 transform translate-x-1/2 z-10 transition-transform hover:scale-110 duration-300"
-                                >
-                                    <img
-                                        src="/imgs/csv.svg"
-                                        alt="CSV Upload"
-                                        class="w-16 sm:w-20 md:w-24 rounded-lg shadow-lg dark:opacity-90"
-                                        onerror="this.src='/imgs/default-csv.png'"
-                                    />
-                                </div>
+                                    <div
+                                        class="transition-transform hover:scale-110 duration-300 mt-10 sm:mt-16 md:mt-20"
+                                    >
+                                        <img
+                                            src="/imgs/coins.svg"
+                                            alt="Coins"
+                                            class="w-16 sm:w-20 md:w-28 lg:w-32 rounded-lg shadow-lg dark:opacity-95"
+                                            onerror="this.src='/imgs/default-csv.png'"
+                                        />
+                                    </div>
 
-                                <div
-                                    class="absolute -top-25 left-1/2 transform -translate-x-1/2 z-20 transition-transform hover:scale-110 duration-300"
-                                >
-                                    <img
-                                        src="/imgs/coins.svg"
-                                        alt="Coins"
-                                        class="w-24 sm:w-28 md:w-32 rounded-lg shadow-lg dark:opacity-95"
-                                        onerror="this.src='/imgs/default-csv.png'"
-                                    />
+                                    <div
+                                        class="transition-transform hover:scale-110 duration-300"
+                                    >
+                                        <img
+                                            src="/imgs/csv.svg"
+                                            alt="CSV Upload"
+                                            class="w-12 sm:w-16 md:w-20 lg:w-24 rounded-lg shadow-lg dark:opacity-90"
+                                            onerror="this.src='/imgs/default-csv.png'"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -236,7 +240,7 @@ defineProps({
                         </div>
                         <!-- Screenshot background -->
                         <div
-                            class="relative w-full max-w-3xl mx-auto h-56 sm:h-80 md:h-96"
+                            class="relative w-full max-w-3xl mx-auto h-64 sm:h-80 md:h-96"
                         >
                             <!-- Main screenshot - positioned prominently -->
                             <div
@@ -245,19 +249,19 @@ defineProps({
                                 <img
                                     src="/capturas/clients.png"
                                     alt="Gestión de clientes screenshot"
-                                    class="w-full h-auto rounded-lg shadow-xl dark:opacity-90 border-2 border-white/30"
+                                    class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
                                     onerror="this.src='/imgs/default-costs.png'"
                                 />
                             </div>
 
                             <!-- Client icon positioned on top of screenshot -->
                             <div
-                                class="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-20 transition-transform hover:scale-110 duration-300"
+                                class="absolute -bottom-0 sm:-bottom-32 md:-bottom-24 lg:-bottom-16 left-1/2 transform -translate-x-1/2 z-20 transition-transform hover:scale-110 duration-300"
                             >
                                 <img
                                     src="/imgs/clients.svg"
                                     alt="Logo de Clientes"
-                                    class="w-32 sm:w-36 md:w-40 rounded-lg shadow-lg dark:opacity-95"
+                                    class="w-32 sm:w-36 md:w-40 rounded-lg shadow-lg dark:opacity-95 mt-32"
                                     onerror="this.src='/imgs/default-clients.png'"
                                 />
                             </div>

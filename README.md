@@ -1,12 +1,6 @@
 # TODO
 
-    IA
-
--   Mostrar avis de la descarga reconeixement de veu
-
 -   Repasar Testing e2e
-
--   Landing (cachear i acabar)
 
     ESTILOS
 
