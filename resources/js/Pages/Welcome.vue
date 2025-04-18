@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3"; 
+import { Head, Link } from "@inertiajs/vue3";
 import DarkModeBtn from "@/Components/Buttons/DarkModeBtn.vue";
 import Logo from "@/Components/Logo/Logo.vue";
 
@@ -136,25 +136,82 @@ defineProps({
                                 Gestiona tus costes con precisión
                             </h2>
 
-                            <div class="relative mb-6 sm:mb-10">
-                                <!-- <img
-                                    src="/imgs/costs.svg"
-                                    alt="Gestión de Costes"
-                                    class="w-40 sm:w-48 md:w-56 mx-auto rounded-lg shadow-xl dark:opacity-90"
-                                    onerror="this.src='/imgs/default-costs.png'"
-                                /> -->
-                            </div>
-
                             <p
-                                class="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto"
+                                class="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto mb-10"
                             >
                                 Obtén
                                 <span class="font-semibold">control total</span>
                                 sobre tus gastos y optimiza tu rentabilidad.
-                                Nuestras herramientas te permiten visualizar,
-                                analizar y reducir costes innecesarios en cada
-                                proyecto.
+                                <span class="font-semibold"
+                                    >Sube tus archivos PDF y CSV</span
+                                >
+                                para importar datos de forma rápida y eficiente.
                             </p>
+
+                            <div class="relative mt-12 mb-6 px-4">
+                                <!-- Screenshot background -->
+                                <div
+                                    class="relative w-full max-w-3xl mx-auto h-64 sm:h-80 md:h-96"
+                                >
+                                    <!-- First card/image -->
+                                    <div
+                                        class="absolute top-0 left-1/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-10 w-[80%] sm:w-[75%] md:w-[70%]"
+                                    >
+                                        <img
+                                            src="/capturas/costes.png"
+                                            alt="Gestión de costes screenshot"
+                                            class="w-full h-auto rounded-lg shadow-xl dark:opacity-90 border-2 border-white/30"
+                                            onerror="this.src='/imgs/default-costs.png'"
+                                        />
+                                    </div>
+
+                                    <!-- Second card/image -->
+                                    <div
+                                        class="absolute top-32 sm:top-28 md:top-28 left-2/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-0 w-[50%] sm:w-[55%] md:w-[60%]"
+                                    >
+                                        <img
+                                            src="/capturas/costes-archivo.png"
+                                            alt="Gestión de costes screenshot"
+                                            class="w-full h-auto rounded-lg shadow-xl dark:opacity-90 border-2 border-white/30"
+                                            onerror="this.src='/imgs/default-costs.png'"
+                                        />
+                                    </div>
+                                </div>
+
+                                <!-- Overlapping icons -->
+                                <div
+                                    class="absolute -top-18 left-1/4 transform -translate-x-1/2 z-10 transition-transform hover:scale-110 duration-300"
+                                >
+                                    <img
+                                        src="/imgs/pdf.svg"
+                                        alt="PDF Upload"
+                                        class="w-16 sm:w-20 md:w-24 rounded-lg shadow-lg dark:opacity-90"
+                                        onerror="this.src='/imgs/default-pdf.png'"
+                                    />
+                                </div>
+
+                                <div
+                                    class="absolute -top-18 right-1/4 transform translate-x-1/2 z-10 transition-transform hover:scale-110 duration-300"
+                                >
+                                    <img
+                                        src="/imgs/csv.svg"
+                                        alt="CSV Upload"
+                                        class="w-16 sm:w-20 md:w-24 rounded-lg shadow-lg dark:opacity-90"
+                                        onerror="this.src='/imgs/default-csv.png'"
+                                    />
+                                </div>
+
+                                <div
+                                    class="absolute -top-25 left-1/2 transform -translate-x-1/2 z-20 transition-transform hover:scale-110 duration-300"
+                                >
+                                    <img
+                                        src="/imgs/coins.svg"
+                                        alt="Coins"
+                                        class="w-24 sm:w-28 md:w-32 rounded-lg shadow-lg dark:opacity-95"
+                                        onerror="this.src='/imgs/default-csv.png'"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </section>
 
@@ -168,16 +225,6 @@ defineProps({
                             >
                                 Centraliza tu cartera de clientes
                             </h2>
-
-                            <div class="relative mb-6 sm:mb-10">
-                                <!-- <img
-                                    src="/imgs/clients.svg"
-                                    alt="Gestión de Clientes"
-                                    class="w-40 sm:w-48 md:w-56 mx-auto rounded-lg shadow-xl dark:opacity-90"
-                                    onerror="this.src='/imgs/default-clients.png'"
-                                /> -->
-                            </div>
-
                             <p
                                 class="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto"
                             >
@@ -186,6 +233,34 @@ defineProps({
                                 Accede al historial de presupuestos y fortalece
                                 tus relaciones comerciales desde un único lugar.
                             </p>
+                        </div>
+                        <!-- Screenshot background -->
+                        <div
+                            class="relative w-full max-w-3xl mx-auto h-56 sm:h-80 md:h-96"
+                        >
+                            <!-- Main screenshot - positioned prominently -->
+                            <div
+                                class="absolute top-0 inset-0 hover:-translate-y-2 transition-all duration-300 z-10 w-full"
+                            >
+                                <img
+                                    src="/capturas/clients.png"
+                                    alt="Gestión de clientes screenshot"
+                                    class="w-full h-auto rounded-lg shadow-xl dark:opacity-90 border-2 border-white/30"
+                                    onerror="this.src='/imgs/default-costs.png'"
+                                />
+                            </div>
+
+                            <!-- Client icon positioned on top of screenshot -->
+                            <div
+                                class="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-20 transition-transform hover:scale-110 duration-300"
+                            >
+                                <img
+                                    src="/imgs/clients.svg"
+                                    alt="Logo de Clientes"
+                                    class="w-32 sm:w-36 md:w-40 rounded-lg shadow-lg dark:opacity-95"
+                                    onerror="this.src='/imgs/default-clients.png'"
+                                />
+                            </div>
                         </div>
                     </section>
 
@@ -219,6 +294,52 @@ defineProps({
                                 herramientas a medida que crece tu negocio.
                             </p>
                         </div>
+
+                        <!-- Footer -->
+                        <footer
+                            class="w-full bg-gray-900 dark:bg-gray-950 text-gray-400 py-4 px-4 sm:px-8 absolute bottom-0 left-0"
+                        >
+                            <div
+                                class="container mx-auto flex flex-col md:flex-row justify-center items-center text-sm"
+                            >
+                                <p class="text-center mb-2 md:mb-0">
+                                    <!-- Información del desarrollador -->
+
+                                    <a
+                                        href="mailto:jorbelcal@alumno.edu.gva.es?subject=SoporteBudgetApp"
+                                        class="hover:text-gray-300 transition duration-300"
+                                        >Desarrollado por @jorbelca
+                                    </a>
+
+                                    © 2025 Proyecto Final. Proyecto académico
+                                    sin fines comerciales.
+                                </p>
+                            </div>
+
+                            <!-- Separador -->
+                            <hr class="w-full border-gray-700 my-2" />
+
+                            <!-- Enlaces legales -->
+                            <div
+                                class="flex flex-wrap justify-center gap-x-4 sm:gap-x-6 gap-y-1 mb-2 md:mb-0"
+                            >
+                                <a
+                                    href="/terms"
+                                    class="hover:text-white transition duration-300 text-xs sm:text-sm"
+                                    >Política de Cookies</a
+                                >
+                                <a
+                                    href="/terms"
+                                    class="hover:text-white transition duration-300 text-xs sm:text-sm"
+                                    >Tratamiento de Datos</a
+                                >
+                                <a
+                                    href="/terms"
+                                    class="hover:text-white transition duration-300 text-xs sm:text-sm"
+                                    >Aviso Legal</a
+                                >
+                            </div>
+                        </footer>
                     </section>
                 </main>
             </div>
