@@ -49,20 +49,20 @@ const submit = () => {
             >
                 <div class="mb-10">
                     <h3 class="text-green-700 text-4xl font-extrabold">
-                        Register
+                        Registro
                     </h3>
                     <div class="flex items-center justify-end mt-0">
                         <Link
                             :href="route('login')"
                             class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            Already registered?
+                            Ya registrado?
                         </Link>
                     </div>
                 </div>
 
                 <div>
-                    <InputLabel for="name" value="Name" />
+                    <InputLabel for="name" value="Nombre" />
                     <TextInput
                         id="name"
                         v-model="form.name"
@@ -90,7 +90,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" value="Contraseña" />
                     <TextInput
                         id="password"
                         v-model="form.password"
@@ -105,7 +105,7 @@ const submit = () => {
                 <div class="mt-4">
                     <InputLabel
                         for="password_confirmation"
-                        value="Confirm Password"
+                        value="Confirmar Contraseña"
                     />
                     <TextInput
                         id="password_confirmation"
@@ -162,7 +162,7 @@ const submit = () => {
                         class="w-full py-2.5 px-5 text-sm tracking-wide rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none"
                         :disabled="form.processing"
                     >
-                        Register
+                        Registrar
                     </button>
                 </div>
 

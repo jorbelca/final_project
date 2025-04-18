@@ -46,7 +46,7 @@ defineProps({
                                 :href="route('register')"
                                 class="text-sm sm:text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
                             >
-                                Register
+                                Registro
                             </Link>
                             <DarkModeBtn />
                         </template>

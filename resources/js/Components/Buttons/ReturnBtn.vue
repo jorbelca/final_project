@@ -10,7 +10,7 @@ import { Link } from "@inertiajs/vue3";
         <span
             class="relative z-0 text-black group-hover:text-gray-200 dark:text-white dark:group-hover:text-gray-200 transition ease-in-out duration-500 text-l"
         >
-            ⬅ Return to Index
+            ⬅ Index
         </span>
     </Link>
 </template>

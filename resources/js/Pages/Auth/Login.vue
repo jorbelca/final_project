@@ -52,7 +52,7 @@ const submit = () => {
                             :href="route('register')"
                             class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            You don't have an account ?
+                            No tienes cuenta ?
                         </Link>
                     </div>
                 </div>
@@ -71,7 +71,7 @@ const submit = () => {
                 </div>
 
                 <div class="mt-4">
-                    <InputLabel for="password" value="Password" />
+                    <InputLabel for="password" value="Contraseña" />
                     <TextInput
                         id="password"
                         v-model="form.password"
@@ -94,7 +94,7 @@ const submit = () => {
                                     name="remember"
                                 />
                                 <span class="ms-2 text-sm text-gray-600"
-                                    >Remember me</span
+                                    >Recuerdame</span
                                 >
                             </label>
                         </div>
@@ -105,7 +105,7 @@ const submit = () => {
                             :href="route('password.request')"
                             class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                         >
-                            Forgot your password?
+                            Has olvidado la contraseña?
                         </Link>
                     </div>
                 </div>
