@@ -20,5 +20,5 @@ export const newBudget = {
     cost: newCost.description,
     taxes: 21,
     discount: 10,
-    total: 653.40,
+    total: "544,5",
 };

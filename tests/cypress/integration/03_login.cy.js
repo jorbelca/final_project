@@ -12,7 +12,7 @@ describe.only("User Login", () => {
 
         // Completa el formulario de login
         cy.contains("Email").type(testUser.email);
-        cy.contains("Password").type(testUser.password);
+        cy.contains("Contraseña").type(testUser.password);
 
         cy.contains("Enter").then(($btn) => {
             if ($btn.length > 0) {

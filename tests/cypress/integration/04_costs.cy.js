@@ -16,27 +16,27 @@ describe.only("Costs", () => {
         //LOGIN
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
-        cy.contains("Password").type(testUser.password);
-        cy.contains("Enter").click()
+        cy.contains("Contraseña").type(testUser.password);
+        cy.contains("Enter").click();
         cy.url().should("include", "/budgets");
 
         //CREAR COSTO
-        cy.contains("Costs").click();
+        cy.contains("Costes").click();
         cy.url().should("include", "/costs");
 
-        cy.contains("Create a Cost").click();
+        cy.contains("Crear un Cost").click();
         cy.url().should("include", "/costs/create");
 
-        cy.get('label:contains("Description")')
+        cy.get('label:contains("Descripcion")')
             .siblings("input")
             .type(newCost.description);
-        cy.get('label:contains("Cost")').siblings("input").type(newCost.cost);
-        cy.get('label:contains("Unit")').siblings("input").type(newCost.unit);
-        cy.get('label:contains("Periodicity")')
+        cy.get('label:contains("Coste")').siblings("input").type(newCost.cost);
+        cy.get('label:contains("Unidad")').siblings("input").type(newCost.unit);
+        cy.get('label:contains("Periodicidad")')
             .siblings("select")
             .select(newCost.periodicity);
 
-        cy.get("button").contains("Create").click();
+        cy.get("button").contains("Crear").click();
 
         cy.contains(newCost.description).should("exist");
 
@@ -48,23 +48,13 @@ describe.only("Costs", () => {
         });
         cy.url().should("include", "/edit");
 
-        cy.get('label:contains("Description")')
+        cy.get('label:contains("Descripcion")')
             .siblings("input")
-            .type(" Edited");
+            .type(" Editado");
 
-        cy.get("button").contains("Edit").click();
+        cy.get("button").contains("Editar").click();
 
-        cy.contains(newCost.description + " Edited").should("exist");
+        cy.contains(newCost.description + " Editado").should("exist");
     });
-    // after(() => {
-    //     //ELIMINAR COSTO
-    //     cy.visit("/costs");
-    //     cy.contains("tr", newCost.description + " Edited").within(() => {
-    //         cy.get(".icon-delete").click();
-    //     });
-
-    //     cy.on("window:confirm", () => true);
-
-    //     cy.contains(newCost.description + " Edited").should("not.exist");
-    // });
+   
 });

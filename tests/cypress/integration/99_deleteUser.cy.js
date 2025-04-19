@@ -4,20 +4,20 @@ describe.only("User Delete", () => {
     beforeEach(() => {
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
-        cy.contains("Password").type(testUser.password);
+        cy.contains("Contraseña").type(testUser.password);
         cy.contains("Enter").click();
     });
     it("can delete a user", () => {
         cy.contains(testUser.name).should("be.visible").click();
 
         // Eliminar el usuario
-        cy.contains("Profile").should("be.visible").click();
+        cy.contains("Perfil").should("be.visible").click();
         cy.scrollTo("bottom")
             .get("button.bg-red-600")
             .should("be.visible")
             .click();
         cy.contains(
-            "Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account."
+            "¿Estás seguro de que deseas eliminar tu cuenta? Una vez que tu cuenta sea eliminada, todos sus recursos y datos serán eliminados de forma permanente. Por favor, introduce tu contraseña para confirmar que deseas eliminar tu cuenta de forma permanente."
         )
             .should("be.visible")
             .get("input#password_delete_user")

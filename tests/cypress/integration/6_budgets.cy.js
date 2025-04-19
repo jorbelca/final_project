@@ -6,53 +6,72 @@ describe.only("Budgets", () => {
         // LOGIN
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
-        cy.contains("Password").type(testUser.password);
+        cy.contains("Contraseña").type(testUser.password);
         cy.contains("Enter").click();
         cy.url().should("include", "/budgets");
 
         // CREATE BUDGET
         //client
-        cy.contains("Create a Budget").click();
+        cy.contains("Crea un Presupuesto").click();
         cy.url().should("include", "/budgets/create");
-        cy.get("#client").select(newBudget.client);
+        cy.get("#client").select(newBudget.client + " Editado");
 
         //costs
         cy.get("#costs option").then(($options) => {
             const optionText = [...$options]
                 .map((opt) => opt.textContent.trim())
-                .find((text) => text.includes("Test Cost Edited")); // Busca la opción correcta
+                .find((text) => text.includes(newBudget.cost + " Editado")); // Busca la opción correcta
 
             if (optionText) {
                 cy.get("#costs").select(optionText); // Selecciona la opción encontrada
-                cy.contains("button", "Add cost").should("be.visible").click();
+                cy.contains("button", "Añadir coste")
+                    .should("be.visible")
+                    .click();
 
-                cy.get('input[type="number"][placeholder="quantity"]')
+                cy.get("td")
+                    .find("div")
+                    .find('input[type="number"][placeholder="quantity"]')
+                    .first()
                     .clear()
                     .type("2");
                 cy.get("#costs").select(optionText);
-                cy.contains("button", "Add cost").should("be.visible").click();
+                cy.contains("button", "Añadir coste")
+                    .should("be.visible")
+                    .click();
 
-                cy.get('input[type="number"][placeholder="quantity"]')
+                // Using find() to traverse down the DOM tree
+                cy.get("td")
+                    .find("div")
+                    .find('input[type="number"][placeholder="quantity"]')
+                    .first()
                     .clear()
                     .type("3");
+
                 cy.get("#costs").select(optionText);
-                cy.contains("button", "Add cost").should("be.visible").click();
+                cy.contains("button", "Añadir coste")
+                    .should("be.visible")
+                    .click();
             } else {
-                throw new Error("Opción 'Test Cost Edited' no encontrada");
+                throw new Error("Opción 'Test Cost Editado' no encontrada");
             }
         });
 
         //taxes
-        cy.contains("Tax").siblings("input").clear().type(newBudget.taxes);
+        cy.contains("Impuestos")
+            .siblings("input")
+            .clear()
+            .type(newBudget.taxes);
         //discount
-        cy.contains("Discount")
+        cy.contains("Descuento")
             .siblings("input")
             .clear()
             .type(newBudget.discount);
         //total
-        cy.contains("Total").contains(newBudget.total);
+        cy.get("b.text-text.text-lg.font-extrabold")
+            .contains("Total")
+            .contains(newBudget.total);
 
-        cy.contains("button", "Create").click();
+        cy.contains("button", "Crear").click();
         //notification
         cy.contains("Budget saved").should("exist");
 
@@ -60,48 +79,65 @@ describe.only("Budgets", () => {
         cy.url().should("include", "/budgets");
         //Seleccionar el ultimo budget creado
         cy.contains("tr", 1).within(() => {
-            cy.get(".icon-edit").click();
+            cy.get(".dropdown").get("button.btn.primary").click();
+            // Find the button by its title attribute within the row and click it
+            cy.get('button[title="Edit Budget"]').should("be.visible").click();
         });
+
         //cambia el descuento
-        cy.contains("Discount").siblings("input").clear().type("11");
+        cy.contains("Descuento").siblings("input").clear().type("11");
 
         //Elimina 3er costo
         cy.contains("tr", 3).within(() => {
             cy.get(".text-red-600").click();
         });
 
-        //el total deberia ser
-        //cy.get("div.fle.flex-row.self-end").contains("323.07");
-        //cy.contains("button", "Edit").click();
+        //el total editado deberia ser
+        cy.get("b.text-text.text-lg.font-extrabold")
+            .contains("Total")
+            .contains("215,38");
+        cy.contains("button", "Edit").click();
 
         //notification
         cy.contains("Budget updated").should("exist");
 
-        //IMPRIMIR BUDGET
-        cy.url().should("include", "/budgets");
-        //Seleccionar el ultimo budget creado
-        // Intercepta la solicitud para generar el PDF
-        cy.intercept("GET", "budget/1/generate").as("generatePdf");
+        // LIMPIAR
+            // This test will only run if the previous test passed
+            // (Cypress stops test execution after a failure)
 
-        // Hacer clic en el botón que genera el PDF
-        cy.contains("tr", 1).within(() => {
-            cy.get("button[title='Generate PDF']").click();
-        });
+            //ELIMINAR COSTO
+            cy.visit("/costs");
+            cy.contains("tr", newCost.description + " Editado").within(() => {
+                cy.get(".icon-delete").click();
+            });
 
-        // Espera a que la solicitud se complete
-        cy.wait("@generatePdf").then((interception) => {
-            // Verifica si la respuesta tiene el formato esperado (por ejemplo, un código de estado 200)
-            expect(interception.response.statusCode).to.eq(200);
-            // Puedes añadir más verificaciones dependiendo de lo que el servidor responda
-        });
+            cy.on("window:confirm", () => true);
 
-        // DELETE BUDGET
-        cy.url().should("include", "/budgets");
-        //Seleccionar el ultimo budget creado
-        cy.contains("tr", 1).within(() => {
-            cy.get(".icon-delete").click();
-        });
-        //notification
-        cy.contains("Budget deleted").should("exist");
+            cy.contains(newCost.description + " Editado").should("not.exist");
+
+            // DELETE CLIENT
+            cy.visit("/clients");
+            cy.contains("tr", newBudget.client + " Editado").within(() => {
+                cy.get(".icon-delete").click();
+            });
+
+            cy.on("window:confirm", () => true);
+
+            cy.contains(newBudget.client + " Editado").should("not.exist");
+            cy.contains("Client deleted").should("exist");
+
+            // DELETE BUDGET
+            cy.visit("/budgets");
+            //Seleccionar el ultimo budget creado
+            cy.contains("tr", 1).within(() => {
+                cy.get(".dropdown").get("button.btn.primary").click();
+                // Find the button by its title attribute within the row and click it
+                cy.get('button[title="Delete Budget"]').should("be.visible").click();
+            });
+            cy.on("window:confirm", () => true);
+            cy.contains("tr", 1).should("not.exist");
+            //notification
+            cy.contains("Budget deleted").should("exist");
+
     });
 });

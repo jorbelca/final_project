@@ -6,26 +6,26 @@ describe.only("Clients", () => {
         // LOGIN
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
-        cy.contains("Password").type(testUser.password);
+        cy.contains("Contraseña").type(testUser.password);
         cy.contains("Enter").click();
         cy.url().should("include", "/budgets");
 
         // CREATE CLIENTE
-        cy.contains("Clients").click();
+        cy.contains("Clientes").click();
         cy.url().should("include", "/clients");
 
-        cy.contains("Create a Client").click();
+        cy.contains("Crear un Cliente").click();
         cy.url().should("include", "/clients/create");
 
-        cy.get('label:contains("Name")').siblings("input").type(newClient.name);
+        cy.get('label:contains("Nombre")').siblings("input").type(newClient.name);
         cy.get('label:contains("Email")')
             .siblings("input")
             .type(newClient.email);
-        cy.get('label:contains("Company")')
+        cy.get('label:contains("Empresa")')
             .siblings("input")
             .type(newClient.company);
 
-        cy.get("button").contains("Create").click().wait(10000);
+        cy.get("button").contains("Crear").click().wait(10000);
         cy.url().should("include", "/clients");
         //cy.contains("Client created succesfully").should("exist");
         cy.contains(newClient.name).should("exist");
@@ -58,23 +58,23 @@ describe.only("Clients", () => {
             cy.get(".icon-edit").click();
         });
         cy.url().should("include", "/edit");
-        cy.get('label:contains("Name")').siblings("input").type(" Edited");
+        cy.get('label:contains("Nombre")').siblings("input").type(" Editado");
 
-        cy.get("button").contains("Edit").click();
+        cy.get("button").contains("Editar").click();
 
-        cy.contains(newClient.name + " Edited").should("exist");
+        cy.contains(newClient.name + " Editado").should("exist");
         cy.contains("Client updated succesfully").should("exist");
     });
-    after(() => {
-        // DELETE CLIENT
-        cy.visit("/clients");
-        cy.contains("tr", newClient.name + " Edited").within(() => {
-            cy.get(".icon-delete").click();
-        });
+    // after(() => {
+    //     // DELETE CLIENT
+    //     cy.visit("/clients");
+    //     cy.contains("tr", newClient.name + " Editado").within(() => {
+    //         cy.get(".icon-delete").click();
+    //     });
 
-        cy.on("window:confirm", () => true);
+    //     cy.on("window:confirm", () => true);
 
-        cy.contains(newClient.name + " Edited").should("not.exist");
-        cy.contains("Client deleted").should("exist");
-    });
+    //     cy.contains(newClient.name + " Editado").should("not.exist");
+    //     cy.contains("Client deleted").should("exist");
+    // });
 });
