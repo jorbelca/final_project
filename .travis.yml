@@ -1,0 +1,25 @@
+language: php
+
+php:
+  - 8.2
+
+addons:
+  chrome: stable
+
+before_install:
+  - nvm install 18
+  - node -v
+  - npm -v
+
+install:
+  - npm install
+  - composer install
+
+before_script:
+  - cp .env.travis .env
+  - php artisan key:generate
+  - npm run build
+  - php -S localhost:8000 -t public &
+
+script:
+  - npm run test:headless
