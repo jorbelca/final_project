@@ -7,19 +7,20 @@ RUN apt-get update && apt-get install -y \
     libpq-dev nano \
     libapache2-mod-security2 \
     fail2ban \
-    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip \
-    && apt-get install -y certbot python3-certbot-apache \
-    && apt-get install -y openssl
+    certbot python3-certbot-apache \
+    openssl \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip
+
     # Habilita los módulos de reescritura y SSL de Apache
-    RUN a2enmod rewrite ssl headers security2
+RUN a2enmod rewrite ssl headers security2
 
     # Configura ModSecurity con reglas básicas pero en modo menos restrictivo para desarrollo
-    RUN cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf \
-        && sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf \
-        && sed -i 's/SecAuditLog \/var\/log\/modsec_audit.log/SecAuditLog \/var\/log\/apache2\/modsec_audit.log/' /etc/modsecurity/modsecurity.conf
+RUN cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf \
+      && sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/modsecurity/modsecurity.conf \
+      && sed -i 's/SecAuditLog \/var\/log\/modsec_audit.log/SecAuditLog \/var\/log\/apache2\/modsec_audit.log/' /etc/modsecurity/modsecurity.conf
 
 
-    # Añade después de la configuración de ModSecurity
+# Regla Fail2Ban: filtro para ModSecurity
     RUN mkdir -p /etc/fail2ban/filter.d/ && \
         echo '[Definition]' > /etc/fail2ban/filter.d/modsecurity.conf && \
         echo 'failregex = .*\[client <HOST>\].*ModSecurity:.*\[msg ".*"\]' >> /etc/fail2ban/filter.d/modsecurity.conf && \
@@ -35,17 +36,30 @@ RUN apt-get update && apt-get install -y \
     echo 'findtime = 600' >> /etc/fail2ban/jail.d/modsecurity.conf && \
     echo 'action = iptables-allports' >> /etc/fail2ban/jail.d/modsecurity.conf
 
+#Crear jail.local
+RUN echo "[DEFAULT]" > /etc/fail2ban/jail.local && \
+    echo "ignoreip = 127.0.0.1/8" >> /etc/fail2ban/jail.local && \
+    echo "bantime = 86400" >> /etc/fail2ban/jail.local && \
+    echo "findtime = 600" >> /etc/fail2ban/jail.local && \
+    echo "maxretry = 3" >> /etc/fail2ban/jail.local && \
+    echo "backend = auto" >> /etc/fail2ban/jail.local && \
+    echo "[sshd]" >> /etc/fail2ban/jail.local && \
+    echo "enabled = false" >> /etc/fail2ban/jail.local && \
+    echo "[modsecurity]" >> /etc/fail2ban/jail.local && \
+    echo "enabled = true" >> /etc/fail2ban/jail.local && \
+    echo "filter = modsecurity" >> /etc/fail2ban/jail.local && \
+    echo "logpath = /var/log/apache2/modsec_audit.log" >> /etc/fail2ban/jail.local && \
+    echo "action = iptables-allports" >> /etc/fail2ban/jail.local
+
 
     # Descarga y configura OWASP Core Rule Set (versión estable)
-    RUN cd /tmp && \
-        curl -L -O https://github.com/coreruleset/coreruleset/archive/v3.3.2.tar.gz && \
-        tar -xzvf v3.3.2.tar.gz && \
-        mkdir -p /etc/apache2/modsecurity-crs && \
-        mv coreruleset-3.3.2 /etc/apache2/modsecurity-crs/crs && \
-        cd /etc/apache2/modsecurity-crs/crs && \
-        cp crs-setup.conf.example crs-setup.conf && \
+RUN curl -L -o /tmp/crs.tar.gz https://github.com/coreruleset/coreruleset/archive/v3.3.2.tar.gz && \
+    mkdir -p /etc/apache2/modsecurity-crs && \
+    tar -xzf /tmp/crs.tar.gz -C /etc/apache2/modsecurity-crs && \
+    mv /etc/apache2/modsecurity-crs/coreruleset-3.3.2 /etc/apache2/modsecurity-crs/crs && \
+    cp /etc/apache2/modsecurity-crs/crs/crs-setup.conf.example /etc/apache2/modsecurity-crs/crs/crs-setup.conf && \
         # Configura un nivel de paranoia más bajo (1 )
-        sed -i 's/setvar:tx.paranoia_level=1/setvar:tx.paranoia_level=1/' crs-setup.conf
+    sed -i 's/setvar:tx.paranoia_level=1/setvar:tx.paranoia_level=1/' /etc/apache2/modsecurity-crs/crs/crs-setup.conf
 
     # Crea reglas de exclusión para la ruta /subscription
     RUN mkdir -p /etc/apache2/modsecurity-crs/rules-before && \
@@ -59,7 +73,7 @@ RUN apt-get update && apt-get install -y \
             echo 'SecRule REQUEST_URI "@beginsWith /budgets" "id:1006,phase:1,pass,nolog,ctl:ruleEngine=Off"' >> /etc/apache2/modsecurity-crs/rules-before/whitelist.conf && \
             echo 'SecRule REQUEST_URI "@beginsWith /clients" "id:1007,phase:1,pass,nolog,ctl:ruleEngine=Off"' >> /etc/apache2/modsecurity-crs/rules-before/whitelist.conf && \
             echo 'SecRule REQUEST_URI "@beginsWith /support" "id:1008,phase:1,pass,nolog,ctl:ruleEngine=Off"' >> /etc/apache2/modsecurity-crs/rules-before/whitelist.conf
-    # Configura la inclusión de reglas de forma correcta
+    # Configura la inclusión de reglas
     RUN echo 'Include /etc/modsecurity/modsecurity.conf' > /etc/apache2/mods-enabled/security2.conf && \
         echo 'Include /etc/apache2/modsecurity-crs/rules-before/*.conf' >> /etc/apache2/mods-enabled/security2.conf && \
         echo 'Include /etc/apache2/modsecurity-crs/crs/crs-setup.conf' >> /etc/apache2/mods-enabled/security2.conf && \
@@ -72,22 +86,23 @@ RUN rm -rf /var/www/html && ln -s /var/www/public /var/www/html
 
 WORKDIR /var/www
 
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www
+RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
 
 # Instala Composer (si no está instalado)
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
-# Instala dependencias de Composer
-USER www-data
-RUN composer install --no-dev --optimize-autoloader
-USER root
+
+# Composer install y Laravel setup
+RUN composer install --no-dev --optimize-autoloader && \
+    php artisan key:generate && \
+    php artisan route:cache && php artisan view:cache && \
+    php artisan storage:link
 
 # Configura el archivo de configuración de Apache
 ENV APACHE_DOCUMENT_ROOT=/var/www
 
-RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf && \
+    echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Copia el archivo de configuración SSL de Apache
 COPY ./default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
@@ -102,19 +117,12 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -subj "/C=ES/ST=State/L=Locality/O=Organization/OU=Unit/CN=localhost"
 
 
-RUN composer install --no-dev --optimize-autoloader
-# Genera la clave de aplicación de Laravel
-RUN php artisan key:generate
-# Configura permisos para almacenamiento y caché
-RUN php artisan route:cache && php artisan view:cache
-# Configura permisos para almacenamiento y caché
-RUN php artisan storage:link
-
-
 # Exponer los puertos 80 y 443
 EXPOSE 80 443
 
-# Comando por defecto para iniciar el contenedor
-CMD ["service fail2ban && apache2-foreground && php artisan serve"]
+# Crea un script de inicio para iniciar Apache y Fail2Ban
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+CMD ["/start.sh"]
 
 
