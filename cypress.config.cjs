@@ -9,7 +9,7 @@ module.exports = defineConfig({
     screenshotsFolder: "tests/cypress/screenshots",
     fixturesFolder: "tests/cypress/fixture",
     e2e: {
-        baseUrl: "http://localhost",
+        baseUrl: process.env.APP_URL || "http://localhost:8000",
         specPattern: "tests/cypress/integration/**/*.cy.{js,jsx,ts,tsx}",
         supportFile: false,
     },
