@@ -1,7 +1,4 @@
 # TODO
-
--   Repasar Testing e2e
-
     ESTILOS
 
 -   Mejorar logo / Buscar nuevo logo

@@ -8,6 +8,10 @@ addons:
   chrome: stable
 
 before_install:
+  - mkdir -p ~/.ssh
+  - echo "$SSH_KEY" | base64 -d > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
+  - ssh-keyscan github.com >> ~/.ssh/known_hosts
   - nvm install 20
   - node -v
   - npm -v
@@ -24,3 +28,9 @@ before_script:
 
 script:
   - npm run test:headless
+
+deploy:
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: main
