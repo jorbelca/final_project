@@ -36,9 +36,9 @@ rsync -avz --delete --exclude='.git/' \
 
 # Ejecutar comandos en el contenedor después de la sincronización
 echo "Ejecutando comandos post-deploy en el contenedor Docker..."
-ssh -p ${SSH_PORT} ${DEPLOY_SERVER} 'cd ${DEPLOY_PATH} && \
-  docker exec -i ${CONTAINER_NAME} bash -c "cd /var/www && \
+ssh -p ${SSH_PORT} ${DEPLOY_SERVER} "cd ${DEPLOY_PATH} && \
+  docker exec -it ${CONTAINER_NAME} bash -c \"cd /var/www && \
   composer install --no-dev --optimize-autoloader && \
-  service fail2ban restart"'
+  service fail2ban restart\""
 
 echo "Despliegue completado con éxito."
