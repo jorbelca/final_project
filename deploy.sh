@@ -36,6 +36,8 @@ echo "Ejecutando comandos post-deploy en el contenedor Docker..."
 ssh -p ${SSH_PORT} ${DEPLOY_SERVER} "cd ${DEPLOY_PATH} && \
   docker exec ${CONTAINER_NAME} bash -c \"cd /var/www && \
   composer install --no-dev --optimize-autoloader && \
+  chown -R www-data:www-data storage bootstrap/cache && \
+  chmod -R 775 storage bootstrap/cache && \
   service fail2ban restart\""
 
 echo "Despliegue completado con éxito."
