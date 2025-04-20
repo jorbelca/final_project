@@ -114,7 +114,7 @@ class BudgetController extends Controller
     public function generatePdf($id)
     {
         try {
-            define('FPDF_FONTPATH', storage_path('app/fonts/'));
+            define('FPDF_FONTPATH', public_path('fonts/'));
             // Obtener el presupuesto o factura
             $budget = Budget::findOrFail($id);
             $user = Auth::user();
