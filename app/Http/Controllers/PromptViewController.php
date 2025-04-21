@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use OpenAI\Laravel\Facades\OpenAI;
 
@@ -121,7 +122,14 @@ class PromptViewController extends Controller
     {
 
 
-        $rawPrompt = file_get_contents(resource_path('/prompts/budget_prompt.txt'));
+        $rawPrompt = DB::table('master_prompts')
+            ->where('id', 1)
+            ->value('content');
+
+        if (!$rawPrompt) {
+            throw new Exception("No hay master prompt en la DB");
+            return PromptViewController::notify("Error generating the prompt", false);
+        }
         $cached_prompt = str_replace(
             ['{{user_prompt}}', '{{costs}}', '{{context}}'],
             [$prompt, $costs, $additionalPrompt],

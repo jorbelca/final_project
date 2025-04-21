@@ -11,9 +11,10 @@ import { onMounted } from "vue";
 
 const props = defineProps({
     credits: Number,
-    prompt: Text,
+    prompt: Object,
 });
 
+let isChrome = ref(false);
 let firstTime = ref(false);
 let loading = ref(false);
 let transcriptionError = ref(false);
@@ -45,13 +46,27 @@ const togglePrompt = () => {
 };
 
 const startRecording = async () => {
-    const response = await start();
-    if (response) {
-        form.prompt = response;
+    try {
+        // Check if browser supports required media APIs
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw new Error("Browser doesn't support media recording");
+        }
+
+        const response = await start();
+        if (response) {
+            form.prompt = response;
+            loading.value = false;
+        } else {
+            loading.value = false;
+            form.prompt = "";
+            transcriptionError.value = true;
+            setTimeout(() => {
+                transcriptionError.value = false;
+            }, 3000);
+        }
+    } catch (error) {
+        console.error("Recording error:", error);
         loading.value = false;
-    } else {
-        loading.value = false;
-        form.prompt = "";
         transcriptionError.value = true;
         setTimeout(() => {
             transcriptionError.value = false;
@@ -60,9 +75,14 @@ const startRecording = async () => {
 };
 
 const stopRecording = () => {
-    loading.value = true;
-    form.prompt = "";
-    stop();
+    try {
+        loading.value = true;
+        form.prompt = "";
+        stop();
+    } catch (error) {
+        console.error("Error stopping recording:", error);
+        loading.value = false;
+    }
 };
 
 onMounted(() => {
@@ -72,6 +92,11 @@ onMounted(() => {
         firstTime.value = true;
         localStorage.setItem("voicePromptNoticeShown", "true");
     }
+    if (navigator.userAgent.includes("Chrome")) {
+        isChrome.value = true;
+    } else {
+        isChrome.value = false;
+    }
 });
 </script>
 
@@ -79,7 +104,7 @@ onMounted(() => {
     <ProcessingMessage :loading="loading" />
     <AppLayout title="Asistente IA para Presupuestos" :header="false">
         <template #header>
-            <PageHeader title="Asistente IA para Presupuestos" padding="16" />
+            <PageHeader title="Asistente IA para Presupuestos" :padding="16" />
         </template>
 
         <div class="max-w-7xl mx-auto py-3 px-2 sm:px-3 lg:px-4">
@@ -207,7 +232,7 @@ onMounted(() => {
                         <div
                             class="text-right inline-flex items-end justify-between gap-2"
                         >
-                            <div class="w-3/6 flex">
+                            <div class="w-3/6 flex" v-if="isChrome">
                                 <RecordBtn
                                     @startRecording="startRecording"
                                     @stop="stopRecording"
@@ -245,12 +270,9 @@ onMounted(() => {
                             </button>
                         </div>
                     </form>
-
-            
                 </div>
             </div>
         </div>
-
 
         <div
             v-if="firstTime === true"
