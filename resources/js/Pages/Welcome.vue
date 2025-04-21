@@ -59,21 +59,21 @@ defineProps({
                 >
                     <!-- Sección 1 -->
                     <section
-                        class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-white to-gray-200 dark:from-gray-900 dark:to-green-950 relative overflow-hidden py-16 px-4 sm:px-6"
+                        class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-white to-gray-200 dark:from-gray-900 dark:to-green-950 relative overflow-hidden py-12 px-4 sm:px-6"
                     >
                         <div
                             class="absolute inset-0 opacity-10 bg-pattern"
                         ></div>
                         <div
-                            class="z-10 w-full max-w-3xl px-4 sm:px-6 py-8 sm:py-12 text-center"
+                            class="z-10 w-full max-w-2xl px-4 sm:px-6 py-6 sm:py-10 text-center"
                         >
                             <h2
-                                class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-6 tracking-tight"
+                                class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-5 tracking-tight"
                             >
                                 Simplifica tus presupuestos
                             </h2>
                             <p
-                                class="text-lg sm:text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-10 leading-relaxed"
+                                class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-8 leading-relaxed"
                             >
                                 Con nuestra aplicación, podrás gestionar tus
                                 presupuestos de manera fácil y rápida.
@@ -129,15 +129,15 @@ defineProps({
                     <section
                         class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-blue-400 to-blue-600 dark:from-blue-800 dark:to-blue-950 text-white relative overflow-hidden px-4 sm:px-8 py-8 sm:py-16"
                     >
-                        <div class="max-w-4xl mx-auto text-center">
+                        <div class="max-w-4xl mx-auto text-center mt-4">
                             <h2
-                                class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 md:mb-2 md:mt-6"
+                                class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 md:mb-2 md:mt-8"
                             >
                                 Gestiona tus costes con precisión
                             </h2>
 
                             <p
-                                class="text-base sm:text-lg md:text-xl lg:text-2xl leading-relaxed max-w-3xl mx-auto mb-6 sm:mb-10"
+                                class="text-base sm:text-lg md:text-xl lg:text-1xl leading-relaxed max-w-3xl mx-auto mb-6 sm:mb-10"
                             >
                                 Obtén
                                 <span class="font-semibold">control total</span>
@@ -155,7 +155,7 @@ defineProps({
                                 >
                                     <!-- First card/image -->
                                     <div
-                                        class="absolute top-0 left-1/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-10 w-[75%] sm:w-[75%] md:w-[70%]"
+                                        class="absolute top-0 left-1/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-10 w-[65%] sm:w-[65%] md:w-[60%]"
                                     >
                                         <img
                                             src="/capturas/costes.png"
@@ -167,7 +167,7 @@ defineProps({
 
                                     <!-- Second card/image -->
                                     <div
-                                        class="absolute top-20 sm:top-24 md:top-28 left-2/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-0 w-[65%] sm:w-[65%] md:w-[60%]"
+                                        class="absolute top-20 sm:top-24 md:top-28 left-2/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-0 w-[60%] sm:w-[60%] md:w-[55%]"
                                     >
                                         <img
                                             src="/capturas/costes-archivo.png"
@@ -180,7 +180,7 @@ defineProps({
 
                                 <!-- Icons container -->
                                 <div
-                                    class="flex justify-center items-center gap-4 sm:gap-6 md:gap-8 mt-16 sm:mt-24 md:mt-0 relative z-20"
+                                    class="flex justify-center items-center gap-4 sm:gap-6 md:gap-8 relative z-20"
                                 >
                                     <div
                                         class="transition-transform hover:scale-110 duration-300"
@@ -225,12 +225,12 @@ defineProps({
                     >
                         <div class="max-w-4xl mx-auto text-center">
                             <h2
-                                class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8"
+                                class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6"
                             >
                                 Centraliza tu cartera de clientes
                             </h2>
                             <p
-                                class="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto"
+                                class="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto mb-4 sm:mb-6"
                             >
                                 Gestiona tu cartera de clientes de forma
                                 <span class="font-semibold">eficiente</span>.
@@ -256,12 +256,12 @@ defineProps({
 
                             <!-- Client icon positioned on top of screenshot -->
                             <div
-                                class="absolute -bottom-0 sm:-bottom-32 md:-bottom-24 lg:-bottom-16 left-1/2 transform -translate-x-1/2 z-20 transition-transform hover:scale-110 duration-300"
+                                class="absolute -bottom-10 sm:-bottom-12 md:-bottom-16 lg:-bottom-20 left-1/2 transform -translate-x-1/2 z-20 transition-transform hover:scale-110 duration-300"
                             >
                                 <img
                                     src="/imgs/clients.svg"
                                     alt="Logo de Clientes"
-                                    class="w-32 sm:w-36 md:w-40 rounded-lg shadow-lg dark:opacity-95 mt-32"
+                                    class="w-32 sm:w-36 md:w-40 rounded-lg shadow-lg dark:opacity-95 mt-10"
                                     onerror="this.src='/imgs/default-clients.png'"
                                 />
                             </div>

@@ -21,8 +21,8 @@ const props = defineProps({
             :class="[
                 'rounded-lg shadow-2xl border border-gray-300 dark:border-gray-700 hover:shadow-4xl',
                 landing
-                    ? 'max-w-[450px] max-h-[550px]' // Landing
-                    : 'max-w-[250px] max-h-[250px]', // Default
+                    ? 'max-w-[400px] max-h-[500px]' // Landing
+                    : 'max-w-[200px] max-h-[200px]', // Default
             ]"
         />
         <!-- Imagen superpuesta (Budget) -->
@@ -32,8 +32,8 @@ const props = defineProps({
             :class="[
                 'absolute rounded-lg shadow-xl border border-gray-300 dark:border-gray-700 hover:shadow-4xl',
                 landing
-                    ? 'max-w-[500px] max-h-[550px] top-20 -right-6' // Landing
-                    : 'top-20 -right-0 max-w-[300px] max-h-[300px]', // Default
+                    ? 'max-w-[450px] max-h-[450px] top-20 -right-6' // Landing
+                    : 'top-20 -right-0 max-w-[250px] max-h-[200px]', // Default
             ]"
         />
     </div>
@@ -56,12 +56,14 @@ img:hover {
     }
 
     /* Adjust image sizes and positions for small screens */
-    img:first-of-type { /* Main image */
+    img:first-of-type {
+        /* Main image */
         max-width: 80%;
         max-height: auto;
     }
 
-    img:last-of-type { /* Overlapping image */
+    img:last-of-type {
+        /* Overlapping image */
         max-width: 70%;
         max-height: auto;
         top: 10%; /* Adjust vertical position */
@@ -69,21 +71,24 @@ img:hover {
     }
 
     /* Specific adjustments for landing vs default on small screens */
-    .relative.p-10 { /* Default style on small screens */
-         max-width: 90%;
+    .relative.p-10 {
+        /* Default style on small screens */
+        max-width: 90%;
     }
-     .relative.p-6 { /* Landing style on small screens */
-         max-width: 95%;
+    .relative.p-6 {
+        /* Landing style on small screens */
+        max-width: 95%;
     }
 
-    img:first-of-type[class*="max-w-[250px]"] { /* Default main image */
+    img:first-of-type[class*="max-w-[250px]"] {
+        /* Default main image */
         max-width: 60%;
     }
-     img:last-of-type[class*="max-w-[300px]"] { /* Default overlapping image */
+    img:last-of-type[class*="max-w-[300px]"] {
+        /* Default overlapping image */
         max-width: 50%;
         top: 15%;
         right: 10%;
     }
-
 }
 </style>
