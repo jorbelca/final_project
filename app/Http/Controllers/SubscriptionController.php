@@ -81,6 +81,7 @@ class SubscriptionController extends Controller
             $user->save();
 
 
+
             if (
                 $request->input('subscription.id') == $subscription->id &&
                 $request->input('subscription.plan_id') == $subscription->plan_id &&
@@ -88,15 +89,17 @@ class SubscriptionController extends Controller
             ) {
                 return SubscriptionController::notify('', "Updated");
             }
-
             //Comprobar la tarjeta
             if ($request->input('subscription.payment_number') !== $_ENV['TARJETA']) {
                 return SubscriptionController::notify("", "Wrong Card", false);
             }
+
             //Comprobar las renovaciones ///DEVELOP
-            if ($request->input('subscription.renewal') == 1) {
+            if (+$user->subscription->renovations >= 1 && +$request->input('subscription.plan_id') !== 1) {
                 return SubscriptionController::notify("", "Renewal not allowed, we are in develop", false);
             }
+
+
 
             //Cambiar el plan y los creditos
             $plan = Plan::find($request->input('subscription.plan_id'));
