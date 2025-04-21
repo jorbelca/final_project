@@ -1,6 +1,11 @@
 dist: jammy
 language: php
 
+# Only run builds on the main branch
+branches:
+  only:
+    - main
+
 php:
   - 8.2
 
@@ -33,4 +38,4 @@ deploy:
   provider: script
   script: bash ./deploy.sh
   on:
-    branch: main
+    branch: main # This deploy section already targets the main branch
