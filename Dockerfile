@@ -104,35 +104,18 @@ ENV APACHE_DOCUMENT_ROOT=/var/www
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf && \
     echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Crear archivo de configuración para SSL
-RUN echo '<VirtualHost *:443>\n\
-    ServerName budgetapp.software\n\
-    ServerAdmin webmaster@localhost\n\
-    DocumentRoot /var/www/html\n\
-    \n\
-    SSLEngine on\n\
-    SSLCertificateFile /etc/letsencrypt/live/budgetapp.software/cert.pem\n\
-    SSLCertificateKeyFile /etc/letsencrypt/live/budgetapp.software/privkey.pem\n\
-    SSLCertificateChainFile /etc/letsencrypt/live/budgetapp.software/chain.pem\n\
-    \n\
-    <Directory /var/www/html>\n\
-        Options Indexes FollowSymLinks\n\
-        AllowOverride All\n\
-        Require all granted\n\
-    </Directory>\n\
-    \n\
-    ErrorLog ${APACHE_LOG_DIR}/error.log\n\
-    CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
-</VirtualHost>' > /etc/apache2/sites-available/budgetapp.software-ssl.conf
+# Copia el archivo de configuración SSL de Apache
+COPY ./default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 
-# Crear archivo de configuración para redirección HTTP a HTTPS
-RUN echo '<VirtualHost *:80>\n\
-    ServerName budgetapp.software\n\
-    Redirect permanent / https://budgetapp.software/\n\
-</VirtualHost>' > /etc/apache2/sites-available/budgetapp.software.conf
+# Habilita el sitio SSL
+RUN a2ensite default-ssl
 
-# Habilitar los sitios
-RUN a2ensite budgetapp.software-ssl.conf && a2ensite budgetapp.software.conf
+# Crea un certificado autofirmado (solo para pruebas)
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+    -keyout /etc/ssl/private/apache-selfsigned.key \
+    -out /etc/ssl/certs/apache-selfsigned.crt \
+    -subj "/C=ES/ST=State/L=Locality/O=Organization/OU=Unit/CN=localhost"
+
 
 # Exponer los puertos 80 y 443
 EXPOSE 80 443

@@ -10,4 +10,5 @@ services:
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/public
     command: apache2-foreground
+    restart: always
 
