@@ -15,15 +15,18 @@ const loading = ref(false);
 
 const updateQueryParamsAndVisit = (newParams, url = route("clients.index")) => {
     loading.value = true;
-    // Get current query parameters from window.location.search if url is not provided or doesn't contain query string
-    const currentUrl = new URL(url, window.location.origin);
-    const currentParams = new URLSearchParams(currentUrl.search);
-    const params = Object.fromEntries(currentParams.entries());
 
-    // Merge new parameters with existing ones
-    const finalParams = { ...params, ...newParams };
+    // Start with current window query parameters to preserve all filters
+    const windowParams = new URLSearchParams(window.location.search);
+    const currentParams = Object.fromEntries(windowParams.entries());
 
-    router.visit(currentUrl.pathname, {
+    // Parse the destination URL
+    const destinationUrl = new URL(url, window.location.origin);
+
+    // Merge parameters: current window params + new params (which take precedence)
+    const finalParams = { ...currentParams, ...newParams };
+
+    router.visit(destinationUrl.pathname, {
         method: "get",
         data: finalParams, // Pass all merged parameters
         preserveScroll: true,
@@ -47,7 +50,6 @@ const changeSize = (size) => {
     // When changing size, reset page to 1 and keep other existing params
     updateQueryParamsAndVisit({ size: size, page: 1 });
 };
-
 </script>
 
 <template>
