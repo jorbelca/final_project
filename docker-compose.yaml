@@ -6,6 +6,8 @@ services:
       - "443:443"
     volumes:
       - .:/var/www
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/public
     command: apache2-foreground
+
