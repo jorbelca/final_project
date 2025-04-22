@@ -33,7 +33,7 @@ RUN cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurit
     echo 'logpath = /var/log/apache2/modsec_audit.log' >> /etc/fail2ban/jail.d/modsecurity.conf && \
     echo 'maxretry = 3' >> /etc/fail2ban/jail.d/modsecurity.conf && \
     echo 'bantime = 48*3600' >> /etc/fail2ban/jail.d/modsecurity.conf && \
-    echo 'findtime = 600' >> /etc/fail2ban/jail.d/modsecurity.conf && \
+    echo 'findtime = 3600' >> /etc/fail2ban/jail.d/modsecurity.conf && \
     echo 'action = iptables-allports' >> /etc/fail2ban/jail.d/modsecurity.conf
 
 #Crear jail.local
