@@ -23,7 +23,7 @@ RUN cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurit
 # Regla Fail2Ban: filtro para ModSecurity
     RUN mkdir -p /etc/fail2ban/filter.d/ && \
         echo '[Definition]' > /etc/fail2ban/filter.d/modsecurity.conf && \
-        echo 'failregex = .*\[client <HOST>\].*ModSecurity:.*\[msg ".*"\]' >> /etc/fail2ban/filter.d/modsecurity.conf && \
+        echo 'failregex = ^(?:\[\S+\] )?(?:\[\S+\s+\S+\] )?(?:\[\S+\] )?\[client <HOST>\].*ModSecurity:.*(?:\[id "\d+"\])?(?:\[msg ".*?"\])?' >> /etc/fail2ban/filter.d/modsecurity.conf && \
         echo 'ignoreregex =' >> /etc/fail2ban/filter.d/modsecurity.conf
 
     # Configura Fail2Ban para ModSecurity
@@ -39,7 +39,7 @@ RUN cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurit
 #Crear jail.local
 RUN echo "[DEFAULT]" > /etc/fail2ban/jail.local && \
     echo "ignoreip = 127.0.0.1/8" >> /etc/fail2ban/jail.local && \
-    echo "bantime = 86400" >> /etc/fail2ban/jail.local && \
+    echo "bantime = 48*3600" >> /etc/fail2ban/jail.local && \
     echo "findtime = 600" >> /etc/fail2ban/jail.local && \
     echo "maxretry = 3" >> /etc/fail2ban/jail.local && \
     echo "backend = auto" >> /etc/fail2ban/jail.local && \
