@@ -23,7 +23,7 @@ RUN cp /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurit
 # Regla Fail2Ban: filtro para ModSecurity
     RUN mkdir -p /etc/fail2ban/filter.d/ && \
         echo '[Definition]' > /etc/fail2ban/filter.d/modsecurity.conf && \
-        echo 'failregex = ^(?:\[\S+\] )?(?:\[\S+\s+\S+\] )?(?:\[\S+\] )?\[client <HOST>\].*ModSecurity:.*(?:\[id "\d+"\])?(?:\[msg ".*?"\])?' >> /etc/fail2ban/filter.d/modsecurity.conf && \
+        echo 'failregex = .*\[client <HOST>\].*ModSecurity:.*\[msg ".*"\]' >> /etc/fail2ban/filter.d/modsecurity.conf && \
         echo 'ignoreregex =' >> /etc/fail2ban/filter.d/modsecurity.conf
 
     # Configura Fail2Ban para ModSecurity
