@@ -117,6 +117,31 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -subj "/C=ES/ST=State/L=Locality/O=Organization/OU=Unit/CN=localhost"
 
 
+# Configura https
+# Crea el archivo de configuración del sitio SSL
+RUN echo '<IfModule mod_ssl.c>' > /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '  <VirtualHost *:443>' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    ServerName budgetapp.software' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    ServerAdmin webmaster@localhost' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    DocumentRoot /var/www/public' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    SSLEngine on' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    SSLCertificateFile /etc/ssl/sectigo-certs/2412215709repl_1.crt' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    SSLCertificateKeyFile /etc/ssl/budgetapp.key' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    SSLCertificateChainFile /etc/ssl/sectigo-certs/chain.crt' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    <Directory /var/www/public>' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '      Options Indexes FollowSymLinks' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '      AllowOverride All' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '      Require all granted' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    </Directory>' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    ErrorLog ${APACHE_LOG_DIR}/budgetapp-error.log' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '    CustomLog ${APACHE_LOG_DIR}/budgetapp-access.log combined' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '  </VirtualHost>' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
+    echo '</IfModule>' >> /etc/apache2/sites-available/budgetapp-ssl.conf
+
+# Habilita el sitio SSL personalizado
+RUN a2ensite budgetapp-ssl
+
+
 # Exponer los puertos 80 y 443
 EXPOSE 80 443
 
