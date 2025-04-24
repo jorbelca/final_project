@@ -138,6 +138,12 @@ RUN echo '<IfModule mod_ssl.c>' > /etc/apache2/sites-available/budgetapp-ssl.con
     echo '  </VirtualHost>' >> /etc/apache2/sites-available/budgetapp-ssl.conf && \
     echo '</IfModule>' >> /etc/apache2/sites-available/budgetapp-ssl.conf
 
+ # Redirecciona HTTP a HTTPS
+RUN echo '<VirtualHost *:80>' > /etc/apache2/sites-available/budgetapp.conf && \
+    echo '    ServerName budgetapp.software' >> /etc/apache2/sites-available/budgetapp.conf && \
+    echo '    Redirect permanent / https://budgetapp.software/' >> /etc/apache2/sites-available/budgetapp.conf && \
+    echo '</VirtualHost>' >> /etc/apache2/sites-available/budgetapp.conf
+
 # Habilita el sitio SSL personalizado
 RUN a2ensite budgetapp-ssl
 
