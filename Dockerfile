@@ -145,7 +145,7 @@ RUN echo '<VirtualHost *:80>' > /etc/apache2/sites-available/budgetapp.conf && \
     echo '</VirtualHost>' >> /etc/apache2/sites-available/budgetapp.conf
 
 # Habilita el sitio SSL personalizado
-RUN a2ensite budgetapp-ssl
+RUN a2ensite budgetapp-ssl budgetapp.conf
 
 
 # Exponer los puertos 80 y 443
