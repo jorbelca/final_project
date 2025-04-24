@@ -6,7 +6,7 @@
         "features": {
             "Funcionalidades avanzadas": false,
             "Mejora de imagen profesional": false,
-            "Presupuestos mensuales con IA": 0,
+            "Presupuestos por IA": 0,
             "Soporte prioritario": false
         }
     },
@@ -17,7 +17,7 @@
         "features": {
             "Funcionalidades avanzadas": true,
             "Mejora de imagen profesional": true,
-            "Presupuestos mensuales con IA": 40,
+            "Presupuestos por IA": 40,
             "Soporte prioritario": false
         }
     },
@@ -28,7 +28,7 @@
         "features": {
             "Funcionalidades avanzadas": true,
             "Mejora de imagen profesional": true,
-            "Presupuestos mensuales con IA": 100,
+            "Presupuestos por IA": 100,
             "Soporte prioritario": true
         }
     }
