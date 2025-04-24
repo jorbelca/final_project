@@ -230,9 +230,9 @@ onMounted(() => {
                         </div>
 
                         <div
-                            class="inline-flex items-end justify-end gap-2"
+                            class="text-right inline-flex items-end justify-between gap-2"
                         >
-                            <!-- <div class="w-3/6 flex " v-if="isChrome">
+                             <div class="w-3/6 flex " v-if="isChrome">
                                 <RecordBtn
                                     @startRecording="startRecording"
                                     @stop="stopRecording"
@@ -243,7 +243,7 @@ onMounted(() => {
                                 >
                                     {{ "Error in transcription" }}
                                 </span>
-                            </div> -->
+                            </div> 
 
                             <button
                                 type="submit"
@@ -275,7 +275,7 @@ onMounted(() => {
         </div>
 
         <div
-            v-if="false"
+            v-if="firstTime === true"
             class="mx-5 my-4 p-3 bg-yellow-50 dark:bg-gray-600 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-md shadow-sm"
         >
             <div class="flex items-start">
