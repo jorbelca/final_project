@@ -97,6 +97,7 @@ onMounted(() => {
     } else {
         isChrome.value = false;
     }
+    console.log("isChrome", isChrome.value);
 });
 </script>
 
@@ -232,7 +233,7 @@ onMounted(() => {
                         <div
                             class="text-right inline-flex items-end justify-between gap-2"
                         >
-                             <div class="w-3/6 flex " v-if="isChrome">
+                             <div class="w-3/6 flex">
                                 <RecordBtn
                                     @startRecording="startRecording"
                                     @stop="stopRecording"
@@ -243,7 +244,7 @@ onMounted(() => {
                                 >
                                     {{ "Error in transcription" }}
                                 </span>
-                            </div> 
+                            </div>
 
                             <button
                                 type="submit"
