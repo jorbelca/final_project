@@ -280,7 +280,7 @@ defineProps({
                             </h2>
                             
                                 <p
-                                    class="text-lg sm:text-normal md:text-normal leading-relaxed max-w-3xl mx-auto"
+                                    class="text-lg sm:text-sm md:text-normal leading-relaxed sm:leading-snug max-w-3xl mx-auto mb-6"
                                 >
                                     Enfocados en
                                     <span class="font-semibold"
@@ -288,7 +288,7 @@ defineProps({
                                     >, tenemos el plan perfecto para ti. Escala tus
                                     herramientas a medida que crece tu negocio.
                                 </p>
-                            <div class="relative mb-6 sm:mb-10">
+                            <div class="relative mb-12 sm:mb-14">
                                 <Prices />
                             </div>
 
