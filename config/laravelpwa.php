@@ -4,7 +4,7 @@ return [
     'name' => 'Budget App',
     'manifest' => [
         'name' => env('APP_NAME', 'Budget App'),
-        'short_name' => 'Budget',
+        'short_name' => 'Budget App',
         'start_url' => '/',
         'background_color' => '#ffffff',
         'theme_color' => '#000000',
@@ -12,6 +12,14 @@ return [
         'orientation' => 'any',
         'status_bar' => 'green',
         'icons' => [
+            '16x16' => [
+                'path' => 'images/icons/favicon-16x16.png',
+                'purpose' => 'any'
+            ],
+            '32x32' => [
+                'path' => 'images/icons/favicon-32x32.png',
+                'purpose' => 'any'
+            ],
             '72x72' => [
                 'path' => 'images/icons/72.png',
                 'purpose' => 'any'
@@ -56,7 +64,8 @@ return [
                 'name' => 'IA Prompt',
                 'description' => 'Generar con IA',
                 'url' => '/budget/prompt',
-            ],[
+            ],
+            [
                 'name' => 'Presupuestos',
                 'description' => 'Listado presupuestos',
                 'url' => '/budgets',

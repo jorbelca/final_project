@@ -15,7 +15,6 @@ const props = defineProps({
 
 let loading = ref(false);
 
-
 const updateQueryParamsAndVisit = (newParams, url = route("budgets.index")) => {
     loading.value = true;
 
@@ -53,8 +52,6 @@ const changeSize = (size) => {
     // When changing size, reset page to 1 and keep other existing params
     updateQueryParamsAndVisit({ size: size, page: 1 });
 };
-
-
 </script>
 
 <template>
@@ -70,7 +67,7 @@ const changeSize = (size) => {
                 ]"
                 :padding="24"
             >
-                <div class="flex self-start">
+                <div class="flex justify-end items-end">
                     <BudgetCounter :budgetCount="budgetCount" />
                 </div>
             </PageHeader>
