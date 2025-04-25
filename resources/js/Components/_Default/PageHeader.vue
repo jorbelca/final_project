@@ -16,7 +16,10 @@ const computedLinks = computed(() => {
 </script>
 
 <template #header>
-    <div class="flex justify-between items-center w-full">
+    <div :class="[
+      'items-center w-full',
+      computedLinks.length > 0 ? 'grid grid-cols-3' : 'flex'
+    ]">
         <!-- Enlaces a la izquierda -->
         <div class="flex flex-col text-xs sm:text-sm">
             <h2
@@ -31,7 +34,11 @@ const computedLinks = computed(() => {
                     >{{ link.text }}</a
                 >
                 <a
-                    v-if="!isForm && !link.text.includes('archivo') && !link.text.includes('Subir')"
+                    v-if="
+                        !isForm &&
+                        !link.text.includes('archivo') &&
+                        !link.text.includes('Subir')
+                    "
                     class="text-green-500"
                     :href="route(link.route)"
                     >{{ link.text }}</a
@@ -43,8 +50,8 @@ const computedLinks = computed(() => {
                     "
                     class="text-blue-500"
                     :href="route(link.route)"
-                    >{{ link.text }}</a
-                >
+                    >Archivo
+                </a>
             </h2>
         </div>
         <!-- Título central -->

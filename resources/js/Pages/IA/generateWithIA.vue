@@ -136,9 +136,9 @@ const setMicrophonePermission = async (event) => {
 
 <template>
     <ProcessingMessage :loading="loading" />
-    <AppLayout title="Asistente IA para Presupuestos" :header="false">
+    <AppLayout title="Asistente IA" :header="false">
         <template #header>
-            <PageHeader title="Asistente IA para Presupuestos" :padding="16" />
+            <PageHeader title="Generar mediante IA " :padding="16" />
         </template>
 
         <div class="max-w-7xl mx-auto py-3 px-2 sm:px-3 lg:px-4">
@@ -271,7 +271,7 @@ const setMicrophonePermission = async (event) => {
                                     @startRecording="startRecording"
                                     @stop="stopRecording"
                                     @touchstart="setMicrophonePermission(true)"
-                                    @mouseover="setMicrophonePermission(true)"
+                               
                                 />
                                 <span
                                     v-if="transcriptionError"
@@ -312,7 +312,7 @@ const setMicrophonePermission = async (event) => {
 
 
 
-    
+
         <div
             v-if="firstTime === true"
             class="mx-5 my-4 p-3 bg-yellow-50 dark:bg-gray-600 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-md shadow-sm"

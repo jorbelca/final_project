@@ -65,10 +65,10 @@ defineProps({
                             class="absolute inset-0 opacity-10 bg-pattern"
                         ></div>
                         <div
-                            class="z-10 w-full max-w-2xl px-4 sm:px-6 py-6 sm:py-10 text-center"
+                            class="z-10 w-full max-w-6xl px-4 sm:px-6 py-6 sm:py-10 text-center"
                         >
                             <h2
-                                class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-5 tracking-tight"
+                                class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-5 tracking-tight "
                             >
                                 Simplifica tus presupuestos
                             </h2>
@@ -278,21 +278,19 @@ defineProps({
                             >
                                 Con Planes adaptados a tus necesidades
                             </h2>
-                            
-                                <p
-                                    class="text-lg sm:text-sm md:text-normal leading-relaxed sm:leading-snug max-w-3xl mx-auto mb-6"
-                                >
-                                    Enfocados en
-                                    <span class="font-semibold"
-                                        >profesionales independientes</span
-                                    >, tenemos el plan perfecto para ti. Escala tus
-                                    herramientas a medida que crece tu negocio.
-                                </p>
-                            <div class="relative mb-12 sm:mb-14">
+
+                            <p
+                                class="text-lg sm:text-sm md:text-normal leading-relaxed sm:leading-snug max-w-3xl mx-auto mb-6"
+                            >
+                                Enfocados en
+                                <span class="font-semibold"
+                                    >profesionales independientes</span
+                                >, tenemos el plan perfecto para ti. Escala tus
+                                herramientas a medida que crece tu negocio.
+                            </p>
+                            <div class="relative mb-20 sm:mb-0">
                                 <Prices />
                             </div>
-
-                           
                         </div>
 
                         <!-- Footer -->
@@ -304,15 +302,16 @@ defineProps({
                             >
                                 <p class="text-center mb-2 md:mb-0">
                                     <!-- Información del desarrollador -->
-
+                                    Desarrollado por
                                     <a
-                                        href="mailto:jorbelcal@alumno.edu.gva.es?subject=SoporteBudgetApp"
+                                        href="https://github.com/jorbelca"
                                         class="hover:text-gray-300 transition duration-300"
-                                        >Desarrollado por @jorbelca
+                                    >
+                                        @jorbelca
                                     </a>
 
-                                    © 2025 Proyecto Final. Proyecto académico
-                                    sin fines comerciales.
+                                    © 2025 <br />Proyecto académico sin fines
+                                    comerciales.
                                 </p>
                             </div>
 

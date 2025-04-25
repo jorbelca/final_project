@@ -1,13 +1,9 @@
-var staticCacheName = "Budget_app"
+var staticCacheName = "Budget_app";
 var filesToCache = [
     "/images/icons/72.png",
     "/images/icons/96.png",
+    "/images/icons/120.png",
     "/images/icons/128.png",
-    "/images/icons/144.png",
-    "/images/icons/152.png",
-    "/images/icons/192.png",
-    "/images/icons/384.png",
-    "/images/icons/512.png",
 ];
 
 // Cache on install
