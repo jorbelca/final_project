@@ -51,6 +51,17 @@ const startRecording = async () => {
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
             throw new Error("Browser doesn't support media recording");
         }
+        // Check if microphone permission is granted
+        const microPermission = await navigator.permissions.query({name: 'microphone'}).then(permissionStatus => {
+            if (permissionStatus.state === 'denied') {
+                return false;
+            } else {
+                return true;
+            }
+        });
+        if (!microPermission) {
+            throw new Error("Microphone permission denied");
+        }
 
         const response = await start();
         if (response) {
@@ -99,6 +110,28 @@ onMounted(() => {
     }
     console.log("isChrome", isChrome.value);
 });
+
+const setMicrophonePermission = async (event) => {
+    const permission = event === true;
+    if (permission) {
+        try {
+            const status = await navigator.permissions.query({ name: "microphone" });
+            if (status.state === "granted") {
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                console.log("Microphone permission granted");
+            } else if (status.state === "prompt") {
+                console.log("Microphone permission needs to be granted by the user");
+            } else {
+                console.log("Microphone permission denied");
+            }
+        } catch (error) {
+            console.error("Error checking microphone permission:", error);
+        }
+    } else {
+        console.log("Microphone permission denied");
+    }
+};
+
 </script>
 
 <template>
@@ -237,6 +270,8 @@ onMounted(() => {
                                 <RecordBtn
                                     @startRecording="startRecording"
                                     @stop="stopRecording"
+                                    @touchstart="setMicrophonePermission(true)"
+                                    @mouseover="setMicrophonePermission(true)"
                                 />
                                 <span
                                     v-if="transcriptionError"
@@ -275,6 +310,9 @@ onMounted(() => {
             </div>
         </div>
 
+
+
+    
         <div
             v-if="firstTime === true"
             class="mx-5 my-4 p-3 bg-yellow-50 dark:bg-gray-600 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-md shadow-sm"
