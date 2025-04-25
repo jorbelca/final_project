@@ -278,20 +278,21 @@ defineProps({
                             >
                                 Con Planes adaptados a tus necesidades
                             </h2>
-
+                            
+                                <p
+                                    class="text-lg sm:text-normal md:text-normal leading-relaxed max-w-3xl mx-auto"
+                                >
+                                    Enfocados en
+                                    <span class="font-semibold"
+                                        >profesionales independientes</span
+                                    >, tenemos el plan perfecto para ti. Escala tus
+                                    herramientas a medida que crece tu negocio.
+                                </p>
                             <div class="relative mb-6 sm:mb-10">
                                 <Prices />
                             </div>
 
-                            <p
-                                class="text-lg sm:text-normal md:text-normal leading-relaxed max-w-3xl mx-auto"
-                            >
-                                Enfocados en
-                                <span class="font-semibold"
-                                    >profesionales independientes</span
-                                >, tenemos el plan perfecto para ti. Escala tus
-                                herramientas a medida que crece tu negocio.
-                            </p>
+                           
                         </div>
 
                         <!-- Footer -->
