@@ -44,6 +44,10 @@ return [
                 'path' => 'images/icons/android-chrome-512x512.png',
                 'purpose' => 'any'
             ],
+            'apple-touch-icon' => [
+                'path' => 'icons/apple-touch-icon.png',
+                'purpose' => 'any'
+            ],
         ],
         'splash' => [
             '640x1136' => 'images/icons/apple-splash-640-1136.jpg',
@@ -72,7 +76,10 @@ return [
             ]
         ],
         'custom' => [
-            'apple_touch_icon' => 'icons/apple-touch-icon.png',
+            'icon-72x72' => 'images/icons/72.png',
+            'icon-128x128' => 'images/icons/128.png',
+            'icon-120x120' => 'images/icons/120.png',
+            'apple_touch_icon' => 'images/icons/120.png',
             'favicon_32' => 'images/icons/favicon-32x32.png',
             'favicon_16' => 'images/icons/favicon-16x16.png',
         ],
