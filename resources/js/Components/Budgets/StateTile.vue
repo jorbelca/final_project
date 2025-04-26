@@ -47,7 +47,7 @@ const statusIcons = {
 <style>
 .status-tile {
     display: inline-flex;
-    font-size: 0.75rem; /* Tamaño del texto */
+    font-size: 0.70rem; /* Tamaño del texto */
     white-space: nowrap; /* Evita que el texto salte de linea */
 }
 </style>
