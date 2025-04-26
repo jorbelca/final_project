@@ -72,7 +72,7 @@ return [
             ]
         ],
         'custom' => [
-            'apple_touch_icon' => 'images/icons/apple-touch-icon.png',
+            'apple_touch_icon' => 'icons/apple-touch-icon.png',
             'favicon_32' => 'images/icons/favicon-32x32.png',
             'favicon_16' => 'images/icons/favicon-16x16.png',
         ],
