@@ -39,8 +39,11 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-[93.2vh] w-full bg-background_contrast">
-            <nav class="bg-background_nav border-b border border-border">
+        <div
+            class="w-full bg-background_contrast"
+            style="min-height: calc(100vh - 45px)"
+        >
+            <nav class="bg-background_nav border-b border-border relative">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
