@@ -1,25 +1,32 @@
 <script setup>
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { defineAsyncComponent, ref, onMounted } from "vue";
 import PageHeader from "@/Components/_Default/PageHeader.vue";
 import ProcessingMessage from "@/Components/UI/ProcessingMessage.vue";
-import { start, stop } from "./speechRecognition";
-import RecordBtn from "./recordBtn.vue";
 
-import { onMounted } from "vue";
+import { start, stop } from "./speechRecognition.js";
+const RecordBtn = defineAsyncComponent(() =>
+    import("./recordBtn.vue").then((module) => module.default)
+);
+const CreditsTile = defineAsyncComponent(() =>
+    import("./creditsTile.vue").then((module) => module.default)
+);
 
 const props = defineProps({
     credits: Number,
     prompt: Object,
 });
 
-let isChrome = ref(false);
 let firstTime = ref(false);
 let loading = ref(false);
 let transcriptionError = ref(false);
+let noMedia = ref(false);
+const transcriptionErrorMessage = ref(
+    "Error al transcribir el audio. Por favor, intenta nuevamente."
+);
 const form = useForm({
-    additioNalPrompt: props.prompt?.prompt ?? "",
+    additionalPrompt: props.prompt?.prompt ?? "",
     prompt: "",
 });
 
@@ -45,43 +52,36 @@ const togglePrompt = () => {
     isPromptExpanded.value = !isPromptExpanded.value;
 };
 
+const resetTranscriptionError = () => {
+    loading.value = false;
+    transcriptionError.value = true;
+    setTimeout(() => {
+        transcriptionError.value = false;
+    }, 3000);
+};
+
 const startRecording = async () => {
     try {
         // Check if browser supports required media APIs
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            transcriptionErrorMessage.value =
+                "Error: No se puede acceder al micrófono. Asegúrate de que el navegador tenga permisos para usarlo.";
             throw new Error("Browser doesn't support media recording");
         }
-        // Check if microphone permission is granted
-        const microPermission = await navigator.permissions.query({name: 'microphone'}).then(permissionStatus => {
-            if (permissionStatus.state === 'denied') {
-                return false;
-            } else {
-                return true;
-            }
-        });
-        if (!microPermission) {
-            throw new Error("Microphone permission denied");
-        }
 
-        const response = await start();
-        if (response) {
-            form.prompt = response;
+        const { transcription } = await start();
+
+        if (transcription) {
+            form.prompt = transcription;
             loading.value = false;
         } else {
-            loading.value = false;
             form.prompt = "";
-            transcriptionError.value = true;
-            setTimeout(() => {
-                transcriptionError.value = false;
-            }, 3000);
+            resetTranscriptionError();
         }
     } catch (error) {
         console.error("Recording error:", error);
-        loading.value = false;
-        transcriptionError.value = true;
-        setTimeout(() => {
-            transcriptionError.value = false;
-        }, 3000);
+        transcriptionErrorMessage.value = error.message;
+        return resetTranscriptionError();
     }
 };
 
@@ -103,35 +103,25 @@ onMounted(() => {
         firstTime.value = true;
         localStorage.setItem("voicePromptNoticeShown", "true");
     }
-    if (navigator.userAgent.includes("Chrome")) {
-        isChrome.value = true;
-    } else {
-        isChrome.value = false;
-    }
-    console.log("isChrome", isChrome.value);
-});
 
-const setMicrophonePermission = async (event) => {
-    const permission = event === true;
-    if (permission) {
-        try {
-            const status = await navigator.permissions.query({ name: "microphone" });
-            if (status.state === "granted") {
-                await navigator.mediaDevices.getUserMedia({ audio: true });
-                console.log("Microphone permission granted");
-            } else if (status.state === "prompt") {
-                console.log("Microphone permission needs to be granted by the user");
-            } else {
-                console.log("Microphone permission denied");
+    //Comprobar si el navegador tiene permisos para usar el micrófono
+    navigator.permissions
+        .query({ name: "microphone" })
+        .then((permissionStatus) => {
+            if (permissionStatus.state === "denied") {
+                transcriptionError.value = true;
+                transcriptionErrorMessage.value =
+                    "Error: Permiso del micro denegado.";
+                noMedia.value = true;
             }
-        } catch (error) {
-            console.error("Error checking microphone permission:", error);
-        }
-    } else {
-        console.log("Microphone permission denied");
-    }
-};
-
+        })
+        .catch(() => {
+            transcriptionError.value = true;
+            transcriptionErrorMessage.value =
+                "Error: No se pudo comprobar el permiso.";
+            noMedia.value = true;
+        });
+});
 </script>
 
 <template>
@@ -142,41 +132,7 @@ const setMicrophonePermission = async (event) => {
         </template>
 
         <div class="max-w-7xl mx-auto py-3 px-2 sm:px-3 lg:px-4">
-            <div
-                class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg p-2 mb-3 shadow-md inline-flex items-center"
-            >
-                <div class="p-1 bg-white bg-opacity-30 rounded-full mr-2">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 text-white"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                    </svg>
-                </div>
-                <div>
-                    <p
-                        class="text-xs text-white font-medium border-b border-gray-300 dark:border-gray-600 pb-1"
-                    >
-                        Créditos:
-                        <span class="text-sm font-bold">{{
-                            props.credits ?? 0
-                        }}</span>
-                    </p>
-                </div>
-            </div>
-            <!-- Mensaje de error si no hay créditos -->
-            <small v-if="props.credits == 0" class="text-red-600">
-                No tienes creditos dirigete a la pantalla de
-                <a href="user/profile"><u>Perfil</u></a></small
-            >
+            <CreditsTile :credits="props.credits" />
 
             <!-- Sección de prompt adicional (desplegable) -->
             <div
@@ -211,7 +167,7 @@ const setMicrophonePermission = async (event) => {
                 >
                     <div>
                         <textarea
-                            v-model="form.additioNalPrompt"
+                            v-model="form.additionalPrompt"
                             rows="3"
                             class="w-full px-2 py-1 text-gray-700 border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none"
                             placeholder="Introduce detalles adicionales sobre tu actividad para dar mayor contexto a la IA y asi mejorar la calidad de la respuesta."
@@ -266,18 +222,17 @@ const setMicrophonePermission = async (event) => {
                         <div
                             class="text-right inline-flex items-end justify-between gap-2"
                         >
-                             <div class="w-3/6 flex">
+                            <div class="w-3/6 flex">
                                 <RecordBtn
+                                    :disabled="noMedia"
                                     @startRecording="startRecording"
                                     @stop="stopRecording"
-                                    @touchstart="setMicrophonePermission(true)"
-                               
                                 />
                                 <span
                                     v-if="transcriptionError"
-                                    class="text-xs text-red-600 flex items-end"
+                                    class="text-xs text-red-600 flex items-end text-wrap"
                                 >
-                                    {{ "Error in transcription" }}
+                                    {{ transcriptionErrorMessage }}
                                 </span>
                             </div>
 
@@ -286,7 +241,7 @@ const setMicrophonePermission = async (event) => {
                                 :disabled="
                                     form.prompt === '' ||
                                     props.credits <= 0 ||
-                                    form.additioNalPrompt === ''
+                                    form.additionalPrompt === ''
                                 "
                                 class="inline-flex items-center px-3 py-1 bg-green-600 border border-transparent rounded-md text-sm text-white hover:bg-green-700 active:bg-green-800 focus:outline-none focus:ring-1 focus:ring-green-500 transition-colors duration-200 ease-in-out disabled:opacity-50"
                             >
@@ -309,9 +264,6 @@ const setMicrophonePermission = async (event) => {
                 </div>
             </div>
         </div>
-
-
-
 
         <div
             v-if="firstTime === true"

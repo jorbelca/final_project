@@ -1,4 +1,4 @@
-var staticCacheName = "Budget_app";
+var staticCacheName = "Budget App";
 var filesToCache = [
     "/images/icons/72.png",
     "/images/icons/96.png",
