@@ -23,7 +23,8 @@ export const adaptarTexto = (texto) => {
             return texto.split(" ").slice(0, 1).join(" ");
         }
         if (texto.split(" ").slice(0, 1).join(" ") === "Subir") {
-            return texto.split(" ").slice(0, 1).join(" ");
+            const secondWord = texto.split(" ").slice(1, 2).join(" ");
+            return secondWord.charAt(0).toUpperCase() + secondWord.slice(1);
         }
         return texto.split(" ").slice(0, 1) + "r";
     } else {

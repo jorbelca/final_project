@@ -4,6 +4,8 @@ const isForm =
     window.location.pathname.includes("create") ||
     window.location.pathname.includes("edit");
 
+const isParse = window.location.pathname.includes("parse");
+
 const props = defineProps({
     title: String,
     links: Array,
@@ -16,10 +18,12 @@ const computedLinks = computed(() => {
 </script>
 
 <template #header>
-    <div :class="[
-      'items-center w-full',
-      computedLinks.length > 0 ? 'grid grid-cols-3' : 'flex'
-    ]">
+    <div
+        :class="[
+            'items-center w-full',
+            computedLinks.length > 0 ? 'grid grid-cols-3' : 'flex',
+        ]"
+    >
         <!-- Enlaces a la izquierda -->
         <div class="flex flex-col text-xs sm:text-sm">
             <h2
@@ -28,7 +32,7 @@ const computedLinks = computed(() => {
                 class="font-semibold hover:underline text-primary pt-1"
             >
                 <a
-                    v-if="isForm"
+                    v-if="isForm || isParse"
                     class="text-yellow-500"
                     :href="route(link.route)"
                     >{{ link.text }}</a
@@ -36,8 +40,9 @@ const computedLinks = computed(() => {
                 <a
                     v-if="
                         !isForm &&
-                        !link.text.includes('archivo') &&
-                        !link.text.includes('Subir')
+                        !link.text.includes('Archivo') &&
+                        !link.text.includes('Subir') &&
+                        !isParse
                     "
                     class="text-green-500"
                     :href="route(link.route)"
@@ -45,13 +50,13 @@ const computedLinks = computed(() => {
                 >
                 <a
                     v-if="
-                        link.text.includes('archivo') ||
+                        link.text.includes('Archivo') ||
                         link.text.includes('Subir')
                     "
                     class="text-blue-500"
                     :href="route(link.route)"
-                    >Archivo
-                </a>
+                    >{{ link.text }}</a
+                >
             </h2>
         </div>
         <!-- Título central -->
