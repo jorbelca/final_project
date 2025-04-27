@@ -3,7 +3,6 @@ export const periodicity = {
     unit: "por servicio / producto",
     minute: "por minuto",
     hourly: "por hora",
-    daily: "al día",
     monthly: "al mes",
     yearly: "al año",
     daily: "diarios",
@@ -58,7 +57,7 @@ const submitForm = () => {
 </script>
 
 <template>
-    <main class="pb-10 container mx-auto">
+    <main class="pb-10 container mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         <ProcessingMessage :loading="loading" />
         <form
             class="flex flex-col gap-4 p-5 form-wrapper shadow-xl rounded-xl w-full"
@@ -94,7 +93,7 @@ const submitForm = () => {
                         v-model="formDataCosts.periodicity"
                         class="text-text dark:bg-hover border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     >
-                        ">
+
                         <option
                             v-for="(item, index) in Object.keys(periodicity)"
                             :key="index"

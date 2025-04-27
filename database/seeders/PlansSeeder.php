@@ -35,7 +35,7 @@ class PlansSeeder extends Seeder
                     'Funcionalidades avanzadas',
                     'Hasta 10 presupuestos mensuales con IA',
                     'Mejora de imagen profesional',
-                    'Credits' => 10,
+                    'Credits' => 40,
                     'Soporte prioritario' => false
                 ]),
                 'created_at' => Carbon::now(),

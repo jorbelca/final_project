@@ -121,7 +121,7 @@ const submit = () => {
 
                 <div class="my-4 flex items-center gap-4">
                     <hr class="w-full border-gray-300" />
-                    <p class="text-sm text-gray-800 text-center">or</p>
+                    <p class="text-sm text-gray-800 text-center">o</p>
                     <hr class="w-full border-gray-300" />
                 </div>
 

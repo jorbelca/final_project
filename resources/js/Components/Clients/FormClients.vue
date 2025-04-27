@@ -105,7 +105,7 @@ const vinculateClient = () => {
 </script>
 
 <template>
-    <main class="pb-10 container mx-auto">
+    <main class="pb-10 container mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
         <ProcessingMessage :loading="loading" />
         <form
             class="flex flex-col gap-4 p-7 form-wrapper shadow-xl rounded-xl w-full"
@@ -153,7 +153,7 @@ const vinculateClient = () => {
                                 type="file"
                                 @change="onFileChange"
                                 :disabled="loading"
-                                class="text-text bg-transparent focus:border-indigo-500 focus:ring-indigo-500"
+                                class="text-text bg-transparent focus:border-indigo-500 focus:ring-indigo-500 max-w-xs "
                                 placeholder="Client Logo"
                             />
                         </div>

@@ -266,8 +266,8 @@ onMounted(() => {
         </div>
 
         <div
-            v-if="firstTime === true"
-            class="mx-5 my-4 p-3 bg-yellow-50 dark:bg-gray-600 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-md shadow-sm"
+            v-if="firstTime"
+            class="fixed bottom-10 left-1/2 transform -translate-x-1/2 p-3 max-w-3xl w-11/12 bg-yellow-50/90 dark:bg-gray-600/90 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-md shadow-sm z-10"
         >
             <div class="flex items-start">
                 <div class="flex-shrink-0">

@@ -1,23 +1,3 @@
-# TODO
-    ESTILOS
-
--   Mejorar logo / Buscar nuevo logo
--   Responsive design nav
-
---- AMPLIACIONES
-
--   i18n, idiomes
--   Pasarela de Pago
-
--   Estadisticas usuario
-
-    -   Budgets por estado
-    -   Agrupar por cliente
-    -   Graficos
-
--   Iframe para PDF
-    -   Mini Captura para a poder enviar por app de mensageria
-
 # Budget App
 
 Este proyecto es una aplicación web desarrollada con el framework Laravel que permite la gestión de presupuestos. Los usuarios pueden introducir detalles de sus costes, y la aplicación genera un presupuesto formateado listo para enviar al cliente.
@@ -45,7 +25,8 @@ Este proyecto es una aplicación web desarrollada con el framework Laravel que p
 
 -   PHP >= 7.3
 -   Composer
--   MySQL o cualquier otro sistema de gestión de bases de datos compatible
+-   Cualquier sistema de gestión de bases de datos compatible con Eloquent
+-   npm
 
 ## Instalación
 
@@ -81,13 +62,20 @@ Este proyecto es una aplicación web desarrollada con el framework Laravel que p
 
 6. Configura la conexión a la base de datos en el archivo `.env`.
 
-7. Ejecuta las migraciones para crear las tablas de la base de datos:
+7. Instalar dependencias
+
+    ``` bash
+    composer install
+    npm install
+    ```
+
+8. Ejecuta las migraciones para crear las tablas de la base de datos:
 
     ```bash
     php artisan migrate
     ```
 
-8. Imprescindible: Puebla la base de datos con datos de prueba, se crean los planes, si no, no se podrán crear las suscripciones:
+9. Imprescindible: Poblar la base de datos con datos de prueba, se crean los planes, si no, no se podrán crear las suscripciones ni logearse:
     ```bash
     php artisan db:seed
     ```
@@ -130,3 +118,19 @@ Si quieres contribuir a este proyecto, por favor, sigue los siguientes pasos:
 ## Licencia
 
 Este proyecto está licenciado bajo la [MIT License](LICENSE).
+
+# TODO'S
+
+--- AMPLIACIONES
+
+-   i18n, idiomes
+-   Pasarela de Pago
+
+-   Estadisticas usuario
+
+    -   Budgets por estado
+    -   Agrupar por cliente
+    -   Graficos
+
+-   Iframe para PDF
+    -   Mini Captura para a poder enviar por app de mensageria
