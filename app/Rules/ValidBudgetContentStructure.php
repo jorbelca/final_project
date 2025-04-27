@@ -10,7 +10,7 @@ class ValidBudgetContentStructure implements Rule
     {
 
 
-        //  dd($value);
+    
         if (!is_array($value)) {
             return false;
         }

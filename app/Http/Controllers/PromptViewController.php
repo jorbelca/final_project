@@ -66,7 +66,9 @@ class PromptViewController extends Controller
 
             $additioNalPrompt = $request->input('additioNalPrompt');
 
+
             $prompt = Prompt::where('user_id', $user->id)->first();
+
             if (!$prompt && $additioNalPrompt) {
                 $prompt = Prompt::create([
                     'user_id' => Auth::id(),
@@ -93,7 +95,6 @@ class PromptViewController extends Controller
                 ]);
             }
         } catch (\Throwable $th) {
-            dd($th);
             throw new \Exception("Error generating the prompt", 0, $th);
             return PromptViewController::notify("Error generating the prompt", false);
         }

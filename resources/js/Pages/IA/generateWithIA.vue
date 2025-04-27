@@ -26,7 +26,7 @@ const transcriptionErrorMessage = ref(
     "Error al transcribir el audio. Por favor, intenta nuevamente."
 );
 const form = useForm({
-    additionalPrompt: props.prompt?.prompt ?? "",
+    additioNalPrompt: props.prompt?.prompt ?? "",
     prompt: "",
 });
 
@@ -122,6 +122,8 @@ onMounted(() => {
             noMedia.value = true;
         });
 });
+
+
 </script>
 
 <template>
@@ -167,8 +169,8 @@ onMounted(() => {
                 >
                     <div>
                         <textarea
-                            v-model="form.additionalPrompt"
-                            rows="3"
+                            v-model="form.additioNalPrompt"
+                            rows="7"
                             class="w-full px-2 py-1 text-gray-700 border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white resize-none"
                             placeholder="Introduce detalles adicionales sobre tu actividad para dar mayor contexto a la IA y asi mejorar la calidad de la respuesta."
                         ></textarea>
@@ -241,7 +243,7 @@ onMounted(() => {
                                 :disabled="
                                     form.prompt === '' ||
                                     props.credits <= 0 ||
-                                    form.additionalPrompt === ''
+                                    form.additioNalPrompt === ''
                                 "
                                 class="inline-flex items-center px-3 py-1 bg-green-600 border border-transparent rounded-md text-sm text-white hover:bg-green-700 active:bg-green-800 focus:outline-none focus:ring-1 focus:ring-green-500 transition-colors duration-200 ease-in-out disabled:opacity-50"
                             >
