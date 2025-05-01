@@ -209,7 +209,12 @@ onBeforeUnmount(() => {
             >
                 <thead>
                     <tr class="text-xs">
-                        <th class="table-header">Contenido</th>
+                        <th class="table-header">
+                            Contenido
+                            <div class="text-xs font-normal mt-1 text-gray-500">
+                                <small>Cantidad | Item | Precio  &nbsp;= Subtotal</small>
+                            </div>
+                        </th>
                         <th class="table-header">Estado</th>
                         <th class="table-header">Impuestos</th>
                         <th class="table-header">Descuento</th>

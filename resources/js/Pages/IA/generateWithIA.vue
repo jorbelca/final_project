@@ -122,8 +122,6 @@ onMounted(() => {
             noMedia.value = true;
         });
 });
-
-
 </script>
 
 <template>
@@ -147,7 +145,7 @@ onMounted(() => {
                     <h3
                         class="text-base font-bold text-gray-900 dark:text-white flex items-center"
                     >
-                        Prompt Adicional
+                        Contexto
                     </h3>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
