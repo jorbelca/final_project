@@ -95,7 +95,9 @@ RUN curl -sS https://getcomposer.org/installer | php \
 # Composer install y Laravel setup
 RUN composer install --no-dev --optimize-autoloader && \
     php artisan key:generate && \
-    php artisan route:cache && php artisan view:cache && \
+    php artisan route:cache && \
+    mkdir -p /var/www/resources/views/vendor/laravelpwa && \
+    php artisan view:cache && \
     php artisan storage:link
 
 # Configura el archivo de configuración de Apache
