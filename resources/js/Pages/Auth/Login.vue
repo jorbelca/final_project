@@ -34,8 +34,8 @@ const submit = () => {
 <template>
     <Head title="Log in" />
 
-    <div class="font-[sans-serif] bg-gray-50 min-h-screen">
-        <div class="flex justify-end pt-4 pe-4">
+    <div class="font-[sans-serif] bg-gray-50 min-h-screen relative">
+        <div class="absolute top-4 right-4 z-10">
             <DarkModeBtn />
         </div>
         <div
