@@ -23,7 +23,7 @@ defineProps({
             <div class="relative w-full">
                 <!-- Header -->
                 <header
-                    class="fixed top-0 left-0 sm:w-[calc(100%-15px)] w-full flex justify-between items-center py-1 pr-10 pl-4 bg-white/10 dark:bg-gray-900/80 backdrop-blur-md z-50 shadow-md"
+                    class="fixed top-0 left-0 sm:w-[calc(100%-15px)] w-full flex justify-between items-center py-1 sm:py-2 md:py-3 px-3 sm:px-5 md:px-8 bg-white/10 dark:bg-gray-900/80 backdrop-blur-md z-50 shadow-md"
                 >
                     <Logo />
                     <nav v-if="canLogin" class="flex gap-4 items-center">
@@ -34,6 +34,7 @@ defineProps({
                         >
                             App
                         </Link>
+
                         <template v-else>
                             <Link
                                 :href="route('login')"
@@ -47,9 +48,8 @@ defineProps({
                                 class="text-sm sm:text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
                             >
                                 Registro
-                            </Link>
-                            <DarkModeBtn />
-                        </template>
+                            </Link> </template
+                        ><DarkModeBtn />
                     </nav>
                 </header>
 
@@ -68,7 +68,7 @@ defineProps({
                             class="z-10 w-full max-w-6xl px-4 sm:px-6 py-6 sm:py-10 text-center"
                         >
                             <h2
-                                class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-5 tracking-tight "
+                                class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-5 tracking-tight"
                             >
                                 Simplifica tus presupuestos
                             </h2>
