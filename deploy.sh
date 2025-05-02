@@ -29,6 +29,7 @@ rsync -avz --delete --exclude='.git/' \
   --exclude='.env.travis' \
   --exclude='.env.example' \
   --exclude='mkt_images.html' \
+  --exclude='README.md' \
   -e "ssh -p ${SSH_PORT}" \
   ./ ${DEPLOY_SERVER}:${DEPLOY_PATH}
 
