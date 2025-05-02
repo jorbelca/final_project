@@ -91,7 +91,7 @@ class BudgetController extends Controller
     static public function destroy(Budget $budget)
     {
         try {
-            dd($budget->client->budgets->count());
+
             // Si es el ultimo presupuesto del cliente, eliminar el cliente
             if ($budget->client && $budget->client->budgets->count() === 1) {
                 Client::removeClient($budget->client);
