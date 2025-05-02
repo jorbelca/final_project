@@ -91,17 +91,18 @@ class BudgetController extends Controller
     static public function destroy(Budget $budget)
     {
         try {
+            dd($budget->client->budgets->count());
             // Si es el ultimo presupuesto del cliente, eliminar el cliente
-
-            if ($budget->client->budgets->count() === 1) {
+            if ($budget->client && $budget->client->budgets->count() === 1) {
                 Client::removeClient($budget->client);
             }
+
             $budget->delete();
 
 
             return response()->json(['message' => 'Deleted'], 200);
         } catch (\Throwable $th) {
-
+            throw new Exception("Error deleting the budget", 0, $th);
             return response()->json(['error' => 'An error occurred'], 500);
         }
     }

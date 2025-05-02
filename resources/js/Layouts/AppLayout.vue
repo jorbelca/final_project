@@ -375,7 +375,7 @@ const logout = () => {
                                     </template>
                                 </Dropdown>
                             </div>
-                            <span class="hidden md:block">
+                            <span class="hidden md:block z-40">
                                 <DarkModeBtn />
                             </span>
                         </div>
