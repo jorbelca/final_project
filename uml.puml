@@ -19,6 +19,8 @@ class User {
   # default_taxes: int
   # active: int
   # remember_token: string
+  # two_factor_recovery_codes: string
+  # two_factor_secret: string
   # created_at: timestamp
   # updated_at: timestamp
   --
@@ -26,19 +28,35 @@ class User {
   + budgets(): hasMany
   + costs(): hasMany
   + subscription(): hasOne
-  + aiPrompts(): hasMany
+  + incidencies(): hasMany
+  + prompt(): hasOne
+  + getProfilePhotoPathAttribute(): string
+  + deleteProfilePhoto(): void
+  + hasCredits: boolean
+  + isActive(): boolean
   --
-  + isAdmin(): boolean
+  + index(): View
+  + store(Request): void
+  + show(User): User
+  + showUserBudgets(string): Budget
+  + showUserClient(string): Client
+  + update(Request, User): void
+  + delete(User): void
   + register(Request): RedirectResponse
   + login(Request): RedirectResponse
   + logout(): RedirectResponse
   + updateProfile(Request): RedirectResponse
+  + changeState(User):void
+  + admin(User)
 }
 
 class Subscription {
   # id: int
   # user_id: int
   # plan_id: int
+  # payment_number int
+  # active boolean
+  # renovations int
   # starts_at: date
   # ends_at: date
   # status: int
@@ -49,36 +67,23 @@ class Subscription {
   + user(): belongsTo
   + plan(): belongsTo
   --
-  + getCreditsLeft(): int
-  + hasSufficientCredits(): boolean
-  + useCredit(): void
-  + isActive(): boolean
-  + daysLeft(): int
-  + renew(): void
-  + cancel(): void
-  + index(): View
-  + choosePlan(): View
-  + subscribe(Plan): RedirectResponse
-  + manageBilling(): View
-  + cancelSubscription(): RedirectResponse
+  + index(): Subscription
+  + getUserSubscription(User): Subscription
+  + create(User): void
+  + update($Request, $Subscription): void
+  + notify(String, String, Boolean): RedirectResponse
 }
 
 class Plan {
   # id: int
   # name: string
-  # description: text
   # price: decimal
+  # duration_in_days: int
   # features: json
-  # ai_credits: int
   # created_at: date
   # updated_at: date
   --
-  + subscriptions(): hasMany
-  --
-  + getAllPlans(): Collection
-  + createPlan(Request): Plan
-  + updatePlan(Request): boolean
-  + deletePlan(int): boolean
+  + index(): Plan
 }
 
 class Budget {
@@ -89,18 +94,14 @@ class Budget {
   # state: string
   # discount: decimal
   # taxes: decimal
-  # is_ai_generated: boolean
+  # notes: text
   # created_at: timestamp
   # updated_at: timestamp
   --
   + user(): belongsTo
   + client(): belongsTo
   --
-  + calculateTotal(): decimal
-  + calculateSubtotal(): decimal
-  + calculateTaxAmount(): decimal
-  + calculateDiscountAmount(): decimal
-  + toPDF(): Response
+ 
   + index(): View
   + create(): View
   + store(Request): RedirectResponse
@@ -108,31 +109,40 @@ class Budget {
   + edit(int): View
   + update(int, Request): RedirectResponse
   + destroy(int): RedirectResponse
-  + duplicate(int): RedirectResponse
-  + changeState(int, string): RedirectResponse
+  + clone(int): RedirectResponse
+  + generatePdf(int): Response
+  + normalizeBudgetContent(Text, int): Text
+  + formatMoney(int): int
+  + notify(String, String, Boolean): RedirectResponse
 }
 
 class Client {
   # id: int
-  # user_id: int
   # name: string
   # email: string
   # company_name: string
-  # image_url : string
-  # deleted :boolean
+  # image_url: string
+  # deleted: boolean
+  # created_by: User
   # created_at: date
   # updated_at: date
   --
   + user(): belongsTo
   + budgets(): hasMany
+  + reassignCreator(Client): void
+  + removeClient(Client): void
   --
   + index(): View
   + create(): View
   + store(Request): RedirectResponse
   + show(int): View
-  + edit(int): View
+  + showClientBudgets(String): Budget
+  + edit(Client): View
   + update(int, Request): RedirectResponse
   + destroy(int): RedirectResponse
+  + exists(Request): boolean
+  + vinculate(Request): void
+  + notify(String, String, Boolean): RedirectResponse
 }
 
 class Cost {
@@ -140,6 +150,7 @@ class Cost {
   # user_id: int
   # description: string
   # cost: decimal
+  # unit: string
   # periodicity : array
   # created_at: timestamp
   # updated_at: timestamp
@@ -152,27 +163,37 @@ class Cost {
   + edit(int): View
   + update(int, Request): RedirectResponse
   + destroy(int): RedirectResponse
-  + storeMultiple(): RedirectResponse
+  + storeMultiple(Request): RedirectResponse
+  + parse(): RedirectResponse
+  + getUserCostsString(User): Cost
+  + notify(String, String, Boolean): RedirectResponse
 }
 
 
-class AdditionalPrompt {
+class Prompt {
   # id: int
   # user_id: int
   # prompt: text
+  # created_at: timestamp
+  # updated_at: timestamp
   --
   + user(): belongsTo
   --
   + index(): View
   + show(int): View
+  + store(Request): View
+  + update(Request, Prompt): View
+  + generateWithIA(String, String, User, String)
+  + notify(String, String, Boolean): RedirectResponse
 }
 
-class SupportTicket {
+class Support {
   # id: int
-  # qustioner_id: int
+  # questioner_id: int
   # answerer_id: int
   # question: string
   # answer: string
+  # response_date: timestamp
   # created_at: timestamp
   # updated_at: timestamp
   --
@@ -181,10 +202,10 @@ class SupportTicket {
 
   --
   + index(): View
-  + create(): View
+  + update(Request, Support): View
   + store(Request): RedirectResponse
-  + show(int): View
-  + update(int, Request): RedirectResponse
+  + destroy(int): RedirectResponse
+  + notify(String, String, Boolean): RedirectResponse
 }
 
 ' Relaciones
@@ -193,10 +214,11 @@ Subscription "1" -- "1" Plan : subscribes to >
 User "1" -- "many" Budget : creates >
 User "1" -- "many" Client : has >
 User "1" -- "many" Cost : has >
-User "1" -- "1" AdditionalPrompt : has >
-User "1" -- "many" SupportTicket : creates >
-User "1" -- "many" SupportTicket : answers >
+User "1" -- "1" Prompt : has >
+User "1" -- "many" Support : creates >
+User "1" -- "many" Support : answers >
 Budget "many" -- "0..1" Client : belongs to >
-AdditionalPrompt "0..1" -- "0..1" Budget : generates >
+Prompt "1" -- "many" Budget : provides context for >
+
 
 @enduml
