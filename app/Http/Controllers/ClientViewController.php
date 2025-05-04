@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Services\CloudinaryService;
 use App\Services\Notify;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -41,7 +40,7 @@ class ClientViewController extends Controller
     public function create()
     {
         if (!Gate::allows('view', new Client())) {
-            return Notify::notify("clients.index", "Inactive User", false);
+            return Notify::notify("clients.index", "Usuario inactivo", false);
         }
         return Inertia::render('Clients/CreateClients');
     }
@@ -54,21 +53,21 @@ class ClientViewController extends Controller
             $email = $request->email;
             $client = Client::where('email', $email)->first();
             if (!$client) {
-                return Notify::notify("clients.create", "Client not found", false);
+                return Notify::notify("clients.create", "Cliente no encontrado", false);
             }
             $user = Auth::user();
             if (!$user) {
-                return Notify::notify("clients.create", "Inactive User", false);
+                return Notify::notify("clients.create", "Usuario Inactivo", false);
             }
             $user->clients()->attach($client->id);
             if ($client->deleted === '1') {
                 $client->deleted = 0;
                 $client->save();
             }
-            return Notify::notify("clients.index", "Client vinculated succesfully");
+            return Notify::notify("clients.index", "Cliente vinculado correctamente");
         } catch (\Throwable $th) {
-            throw new \Exception("Error vinculating the client", 0, $th);
-            return Notify::notify("clients.create", "Error vinculating the client", false);
+            Notify::notify("clients.create", "Error vinculando el cliente", false);
+            throw new \Exception("Error vinculando el cliente", 0, $th);
         }
     }
 
@@ -79,14 +78,14 @@ class ClientViewController extends Controller
     {
 
         if (!Gate::allows('create', Client::class)) {
-            return Notify::notify("clients.index", "Inactive User", false);
+            return Notify::notify("clients.index", "Usuario Inactivo", false);
         }
         try {
             // Obtener el usuario autenticado
             /** @var User $user */
             $user = Auth::user();
             if (!$user) {
-                return redirect()->back()->with('error', 'No authenticated user found.');
+                return redirect()->back()->with('error', 'Usuario no encontrado');
             }
             $request->merge(['user_id' => $user->id]);
             $request->merge(['created_by' => $user->id]);
@@ -120,10 +119,10 @@ class ClientViewController extends Controller
             $user->clients()->attach($newClient->id);
 
 
-            return Notify::notify("clients.index", "Client created succesfully");
+            return Notify::notify("clients.index", "Cliente creado correctamente");
         } catch (\Throwable $th) {
+            Notify::notify("clients.create", "Error guardando el cliente", false);
             throw new \Exception("Error saving the client", 0, $th);
-            return Notify::notify("clients.create", "Error saving the client", false);
         }
     }
 
@@ -134,7 +133,7 @@ class ClientViewController extends Controller
     public function edit(Client $client)
     {
         if (!Gate::allows('update', $client)) {
-            return Notify::notify("clients.index", "Inactive User", false);
+            return Notify::notify("clients.index", "Usuario Inactivo", false);
         }
         return Inertia::render('Clients/EditClient', [
             'client' => $client,
@@ -149,7 +148,7 @@ class ClientViewController extends Controller
         $client = Client::findOrFail($request->id);
 
         if (!Gate::allows('update', $client)) {
-            return Notify::notify("clients.index", "Inactive User", false);
+            return Notify::notify("clients.index", "Usuario inactivo", false);
         }
         try {
             $imageValidationRule = 'nullable|url';  // Validamos como URL si ya tiene una URL en la request
@@ -177,10 +176,11 @@ class ClientViewController extends Controller
             // Actualizar el cliente
             $client->update($validated);
 
-            return Notify::notify("clients.index", "Client updated succesfully");
+            return Notify::notify("clients.index", "Cliente actualizado correctamente");
         } catch (\Throwable $th) {
+
+            Notify::notify("clients.index", "Error actualizando el cliente", false);
             throw new \Exception("Error updating the client", 0, $th);
-            return Notify::notify("clients.index", "Error updating the client", false);
         }
     }
 
@@ -191,7 +191,7 @@ class ClientViewController extends Controller
     {
         $user = Auth::user();
         if (!Gate::allows('delete', $client)) {
-            return Notify::notify("clients.index", "You are not allowed to do that", false);
+            return Notify::notify("clients.index", "No estas autorizado", false);
         }
         try {
             // Si el usuario autenticado es el creador del cliente, reasignar el creador o eliminar el cliente
@@ -200,10 +200,10 @@ class ClientViewController extends Controller
             }
             // Desvincular el cliente del usuario
             $user->clients()->detach($client->id);
-            return Notify::notify("clients.index", "Client deleted");
+            return Notify::notify("clients.index", "Cliente eliminado correctamente");
         } catch (\Throwable $th) {
-            throw new \Exception("Error deleting the client", 0, $th);
-            return Notify::notify("clients.index", "Error deleting the client", false);
+            Notify::notify("clients.index", "Error deleting the client", false);
+            throw new \Exception("Error eliminando el cliente", 0, $th);
         }
     }
 }

@@ -100,10 +100,10 @@ class BudgetController extends Controller
             $budget->delete();
 
 
-            return response()->json(['message' => 'Deleted'], 200);
+            return response()->json(['message' => 'Eliminado'], 200);
         } catch (\Throwable $th) {
+            response()->json(['error' => 'Ha ocurrido un error'], 500);
             throw new Exception("Error deleting the budget", 0, $th);
-            return response()->json(['error' => 'An error occurred'], 500);
         }
     }
 
@@ -257,8 +257,8 @@ class BudgetController extends Controller
                 ->header('Content-Type', 'application/pdf')
                 ->header('Content-Disposition', 'inline; filename="budget_' . $budget->id . '.pdf"');
         } catch (\Throwable $th) {
-            throw new Exception('An error occurred generating the budget' . $th, 500); // Otros errores
-            return response()->json(['error' => 'An error occurred', dd($th)], 500);
+            response()->json(['error' => 'Eror generando el PDF', dd($th)], 500);
+            throw new Exception('An error occurred generating el PDF of the budget' . $th, 500); // Otros errores
         }
     }
 

@@ -5,7 +5,7 @@ describe.only("User Delete", () => {
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
         cy.contains("Contraseña").type(testUser.password);
-        cy.contains("Enter").click();
+        cy.contains("Entrar").click();
     });
     it("can delete a user", () => {
         cy.contains(testUser.name).should("be.visible").click();

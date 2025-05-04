@@ -58,7 +58,7 @@ function deleteTicket(ticketId) {
                 >
                     <textarea
                         v-model="form.question"
-                        class="w-full rounded-lg dark:bg-slate-400 dark:border-slate-200 dark:placeholder:text-white"
+                        class="w-full rounded-lg dark:bg-slate-400 dark:border-slate-200 dark:placeholder:text-white text-text"
                         placeholder="Mensaje"
                     >
                     </textarea>

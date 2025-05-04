@@ -43,7 +43,7 @@ class CostViewController extends Controller
     {
 
         if (!Gate::allows('view', new Cost())) {
-            return CostViewController::notify("index", "Inactive User", false);
+            return CostViewController::notify("index", "Usuario inactivo", false);
         }
         return Inertia::render('Costs/CreateCosts');
     }
@@ -55,13 +55,13 @@ class CostViewController extends Controller
     public function store(Request $request)
     {
         if (!Gate::allows('create', Cost::class)) {
-            return CostViewController::notify("create", "Inactive User", false);
+            return CostViewController::notify("create", "Usuario inactivo", false);
         }
         try {
             $user = Auth::user();
 
             if (!$user) {
-                return back()->with(['error', 'No authenticated user found.']);
+                return back()->with(['error', 'No hay usuario autenticado']);
             }
             $request->merge(['user_id' => Auth::id()]);
             // Validar los datos
@@ -77,10 +77,10 @@ class CostViewController extends Controller
 
             $newCost->save();
 
-            return CostViewController::notify("index", "Cost created");
+            return CostViewController::notify("index", "Coste creado");
         } catch (\Throwable $th) {
+            CostViewController::notify("create", "Error guardando el coste", false);
             throw new \Exception("Error saving the cost", 0, $th);
-            return CostViewController::notify("create", "Error Saving the cost", false);
         }
     }
 
@@ -91,7 +91,7 @@ class CostViewController extends Controller
     public function edit(Cost $cost)
     {
         if (!Gate::allows('update', $cost)) {
-            return CostViewController::notify("index", "Inactive User", false);
+            return CostViewController::notify("index", "Usuario Inactivo", false);
         }
 
         return Inertia::render('Costs/EditCost', [
@@ -116,15 +116,11 @@ class CostViewController extends Controller
 
             $cost->update($validated);
 
-            return redirect()->route('costs.index')->with([
-                'flash' => [
-                    'banner' => 'Cost updated',
-                    'bannerStyle' => 'success',
-                ]
-            ]);
+            return CostViewController::notify("index", "Coste actualizado");
         } catch (\Throwable $th) {
-            throw new \Exception("Error updating the cost", 0, $th);
-            return CostViewController::notify("index", "Error updating the cost", false);
+
+            CostViewController::notify("index", "Error eliminando el coste", false);
+            throw new \Exception("Error actualizando el coste", 0, $th);
         }
     }
 
@@ -135,15 +131,15 @@ class CostViewController extends Controller
 
     {
         if (!Gate::allows('delete', $cost)) {
-            return CostViewController::notify("index", "Inactive User", false);
+            return CostViewController::notify("index", "Usuario Inactivo", false);
         }
 
         try {
             CostController::destroy($cost);
-            CostViewController::notify("index", "Deleted");
+            CostViewController::notify("index", "Eliminado");
         } catch (\Throwable $th) {
-            throw new \Exception("Error deleting the cost", 0, $th);
-            return CostViewController::notify("index", "Error deleting the cost", false);
+            CostViewController::notify("index", "Error eliminando el coste", false);
+            throw new \Exception("Error eliminando el coste", 0, $th);
         }
     }
 
@@ -173,7 +169,7 @@ class CostViewController extends Controller
 
 
         if (!Gate::allows('view', new Cost())) {
-            return CostViewController::notify("index", "Inactive User", false);
+            return CostViewController::notify("index", "Usuario Inactivo", false);
         }
         return Inertia::render('Costs/ParseCost');
     }
@@ -185,19 +181,19 @@ class CostViewController extends Controller
     public function storeMultiple(Request $request)
     {
         if (!Gate::allows('create', Cost::class)) {
-            return CostViewController::notify("create", "Inactive User", false);
+            return CostViewController::notify("create", "Usuario Inactivo", false);
         }
 
         $user = Auth::user();
 
         if (!$user) {
-            return back()->with(['error', 'No authenticated user found.']);
+            return back()->with(['error', 'No hay usuario autenticado']);
         }
 
         $costs = $request->input('costs', []);
 
         if (empty($costs)) {
-            return CostViewController::notify("parse", "No costs uploaded", false);
+            return CostViewController::notify("parse", "No hay costes", false);
         }
 
         // Preparar los datos para validación masiva
@@ -251,12 +247,12 @@ class CostViewController extends Controller
             }
 
             DB::commit();
-            return CostViewController::notify("index", count($allCosts) . " costs has been saved correctly");
+            return CostViewController::notify("index", count($allCosts) . " costes se han guardado correctamente");
         } catch (\Throwable $th) {
             DB::rollBack();
 
             throw new \Exception("Error saving the costs", 0, $th);
-            return CostViewController::notify("parse", "Error saving the costs: " . $th->getMessage(), false);
+            return CostViewController::notify("parse", "Error guardando los costes: " . $th->getMessage(), false);
         }
     }
 }

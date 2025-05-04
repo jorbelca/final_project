@@ -50,7 +50,7 @@ class PromptViewController extends Controller
             $user = Auth::user();
 
             if (!$user->hasCredits()) {
-                return PromptViewController::notify("No Credits, en el apartado Perfil puedes actualizar tu suscripcion ->", false);
+                return PromptViewController::notify("No tienes Creditos, en el apartado Perfil puedes actualizar tu suscripcion ->", false);
             }
 
             $costs = CostController::getUserCostsString($user);
@@ -82,7 +82,7 @@ class PromptViewController extends Controller
 
             $response = $this->generateWithIA($prompt->prompt, $request->input('prompt'), $user, $costs);
             if ($response->status === false) {
-                return PromptViewController::notify("Error generating the prompt", false);
+                return PromptViewController::notify("Error generando el presupuesto", false);
             }
 
             if ($response->status === true) {
@@ -96,7 +96,7 @@ class PromptViewController extends Controller
             }
         } catch (\Throwable $th) {
             throw new \Exception("Error generating the prompt", 0, $th);
-            return PromptViewController::notify("Error generating the prompt", false);
+            return PromptViewController::notify("Error al generar el prompt", false);
         }
     }
 
@@ -129,7 +129,7 @@ class PromptViewController extends Controller
 
         if (!$rawPrompt) {
             throw new Exception("No hay master prompt en la DB");
-            return PromptViewController::notify("Error generating the prompt", false);
+            return PromptViewController::notify("Error al generar el prompt", false);
         }
         $cached_prompt = str_replace(
             ['{{user_prompt}}', '{{costs}}', '{{context}}'],
@@ -140,7 +140,7 @@ class PromptViewController extends Controller
 
         try {
             if (+$user->subscription->credits <= 0) {
-                return PromptViewController::notify("You don't have enough credits", false);
+                return PromptViewController::notify("No tienes suficientes creditos", false);
             }
             $model = ENV('OPENAI_MODEL');
             // Llamar al endpoint de IA
@@ -171,7 +171,7 @@ class PromptViewController extends Controller
                     ];
                 } else {
                     throw new Exception("Error parsing AI response", $response);
-                    return PromptViewController::notify("Error parsing AI response", false);
+                    return PromptViewController::notify("Error en la respuesta de la IA", false);
                 }
             }
 
@@ -225,7 +225,7 @@ class PromptViewController extends Controller
             ];
         } catch (\Throwable $th) {
             throw new \Exception("Error generating the prompt", 0, $th);
-            return PromptViewController::notify("Error generating the prompt", false);
+            return PromptViewController::notify("Error generando el prompt", false);
         }
     }
 

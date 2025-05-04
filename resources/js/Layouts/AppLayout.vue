@@ -306,7 +306,7 @@ const logout = () => {
                                         >
                                             <button
                                                 type="button"
-                                                class="inline-flex text-text items-center px-3 py-2 border border-transparent text-sm leading-4 font-bold rounded-md hover:border focus:outline-none focus:bg-gray-100 active:bg-gray-100 dark:bg-gray-700 dark:active:bg-gray-600 dark:focus:bg-gray-600 transition ease-in-out duration-150"
+                                                class="inline-flex text-text items-center px-3 py-2 border border-transparent text-sm leading-4 font-bold rounded-md hover:border focus:outline-none focus:bg-gray-100 active:bg-gray-100 dark:bg-gray-800 dark:active:bg-gray-600 dark:focus:bg-gray-600 transition ease-in-out duration-150"
                                             >
                                                 {{
                                                     $page.props.auth.user
@@ -328,14 +328,14 @@ const logout = () => {
                                                     />
                                                 </svg>
                                                 <span
-                                                    class="pr-6 pl-2"
+                                                    class="pr-2 pl-2"
                                                     v-if="
                                                         +$page.props.auth.user
                                                             ?.active === 1
                                                     "
                                                     >🟢
                                                 </span>
-                                                <span class="pr-6 pl-2" v-else
+                                                <span class="pr-2 pl-2" v-else
                                                     >🔴</span
                                                 >
                                             </button>

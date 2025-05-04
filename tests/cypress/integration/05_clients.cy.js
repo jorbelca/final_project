@@ -7,7 +7,7 @@ describe.only("Clients", () => {
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
         cy.contains("Contraseña").type(testUser.password);
-        cy.contains("Enter").click();
+        cy.contains("Entrar").click();
         cy.url().should("include", "/budgets");
 
         // CREATE CLIENTE
@@ -63,7 +63,7 @@ describe.only("Clients", () => {
         cy.get("button").contains("Editar").click();
 
         cy.contains(newClient.name + " Editado").should("exist");
-        cy.contains("Client updated succesfully").should("exist");
+        cy.contains("Cliente actualizado correctamente").should("exist");
     });
     // after(() => {
     //     // DELETE CLIENT

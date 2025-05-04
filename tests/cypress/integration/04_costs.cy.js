@@ -6,7 +6,7 @@ const { newCost, testUser } = require("./data");
 //         cy.visit("/login");
 //         cy.contains("Email").type(email);
 //         cy.contains("Password").type(password);
-//         cy.contains("Enter").click().wait(3000);
+//         cy.contains("Entrar").click().wait(3000);
 //         cy.url().should("include", "/budgets");
 //     });
 // };
@@ -17,7 +17,7 @@ describe.only("Costs", () => {
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
         cy.contains("Contraseña").type(testUser.password);
-        cy.contains("Enter").click();
+        cy.contains("Entrar").click();
         cy.url().should("include", "/budgets");
 
         //CREAR COSTO
@@ -56,5 +56,4 @@ describe.only("Costs", () => {
 
         cy.contains(newCost.description + " Editado").should("exist");
     });
-   
 });

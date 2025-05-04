@@ -50,11 +50,12 @@ class SupportController extends Controller
             $new_incidency = new Support($validated);
             $new_incidency->save();
 
-            return SupportController::notify("index", "Incidency created");
+            return SupportController::notify("index", "Incidencia creada");
         } catch (\Throwable $th) {
             $errorMsg = $th->getMessage();
+
+            SupportController::notify("index", "Error creando la incidencia, $errorMsg", false);
             throw new \Exception("Error creating the incidency", 0, $th);
-            return SupportController::notify("index", "Error creating the incidency, $errorMsg", false);
         }
     }
 
@@ -67,7 +68,7 @@ class SupportController extends Controller
     {
         $user = Auth::user();
         if (!Gate::allows('update', $support)) {
-            return SupportController::notify("index", "You cannot answer this", false);
+            return SupportController::notify("index", "No estas autorizado a responder", false);
         }
 
         try {
@@ -88,14 +89,15 @@ class SupportController extends Controller
 
 
             if (!$support->save()) {
-                return SupportController::notify("index", "Error updating the incidency", false);
+                return SupportController::notify("index", "Error actualizando la incidencia", false);
             }
 
-            return SupportController::notify("index", "Incidency updated");
+            return SupportController::notify("index", "Incidencia actualizada");
         } catch (\Throwable $th) {
             $errorMsg = $th->getMessage();
-            throw new \Exception("Error updating the incidency", 0, $th);
-            return SupportController::notify("index", "Error updating the incidency, $errorMsg", false);
+
+            SupportController::notify("index", "Error actualizando la incidencia, $errorMsg", false);
+            throw new \Exception("Error actualizando la incidencia", 0, $th);
         }
     }
 
@@ -105,15 +107,15 @@ class SupportController extends Controller
     public function destroy(Support $support)
     {
         if (!Gate::allows('delete', $support)) {
-            return SupportController::notify("index", "You cannot delete this question", false);
+            return SupportController::notify("index", "No puedes eliminar esta pregunda", false);
         }
 
         try {
             $support->delete();
             SupportController::notify("index", "Deleted");
         } catch (\Throwable $th) {
+            SupportController::notify("index", "Error eliminando la incidencia", false);
             throw new \Exception("Error deleting the incidency", 0, $th);
-            return SupportController::notify("index", "Error deleting the incidency", false);
         }
     }
 

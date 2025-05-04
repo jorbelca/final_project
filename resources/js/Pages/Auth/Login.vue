@@ -118,7 +118,7 @@ const submit = () => {
                         class="w-full py-2.5 px-5 text-sm tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none"
                         :disabled="form.processing"
                     >
-                        Enter
+                        Entrar
                     </button>
                 </div>
 

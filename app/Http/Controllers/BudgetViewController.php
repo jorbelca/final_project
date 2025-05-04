@@ -46,7 +46,7 @@ class BudgetViewController extends Controller
     public function create()
     {
         if (!Gate::allows('view', new Budget())) {
-            return BudgetViewController::notify("index", "Inactive User", false);
+            return BudgetViewController::notify("index", "Usuario Inactivo", false);
         }
 
 
@@ -64,7 +64,7 @@ class BudgetViewController extends Controller
     public function store(Request $request)
     {
         if (!Gate::allows('create', Budget::class)) {
-            return BudgetViewController::notify("index", "Inactive User", false);
+            return BudgetViewController::notify("index", "Usuario Inactivo", false);
         }
 
 
@@ -73,7 +73,7 @@ class BudgetViewController extends Controller
             /** @var User $user */
             $user = Auth::user();
             if (!$user) {
-                return redirect()->back()->with('error', 'No authenticated user found.');
+                return redirect()->back()->with('error', 'No se pudo obtener el usuario autenticado');
             }
             $request->merge(['user_id' => Auth::id()]);
 
@@ -121,11 +121,11 @@ class BudgetViewController extends Controller
             $budget->save();
 
             if ($budget) {
-                return BudgetViewController::notify("index", "Budget saved");
+                return BudgetViewController::notify("index", "Presupuesto guardado");
             }
         } catch (\Throwable $th) {
-            throw new Exception("Error saving the budget", 0, $th);
-            return BudgetViewController::notify("index", "Error saving the budget", false);
+            BudgetViewController::notify("index", "Error guardando el presupuesto", false);
+            throw new Exception("Error guardando el presupuesto", 0, $th);
         }
     }
 
@@ -137,7 +137,7 @@ class BudgetViewController extends Controller
     public function edit(Budget $budget)
     {
         if (!Gate::allows('delete', $budget)) {
-            return BudgetViewController::notify("index", "Inactive User", false);
+            return BudgetViewController::notify("index", "Usuario Inactivo", false);
         }
 
         return Inertia::render('Budgets/EditBudget', [
@@ -155,7 +155,7 @@ class BudgetViewController extends Controller
     {
         $budget = Budget::findOrFail($id);
         if (!Gate::allows('delete', $budget)) {
-            return BudgetViewController::notify("index", "Inactive User", false);
+            return BudgetViewController::notify("index", "Usuario Inactivo", false);
         }
         return Inertia::render('Budgets/EditBudget', [
             'clone' => true,
@@ -171,7 +171,7 @@ class BudgetViewController extends Controller
     public function update(Request $request, Budget $budget)
     {
         if (!Gate::allows('delete', $budget)) {
-            return BudgetViewController::notify("index", "Inactive User", false);
+            return BudgetViewController::notify("index", "Usuario Inactivo", false);
         }
 
 
@@ -221,11 +221,11 @@ class BudgetViewController extends Controller
             $budget->update($validated);
 
             if ($budget) {
-                return BudgetViewController::notify("index", "Budget updated");
+                return BudgetViewController::notify("index", "Presupuesto actualizado");
             }
         } catch (\Throwable $th) {
-            throw new Exception("Error updating the budget", 0, $th);
-            return BudgetViewController::notify("index", "Error updating the budget", false);
+            BudgetViewController::notify("index", "Error actualizando el presupuesto", false);
+            throw new Exception("Error actualizando el presupuesto", 0, $th);
         }
     }
 
@@ -235,14 +235,14 @@ class BudgetViewController extends Controller
     public function destroy(Budget $budget)
     {
         if (!Gate::allows('delete', $budget)) {
-            return BudgetViewController::notify("index", "Inactive User", false);
+            return BudgetViewController::notify("index", "Usuario inactivo", false);
         }
         try {
             BudgetController::destroy($budget);
-            return BudgetViewController::notify("index", "Budget deleted");
+            return BudgetViewController::notify("index", "Presupuesto eliminado");
         } catch (\Throwable $th) {
+            BudgetViewController::notify("index", "Error eliminando el presupuesto", false);
             throw new Exception("Error deleting the budget", 0, $th);
-            return BudgetViewController::notify("index", "Error deleting the budget", false);
         }
     }
 

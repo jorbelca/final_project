@@ -81,22 +81,25 @@ class SubscriptionController extends Controller
             $user->save();
 
 
+            if($request->input('subscription.payment_number') == null && $request->input('subscription.plan_id') !== 1){
+                return SubscriptionController::notify('', "Nombre / Impuestos actualizados");
+            }
 
             if (
                 $request->input('subscription.id') == $subscription->id &&
                 $request->input('subscription.plan_id') == $subscription->plan_id &&
                 $request->input('subscription.payment_number') == $subscription->payment_number
             ) {
-                return SubscriptionController::notify('', "Updated");
+                return SubscriptionController::notify('', "Actualizado");
             }
             //Comprobar la tarjeta
-            if ($request->input('subscription.payment_number') !== $_ENV['TARJETA']) {
-                return SubscriptionController::notify("", "Wrong Card", false);
+            if ($request->input('subscription.payment_number') !== $_ENV['TARJETA'] && $request->input('subscription.plan_id') !== 1) {
+                return SubscriptionController::notify("", "Tarjeta Erronea", false);
             }
 
             //Comprobar las renovaciones ///DEVELOP
-            if (+$user->subscription->renovations >= 1 && +$request->input('subscription.plan_id') !== 1) {
-                return SubscriptionController::notify("", "Renewal not allowed, we are in develop", false);
+            if (+$user->subscription->renovations >= 2 && +$request->input('subscription.plan_id') !== 1) {
+                return SubscriptionController::notify("", "Solo se puede renovar 1 vez, estamos en desarrollo", false);
             }
 
 
@@ -104,7 +107,7 @@ class SubscriptionController extends Controller
             //Cambiar el plan y los creditos
             $plan = Plan::find($request->input('subscription.plan_id'));
             if (!$plan) {
-                return SubscriptionController::notify("", "Plan not found", false);
+                return SubscriptionController::notify("", "Plan not encontrado", false);
             }
             $features = json_decode($plan->features, true);
 
@@ -133,10 +136,10 @@ class SubscriptionController extends Controller
             $subscription->update($validated['subscription']);
 
 
-            return SubscriptionController::notify('', "Updated");
+            return SubscriptionController::notify('', "Actualizado");
         } catch (\Throwable $th) {
-            throw new \Exception("Error updating the subscription", 0, $th);
-            return SubscriptionController::notify('', "Error updating the subscription", false);
+            throw new \Exception("Error actualizando la subscripcion", 0, $th);
+            return SubscriptionController::notify('', "Error actualizando la subscripcion", false);
         }
     }
 

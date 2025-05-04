@@ -14,7 +14,7 @@ describe.only("User Login", () => {
         cy.contains("Email").type(testUser.email);
         cy.contains("Contraseña").type(testUser.password);
 
-        cy.contains("Enter").then(($btn) => {
+        cy.contains("Entrar").then(($btn) => {
             if ($btn.length > 0) {
                 // Si el botón con el texto "Register" existe, se hace clic
                 cy.wrap($btn).click();

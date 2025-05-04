@@ -7,7 +7,7 @@ describe.only("Budgets", () => {
         cy.visit("/login");
         cy.contains("Email").type(testUser.email);
         cy.contains("Contraseña").type(testUser.password);
-        cy.contains("Enter").click();
+        cy.contains("Entrar").click();
         cy.url().should("include", "/budgets");
 
         // CREATE BUDGET
@@ -73,7 +73,7 @@ describe.only("Budgets", () => {
 
         cy.contains("button", "Crear").click();
         //notification
-        cy.contains("Budget saved").should("exist");
+        cy.contains("Presupuesto guardado").should("exist");
 
         // EDIT BUDGET
         cy.url().should("include", "/budgets");
@@ -99,7 +99,7 @@ describe.only("Budgets", () => {
         cy.contains("button", "Edit").click();
 
         //notification
-        cy.contains("Budget updated").should("exist");
+        cy.contains("Presupuesto actualizado").should("exist");
 
         // LIMPIAR
             // This test will only run if the previous test passed
@@ -124,7 +124,7 @@ describe.only("Budgets", () => {
             cy.on("window:confirm", () => true);
 
             cy.contains(newBudget.client + " Editado").should("not.exist");
-            cy.contains("Client deleted").should("exist");
+            cy.contains("Cliente eliminado correctamente").should("exist");
 
             // DELETE BUDGET
             cy.visit("/budgets");
@@ -137,7 +137,7 @@ describe.only("Budgets", () => {
             cy.on("window:confirm", () => true);
             cy.contains("tr", 1).should("not.exist");
             //notification
-            cy.contains("Budget deleted").should("exist");
+            cy.contains("Presupuesto eliminado").should("exist");
 
     });
 });
