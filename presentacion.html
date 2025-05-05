@@ -24,17 +24,21 @@
                 margin-bottom: 0.5em;
                 text-transform: none;
             }
-            .reveal h4 + ul {
-                margin-bottom: 0.1em;
+            .reveal h1 {
+                font-size: 1.8em;
+            }
+
+            .reveal h4:has(+ ul) {
+                margin-bottom: 0em;
             }
             .reveal h2 {
-                font-size: 1.5em;
+                font-size: 1.75em;
             }
             .reveal h3 {
                 font-size: 1.5em;
             }
             .reveal h4 {
-                font-size: 1.2em;
+                font-size: 1.1em;
             }
 
             .reveal p,
@@ -62,9 +66,11 @@
                 margin-bottom: 15px;
             }
             .budget-logo img {
-                height: 65px;
-                width: 65px;
+                height: min(150px, 10vw);
+                width: min(150px, 10vw);
                 margin-right: 10px;
+                max-width: 100%;
+                object-fit: contain;
             }
             .highlight,
             .accent {
@@ -127,7 +133,7 @@
                 font-size: 0.75em;
             }
             .text-small {
-                font-size: 0.75em;
+                font-size: 0.5em;
                 color: #bdbdbd;
             }
             .color-box {
@@ -149,12 +155,12 @@
                             src="./public/icons/apple-touch-icon.png"
                             alt="Logo"
                         />
-                        Budget App
+                        <h1>Budget App</h1>
                     </div>
                     <p class="accent" style="text-align: center">
                         "Simplifica tus presupuestos"
                     </p>
-                    <p class="text-small" style="text-align: center">
+                    <p class="text-small" style="position: absolute; bottom: 0px; right: 10px;margin: 0;">
                         Mayo de 2025
                     </p>
                 </section>
@@ -163,62 +169,55 @@
                 <section>
                     <h2>Índice</h2>
                     <ol>
-                        <li>Idea de Negocio</li>
-                        <li>Business Model Canvas</li>
-                        <li>Fases de Expansión</li>
-                        <li>Imagen Corporativa</li>
+                        <li>Negocio</li>
                         <li>Stack Tecnológico</li>
                     </ol>
                 </section>
 
                 <!-- Idea de Negocio -->
-                <section>
-                    <h2>Idea de Negocio</h2>
-                    <p>
+                <section>  <p>
                         <span class="highlight">Budget App</span> es una
                         aplicación web para la gestión de presupuestos
                     </p>
+                    <h2>Idea de Negocio</h2>
+
                     <div class="row">
                         <div class="col">
-                            <p>
-                                <span class="highlight">Problema:</span>
-                            </p>
-                            <ul>
-                                <li>Falta de herramientas simples</li>
-                                <li>Necesidad de profesionalizar la imagen</li>
-                                <li>Optimización de tiempo...</li>
-                            </ul>
+                            <div class="value-card">
+                                <h4>Problema:</h4>
+                                <ul>
+                                    <li>Tiempo excesivo en tareas administrativas</li>
+                                    <li>Falta de herramientas simples</li>
+                                    <li>Necesidad de profesionalizar la imagen</li>
+                                    <li>Optimización del tiempo</li>
+                                </ul>
+                            </div>
 
-                            <p>
-                                <span class="highlight"
-                                    >Características principales:</span
-                                >
-                            </p>
-                            <ul>
-                                <li>Creación de perfiles profesionales</li>
-                                <li>Gestión eficiente de clientes y costes</li>
-                                <li>Generación automatizada de presupuestos</li>
-                                <li>Automatización con IA</li>
+                            <div class="value-card">
+                                <h4>Características principales:</h4>
+                          <span style="font-size: 1.5rem;">
                                 <li>Interfaz minimalista e intuitiva</li>
                                 <li>Acceso desde cualquier dispositivo</li>
+                                <li>Visualizacion de presupuestos en PDF</li>
+                                <li>Funcionalidades de IA</li>
+                                <li>Generación de presupuestos por voz</li>
+
+
+                            </span>
                             </ul>
                         </div>
-                        <div class="col">
-                            <div class="chart-placeholder">
-                                Tiempo dedicado a tareas administrativas
-                            </div>
-                        </div>
+
                     </div>
                 </section>
 
                 <!-- Business Model Canvas 1 -->
                 <section>
-                    <h2>Business Model Canvas (1/2)</h2>
+                    <h2>Business Model Canvas (1/3)</h2>
                     <div class="row">
                         <div class="canvas-section">
                             <div class="canvas-title">Propuesta de Valor</div>
                             <ul>
-                                <li>Solución integral para presupuestos</li>
+                                <li>Gestión integral de presupuestos</li>
                                 <li>Ahorro de tiempo</li>
                                 <li>Automatización con IA</li>
                                 <li>Interfaz intuitiva</li>
@@ -226,7 +225,7 @@
                         </div>
                         <div class="canvas-section">
                             <div class="canvas-title">
-                                Segmentos de Clientes
+                                Clientes
                             </div>
                             <ul>
                                 <li>Microempresas</li>
@@ -234,7 +233,7 @@
                             </ul>
                         </div>
                         <div class="canvas-section">
-                            <div class="canvas-title">Canales</div>
+                            <div class="canvas-title">Canales de distribución</div>
                             <ul>
                                 <li>Plataforma web</li>
                                 <li>Marketing de contenidos</li>
@@ -251,93 +250,90 @@
                                 <li>Comunidad de usuarios</li>
                             </ul>
                         </div>
-                        <div class="canvas-section">
-                            <div class="canvas-title">Recursos Clave</div>
-                            <ul>
-                                <li>Equipo técnico</li>
-                                <li>Algoritmos de IA</li>
-                            </ul>
-                        </div>
-                        <div class="canvas-section">
-                            <div class="canvas-title">Actividades Clave</div>
-                            <ul>
-                                <li>Desarrollo y mantenimiento</li>
-                                <li>Soporte y análisis</li>
-                            </ul>
-                        </div>
+
                     </div>
                 </section>
 
-                <!-- Business Model Canvas 2 -->
+                    <!-- Business Model Canvas 2 -->
+                    <section>
+                        <h2>Business Model Canvas (2/3)</h2>
+                        <div class="row">
+                            <div class="canvas-section" style="flex-grow: 1">
+                                <div class="canvas-section">
+                                    <div class="canvas-title">Recursos Clave</div>
+                                    <ul>
+                                        <li>Equipo técnico</li>
+                                        <li>Algoritmos de IA</li>
+                                        <li>"Know How"</li>
+                                    </ul>
+                                </div>
+                                <div class="canvas-section">
+                                    <div class="canvas-title">Actividades Clave</div>
+                                    <ul>
+                                        <li>Desarrollo y mantenimiento</li>
+                                        <li>Soporte y análisis</li>
+                                        <li>Funcionalidades de IA</li>
+                                    </ul>
+                                </div>
+
+                            <div class="canvas-section">
+                                <div class="canvas-title">Socios estrategicos</div>
+                                <ul>
+                                    <li>Plataformas ERP</li>
+                                    <li>Asociaciones de autónomos</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </section>
+                <!-- Business Model Canvas 3 -->
                 <section>
-                    <h2>Business Model Canvas (2/2)</h2>
-                    <div class="row">
-                        <div class="canvas-section" style="flex-grow: 2">
-                            <div class="canvas-title">Fuentes de Ingresos</div>
+                    <h2>Business Model Canvas (3/3)</h2>
+
+                        <div class="canvas-section" style="max-width: fit-content;">
+                            <div class="canvas-title">Ingresos</div>
                             <span class="accent">Modelo Freemium</span>
-                            <div class="row">
-                                <div class="price-box">
+                            <div class="row" style="display: flex; justify-content: space-between; width: 100%;">
+                                <div class="price-box" style="flex: 1; margin: 0 5px;">
                                     <div class="price-header">Gratuito</div>
                                     <div class="price">0€</div>
                                     <ul>
                                         <li>Básico, sin IA</li>
                                     </ul>
                                 </div>
-                                <div class="price-box">
+                                <div class="price-box" style="flex: 1; margin: 0 5px;">
                                     <div class="price-header">Profesional</div>
                                     <div class="price">9,99€/mes</div>
                                     <ul>
-                                        <li>
-                                            Avanzado, IA, hasta 40 presupuestos
-                                        </li>
+                                        <li>Avanzado, hasta 40 presupuestos con IA</li>
                                     </ul>
                                 </div>
-                                <div class="price-box">
+                                <div class="price-box" style="flex: 1; margin: 0 5px;">
                                     <div class="price-header">Business</div>
                                     <div class="price">19,99€/mes</div>
                                     <ul>
-                                        <li>Integraciones, soporte</li>
+                                        <li>Integraciones, soporte, hasta 100 presupuestos con IA</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-                        <div class="canvas-section">
-                            <div class="canvas-title">Alianzas Clave</div>
-                            <ul>
-                                <li>Plataformas contables</li>
-                                <li>Asociaciones de autónomos</li>
-                            </ul>
-                        </div>
-                    </div>
+
+
                     <div class="row">
                         <div class="canvas-section">
                             <div class="canvas-title">Costes</div>
                             <ul>
                                 <li>Desarrollo y mantenimiento</li>
                                 <li>Infraestructura cloud</li>
+                                <li>Dominio</li>
+                                <li>Servicio IA</li>
+                                <li>Publicidad</li>
+                                <li>Costes negocio</li>
                             </ul>
                         </div>
                     </div>
                 </section>
 
-                <!-- Fases de Expansión -->
-                <section>
-                    <h2>Fases de Expansión</h2>
-                    <div class="row">
-                        <div class="phase-box col">
-                            <h4>Fase 1</h4>
-                            <p>Mercado español</p>
-                        </div>
-                        <div class="phase-box col">
-                            <h4>Fase 2</h4>
-                            <p>Países hispanohablantes</p>
-                        </div>
-                        <div class="phase-box col">
-                            <h4>Fase 3</h4>
-                            <p>Mercados europeos</p>
-                        </div>
-                    </div>
-                </section>
 
                 <!-- Stack Tecnológico -->
                 <section>
@@ -348,19 +344,19 @@
                             <ul>
                                 <li>Laravel + Inertia.js</li>
                             </ul>
-                        </div>
-                        <div class="col">
-                            <h4>Base de datos</h4>
-                            <ul>
-                                <li>PostgreSQL</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
+                        </div> <div class="col">
                             <h4>Frontend</h4>
                             <ul>
                                 <li>Vue.js + Tailwind CSS</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                       <div class="col">
+                            <h4>Base de datos</h4>
+                            <ul>
+                                <li>PostgreSQL</li>
                             </ul>
                         </div>
                         <div class="col">
@@ -376,22 +372,16 @@
                             <ul>
                                 <li>GitHub</li>
                                 <li>Travis CI</li>
-                                <li>VPS + Cloudflare</li>
+                                <li>VPS + Cloudflare</li>  <li>Docker</li>
                             </ul>
                         </div>
+
+
                         <div class="col">
-                            <h4>Contenedores</h4>
-                            <ul>
-                                <li>Docker</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <h4>IA y Voz</h4>
+                            <h4>IA</h4>
                             <ul>
                                 <li>OpenAI</li>
-                                <li>Whisper (browser)</li>
+                                <li>Navegador(local), implementación de Whisper</li>
                             </ul>
                         </div>
                     </div>
