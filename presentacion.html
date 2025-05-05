@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Budget App - Presentación</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/theme/night.min.css"
+            id="theme"
+        />
+        <style>
+            @import url("https://fonts.googleapis.com/css?family=Montserrat:700|Lato:400,700&display=swap");
+
+            .reveal h1,
+            .reveal h2,
+            .reveal h3,
+            .reveal h4 {
+                font-family: "Montserrat", sans-serif;
+                color: #4caf50;
+                margin-bottom: 0.5em;
+                text-transform: none;
+            }
+            .reveal h4 + ul {
+                margin-bottom: 0.1em;
+            }
+            .reveal h2 {
+                font-size: 1.5em;
+            }
+            .reveal h3 {
+                font-size: 1.5em;
+            }
+            .reveal h4 {
+                font-size: 1.2em;
+            }
+
+            .reveal p,
+            .reveal li,
+            .reveal ul,
+            .reveal ol {
+                font-family: "Lato", sans-serif;
+                color: #e0e0e0;
+                line-height: 1.4;
+            }
+            .reveal section {
+                text-align: left;
+                max-width: 100%;
+            }
+
+            .center-text {
+                margin-top: 20vh;
+                font-size: 1.7em;
+                color: #4caf50;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+            .budget-logo img {
+                height: 65px;
+                width: 65px;
+                margin-right: 10px;
+            }
+            .highlight,
+            .accent {
+                color: #ffee58;
+                font-weight: bold;
+            }
+            .value-card,
+            .phase-box,
+            .price-box,
+            .canvas-section {
+                background: rgba(76, 175, 80, 0.1);
+                border-radius: 8px;
+                padding: 8px;
+                margin: 6px 0;
+                box-shadow: 0 1px 4px rgba(44, 62, 80, 0.1);
+            }
+            .row {
+                display: flex;
+                gap: 10px;
+            }
+            .col {
+                flex: 1 1 200px;
+            }
+            .canvas-section .canvas-title,
+            .price-box .price-header {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            .canvas-section .canvas-title {
+                color: #81c784;
+                font-size: 1em;
+            }
+            .price-box .price-header {
+                color: #ffee58;
+                font-size: 0.5em;
+            }
+            .price {
+                font-size: 1.2em;
+                color: #4caf50;
+                margin-bottom: 5px;
+            }
+            .canvas-section ul,
+            .price-box ul,
+            .phase-box p,
+            .col ul {
+                font-size: 0.6em;
+                margin-top: 4px;
+                padding-left: 1.2em;
+            }
+            .chart-placeholder {
+                width: 100%;
+                min-height: 80px;
+                background: rgba(76, 175, 80, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 6px;
+                color: #4caf50;
+                font-weight: bold;
+                font-size: 0.75em;
+            }
+            .text-small {
+                font-size: 0.75em;
+                color: #bdbdbd;
+            }
+            .color-box {
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                margin-right: 5px;
+                vertical-align: middle;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <!-- Portada -->
+                <section>
+                    <div class="center-text budget-logo">
+                        <img
+                            src="./public/icons/apple-touch-icon.png"
+                            alt="Logo"
+                        />
+                        Budget App
+                    </div>
+                    <p class="accent" style="text-align: center">
+                        "Simplifica tus presupuestos"
+                    </p>
+                    <p class="text-small" style="text-align: center">
+                        Mayo de 2025
+                    </p>
+                </section>
+
+                <!-- Índice -->
+                <section>
+                    <h2>Índice</h2>
+                    <ol>
+                        <li>Idea de Negocio</li>
+                        <li>Business Model Canvas</li>
+                        <li>Fases de Expansión</li>
+                        <li>Imagen Corporativa</li>
+                        <li>Stack Tecnológico</li>
+                    </ol>
+                </section>
+
+                <!-- Idea de Negocio -->
+                <section>
+                    <h2>Idea de Negocio</h2>
+                    <p>
+                        <span class="highlight">Budget App</span> es una
+                        aplicación web para la gestión de presupuestos
+                    </p>
+                    <div class="row">
+                        <div class="col">
+                            <p>
+                                <span class="highlight">Problema:</span>
+                            </p>
+                            <ul>
+                                <li>Falta de herramientas simples</li>
+                                <li>Necesidad de profesionalizar la imagen</li>
+                                <li>Optimización de tiempo...</li>
+                            </ul>
+
+                            <p>
+                                <span class="highlight"
+                                    >Características principales:</span
+                                >
+                            </p>
+                            <ul>
+                                <li>Creación de perfiles profesionales</li>
+                                <li>Gestión eficiente de clientes y costes</li>
+                                <li>Generación automatizada de presupuestos</li>
+                                <li>Automatización con IA</li>
+                                <li>Interfaz minimalista e intuitiva</li>
+                                <li>Acceso desde cualquier dispositivo</li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <div class="chart-placeholder">
+                                Tiempo dedicado a tareas administrativas
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Business Model Canvas 1 -->
+                <section>
+                    <h2>Business Model Canvas (1/2)</h2>
+                    <div class="row">
+                        <div class="canvas-section">
+                            <div class="canvas-title">Propuesta de Valor</div>
+                            <ul>
+                                <li>Solución integral para presupuestos</li>
+                                <li>Ahorro de tiempo</li>
+                                <li>Automatización con IA</li>
+                                <li>Interfaz intuitiva</li>
+                            </ul>
+                        </div>
+                        <div class="canvas-section">
+                            <div class="canvas-title">
+                                Segmentos de Clientes
+                            </div>
+                            <ul>
+                                <li>Microempresas</li>
+                                <li>Emprendedores</li>
+                            </ul>
+                        </div>
+                        <div class="canvas-section">
+                            <div class="canvas-title">Canales</div>
+                            <ul>
+                                <li>Plataforma web</li>
+                                <li>Marketing de contenidos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="canvas-section">
+                            <div class="canvas-title">
+                                Relación con el Cliente
+                            </div>
+                            <ul>
+                                <li>Atención personalizada</li>
+                                <li>Comunidad de usuarios</li>
+                            </ul>
+                        </div>
+                        <div class="canvas-section">
+                            <div class="canvas-title">Recursos Clave</div>
+                            <ul>
+                                <li>Equipo técnico</li>
+                                <li>Algoritmos de IA</li>
+                            </ul>
+                        </div>
+                        <div class="canvas-section">
+                            <div class="canvas-title">Actividades Clave</div>
+                            <ul>
+                                <li>Desarrollo y mantenimiento</li>
+                                <li>Soporte y análisis</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Business Model Canvas 2 -->
+                <section>
+                    <h2>Business Model Canvas (2/2)</h2>
+                    <div class="row">
+                        <div class="canvas-section" style="flex-grow: 2">
+                            <div class="canvas-title">Fuentes de Ingresos</div>
+                            <span class="accent">Modelo Freemium</span>
+                            <div class="row">
+                                <div class="price-box">
+                                    <div class="price-header">Gratuito</div>
+                                    <div class="price">0€</div>
+                                    <ul>
+                                        <li>Básico, sin IA</li>
+                                    </ul>
+                                </div>
+                                <div class="price-box">
+                                    <div class="price-header">Profesional</div>
+                                    <div class="price">9,99€/mes</div>
+                                    <ul>
+                                        <li>
+                                            Avanzado, IA, hasta 40 presupuestos
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="price-box">
+                                    <div class="price-header">Business</div>
+                                    <div class="price">19,99€/mes</div>
+                                    <ul>
+                                        <li>Integraciones, soporte</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="canvas-section">
+                            <div class="canvas-title">Alianzas Clave</div>
+                            <ul>
+                                <li>Plataformas contables</li>
+                                <li>Asociaciones de autónomos</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="canvas-section">
+                            <div class="canvas-title">Costes</div>
+                            <ul>
+                                <li>Desarrollo y mantenimiento</li>
+                                <li>Infraestructura cloud</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Fases de Expansión -->
+                <section>
+                    <h2>Fases de Expansión</h2>
+                    <div class="row">
+                        <div class="phase-box col">
+                            <h4>Fase 1</h4>
+                            <p>Mercado español</p>
+                        </div>
+                        <div class="phase-box col">
+                            <h4>Fase 2</h4>
+                            <p>Países hispanohablantes</p>
+                        </div>
+                        <div class="phase-box col">
+                            <h4>Fase 3</h4>
+                            <p>Mercados europeos</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stack Tecnológico -->
+                <section>
+                    <h2>Stack Tecnológico</h2>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Backend</h4>
+                            <ul>
+                                <li>Laravel + Inertia.js</li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <h4>Base de datos</h4>
+                            <ul>
+                                <li>PostgreSQL</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Frontend</h4>
+                            <ul>
+                                <li>Vue.js + Tailwind CSS</li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <h4>Testing</h4>
+                            <ul>
+                                <li>CypressJS</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4>DevOps</h4>
+                            <ul>
+                                <li>GitHub</li>
+                                <li>Travis CI</li>
+                                <li>VPS + Cloudflare</li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <h4>Contenedores</h4>
+                            <ul>
+                                <li>Docker</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4>IA y Voz</h4>
+                            <ul>
+                                <li>OpenAI</li>
+                                <li>Whisper (browser)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/reveal.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.4.0/plugin/highlight/highlight.min.js"></script>
+        <script>
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                center: false,
+                hash: true,
+                transition: "slide",
+                width: 1280,
+                height: 720,
+                margin: 0.04,
+                minScale: 0.2,
+                maxScale: 1.2,
+                autoScroll: true,
+                autoScale: false,
+                plugins: [RevealHighlight],
+            });
+        </script>
+    </body>
+</html>
