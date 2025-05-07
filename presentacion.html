@@ -407,14 +407,24 @@
 
 
                 <section>
-                    <h2> Stack Tecnológico </h2>
+                    <h2> Diseño y Organización del Código</h2>
                     <div class="row">
-                        <div class="canvas-section" style="flex-grow: 1">
+                        
+                        <div class="canvas-section" style="flex-grow: 1"><div class="canvas-section">
+                            <div class="canvas-title">Arquitectura General</div>
+                            <ul>
+                                <li>SPA monolítica estructurada, combinando Laravel, Inertia.js y Vue.js</li>
+                            </ul>
+                        </div>
+
                             <div class="canvas-section">
                                 <div class="canvas-title">Frontend</div>
                                 <ul>
-                                    <li><strong>Vue.js y JavaScript:</strong> Interfaz de usuario dinámica, reactiva y componentizada</li>
-                                    <li><strong>Tailwind CSS:</strong> Framework utility-first para desarrollo rápido y consistente</li>
+                                <li><strong>Vue.js y JavaScript:</strong> Interfaz de usuario dinámica, reactiva y componentizada</li>
+                                <li><strong>Tailwind CSS:</strong> Framework utility-first para desarrollo rápido y consistente</li><li><strong>Components/:</strong> Elementos reutilizables (Banner.vue, creditsTile.vue)</li>
+                                <li><strong>Pages/:</strong> Vistas completas correspondientes a rutas</li>
+                                <li><strong>Layouts/:</strong> Estructuras generales (AppLayout.vue)</li>
+                                <li><strong>Servicios:</strong> Notify.js, speechRecognition.js</li>
                                 </ul>
                             </div>
 
@@ -423,6 +433,10 @@
                                 <ul>
                                     <li><strong>Laravel (PHP):</strong> Framework robusto con estructura MVC, ORM (Eloquent)</li>
                                     <li><strong>PostgreSQL:</strong> Base de datos relacional escalable y fiable</li>
+                                    <li><strong>Modelos:</strong> Client, Budget, User, Subscription con Eloquent ORM</li>
+                                    <li><strong>Controladores:</strong> BudgetController, ClientController, PromptController</li>
+                                    <li><strong>Políticas de Autorización:</strong> ClientPolicy, BudgetPolicy</li>
+                                    <li><strong>Patrón Repositorio:</strong> En SubscriptionController</li>
                                 </ul>
                             </div>
 
@@ -445,40 +459,7 @@
                     </div>
                 </section>
 
-                <!-- Arquitectura de Diseño -->
-                <section>
-                    <h2> Diseño y Organización del Código</h2>
-                    <div class="row">
-                        <div class="canvas-section" style="flex-grow: 1">
-                            <div class="canvas-section">
-                                <div class="canvas-title">Arquitectura General</div>
-                                <ul>
-                                    <li>SPA monolítica estructurada, combinando Laravel, Inertia.js y Vue.js</li>
-                                </ul>
-                            </div>
-
-                            <div class="canvas-section">
-                                <div class="canvas-title">Backend (Laravel)</div>
-                                <ul>
-                                    <li><strong>Modelos:</strong> Client, Budget, User, Subscription con Eloquent ORM</li>
-                                    <li><strong>Controladores:</strong> BudgetController, ClientController, PromptController</li>
-                                    <li><strong>Políticas de Autorización:</strong> ClientPolicy, BudgetPolicy</li>
-                                    <li><strong>Patrón Repositorio:</strong> En SubscriptionController</li>
-                                </ul>
-                            </div>
-
-                            <div class="canvas-section">
-                                <div class="canvas-title">Frontend (Vue.js)</div>
-                                <ul>
-                                    <li><strong>Components/:</strong> Elementos reutilizables (Banner.vue, creditsTile.vue)</li>
-                                    <li><strong>Pages/:</strong> Vistas completas correspondientes a rutas</li>
-                                    <li><strong>Layouts/:</strong> Estructuras generales (AppLayout.vue)</li>
-                                    <li><strong>Servicios:</strong> Notify.js, speechRecognition.js</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+              
 
                 <!-- Uso de Librerías -->
                 <section>
@@ -624,7 +605,7 @@
                             </div>
 
                             <div class="canvas-section">
-                                <div class="canvas-title">Mejoras Futuras</div>
+                                <div class="canvas-title">Mejoras</div>
                                 <ul>
                                     <li><strong>Internacionalización:</strong> Soporte multiidioma</li>
                                     <li><strong>Monetización:</strong> Pasarela de pago (Stripe)</li>
