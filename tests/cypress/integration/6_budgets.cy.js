@@ -135,7 +135,7 @@ describe.only("Budgets", () => {
                 cy.get('button[title="Delete Budget"]').should("be.visible").click();
             });
             cy.on("window:confirm", () => true);
-            cy.contains("tr", 1).should("not.exist");
+            cy.contains(newBudget.client + " Editado").should("not.exist");
             //notification
             cy.contains("Presupuesto eliminado").should("exist");
 

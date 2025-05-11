@@ -118,7 +118,9 @@ const limitDescription = (description) => {
 </script>
 
 <template>
-    <main class="pb-3 xs:mb-10 container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <main
+        class="pb-3 xs:mb-10 container mx-auto max-w-7xl px-2 sm:px-6 lg:px-8"
+    >
         <ProcessingMessage :loading="loading" />
         <form
             class="flex flex-col gap-4 p-2 form-wrapper shadow-xl rounded-xl w-full"
@@ -132,6 +134,7 @@ const limitDescription = (description) => {
                 v-model="formData.client_id"
             >
                 <option value="" disabled>Selecciona el cliente</option>
+                <option :value="null">Sin cliente</option>
                 <option
                     v-for="client in props.clients"
                     :key="client.id"
@@ -325,9 +328,9 @@ const limitDescription = (description) => {
         >
             <h2 class="text-lg font-semibold mb-2">Notas</h2>
             <textarea
-            v-model="formData.notes"
-            class="w-full min-h-[120px] sm:min-h-[150px] p-2 sm:p-3 border border-gray-300 rounded-md dark:bg-hover resize-none sm:resize-y"
-            placeholder="Escribe las notas sobre el presupuesto aquí..."
+                v-model="formData.notes"
+                class="w-full min-h-[120px] sm:min-h-[150px] p-2 sm:p-3 border border-gray-300 rounded-md dark:bg-hover resize-none sm:resize-y"
+                placeholder="Escribe las notas sobre el presupuesto aquí..."
             ></textarea>
         </div>
     </main>

@@ -95,7 +95,7 @@ class BudgetViewController extends Controller
             })->values()->toArray();
 
             $request->merge(['content' => $transformedContent]);
-            $request->merge(['client_id' => $request->input('client_id') ?: null]);
+            $request->merge(['client_id' => $request->input('client_id') === "null" ? null : $request->input('client_id')]);
 
 
             // Validar los datos
