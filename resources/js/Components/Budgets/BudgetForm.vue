@@ -134,7 +134,7 @@ const limitDescription = (description) => {
                 v-model="formData.client_id"
             >
                 <option value="" disabled>Selecciona el cliente</option>
-                <option :value="null">Sin cliente</option>
+                <option :value="null">--SIN CLIENTE--</option>
                 <option
                     v-for="client in props.clients"
                     :key="client.id"

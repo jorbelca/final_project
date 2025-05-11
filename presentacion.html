@@ -214,7 +214,7 @@
                 <section>
                     <h2>Business Model Canvas (1/3)</h2>
                     <div class="row">
-                        <div class="canvas-section" style="flex-grow: 1">
+                        <div class="canvas-section" style="flex-grow: 1; max-width: 50%;">
                             <div class="canvas-section">
                             <div class="canvas-title">Propuesta de Valor</div>
                             <ul>
@@ -223,33 +223,39 @@
                                 <li>Automatización con IA</li>
                                 <li>Interfaz intuitiva</li>
                             </ul>
-                        </div>
-                        <div class="canvas-section">
-                            <div class="canvas-title">
-                                Clientes <span> </span>
+                            <div>
+                                <div class="canvas-title">
+                                    Relación con el Cliente
+                                </div>
+                                <ul>
+                                    <li>Atención personalizada</li>
+                                    <li>Comunidad de usuarios</li>
+                                </ul>
                             </div>
-                            <ul>
-                                <li>Microempresas</li>
-                                <li>Emprendedores</li>
-                            </ul>
-                        </div>
-                        <div class="canvas-section">
+                        </div> <div class="canvas-section">
                             <div class="canvas-title">Canales de distribución</div>
                             <ul>
                                 <li>Plataforma web</li>
                                 <li>Marketing de contenidos</li>
                             </ul>
                         </div>
-                        <div class="canvas-section">
-                            <div class="canvas-title">
-                                Relación con el Cliente
+                        </div>
+                        <div class="canvas-section" style="flex-grow: 1; max-width: 50%;">
+                            <div class="canvas-title" style="width: 100%;">
+                                Clientes
                             </div>
                             <ul>
-                                <li>Atención personalizada</li>
-                                <li>Comunidad de usuarios</li>
+                                <li>Microempresas</li>
+                                <li>Emprendedores</li>
+                                <li>Autónomos</li>
+                                <li>Perfil</li>
+                                <ul>
+                                <li>Edad: 25-60 años</li>
+                                <li>0-5 trabajadores</li></ul>
                             </ul>
                         </div>
-                    </div>
+
+
                     </div>
                 </section>
 
@@ -292,8 +298,8 @@
                     <h2>Business Model Canvas (3/3)</h2>
 
                         <div class="canvas-section" style="max-width: fit-content;">
-                            <div class="canvas-title">Ingresos</div>
-                            <span class="accent">Modelo Freemium</span>
+                            <div class="canvas-title">Ingresos&nbsp;<span class="accent">Modelo Freemium</span></div>
+
                             <div class="row" style="display: flex; justify-content: space-between; width: 100%;">
                                 <div class="price-box" style="flex: 1; margin: 0 5px;">
                                     <div class="price-header">Gratuito</div>
@@ -406,60 +412,69 @@
 
 
 
-                <section>
+                <section style="max-height: 100vh;">
                     <h2> Diseño y Organización del Código</h2>
                     <div class="row">
-                        
-                        <div class="canvas-section" style="flex-grow: 1"><div class="canvas-section">
+
+                        <div class="canvas-section" style="flex-grow: 1">
+                            <div class="canvas-section">
                             <div class="canvas-title">Arquitectura General</div>
                             <ul>
                                 <li>SPA monolítica estructurada, combinando Laravel, Inertia.js y Vue.js</li>
                             </ul>
                         </div>
+                        <div class="canvas-section">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="canvas-title">Frontend</div>
+                                    <ul>
+                                    <li><strong>Vue.js y JavaScript:</strong> Interfaz de usuario dinámica, reactiva y componentizada</li>
+                                    <li><strong>Tailwind CSS:</strong> Framework utility-first para desarrollo rápido y consistente</li>
+                                    <li><strong>Components/:</strong> Elementos reutilizables (Banner.vue, creditsTile.vue)</li>
+                                    <li><strong>Pages/:</strong> Vistas completas correspondientes a rutas</li>
+                                    <li><strong>Layouts/:</strong> Estructuras generales (AppLayout.vue)</li>
+                                    <li><strong>Servicios:</strong> Notify.js, speechRecognition.js</li>
+                                    </ul>
+                                </div>
 
-                            <div class="canvas-section">
-                                <div class="canvas-title">Frontend</div>
-                                <ul>
-                                <li><strong>Vue.js y JavaScript:</strong> Interfaz de usuario dinámica, reactiva y componentizada</li>
-                                <li><strong>Tailwind CSS:</strong> Framework utility-first para desarrollo rápido y consistente</li><li><strong>Components/:</strong> Elementos reutilizables (Banner.vue, creditsTile.vue)</li>
-                                <li><strong>Pages/:</strong> Vistas completas correspondientes a rutas</li>
-                                <li><strong>Layouts/:</strong> Estructuras generales (AppLayout.vue)</li>
-                                <li><strong>Servicios:</strong> Notify.js, speechRecognition.js</li>
-                                </ul>
+                                <div class="col">
+                                    <div class="canvas-title">Backend</div>
+                                    <ul>
+                                        <li><strong>Laravel (PHP):</strong> Framework robusto con estructura MVC, ORM (Eloquent)</li>
+                                        <li><strong>PostgreSQL:</strong> Base de datos relacional escalable y fiable</li>
+                                        <li><strong>Modelos:</strong> Client, Budget, User, Subscription con Eloquent ORM</li>
+                                        <li><strong>Controladores:</strong> BudgetController, ClientController, PromptController</li>
+                                        <li><strong>Políticas de Autorización:</strong> ClientPolicy, BudgetPolicy</li>
+                                        <li><strong>Patrón Repositorio:</strong> En SubscriptionController</li>
+                                    </ul>
+                                </div>
                             </div>
 
-                            <div class="canvas-section">
-                                <div class="canvas-title">Backend</div>
-                                <ul>
-                                    <li><strong>Laravel (PHP):</strong> Framework robusto con estructura MVC, ORM (Eloquent)</li>
-                                    <li><strong>PostgreSQL:</strong> Base de datos relacional escalable y fiable</li>
-                                    <li><strong>Modelos:</strong> Client, Budget, User, Subscription con Eloquent ORM</li>
-                                    <li><strong>Controladores:</strong> BudgetController, ClientController, PromptController</li>
-                                    <li><strong>Políticas de Autorización:</strong> ClientPolicy, BudgetPolicy</li>
-                                    <li><strong>Patrón Repositorio:</strong> En SubscriptionController</li>
-                                </ul>
-                            </div>
 
-                            <div class="canvas-section">
-                                <div class="canvas-title">Interconexión</div>
-                                <ul>
-                                    <li><strong>Inertia.js:</strong> "Pegamento" para SPAs con routing de Laravel y Vue.js</li>
-                                </ul>
-                            </div>
-
-                            <div class="canvas-section">
-                                <div class="canvas-title">Tecnologías Avanzadas</div>
-                                <ul>
-                                    <li><strong>Progressive Web App:</strong> <code>silviolleite/laravelpwa</code></li>
-                                    <li><strong>IA - Reconocimiento de Voz:</strong> <code>huggingface/transformers</code> con Whisper Tiny</li>
-                                    <li><strong>IA - Generación de Presupuestos:</strong> API de OpenAI via <code>openai-php/laravel</code></li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </section>
 
-              
+                <section>
+                    <div class="row">
+                        <div class="canvas-section">
+                            <div class="canvas-title">Interconexión</div>
+                            <ul>
+                                <li><strong>Inertia.js:</strong> "Pegamento" para SPAs con routing de Laravel y Vue.js</li>
+                            </ul>
+                        </div>
+
+                        <div class="canvas-section">
+                            <div class="canvas-title">Tecnologías Avanzadas</div>
+                            <ul>
+                                <li><strong>Progressive Web App:</strong> <code>silviolleite/laravelpwa</code></li>
+                                <li><strong>IA - Reconocimiento de Voz:</strong> <code>huggingface/transformers</code> con Whisper Tiny</li>
+                                <li><strong>IA - Generación de Presupuestos:</strong> API de OpenAI via <code>openai-php/laravel</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
 
                 <!-- Uso de Librerías -->
                 <section>
