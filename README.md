@@ -9,7 +9,7 @@ Este proyecto es una aplicación web desarrollada con el framework Laravel que p
 - Experiencia PWA completa: Instalable como aplicación nativa y funcionalidad offline.
 - Modo oscuro/claro: Interfaz adaptable a las preferencias del usuario.
 - Diseño responsive: Optimizado para todas las pantallas y dispositivos.
-- Accesibilidad WCAG 2.1 AA: Implementación de buenas prácticas para garantizar accesibilidad.
+
 
 ## Tecnologias
 
