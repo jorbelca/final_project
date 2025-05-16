@@ -16,16 +16,18 @@ class SupportController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-
     {
         $user = Auth::user();
 
         if ($user->admin) {
+            // Si es admin, muestra todos los tickets
             $tickets = Support::with(['questioner', 'answerer'])->get();
-            return Inertia::render('Support/Support', ['tickets' => $tickets]);
+        } else {
+            // Si no es admin, solo muestra los tickets donde el usuario es quien pregunta
+            $tickets = Support::with(['questioner', 'answerer'])
+                ->where('questioner_id', $user->id)
+                ->get();
         }
-        $tickets = Support::with(['questioner', 'answerer'])->get();
-
 
         return Inertia::render('Support/Support', ['tickets' => $tickets]);
     }
