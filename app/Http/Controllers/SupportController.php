@@ -21,7 +21,24 @@ class SupportController extends Controller
 
         if ($user->admin) {
             // Si es admin, muestra todos los tickets
-            $tickets = Support::with(['questioner', 'answerer'])->get();
+            $tickets = Support::with(['answerer'])
+                ->with(['questioner' => function ($query) {
+                    $query->with(['subscription' => function ($query) {
+                        $query->select('id', 'user_id', 'plan_id'); // Campos mínimos de subscription
+                        $query->with(['plan' => function ($query) {
+                            $query->select('id', 'name'); // Solo nombre del plan
+                        }]);
+                    }]);
+                }])
+                ->leftJoin('users as questioners', 'support.questioner_id', '=', 'questioners.id')
+                ->leftJoin('subscriptions', 'questioners.id', '=', 'subscriptions.user_id')
+                ->leftJoin('plans', 'subscriptions.plan_id', '=', 'plans.id')
+                ->select('support.*')
+                ->orderByRaw('CASE WHEN support.answerer_id IS NULL THEN 1 ELSE 0 END DESC') // Sin contestar primero (PostgreSQL)
+
+                ->orderBy('plans.id', 'desc') // Planes con ID mayor primero
+                ->orderBy('support.created_at', 'desc') // Más recientes primero como desempate
+                ->get();
         } else {
             // Si no es admin, solo muestra los tickets donde el usuario es quien pregunta
             $tickets = Support::with(['questioner', 'answerer'])

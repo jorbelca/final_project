@@ -2,8 +2,29 @@ import { pipeline } from "@huggingface/transformers";
 
 let mediaRecorder;
 let transcriber = null;
+let quality;
 
-export async function start() {
+const qualityOptions = {
+    low: [
+        "automatic-speech-recognition",
+        "onnx-community/whisper-tiny",
+        { dtype: "q4", device: "auto" },
+    ],
+    medium: [
+        "automatic-speech-recognition",
+        "Xenova/whisper-small",
+        { device: "auto" },
+    ],
+    high:[
+        "automatic-speech-recognition",
+        "Xenova/whisper-medium",
+        { device: "auto" },
+    ],
+};
+
+export async function start(selectedQuality) {
+    quality = selectedQuality;
+
     const stream = await getAudioStream();
     const audioBlob = await recordAudio(stream);
     const text = await transcribeAudio(audioBlob);
@@ -64,11 +85,7 @@ async function loadModel() {
 
         try {
             transcriber = await Promise.race([
-                pipeline(
-                    "automatic-speech-recognition",
-                    "onnx-community/whisper-tiny",
-                    { dtype: "q4", device: "auto" }
-                ),
+                pipeline(...qualityOptions[quality]),
                 timeoutPromise,
             ]);
         } catch (error) {

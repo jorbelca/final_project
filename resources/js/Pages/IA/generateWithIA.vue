@@ -22,6 +22,8 @@ let firstTime = ref(false);
 let loading = ref(false);
 let transcriptionError = ref(false);
 let noMedia = ref(false);
+let quality = ref("low");
+
 const transcriptionErrorMessage = ref(
     "Error al transcribir el audio. Por favor, intenta nuevamente."
 );
@@ -69,7 +71,7 @@ const startRecording = async () => {
             throw new Error("Browser doesn't support media recording");
         }
 
-        const { transcription } = await start();
+        const { transcription } = await start(quality.value);
 
         if (transcription) {
             form.prompt = transcription;
@@ -223,6 +225,23 @@ onMounted(() => {
                             class="text-right inline-flex items-end justify-between gap-2"
                         >
                             <div class="w-3/6 flex">
+                                <div
+                                    class="flex flex-col pr-2 pb-2 items-center justify-center"
+                                >
+                                    <label for="quality" class="text-text"
+                                        ><small> Calidad</small></label
+                                    >
+                                    <select
+                                        name="quality"
+                                        id="quality"
+                                        class="ml-2 px-2 py-1 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                        v-model="quality"
+                                    >
+                                        <option value="low">Baja</option>
+                                        <option value="medium">Media</option>
+                                        <option value="high">Alta</option>
+                                    </select>
+                                </div>
                                 <RecordBtn
                                     :disabled="noMedia"
                                     @startRecording="startRecording"
