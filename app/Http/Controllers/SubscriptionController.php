@@ -81,7 +81,7 @@ class SubscriptionController extends Controller
             $user->save();
 
 
-            if($request->input('subscription.payment_number') == null && $request->input('subscription.plan_id') !== 1){
+            if ($request->input('subscription.payment_number') == null && $request->input('subscription.plan_id') !== 1) {
                 return SubscriptionController::notify('', "Nombre / Impuestos actualizados");
             }
 
@@ -90,6 +90,17 @@ class SubscriptionController extends Controller
                 $request->input('subscription.plan_id') == $subscription->plan_id &&
                 $request->input('subscription.payment_number') == $subscription->payment_number
             ) {
+                $plan = Plan::find($request->input('subscription.plan_id'));
+                if (!$plan) {
+                    return SubscriptionController::notify("", "Plan not encontrado", false);
+                }
+                // No hay cambios en la suscripción, Actualizar creditos y fechas
+                $planFeatures = json_decode($plan->features, true);
+                $subscription->credits = intval($planFeatures['Credits']);
+                $subscription->starts_at = now();
+                $subscription->ends_at = now()->addDays(intval($plan->duration_in_days));
+                $subscription->save();
+
                 return SubscriptionController::notify('', "Actualizado");
             }
             //Comprobar la tarjeta
@@ -138,6 +149,7 @@ class SubscriptionController extends Controller
 
             return SubscriptionController::notify('', "Actualizado");
         } catch (\Throwable $th) {
+            dd($th);
             throw new \Exception("Error actualizando la subscripcion", 0, $th);
             return SubscriptionController::notify('', "Error actualizando la subscripcion", false);
         }

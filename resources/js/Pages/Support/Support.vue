@@ -106,6 +106,11 @@ function deleteTicket(ticketId) {
                         >, ID :
                         <span>{{ ticket.questioner_id }}</span>
                     </h3>
+                    <small>{{
+                        ticket.questioner.subscription?.plan?.name
+                    }}</small>
+                    <br />
+
                     <small class="text-[9px]">
                         {{
                             new Date(ticket.created_at).toLocaleDateString(

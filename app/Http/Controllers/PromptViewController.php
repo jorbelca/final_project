@@ -51,6 +51,11 @@ class PromptViewController extends Controller
 
             if (!$user->hasCredits()) {
                 return PromptViewController::notify("No tienes Creditos, en el apartado Perfil puedes actualizar tu suscripcion ->", false);
+            } else if ($user->subscription() && $user->subscription->hasExpired()) {
+                $user->subscription->update([
+                    'active' => false,
+                ]);
+                return PromptViewController::notify("Tu suscripcion ha caducado, por favor actualiza tu suscripcion", false);
             }
 
             $costs = CostController::getUserCostsString($user);
@@ -224,6 +229,7 @@ class PromptViewController extends Controller
                 'budget' => $budget,
             ];
         } catch (\Throwable $th) {
+            dd($th);
             throw new \Exception("Error generating the prompt", 0, $th);
             return PromptViewController::notify("Error generando el prompt", false);
         }

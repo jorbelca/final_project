@@ -35,6 +35,14 @@ const updateSubscription = () => {
         },
     });
 };
+
+const subscriptionHasExpired = () => {
+    return (
+        props.subscription &&
+        props.subscription.ends_at &&
+        dayjs(props.subscription.ends_at).isBefore(dayjs())
+    );
+};
 </script>
 
 <template>
@@ -100,7 +108,12 @@ const updateSubscription = () => {
                     <InputLabel for="subscription" value="Subscripción" />
 
                     <div
-                        class="bg-white dark:bg-hover border border-gray-200 rounded-lg p-4 my-3"
+                        :class="[
+                            subscriptionHasExpired()
+                                ? 'bg-red-400'
+                                : 'bg-white',
+                            'dark:bg-hover border border-gray-200 rounded-lg p-4 my-3',
+                        ]"
                     >
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div class="flex flex-col items-center">
@@ -121,8 +134,10 @@ const updateSubscription = () => {
                                 </h6>
                                 <p class="text-text">
                                     {{
-                                        props.subscription &&
-                                        props.subscription.ends_at
+                                        subscriptionHasExpired()
+                                            ? "Expirado"
+                                            : props.subscription &&
+                                              props.subscription.ends_at
                                             ? dayjs(
                                                   props.subscription.ends_at
                                               ).diff(dayjs(), "day") + " días"
@@ -143,28 +158,52 @@ const updateSubscription = () => {
                                     maxlength="19"
                                     @input="
                                         (e) => {
-                                            const oldPos = e.target.selectionStart;
+                                            const oldPos =
+                                                e.target.selectionStart;
                                             const oldVal = e.target.value;
-                                            const raw = oldVal.replace(/\D/g, '');
+                                            const raw = oldVal.replace(
+                                                /\D/g,
+                                                ''
+                                            );
                                             if (!raw) {
-                                                form.subscription.payment_number = '';
+                                                form.subscription.payment_number =
+                                                    '';
                                                 e.target.value = '';
                                                 return;
                                             }
                                             let formatted = '';
-                                            for (let i = 0; i < raw.length && i < 16; i++) {
-                                                if (i > 0 && i % 4 === 0) formatted += '-';
+                                            for (
+                                                let i = 0;
+                                                i < raw.length && i < 16;
+                                                i++
+                                            ) {
+                                                if (i > 0 && i % 4 === 0)
+                                                    formatted += '-';
                                                 formatted += raw[i];
                                             }
-                                            form.subscription.payment_number = formatted;
+                                            form.subscription.payment_number =
+                                                formatted;
                                             e.target.value = formatted;
 
                                             // Simple cursor offset calculation
-                                            const dashesBefore = (oldVal.slice(0, oldPos).match(/-/g) || []).length;
-                                            const dashesAfter = (formatted.slice(0, oldPos).match(/-/g) || []).length;
-                                            const newPos = oldPos + (dashesAfter - dashesBefore);
+                                            const dashesBefore = (
+                                                oldVal
+                                                    .slice(0, oldPos)
+                                                    .match(/-/g) || []
+                                            ).length;
+                                            const dashesAfter = (
+                                                formatted
+                                                    .slice(0, oldPos)
+                                                    .match(/-/g) || []
+                                            ).length;
+                                            const newPos =
+                                                oldPos +
+                                                (dashesAfter - dashesBefore);
 
-                                            e.target.setSelectionRange(newPos, newPos);
+                                            e.target.setSelectionRange(
+                                                newPos,
+                                                newPos
+                                            );
                                         }
                                     "
                                 />
