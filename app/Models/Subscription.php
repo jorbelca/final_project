@@ -41,6 +41,12 @@ class Subscription extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function hasExpired()
+    {
+        return $this->ends_at < now();
+    }
+
+
     public function plan()
     {
         return $this->belongsTo(Plan::class);
