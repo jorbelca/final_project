@@ -8,6 +8,7 @@ use App\Http\Controllers\PromptViewController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StatisticsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -56,7 +57,8 @@ Route::middleware([
     //Cambiar estado budget
     Route::post('/users/{id}/changestate', [UserController::class, 'changeState']);
 
-
+    //Estadisticas
+    Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics');
 
     //FALLBACK
     Route::fallback(function () {

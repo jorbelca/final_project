@@ -102,6 +102,15 @@ const logout = () => {
                                 >
                                     IA
                                 </NavLink>
+                                <NavLink
+                                    v-if="
+                                        +$page?.props?.auth?.user?.active === 1
+                                    "
+                                    :href="route('statistics')"
+                                    :active="route().current('statistics')"
+                                >
+                                    Stats
+                                </NavLink>
                             </div>
                         </div>
 
