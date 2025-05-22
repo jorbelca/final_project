@@ -158,10 +158,10 @@ defineProps({
                                         class="absolute top-0 left-1/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-10 w-[65%] sm:w-[65%] md:w-[60%]"
                                     >
                                         <img
-                                            src="/capturas/costes.png"
+                                            src="/capturas/costes.webp"
                                             alt="Gestión de costes screenshot"
                                             class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
-                                            onerror="this.src='/imgs/default-costs.png'"
+                                            onerror="this.src='/imgs/default-costs.webp'"
                                         />
                                     </div>
 
@@ -170,10 +170,10 @@ defineProps({
                                         class="absolute top-20 sm:top-24 md:top-28 left-2/3 transform -translate-x-1/2 hover:-translate-y-2 transition-all duration-300 z-0 w-[60%] sm:w-[60%] md:w-[55%]"
                                     >
                                         <img
-                                            src="/capturas/costes-archivo.png"
+                                            src="/capturas/costes-archivo.webp"
                                             alt="Gestión de costes screenshot"
                                             class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
-                                            onerror="this.src='/imgs/default-costs.png'"
+                                            onerror="this.src='/imgs/default-costs.webp'"
                                         />
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@ defineProps({
                                             src="/imgs/pdf.svg"
                                             alt="PDF Upload"
                                             class="w-12 sm:w-16 md:w-20 lg:w-24 rounded-lg shadow-lg dark:opacity-90"
-                                            onerror="this.src='/imgs/default-pdf.png'"
+                                            onerror="this.src='/imgs/default-pdf.webp'"
                                         />
                                     </div>
 
@@ -200,7 +200,7 @@ defineProps({
                                             src="/imgs/coins.svg"
                                             alt="Coins"
                                             class="w-16 sm:w-20 md:w-28 lg:w-32 rounded-lg shadow-lg dark:opacity-95"
-                                            onerror="this.src='/imgs/default-csv.png'"
+                                            onerror="this.src='/imgs/default-csv.webp'"
                                         />
                                     </div>
 
@@ -211,7 +211,7 @@ defineProps({
                                             src="/imgs/csv.svg"
                                             alt="CSV Upload"
                                             class="w-12 sm:w-16 md:w-20 lg:w-24 rounded-lg shadow-lg dark:opacity-90"
-                                            onerror="this.src='/imgs/default-csv.png'"
+                                            onerror="this.src='/imgs/default-csv.webp'"
                                         />
                                     </div>
                                 </div>
@@ -247,10 +247,10 @@ defineProps({
                                 class="absolute top-0 inset-0 hover:-translate-y-2 transition-all duration-300 z-10 w-full"
                             >
                                 <img
-                                    src="/capturas/clients.png"
+                                    src="/capturas/clients.webp"
                                     alt="Gestión de clientes screenshot"
                                     class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
-                                    onerror="this.src='/imgs/default-costs.png'"
+                                    onerror="this.src='/imgs/default-costs.webp'"
                                 />
                             </div>
 
@@ -262,7 +262,7 @@ defineProps({
                                     src="/imgs/clients.svg"
                                     alt="Logo de Clientes"
                                     class="w-32 sm:w-36 md:w-40 rounded-lg shadow-lg dark:opacity-95 mt-10"
-                                    onerror="this.src='/imgs/default-clients.png'"
+                                    onerror="this.src='/imgs/default-clients.webp'"
                                 />
                             </div>
                         </div>

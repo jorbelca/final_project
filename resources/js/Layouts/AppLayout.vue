@@ -79,21 +79,6 @@ const logout = () => {
                                     Costes
                                 </NavLink>
                                 <NavLink
-                                    v-if="$page?.props?.auth?.user?.admin == 1"
-                                    :href="route('admin')"
-                                    :active="$page.url === '/admin'"
-                                >
-                                    Admin
-                                </NavLink>
-
-                                <NavLink
-                                    :href="route('support.index')"
-                                    :active="route().current('support.index')"
-                                >
-                                    Soporte
-                                </NavLink>
-
-                                <NavLink
                                     v-if="
                                         +$page?.props?.auth?.user?.active === 1
                                     "
@@ -110,6 +95,20 @@ const logout = () => {
                                     :active="route().current('statistics')"
                                 >
                                     Stats
+                                </NavLink>
+                                <NavLink
+                                    v-if="$page?.props?.auth?.user?.admin == 1"
+                                    :href="route('admin')"
+                                    :active="$page.url === '/admin'"
+                                >
+                                    Admin
+                                </NavLink>
+
+                                <NavLink
+                                    :href="route('support.index')"
+                                    :active="route().current('support.index')"
+                                >
+                                    Soporte
                                 </NavLink>
                             </div>
                         </div>
@@ -459,7 +458,20 @@ const logout = () => {
                             :href="route('costs.index')"
                             :active="route().current('costs.index')"
                         >
-                            Costes
+                            Costes </ResponsiveNavLink
+                        ><ResponsiveNavLink
+                            v-if="+$page?.props?.auth?.user?.active === 1"
+                            :href="route('prompt.index')"
+                            :active="route().current('prompt.index')"
+                        >
+                            IA
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            v-if="+$page?.props?.auth?.user?.active === 1"
+                            :href="route('statistics')"
+                            :active="route().current('statistics')"
+                        >
+                            Estadisticas
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             v-if="$page?.props?.auth?.user?.admin == 1"
@@ -473,13 +485,6 @@ const logout = () => {
                             :active="route().current('support.index')"
                         >
                             Soporte
-                        </ResponsiveNavLink>
-                        <ResponsiveNavLink
-                            v-if="+$page?.props?.auth?.user?.active === 1"
-                            :href="route('prompt.index')"
-                            :active="route().current('prompt.index')"
-                        >
-                            IA
                         </ResponsiveNavLink>
                     </div>
 

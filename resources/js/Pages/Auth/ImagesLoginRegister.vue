@@ -16,7 +16,7 @@ const props = defineProps({
         ]"
     >
         <img
-            src="/capturas/new_app.png"
+            src="/capturas/new_app.webp"
             alt="Example App"
             :class="[
                 'rounded-lg shadow-2xl border border-gray-300 dark:border-gray-700 hover:shadow-4xl',
@@ -27,7 +27,7 @@ const props = defineProps({
         />
         <!-- Imagen superpuesta (Budget) -->
         <img
-            src="/capturas/new_budget.png"
+            src="/capturas/new_budget.webp"
             alt="Example Budget"
             :class="[
                 'absolute rounded-lg shadow-xl border border-gray-300 dark:border-gray-700 hover:shadow-4xl',
