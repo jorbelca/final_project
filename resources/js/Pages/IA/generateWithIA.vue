@@ -234,7 +234,7 @@ onMounted(() => {
                                     <select
                                         name="quality"
                                         id="quality"
-                                        class="ml-2 px-2 py-1 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                        class="ml-1 pr-8 py-1 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-700 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                                         v-model="quality"
                                     >
                                         <option value="low">Baja</option>

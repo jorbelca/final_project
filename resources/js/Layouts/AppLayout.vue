@@ -58,7 +58,7 @@ const logout = () => {
 
                             <!-- Navigation Links -->
                             <div
-                                class="hidden space-x-6 md:-my-px md:ms-5 md:flex"
+                                class="hidden space-x-4 md:-my-px md:ms-5 md:flex"
                             >
                                 <NavLink
                                     :href="route('budgets.index')"
@@ -94,7 +94,7 @@ const logout = () => {
                                     :href="route('statistics')"
                                     :active="route().current('statistics')"
                                 >
-                                    Stats
+                                    Estadísticas
                                 </NavLink>
                                 <NavLink
                                     v-if="$page?.props?.auth?.user?.admin == 1"
@@ -471,7 +471,7 @@ const logout = () => {
                             :href="route('statistics')"
                             :active="route().current('statistics')"
                         >
-                            Estadisticas
+                            Estadísticas
                         </ResponsiveNavLink>
                         <ResponsiveNavLink
                             v-if="$page?.props?.auth?.user?.admin == 1"

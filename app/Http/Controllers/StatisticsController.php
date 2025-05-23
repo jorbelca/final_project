@@ -12,46 +12,100 @@ class StatisticsController extends Controller
         $user = auth()->user();
 
         // Get budget statistics
-        $budgetsCount = $user->budgets()->count();
-        $budgetsByState = $user->budgets()
-            ->selectRaw('state, COUNT(*) as count')
-            ->groupBy('state')
-            ->pluck('count', 'state')
-            ->toArray();
 
+        $rawBudgets = $user->budgets;
         // Get client count
         $clientsCount = $user->clients()->count();
 
+        $budgetsByState = StatisticsController::sliceInfo($rawBudgets->groupBy('state'));
+
+
+
         // Get clients with their budget statistics
         $clientBudgetStats = $user->clients()
-            ->with(['budgets:id,client_id,state'])
+            ->with(['budgets:id,client_id,state,content'])
             ->get()
             ->map(function ($client) {
-                $budgetsByState = $client->budgets->groupBy('state')
-                    ->map(function ($group) {
-                        return count($group);
-                    })->toArray();
+                $budgetsByState = StatisticsController::sliceInfo($client->budgets->groupBy('state'));
 
                 return [
                     'client_name' => $client->name ?? 'Unknown',
-                    'total_budgets' => $client->budgets->count(),
-                    'budgets_by_state' => $budgetsByState
+                    'budgets_by_state' => $budgetsByState,
                 ];
             });
 
+
+
+        // Calculate total budget amount for this client
+        $totalAmount = $user->budgets->reduce(function ($total, $budget) {
+            $content = is_string($budget->content) ? json_decode($budget->content, true) : $budget->content;
+
+            if (empty($content)) {
+                return $total;
+            }
+
+            // Handle array of items in content
+            if (isset($content[0])) {
+                $itemTotal = collect($content)->sum(function ($item) {
+                    return ($item['quantity'] ?? 0) * ($item['cost'] ?? 0);
+                });
+            } else {
+                // Handle single item structure
+                $itemTotal = ($content['quantity'] ?? 0) * ($content['cost'] ?? 0);
+            }
+
+            return $total + $itemTotal;
+        }, 0);
+
         // Combine statistics
         $budgetsStats = [
-            'total' => $budgetsCount,
-            'by_state' => $budgetsByState
+            'total_amount' => $totalAmount,
+            'by_state' => $budgetsByState,
         ];
 
         $clientByBudgetState = $clientBudgetStats;
 
+        $user->profesional = $user->subscription->plan_id === 3 ? true : false;
 
         return Inertia::render('Stats/Stats', [
             'budgetsStats' => $budgetsStats,
             'clientsCount' => $clientsCount,
             'clientByBudgetState' => $clientByBudgetState
         ]);
+    }
+
+
+
+    static  public function sliceInfo($budgets)
+    {
+        return $budgets->map(function ($budgetsInState) {
+            // Calculate total amount for all budgets in this state
+            $totalAmount = $budgetsInState->reduce(function ($total, $budget) {
+                $content = is_string($budget->content) ? json_decode($budget->content, true) : $budget->content;
+
+                if (empty($content)) {
+                    return $total;
+                }
+
+                // Handle array of items in content
+                if (isset($content[0])) {
+                    $itemTotal = collect($content)->sum(function ($item) {
+                        return is_array($item) ? ($item['quantity'] ?? 0) * ($item['cost'] ?? 0) : 0;
+                    });
+                } elseif (is_array($content)) {
+                    // Handle single item structure
+                    $itemTotal = ($content['quantity'] ?? 0) * ($content['cost'] ?? 0);
+                } else {
+                    $itemTotal = 0;
+                }
+
+                return $total + $itemTotal;
+            }, 0);
+
+            return [
+                'total' => $totalAmount,
+                'count' => $budgetsInState->count()
+            ];
+        })->toArray();
     }
 }

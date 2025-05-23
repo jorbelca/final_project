@@ -16,7 +16,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="BudgetApp - Gestor de Presupuestos" />
 
     <div class="bg-gray-100 text-gray-800 dark:bg-green-950 dark:text-gray-300">
         <div class="relative min-h-screen flex flex-col items-center">
@@ -67,16 +67,21 @@ defineProps({
                         <div
                             class="z-10 w-full max-w-6xl px-4 sm:px-6 py-6 sm:py-10 text-center"
                         >
-                            <h2
+                            <h1
                                 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-5 tracking-tight"
                             >
-                                Simplifica tus presupuestos
-                            </h2>
+                                Gestión de presupuestos profesionales con IA
+                                integrada
+                            </h1>
                             <p
                                 class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-8 leading-relaxed"
                             >
-                                Con nuestra aplicación, podrás gestionar tus
-                                presupuestos de manera fácil y rápida.
+                                Ahorra hasta un 40% de tiempo en la creación de
+                                presupuestos. Nuestra plataforma
+                                integra IA, análisis de costes y gestión de
+                                clientes en una solución todo-en-uno para
+                                profesionales independientes y pequeñas
+                                empresas.
                                 <a
                                     class="block mt-2 font-medium text-blue-600 dark:text-blue-400"
                                     href="/register"
@@ -88,7 +93,7 @@ defineProps({
                         </div>
                     </section>
 
-                    <!-- Sección 2 -->
+                    <!-- Sección 2: IA -->
                     <section
                         class="min-h-screen flex flex-col justify-center items-center snap-start px-4 sm:px-8 py-16 bg-gradient-to-br from-green-400 to-green-600 dark:from-green-800 dark:to-green-950 text-white relative overflow-hidden"
                     >
@@ -118,6 +123,7 @@ defineProps({
                                 eficiente. Solo necesitas ingresar los datos
                                 necesarios y nuestra IA se encargará del resto.
                                 <br />
+
                                 <span class="font-bold"
                                     >¡Olvídate de los cálculos tediosos!</span
                                 >
@@ -125,7 +131,111 @@ defineProps({
                         </div>
                     </section>
 
-                    <!-- Sección 3: Gestión de Costes -->
+                    <!-- Sección 3: Estadísticas -->
+                    <section
+                        class="min-h-screen flex flex-col justify-center items-center snap-start px-4 sm:px-8 py-16 bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-800 dark:to-amber-950 text-white relative overflow-hidden"
+                    >
+                        <div class="max-w-4xl mx-auto text-center">
+                            <h2
+                                class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8"
+                            >
+                                Visualiza tus datos con claridad
+                            </h2>
+
+                            <div
+                                class="hover:-translate-y-2 transition-all duration-200 z-10 w-[90%] sm:w-[80%] md:w-[70%] mx-auto"
+                            >
+                                <img
+                                    src="/imgs/stats.webp"
+                                    alt="Estadísticas"
+                                    class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
+                                    onerror="this.src='/capturas/backup/stats.png'"
+                                />
+                            </div>
+
+                            <p
+                                class="text-lg sm:text-xl md:text-2xl leading-relaxed max-w-2xl mx-auto"
+                            >
+                                Nuestros
+                                <span class="font-bold"
+                                    >paneles estadísticos</span
+                                >
+                                te muestran gráficos detallados de tus ingresos,
+                                gastos y rentabilidad por proyecto. Toma
+                                decisiones basadas en datos reales.
+                                <br />
+                                <span class="font-bold">
+                                    Conoce el rendimiento de tus presupuestos de
+                                    un vistazo
+                                </span>
+                            </p>
+
+                            <div class="mt-8 flex justify-center gap-4">
+                                <div
+                                    class="bg-white/20 rounded-lg p-3 backdrop-blur-sm hover:scale-105 transition-transform"
+                                >
+                                    <svg
+                                        class="w-12 h-12"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div
+                                    class="bg-white/20 rounded-lg p-3 backdrop-blur-sm hover:scale-105 transition-transform"
+                                >
+                                    <svg
+                                        class="w-12 h-12"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"
+                                        />
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"
+                                        />
+                                    </svg>
+                                </div>
+                                <div
+                                    class="bg-white/20 rounded-lg p-3 backdrop-blur-sm hover:scale-105 transition-transform"
+                                >
+                                    <svg
+                                        class="w-12 h-12"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                        />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Sección 4: Gestión de Costes -->
                     <section
                         class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-blue-400 to-blue-600 dark:from-blue-800 dark:to-blue-950 text-white relative overflow-hidden px-4 sm:px-8 py-8 sm:py-16"
                     >
@@ -161,7 +271,7 @@ defineProps({
                                             src="/capturas/costes.webp"
                                             alt="Gestión de costes screenshot"
                                             class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
-                                            onerror="this.src='/imgs/default-costs.webp'"
+                                            onerror="this.src='/capturas/backup/costes.png'"
                                         />
                                     </div>
 
@@ -173,7 +283,7 @@ defineProps({
                                             src="/capturas/costes-archivo.webp"
                                             alt="Gestión de costes screenshot"
                                             class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
-                                            onerror="this.src='/imgs/default-costs.webp'"
+                                            onerror="this.src='/capturas/backup/costes-archivo.png'"
                                         />
                                     </div>
                                 </div>
@@ -189,7 +299,6 @@ defineProps({
                                             src="/imgs/pdf.svg"
                                             alt="PDF Upload"
                                             class="w-12 sm:w-16 md:w-20 lg:w-24 rounded-lg shadow-lg dark:opacity-90"
-                                            onerror="this.src='/imgs/default-pdf.webp'"
                                         />
                                     </div>
 
@@ -200,7 +309,6 @@ defineProps({
                                             src="/imgs/coins.svg"
                                             alt="Coins"
                                             class="w-16 sm:w-20 md:w-28 lg:w-32 rounded-lg shadow-lg dark:opacity-95"
-                                            onerror="this.src='/imgs/default-csv.webp'"
                                         />
                                     </div>
 
@@ -211,7 +319,6 @@ defineProps({
                                             src="/imgs/csv.svg"
                                             alt="CSV Upload"
                                             class="w-12 sm:w-16 md:w-20 lg:w-24 rounded-lg shadow-lg dark:opacity-90"
-                                            onerror="this.src='/imgs/default-csv.webp'"
                                         />
                                     </div>
                                 </div>
@@ -219,7 +326,7 @@ defineProps({
                         </div>
                     </section>
 
-                    <!-- Sección 4: Gestión de Clientes -->
+                    <!-- Sección 5: Gestión de Clientes -->
                     <section
                         class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-purple-400 to-purple-600 dark:from-purple-800 dark:to-purple-950 text-white relative overflow-hidden px-4 sm:px-8 py-16"
                     >
@@ -250,7 +357,7 @@ defineProps({
                                     src="/capturas/clients.webp"
                                     alt="Gestión de clientes screenshot"
                                     class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
-                                    onerror="this.src='/imgs/default-costs.webp'"
+                                    onerror="this.src='/capturas/backup/clients.png'"
                                 />
                             </div>
 
@@ -262,13 +369,12 @@ defineProps({
                                     src="/imgs/clients.svg"
                                     alt="Logo de Clientes"
                                     class="w-32 sm:w-36 md:w-40 rounded-lg shadow-lg dark:opacity-95 mt-10"
-                                    onerror="this.src='/imgs/default-clients.webp'"
                                 />
                             </div>
                         </div>
                     </section>
 
-                    <!-- Sección 5: Planes -->
+                    <!-- Sección 6: Planes -->
                     <section
                         class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-red-400 to-red-600 dark:from-red-800 dark:to-red-950 text-white relative overflow-hidden px-4 sm:px-8 py-16"
                     >

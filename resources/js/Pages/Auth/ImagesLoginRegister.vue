@@ -24,6 +24,7 @@ const props = defineProps({
                     ? 'max-w-[400px] max-h-[500px]' // Landing
                     : 'max-w-[200px] max-h-[200px]', // Default
             ]"
+            onerror="this.src='/capturas/backup/new_app.png'"
         />
         <!-- Imagen superpuesta (Budget) -->
         <img
@@ -35,6 +36,7 @@ const props = defineProps({
                     ? 'max-w-[450px] max-h-[450px] top-20 -right-6' // Landing
                     : 'top-20 -right-0 max-w-[250px] max-h-[200px]', // Default
             ]"
+            onerror="this.src='/capturas/backup/new_budget.png'"
         />
     </div>
 </template>
