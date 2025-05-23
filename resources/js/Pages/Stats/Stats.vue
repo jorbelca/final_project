@@ -1,9 +1,9 @@
 <script setup>
-import { formatMonyey } from "@/Components/Budgets/helpers";
+import { formatMoney } from "@/Components/Budgets/helpers";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import DetailStateTile from "@/Pages/Stats/DetailStateTile.vue";
 
-defineProps({
+const props = defineProps({
     budgetsStats: {
         type: Object,
         required: true,
@@ -24,6 +24,11 @@ const totalBudgets = (budgets) =>
                 : item),
         0
     );
+const totalQuantityBudgets = totalBudgets(props.budgetsStats.by_state);
+const totalAmountBudgets = props.budgetsStats.total_amount;
+const totalClientBudgets = props.clientByBudgetState
+    .map((client) => totalBudgets(client.budgets_by_state))
+    .reduce((acc, item) => acc + item, 0);
 </script>
 
 <template>
@@ -46,7 +51,7 @@ const totalBudgets = (budgets) =>
                                 Total de Presupuestos
                             </div>
                             <div class="text-2xl font-bold mt-1">
-                                {{ totalBudgets(budgetsStats.by_state) }}
+                                {{ totalQuantityBudgets }}
                             </div>
                         </div>
                         <div>
@@ -54,13 +59,15 @@ const totalBudgets = (budgets) =>
                                 Total Presupuestado
                             </div>
                             <div class="text-2xl font-bold mt-1">
-                                {{ formatMonyey(budgetsStats.total_amount) }} €
+                                {{ formatMoney(totalAmountBudgets) }} €
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white dark:bg-hover p-4 rounded-lg shadow-md">
+                <div
+                    class="bg-white dark:bg-hover p-4 rounded-lg shadow-md flex justify-around text-center"
+                >
                     <div>
                         <div class="text-text text-sm">Clientes Totales</div>
                         <div class="text-2xl font-bold mt-1">
@@ -72,17 +79,18 @@ const totalBudgets = (budgets) =>
                             Presupuestos con Cliente
                         </div>
                         <div class="text-2xl font-bold mt-1">
-                            {{ clientByBudgetState.length }}
+                            {{ totalClientBudgets }}
                         </div>
                     </div>
                     <div>
                         <div class="text-text text-sm">
-                            Presupuestos SIN Cliente
+                            Presupuestos anónimos
                         </div>
                         <div class="text-2xl font-bold mt-1">
                             {{
-                                totalBudgets(budgetsStats.by_state) -
-                                clientByBudgetState.length
+                                totalClientBudgets
+                                    ? totalQuantityBudgets - totalClientBudgets
+                                    : 0
                             }}
                         </div>
                     </div>
@@ -91,21 +99,68 @@ const totalBudgets = (budgets) =>
 
             <!-- Client details section with grid -->
             <div>
-                <h3 class="text-lg font-semibold mb-3">Detalles de Clientes</h3>
+                <h3 class="text-lg font-bold mb-3">Clientes</h3>
                 <div class="bg-white dark:bg-hover rounded-lg shadow-md p-4">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                         <div
                             v-for="(client, index) in clientByBudgetState"
                             :key="index"
-                            class="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200 bg-gray-50 dark:bg-gray-700"
+                            class="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200 bg-gray-50 dark:bg-gray-800"
                         >
                             <div
-                                class="font-bold text-lg border-b border-gray-200 pb-2 mb-2"
+                                class="font-bold text-lg border-b border-gray-200 pb-2 mb-2 flex justify-between align-baseline"
                             >
-                                {{ client.client_name }}:
-                                <span class="text-sm font-normal mb-2">
-                                    {{ totalBudgets(client.budgets_by_state) }}
-                                    presupuestos
+                                <div>
+                                    {{ client.client_name }}:
+                                    <span class="text-sm font-normal">
+                                        {{
+                                            totalBudgets(
+                                                client.budgets_by_state
+                                            )
+                                        }}
+                                        presupuestos
+                                        <span
+                                            class="text-sm font-normal text-blue-400"
+                                        >
+                                            (
+                                            {{
+                                                (
+                                                    (totalBudgets(
+                                                        client.budgets_by_state
+                                                    ) /
+                                                        totalQuantityBudgets) *
+                                                    100
+                                                ).toFixed(1)
+                                            }}%)
+                                        </span>
+                                    </span>
+                                </div>
+                                <span class="text-sm font-bold">
+                                    <span
+                                        class="text-sm font-normal text-green-600"
+                                    >
+                                        (
+                                        {{
+                                            (
+                                                (Object.values(
+                                                    client.budgets_by_state
+                                                ).reduce((acc, state) => {
+                                                    return (acc += state.total);
+                                                }, 0) /
+                                                    totalAmountBudgets) *
+                                                100
+                                            ).toFixed(1)
+                                        }}%)
+                                    </span>
+                                    {{
+                                        formatMoney(
+                                            Object.values(
+                                                client.budgets_by_state
+                                            ).reduce((acc, state) => {
+                                                return (acc += state.total);
+                                            }, 0)
+                                        )
+                                    }}€
                                 </span>
                             </div>
 

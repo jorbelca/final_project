@@ -2,41 +2,39 @@
 
 Este proyecto es una aplicación web desarrollada con el framework Laravel que permite la gestión de presupuestos. Los usuarios pueden introducir detalles de sus costes, y la aplicación genera un presupuesto formateado listo para enviar al cliente.
 
-
 ## Características principales
-- Generación de presupuestos con IA: Utiliza reconocimiento de voz para crear presupuestos de forma automática.
-- Sistema de suscripciones: Diferentes planes con distintos niveles de acceso a funcionalidades.
-- Experiencia PWA completa: Instalable como aplicación nativa y funcionalidad offline.
-- Modo oscuro/claro: Interfaz adaptable a las preferencias del usuario.
-- Diseño responsive: Optimizado para todas las pantallas y dispositivos.
 
+-   Generación de presupuestos con IA: Utiliza reconocimiento de voz para crear presupuestos de forma automática.
+-   Sistema de suscripciones: Diferentes planes con distintos niveles de acceso a funcionalidades.
+-   Experiencia PWA completa: Instalable como aplicación nativa y funcionalidad offline.
+-   Modo oscuro/claro: Interfaz adaptable a las preferencias del usuario.
+-   Diseño responsive: Optimizado para todas las pantallas y dispositivos.
 
 ## Tecnologias
 
-![](https://img.shields.io/badge/-FF2D20?style=for-the-badge&logo=laravel&logoColor=white) 
-![](https://img.shields.io/badge/-316192?style=for-the-badge&logo=postgresql&logoColor=white) 
-![](https://img.shields.io/badge/-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D) 
-![](https://img.shields.io/badge/-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white) 
-
+![](https://img.shields.io/badge/-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![](https://img.shields.io/badge/-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![](https://img.shields.io/badge/-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)
+![](https://img.shields.io/badge/-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
 ## BBD
 
-- **Users**: Gestión de usuarios del sistema
-- **Budgets**: Presupuestos creados por los usuarios
-- **Costs**: Detalles de costes asociados a cada presupuesto
-- **Subscriptions**: Control de planes de suscripción
-- **Clients**: Información de los clientes
-- **User_Client**: Relación entre usuarios y clientes
-- **Additional_Prompt**: Configuraciones personalizadas
-- **Support**: Sistema de soporte y ayuda
-- **Plans**: Diferentes planes de suscripción disponibles
+-   **Users**: Gestión de usuarios del sistema
+-   **Budgets**: Presupuestos creados por los usuarios
+-   **Costs**: Detalles de costes asociados a cada presupuesto
+-   **Subscriptions**: Control de planes de suscripción
+-   **Clients**: Información de los clientes
+-   **User_Client**: Relación entre usuarios y clientes
+-   **Additional_Prompt**: Configuraciones personalizadas
+-   **Support**: Sistema de soporte y ayuda
+-   **Plans**: Diferentes planes de suscripción disponibles
 
 ## 📝 Requisitos Previos
 
-- PHP >= 7.3
-- Composer
-- Sistema de gestión de bases de datos compatible con Eloquent (PostgreSQL recomendado)
-- npm
+-   PHP >= 7.3
+-   Composer
+-   Sistema de gestión de bases de datos compatible con Eloquent (PostgreSQL recomendado)
+-   npm
 
 ## 🚀 Instalación
 
@@ -96,8 +94,8 @@ Este proyecto es una aplicación web desarrollada con el framework Laravel que p
     vs
 
     ```bash
-    docker-compose up -d 
-    ``` 
+    docker-compose up -d
+    ```
 
 2. **Acceder a la aplicación**:
 
@@ -109,12 +107,12 @@ Este proyecto es una aplicación web desarrollada con el framework Laravel que p
 
 ## 📁 Estructura del Proyecto
 
-- `app/`: Modelos, controladores y servicios
-- `database/`: Migraciones y seeders
-- `resources/`: Vistas y recursos estáticos
-- `routes/`: Definición de rutas
-- `config/`: Archivos de configuración
-- `public/`: Punto de entrada y assets públicos
+-   `app/`: Modelos, controladores y servicios
+-   `database/`: Migraciones y seeders
+-   `resources/`: Vistas y recursos estáticos
+-   `routes/`: Definición de rutas
+-   `config/`: Archivos de configuración
+-   `public/`: Punto de entrada y assets públicos
 
 ## 🤝 Contribución
 
@@ -128,21 +126,24 @@ Si deseas contribuir a este proyecto:
 
 ## 📝 Licencia
 
-Este proyecto está licenciado bajo la [MIT License](LICENSE).
+Este proyecto es privado y no está disponible para distribución pública. Todos los derechos están reservados. No se permite la copia, modificación, distribución o uso del código sin el permiso explícito del propietario.
 
 ## 🔜 Futuras Mejoras
 
-- **Internacionalización**
-  - Soporte multi-idioma
+-   **Internacionalización**
 
-- **Pasarela de Pago**
-  - Integración con plataformas de pago
+    -   Soporte multi-idioma
 
-- **Estadísticas de Usuario**
-  - Visualización de presupuestos por estado
-  - Agrupación por cliente
-  - Gráficos y reportes
+-   **Pasarela de Pago**
 
-- **Visualización de PDF**
-  - Iframe para visualizar PDFs sin descargar
-  - Miniaturas para compartir por aplicaciones de mensajería
+    -   Integración con plataformas de pago
+
+-   **Estadísticas de Usuario**
+-   ~~Visualización de presupuestos por estado~~
+-   ~~Agrupación por cliente~~
+
+    -   Gráficos y reportes
+
+-   **Visualización de PDF**
+    -   Iframe para visualizar PDFs sin descargar
+    -   Miniaturas para compartir por aplicaciones de mensajería

@@ -32,7 +32,7 @@ export const adaptarTexto = (texto) => {
     }
 };
 
-export const formatMonyey = (value) => {
+export const formatMoney = (value) => {
     const number = Number(value);
     if (isNaN(number)) {
         return value;

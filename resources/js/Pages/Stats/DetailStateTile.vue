@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps } from "vue";
 import StateTile from "@/Components/Budgets/StateTile.vue";
-import { formatMonyey } from "@/Components/Budgets/helpers";
+import { formatMoney } from "@/Components/Budgets/helpers";
 import PercentBar from "@/Pages/Stats/PercentBar.vue";
 
 const props = defineProps({
@@ -32,10 +32,10 @@ const mobile = window.innerWidth < 640;
             </div>
 
             <PercentBar
-                :percent="(((count.count ?? count) / budgetsLength) * 100).toFixed(1)"
+                :percent="+(((count.count ?? count) / budgetsLength) * 100).toFixed(1)"
             />
             <span class="text-text text-sm" v-if="count.total">
-                {{ formatMonyey(count.total) }}€
+                {{ formatMoney(count.total) }}€
             </span>
         </div>
     </div>

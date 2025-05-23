@@ -6,7 +6,7 @@ import InputLabel from "../_Default/InputLabel.vue";
 import TextInput from "../_Default/TextInput.vue";
 import ProcessingMessage from "../UI/ProcessingMessage.vue";
 import { stateOptions } from "./StateTile.vue";
-import { formatMonyey } from "./helpers";
+import { formatMoney } from "./helpers";
 
 const edit = window.location.pathname.includes("edit");
 let selectedCost = "";
@@ -292,7 +292,7 @@ const limitDescription = (description) => {
                 >
                     <p>
                         <b class="text-text text-lg font-extrabold"
-                            >Total: {{ formatMonyey(computedTotal) }} €</b
+                            >Total: {{ formatMoney(computedTotal) }} €</b
                         >
                     </p>
                 </div>
