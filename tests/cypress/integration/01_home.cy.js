@@ -5,6 +5,6 @@ describe("User Flow", () => {
     });
 
     it("shows the homepage", () => {
-        cy.contains("Simplifica tus presupuestos").should("be.visible");
+        cy.contains("Gestión de presupuestos profesionales").should("be.visible");
     });
 });

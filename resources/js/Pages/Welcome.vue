@@ -77,11 +77,10 @@ defineProps({
                                 class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-8 leading-relaxed"
                             >
                                 Ahorra hasta un 40% de tiempo en la creación de
-                                presupuestos. Nuestra plataforma
-                                integra IA, análisis de costes y gestión de
-                                clientes en una solución todo-en-uno para
-                                profesionales independientes y pequeñas
-                                empresas.
+                                presupuestos. Nuestra plataforma integra IA,
+                                análisis de costes y gestión de clientes en una
+                                solución todo-en-uno para profesionales
+                                independientes y pequeñas empresas.
                                 <a
                                     class="block mt-2 font-medium text-blue-600 dark:text-blue-400"
                                     href="/register"
@@ -146,7 +145,7 @@ defineProps({
                                 class="hover:-translate-y-2 transition-all duration-200 z-10 w-[90%] sm:w-[80%] md:w-[70%] mx-auto"
                             >
                                 <img
-                                    src="/imgs/stats.webp"
+                                    src="/capturas/stats.webp"
                                     alt="Estadísticas"
                                     class="w-full h-auto rounded-lg shadow-xl border-2 border-white/30"
                                     onerror="this.src='/capturas/backup/stats.png'"
