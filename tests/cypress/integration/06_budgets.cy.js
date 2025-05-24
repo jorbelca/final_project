@@ -5,9 +5,22 @@ describe.only("Budgets", () => {
     it("can create a budget", () => {
         // LOGIN
         cy.visit("/login");
-        cy.contains("Email").type(testUser.email);
-        cy.contains("Contraseña").type(testUser.password);
-        cy.contains("Entrar").click();
+         cy.get('input[type="email"], input[name="email"], input#email')
+            .first()
+            .type(testUser.email);
+        cy.get('input[type="password"], input[name="password"], input#password')
+            .first()
+            .type(testUser.password);
+
+        cy.contains("Iniciar Sesión").then(($btn) => {
+            if ($btn.length > 0) {
+                // Si el botón con el texto "Register" existe, se hace clic
+                cy.wrap($btn).click();
+            } else {
+                // Si el botón con el texto "Register" no existe, buscar el botón tipo submit
+                cy.get('button[type="submit"]').click(); // Selección alternativa
+            }
+        });
         cy.url().should("include", "/budgets");
 
         // CREATE BUDGET

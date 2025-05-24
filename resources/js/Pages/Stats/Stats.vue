@@ -108,7 +108,7 @@ const totalClientBudgets = props.clientByBudgetState
                             class="p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow duration-200 bg-gray-50 dark:bg-gray-800"
                         >
                             <div
-                                class="font-bold text-lg border-b border-gray-200 pb-2 mb-2 flex justify-between align-baseline"
+                                class="font-bold text-lg border-b border-gray-200 pb-2 mb-2 flex justify-between items-end"
                             >
                                 <div>
                                     {{ client.client_name }}:

@@ -5,9 +5,22 @@ describe.only("Clients", () => {
     it("can create a client", () => {
         // LOGIN
         cy.visit("/login");
-        cy.contains("Email").type(testUser.email);
-        cy.contains("Contraseña").type(testUser.password);
-        cy.contains("Entrar").click();
+         cy.get('input[type="email"], input[name="email"], input#email')
+            .first()
+            .type(testUser.email);
+        cy.get('input[type="password"], input[name="password"], input#password')
+            .first()
+            .type(testUser.password);
+
+        cy.contains("Iniciar Sesión").then(($btn) => {
+            if ($btn.length > 0) {
+                // Si el botón con el texto "Register" existe, se hace clic
+                cy.wrap($btn).click();
+            } else {
+                // Si el botón con el texto "Register" no existe, buscar el botón tipo submit
+                cy.get('button[type="submit"]').click(); // Selección alternativa
+            }
+        });
         cy.url().should("include", "/budgets");
 
         // CREATE CLIENTE
@@ -78,3 +91,41 @@ describe.only("Clients", () => {
     //     cy.contains("Client deleted").should("exist");
     // });
 });
+
+
+
+
+
+    // // Test 5: File Upload Vulnerabilities
+    // describe("File Upload Security Tests", () => {
+    //     it("should prevent malicious file uploads", () => {
+    //         cy.visit('/upload', { failOnStatusCode: false });
+
+    //         const maliciousFiles = [
+    //             'test.php',
+    //             'shell.jsp',
+    //             'backdoor.aspx',
+    //             'script.js',
+    //             'payload.svg'
+    //         ];
+
+    //         maliciousFiles.forEach((filename) => {
+    //             cy.get('input[type="file"]').then($input => {
+    //                 if ($input.length > 0) {
+    //                     const blob = new Blob(['<?php system($_GET["cmd"]); ?>'], { type: 'text/plain' });
+    //                     const file = new File([blob], filename, { type: 'text/plain' });
+
+    //                     const dataTransfer = new DataTransfer();
+    //                     dataTransfer.items.add(file);
+    //                     $input[0].files = dataTransfer.files;
+
+    //                     cy.wrap($input).trigger('change');
+    //                     cy.get('button[type="submit"]').click();
+
+    //                     // Should reject malicious files
+    //                     cy.get('body').should('contain', 'error').or('contain', 'rejected');
+    //                 }
+    //             });
+    //         });
+    //     });
+    // });

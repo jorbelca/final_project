@@ -10,11 +10,14 @@ describe.only("User Login", () => {
         // Verifica que la página de login esté cargada
         cy.url().should("include", "/login");
 
-        // Completa el formulario de login
-        cy.contains("Email").type(testUser.email);
-        cy.contains("Contraseña").type(testUser.password);
+        cy.get('input[type="email"], input[name="email"], input#email')
+            .first()
+            .type(testUser.email);
+        cy.get('input[type="password"], input[name="password"], input#password')
+            .first()
+            .type(testUser.password);
 
-        cy.contains("Entrar").then(($btn) => {
+        cy.contains("Iniciar Sesión").then(($btn) => {
             if ($btn.length > 0) {
                 // Si el botón con el texto "Register" existe, se hace clic
                 cy.wrap($btn).click();

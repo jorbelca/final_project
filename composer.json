@@ -2,11 +2,12 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Budget App - Budget Management System",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "bepsvpt/secure-headers": "^9.0",
         "cloudinary-labs/cloudinary-laravel": "^2.2",
         "fpdf/fpdf": "^1.86",
         "inertiajs/inertia-laravel": "^1.0",

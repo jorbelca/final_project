@@ -25,6 +25,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+    Route::get('/dashboard', function () {
+        return redirect()->route('budgets.index');
+    })->name('dashboard');
+
     Route::resource('budgets', BudgetViewController::class);
     Route::resource('costs', CostViewController::class)->except('show');
     Route::resource('clients', ClientViewController::class)->except('show');

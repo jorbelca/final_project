@@ -12,13 +12,19 @@ describe.only("User Registration", () => {
         cy.url().should("include", "/register");
 
         // Completa el formulario de registro
-        cy.contains("Nombre").type(testUser.name);
-        cy.contains("Email").type(testUser.email);
-        cy.contains("Contraseña").type(testUser.password);
-        cy.contains("Confirmar Contraseña").type(testUser.confirmPassword);
+          cy.get('input[type="text"], input[name="name"], input#name')
+            .first().type(testUser.name);
+        cy.get('input[type="email"], input[name="email"], input#email')
+            .first()
+            .type(testUser.email);
+        cy.get('input[type="password"], input[name="password"], input#password')
+            .first()
+            .type(testUser.password);
+          cy.get(' input#password_confirmation')
+            .first().type(testUser.confirmPassword);
 
         cy.get('button[type="submit"]')
-            .contains("Registrar")
+            .contains("Crear Cuenta")
             .then(($btn) => {
                 if ($btn.length > 0) {
                     // Si el botón con el texto "Register" existe, se hace clic
