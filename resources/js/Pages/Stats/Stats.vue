@@ -110,16 +110,11 @@ const totalClientBudgets = props.clientByBudgetState
                             <div
                                 class="font-bold text-lg border-b border-gray-200 pb-2 mb-2 flex justify-between items-end"
                             >
-                                <div>
-                                    {{ client.client_name }}:
-                                    <span class="text-sm font-normal">
-                                        {{
-                                            totalBudgets(
-                                                client.budgets_by_state
-                                            )
-                                        }}
-                                        presupuestos
-                                        <span
+                                <div class="flex items-center gap-6">
+                                    {{ client.client_name }}
+                                    <div
+                                        class="text-sm font-normal flex flex-col"
+                                        ><span
                                             class="text-sm font-normal text-blue-400"
                                         >
                                             (
@@ -133,9 +128,15 @@ const totalClientBudgets = props.clientByBudgetState
                                                 ).toFixed(1)
                                             }}%)
                                         </span>
-                                    </span>
+                                        {{
+                                            totalBudgets(
+                                                client.budgets_by_state
+                                            )
+                                        }}
+                                        presupuestos
+                                    </div>
                                 </div>
-                                <span class="text-sm font-bold">
+                                <span class="text-sm font-bold flex flex-col">
                                     <span
                                         class="text-sm font-normal text-green-600"
                                     >

@@ -4,6 +4,19 @@ var filesToCache = [
     "/images/icons/96.png",
     "/images/icons/120.png",
     "/images/icons/128.png",
+    "/imgs/ai.gif",
+    "/capturas/stats.webp",
+    "/capturas/backup/stats.png",
+    "/capturas/costes.webp",
+    "/capturas/backup/costes.png",
+    "/capturas/costes-archivo.webp",
+    "/capturas/backup/costes-archivo.png",
+    "/capturas/clients.webp",
+    "/capturas/backup/clients.png",
+    "/imgs/pdf.svg",
+    "/imgs/coins.svg",
+    "/imgs/csv.svg",
+    "/imgs/clients.svg",
 ];
 
 // Cache on install

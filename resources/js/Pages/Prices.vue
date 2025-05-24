@@ -6,14 +6,14 @@ const plans = ref(plansData);
 </script>
 
 <template>
-    <div class="grid gap-8 sm:grid-cols-3">
+    <div class="grid sm:gap-2 gap-6 sm:grid-cols-3">
         <div
             v-for="(plan, index) in plans"
             :key="plan.id"
             :class="[
-                'border rounded-xl p-8 shadow-md hover:shadow-xl transition duration-300 ease-in-out flex flex-col items-center mx-10 sm:m-0',
+                'border rounded-xl p-3 shadow-md hover:shadow-xl transition duration-300 ease-in-out flex flex-col items-center mx-10 sm:m-0',
                 'dark:bg-gray-800 dark:border-gray-700',
-                index === 1 && plans.length === 3
+                index === 2 && plans.length === 3
                     ? 'border-indigo-400 dark:border-indigo-500 scale-105 bg-indigo-50 dark:bg-gray-700 shadow-lg'
                     : 'border-gray-200 bg-white',
             ]"
@@ -111,19 +111,19 @@ const plans = ref(plansData);
     .grid > div {
         @apply p-4 mx-4 scale-100;
     }
-    
+
     .grid > div h2 {
         @apply text-lg;
     }
-    
+
     .grid > div p {
         @apply text-xl mb-3;
     }
-    
+
     .grid > div ul {
         @apply space-y-1 mb-4;
     }
-    
+
     .grid > div a {
         @apply px-4 py-2 text-sm;
     }

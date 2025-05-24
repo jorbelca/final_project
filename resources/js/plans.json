@@ -4,12 +4,10 @@
         "price": "0.00 €",
         "duration_in_days": 0,
         "features": {
-            "Mejora de imagen profesional": true,
             "Exportar a PDF": true,
             "Gestión Unificada": true,
             "Funcionalidades avanzadas": false,
-            "Presupuestos con IA": 0,
-            "Soporte prioritario": false
+            "Presupuestos con IA": 0
         }
     },
     {
@@ -18,7 +16,6 @@
         "duration_in_days": 30,
         "features": {
             "Funcionalidades avanzadas": true,
-            "Mejora de imagen profesional": true,
             "Presupuestos con IA": 40,
             "Soporte prioritario": false,
             "Estadísticas avanzadas": false
@@ -29,8 +26,7 @@
         "price": "19.99 €",
         "duration_in_days": 30,
         "features": {
-            "Funcionalidades avanzadas": true,
-            "Mejora de imagen profesional": true,
+            "Integraciones con CRM": true,
             "Presupuestos con IA": 100,
             "Soporte prioritario": true,
             "Estadísticas avanzadas": true

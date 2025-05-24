@@ -141,7 +141,6 @@ Este proyecto es privado y no está disponible para distribución pública. Todo
 -   **Estadísticas de Usuario**
 -   ~~Visualización de presupuestos por estado~~
 -   ~~Agrupación por cliente~~
-
     -   Gráficos y reportes
 
 -   **Visualización de PDF**

@@ -18,19 +18,22 @@ defineProps({
 <template>
     <Head title="BudgetApp - Gestor de Presupuestos" />
 
-    <div class="bg-gray-100 text-gray-800 dark:bg-green-950 dark:text-gray-300">
+    <div class="bg-gray-500 text-gray-800 dark:bg-green-950 dark:text-gray-300">
         <div class="relative min-h-screen flex flex-col items-center">
             <div class="relative w-full">
                 <!-- Header -->
                 <header
-                    class="fixed top-0 left-0 sm:w-[calc(100%-15px)] w-full flex justify-between items-center py-1 sm:py-2 md:py-3 px-3 sm:px-5 md:px-8 bg-white/10 dark:bg-gray-900/80 backdrop-blur-md z-50 shadow-md"
+                    class="fixed top-0 left-0 right-0 flex justify-between items-center py-2 sm:py-1 px-4 sm:px-6 md:px-4 bg-white/5 dark:bg-gray-950/50 backdrop-blur-lg z-50 shadow-sm border-b border-gray-200 dark:border-gray-700/50"
                 >
                     <Logo />
-                    <nav v-if="canLogin" class="flex gap-4 items-center">
+                    <nav
+                        v-if="canLogin"
+                        class="flex gap-3 sm:gap-5 items-center"
+                    >
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('budgets.index')"
-                            class="text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
+                            class="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
                         >
                             App
                         </Link>
@@ -38,18 +41,19 @@ defineProps({
                         <template v-else>
                             <Link
                                 :href="route('login')"
-                                class="text-sm sm:text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
+                                class="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
                             >
                                 Log in
                             </Link>
                             <Link
                                 v-if="canRegister"
                                 :href="route('register')"
-                                class="text-sm sm:text-lg font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 transition"
+                                class="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
                             >
                                 Registro
-                            </Link> </template
-                        ><DarkModeBtn />
+                            </Link>
+                        </template>
+                        <DarkModeBtn />
                     </nav>
                 </header>
 
@@ -59,7 +63,7 @@ defineProps({
                 >
                     <!-- Sección 1 -->
                     <section
-                        class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-white to-gray-200 dark:from-gray-900 dark:to-green-950 relative overflow-hidden py-12 px-4 sm:px-6"
+                        class="min-h-screen flex flex-col justify-center items-center snap-start bg-gradient-to-br from-white to-gray-200 dark:from-gray-900 dark:to-green-950 relative overflow-hidden py-16 px-4 sm:px-6"
                     >
                         <div
                             class="absolute inset-0 opacity-10 bg-pattern"
@@ -68,13 +72,13 @@ defineProps({
                             class="z-10 w-full max-w-6xl px-4 sm:px-6 py-6 sm:py-10 text-center"
                         >
                             <h1
-                                class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-5 tracking-tight"
+                                class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-5 tracking-tight"
                             >
                                 Gestión de presupuestos profesionales con IA
                                 integrada
                             </h1>
                             <p
-                                class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-8 leading-relaxed"
+                                class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-4 sm:mb-2 leading-relaxed"
                             >
                                 Ahorra hasta un 40% de tiempo en la creación de
                                 presupuestos. Nuestra plataforma integra IA,
@@ -136,13 +140,13 @@ defineProps({
                     >
                         <div class="max-w-4xl mx-auto text-center">
                             <h2
-                                class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8"
+                                class="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-6 sm:mt-6"
                             >
                                 Visualiza tus datos con claridad
                             </h2>
 
                             <div
-                                class="hover:-translate-y-2 transition-all duration-200 z-10 w-[90%] sm:w-[80%] md:w-[70%] mx-auto"
+                                class="hover:-translate-y-2 transition-all duration-200 z-10 w-[90%] sm:w-[70%] md:w-[55%] mx-auto"
                             >
                                 <img
                                     src="/capturas/stats.webp"
@@ -393,7 +397,7 @@ defineProps({
                                 >, tenemos el plan perfecto para ti. Escala tus
                                 herramientas a medida que crece tu negocio.
                             </p>
-                            <div class="relative mb-20 sm:mb-0">
+                            <div class="relative mb-20 sm:mb-20">
                                 <Prices />
                             </div>
                         </div>
