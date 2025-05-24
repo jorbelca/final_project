@@ -9,6 +9,7 @@ import ResponsiveNavLink from "@/Components/_Default/ResponsiveNavLink.vue";
 import Footer from "@/Components/_Default/Footer.vue";
 import Logo from "@/Components/Logo/coreLogo.vue";
 import DarkModeBtn from "@/Components/Buttons/DarkModeBtn.vue";
+import StatusDot from "@/Components/UI/StatusDot.vue";
 
 defineProps({
     title: String,
@@ -254,7 +255,7 @@ const logout = () => {
                             </div>
 
                             <!-- Settings Dropdown -->
-                            <div class="hidden mr-8 relative md:flex">
+                            <div class="hidden mr-4 relative md:flex">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <button
@@ -297,15 +298,14 @@ const logout = () => {
                                                     d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                                                 />
                                             </svg>
-                                            <span
-                                                class="pl-2"
-                                                v-if="
-                                                    +$page.props.auth.user
-                                                        ?.active === 1
+                                            <StatusDot
+                                                :status="
+                                                    $page?.props?.auth?.user
+                                                        ?.active
+                                                        ? 'active'
+                                                        : 'inactive'
                                                 "
-                                                >🟢
-                                            </span>
-                                            <span class="pl-2" v-else>🔴</span>
+                                            />
                                         </button>
 
                                         <span
@@ -335,17 +335,14 @@ const logout = () => {
                                                         d="M19.5 8.25l-7.5 7.5-7.5-7.5"
                                                     />
                                                 </svg>
-                                                <span
-                                                    class="pr-2 pl-2"
-                                                    v-if="
-                                                        +$page.props.auth.user
-                                                            ?.active === 1
+                                                <StatusDot
+                                                    :status="
+                                                        $page?.props?.auth?.user
+                                                            ?.active
+                                                            ? 'active'
+                                                            : 'inactive'
                                                     "
-                                                    >🟢
-                                                </span>
-                                                <span class="pr-2 pl-2" v-else
-                                                    >🔴</span
-                                                >
+                                                />
                                             </button>
                                         </span>
                                     </template>
@@ -523,11 +520,14 @@ const logout = () => {
                                         {{ $page.props.auth.user?.email ?? "" }}
                                     </div>
                                 </div>
-                                <span
-                                    v-if="+$page.props.auth.user?.active === 1"
-                                    >🟢
-                                </span>
-                                <span v-else>🔴</span>
+                                <StatusDot
+                                                :status="
+                                                    $page?.props?.auth?.user
+                                                        ?.active
+                                                        ? 'active'
+                                                        : 'inactive'
+                                                "
+                                            />
                             </div>
                         </div>
 
