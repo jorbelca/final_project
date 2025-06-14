@@ -1,0 +1,146 @@
+######## USERS
+GET http://localhost:8000/api/users
+####
+GET  http://localhost:8000/api/users/6
+###
+POST http://localhost:8000/api/users
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Test",
+  "email": "test@test.com",
+  "password": "testito",
+  "profile_photo_path":"https://avatar.iran.liara.run/public/25",
+  "logo_url":"https://www.adaptivewfs.com/wp-content/uploads/2020/07/logo-placeholder-image.png"
+}
+###
+PATCH http://localhost:8000/api/users/6
+Content-Type: application/json
+Accept: application/json
+
+{
+  "profile_photo_path": "https://avatar.iran.liara.run/public/25"
+}
+###
+DELETE  http://localhost:8000/api/users/6
+
+####
+GET  http://localhost:8000/api/users/4/budgets
+
+### clientes del usuario 4
+GET  http://localhost:8000/api/users/5/clients
+
+
+######### CLIENTS
+GET http://localhost:8000/api/clients
+####
+GET  http://localhost:8000/api/clients/5
+###
+POST http://localhost:8000/api/clients
+Content-Type: application/json
+Accept: application/json
+
+{
+    "user_id": 6,
+    "name": "TestClient",
+    "email": "testclient@test.co",
+    "company_name": "Test Company",
+    "image_url":"https://avatar.iran.liara.run/public/20"
+}
+###
+PATCH http://localhost:8000/api/clients/6
+Content-Type: application/json
+Accept: application/json
+
+{
+    "phone": "+1-347-275-7200"
+}
+###
+DELETE  http://localhost:8000/api/clients/6
+####
+GET  http://localhost:8000/api/clients/2/budgets
+
+
+
+
+### BUDGETS
+GET http://localhost:8000/api/budgets
+####
+GET  http://localhost:8000/api/budgets/5
+
+###
+POST http://localhost:8000/api/budgets
+Content-Type: application/json
+Accept: application/json
+
+{
+    "user_id": 6,
+    "client_id": 6,
+    "content": "[{\"cost\": 381.13, \"quantity\": 1, \"description\": \"Item 1\"}, {\"cost\": 42.77, \"quantity\": 1, \"description\": \"Item 2\"}]",
+    "state": "draft",
+    "discount": 0,
+    "taxes": 21
+}
+
+###
+PATCH  http://localhost:8000/api/budgets/6
+Content-Type: application/json
+Accept: application/json
+
+{
+    "state": "approved"
+}
+###
+DELETE  http://localhost:8000/api/budgets/6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### COSTS
+GET http://localhost:8000/api/costs
+####
+GET  http://localhost:8000/api/costs/1
+###
+POST http://localhost:8000/api/costs
+Content-Type: application/json
+Accept: application/json
+
+{
+    "user_id": 6,
+    "description": "test",
+    "cost": 110,
+    "unit": "pieza",
+    "periodicity": "daily"
+}
+
+###
+PATCH  http://localhost:8000/api/costs/1
+###
+DELETE  http://localhost:8000/api/costs/13
+
+
+
+
+### ERROR
+
+GET  http://localhost:8000/api/produc

@@ -1,0 +1,224 @@
+@startuml Budget App Class Diagram
+skinparam classAttributeIconSize 0
+skinparam classFontSize 12
+skinparam classFontName Arial
+skinparam classBackgroundColor #F5F5F5
+skinparam classBorderColor #333333
+skinparam titleFontSize 20
+skinparam titleFontName Arial
+
+title Budget App Class Diagram
+
+class User {
+  # id: int
+  # name: string
+  # email: string
+  # password: string
+  # admin: string
+  # profile_photo_path: string
+  # default_taxes: int
+  # active: int
+  # remember_token: string
+  # two_factor_recovery_codes: string
+  # two_factor_secret: string
+  # created_at: timestamp
+  # updated_at: timestamp
+  --
+  + clients(): hasMany
+  + budgets(): hasMany
+  + costs(): hasMany
+  + subscription(): hasOne
+  + incidencies(): hasMany
+  + prompt(): hasOne
+  + getProfilePhotoPathAttribute(): string
+  + deleteProfilePhoto(): void
+  + hasCredits: boolean
+  + isActive(): boolean
+  --
+  + index(): View
+  + store(Request): void
+  + show(User): User
+  + showUserBudgets(string): Budget
+  + showUserClient(string): Client
+  + update(Request, User): void
+  + delete(User): void
+  + register(Request): RedirectResponse
+  + login(Request): RedirectResponse
+  + logout(): RedirectResponse
+  + updateProfile(Request): RedirectResponse
+  + changeState(User):void
+  + admin(User)
+}
+
+class Subscription {
+  # id: int
+  # user_id: int
+  # plan_id: int
+  # payment_number int
+  # active boolean
+  # renovations int
+  # starts_at: date
+  # ends_at: date
+  # status: int
+  # credits: int
+  # created_at: date
+  # updated_at: date
+  --
+  + user(): belongsTo
+  + plan(): belongsTo
+  --
+  + index(): Subscription
+  + getUserSubscription(User): Subscription
+  + create(User): void
+  + update($Request, $Subscription): void
+  + notify(String, String, Boolean): RedirectResponse
+}
+
+class Plan {
+  # id: int
+  # name: string
+  # price: decimal
+  # duration_in_days: int
+  # features: json
+  # created_at: date
+  # updated_at: date
+  --
+  + index(): Plan
+}
+
+class Budget {
+  # id: int
+  # user_id: int
+  # client_id: int
+  # content: json
+  # state: string
+  # discount: decimal
+  # taxes: decimal
+  # notes: text
+  # created_at: timestamp
+  # updated_at: timestamp
+  --
+  + user(): belongsTo
+  + client(): belongsTo
+  --
+ 
+  + index(): View
+  + create(): View
+  + store(Request): RedirectResponse
+  + show(int): View
+  + edit(int): View
+  + update(int, Request): RedirectResponse
+  + destroy(int): RedirectResponse
+  + clone(int): RedirectResponse
+  + generatePdf(int): Response
+  + normalizeBudgetContent(Text, int): Text
+  + formatMoney(int): int
+  + notify(String, String, Boolean): RedirectResponse
+}
+
+class Client {
+  # id: int
+  # name: string
+  # email: string
+  # company_name: string
+  # image_url: string
+  # deleted: boolean
+  # created_by: User
+  # created_at: date
+  # updated_at: date
+  --
+  + user(): belongsTo
+  + budgets(): hasMany
+  + reassignCreator(Client): void
+  + removeClient(Client): void
+  --
+  + index(): View
+  + create(): View
+  + store(Request): RedirectResponse
+  + show(int): View
+  + showClientBudgets(String): Budget
+  + edit(Client): View
+  + update(int, Request): RedirectResponse
+  + destroy(int): RedirectResponse
+  + exists(Request): boolean
+  + vinculate(Request): void
+  + notify(String, String, Boolean): RedirectResponse
+}
+
+class Cost {
+  # id: int
+  # user_id: int
+  # description: string
+  # cost: decimal
+  # unit: string
+  # periodicity : array
+  # created_at: timestamp
+  # updated_at: timestamp
+  --
+  + user(): belongsTo
+  --
+  + index(): View
+  + create(): View
+  + store(Request): RedirectResponse
+  + edit(int): View
+  + update(int, Request): RedirectResponse
+  + destroy(int): RedirectResponse
+  + storeMultiple(Request): RedirectResponse
+  + parse(): RedirectResponse
+  + getUserCostsString(User): Cost
+  + notify(String, String, Boolean): RedirectResponse
+}
+
+
+class Prompt {
+  # id: int
+  # user_id: int
+  # prompt: text
+  # created_at: timestamp
+  # updated_at: timestamp
+  --
+  + user(): belongsTo
+  --
+  + index(): View
+  + show(int): View
+  + store(Request): View
+  + update(Request, Prompt): View
+  + generateWithIA(String, String, User, String)
+  + notify(String, String, Boolean): RedirectResponse
+}
+
+class Support {
+  # id: int
+  # questioner_id: int
+  # answerer_id: int
+  # question: string
+  # answer: string
+  # response_date: timestamp
+  # created_at: timestamp
+  # updated_at: timestamp
+  --
+  + questioner(): belongsTo
+  + answerer(): belongsTo
+
+  --
+  + index(): View
+  + update(Request, Support): View
+  + store(Request): RedirectResponse
+  + destroy(int): RedirectResponse
+  + notify(String, String, Boolean): RedirectResponse
+}
+
+' Relaciones
+User "1" -- "0..1" Subscription : has >
+Subscription "1" -- "1" Plan : subscribes to >
+User "1" -- "many" Budget : creates >
+User "1" -- "many" Client : has >
+User "1" -- "many" Cost : has >
+User "1" -- "1" Prompt : has >
+User "1" -- "many" Support : creates >
+User "1" -- "many" Support : answers >
+Budget "many" -- "0..1" Client : belongs to >
+Prompt "1" -- "many" Budget : provides context for >
+
+
+@enduml

@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/var/www
+      # - /etc/ssl/sectigo-certs:/etc/ssl/sectigo-certs:ro
+      # - /etc/ssl/budgetapp.key:/etc/ssl/budgetapp.key:ro
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/public
+    command: apache2-foreground
+    restart: always
+

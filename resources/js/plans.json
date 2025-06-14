@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Plan Gratuito",
+        "price": "0.00 €",
+        "duration_in_days": 0,
+        "features": {
+            "Exportar a PDF": true,
+            "Gestión Unificada": true,
+            "Funcionalidades avanzadas": false,
+            "Presupuestos con IA": 0
+        }
+    },
+    {
+        "name": "Plan Profesional",
+        "price": "9.99 €",
+        "duration_in_days": 30,
+        "features": {
+            "Funcionalidades avanzadas": true,
+            "Presupuestos con IA": 40,
+            "Soporte prioritario": false,
+            "Estadísticas avanzadas": false
+        }
+    },
+    {
+        "name": "Plan Business",
+        "price": "19.99 €",
+        "duration_in_days": 30,
+        "features": {
+            "Integraciones con CRM": true,
+            "Presupuestos con IA": 100,
+            "Soporte prioritario": true,
+            "Estadísticas avanzadas": true
+        }
+    }
+]
